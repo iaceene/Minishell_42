@@ -16,7 +16,6 @@ typedef struct s_data
 	char *bin_path;
 }t_data;
 
-
 char	*ft_strstr(char *haystack, char *needle);
 void	exit_the_shell(void);
 char	*ft_strtrim(char *s1, char set);
@@ -29,3 +28,6 @@ int		ft_strlen(char *s);
 char	*prompt(char *cli);
 void	ft_sighandler(int sig);
 char	*ft_strdup(char *s);
+char	*ft_strjoin(char *s1, char *s2);
+void	check_path(t_data *data);
+void    clear_terminal(void);

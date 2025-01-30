@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 19:48:34 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:08:01 by yaajagro         ###   ########.fr       */
+/*   Created: 2025/01/30 22:05:56 by yaajagro          #+#    #+#             */
+/*   Updated: 2025/01/30 22:06:32 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../include/minishell.h"
 
-int main(int ac, char **av, char **env)
+char *ft_strjoin(char *s1, char *s2)
 {
-    t_data data;
-
-    data.env = env;
-    char *cli = ft_get_cli(env);
-    check_path(&data);
-    clear_terminal();
-    signal(SIGINT, ft_sighandler);
-    signal(SIGQUIT, ft_sighandler);
-    while (1)
-        prompt(cli);
-    return (0);
+    int i = 0;
+    int j = 0;
+    if (!s1 || !s2)
+        return (NULL);
+    char *ret = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    while (s1[i])
+    {
+        ret[i] = s1[i];
+        i++;
+    }
+    while (s2[j])
+    {
+        ret[i] = s2[j];
+        j++;
+        i++;
+    }
+    ret[i] = '\0';
+    return (ret);
 }
