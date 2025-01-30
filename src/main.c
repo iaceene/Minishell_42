@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:48:34 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 23:07:48 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:20:32 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int main(int ac, char **av, char **env)
     t_data data;
 
     data.env = env;
-    
     check_path(&data);
     clear_terminal();
     signal(SIGINT, ft_sighandler);
