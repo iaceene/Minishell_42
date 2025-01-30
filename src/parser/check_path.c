@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:07:36 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:08:03 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:15:09 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ void check_path(t_data *data)
 {
     data->bin_path = get_path(data->env);
     if (!data->bin_path || access(ft_strjoin(data->bin_path, "/ls"), X_OK) == -1)
-        return (exit_the_shell());
+        return (exit_the_shell(1));
 }

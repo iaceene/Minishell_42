@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:42:28 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 19:43:49 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:14:46 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char *ft_get_cli(char **env)
 
     user = ft_get_user(env);
     if (!user)
-        user = ft_strdup("USER");
+        user = ft_strdup("user42");
     desktop = ft_get_sission(env);
     if (!desktop)
         desktop = ft_strdup("1337");

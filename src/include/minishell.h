@@ -17,11 +17,12 @@ typedef struct s_data
 }t_data;
 
 char	*ft_strstr(char *haystack, char *needle);
-void	exit_the_shell(void);
+void	exit_the_shell(int state);
 char	*ft_strtrim(char *s1, char set);
 char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
 void	*ft_malloc(ssize_t len);
 char	*ft_get_cli(char **env);
+void	ft_puterr(int state);
 int		ft_strncmp(char *str1, char *str2, size_t n);
 char	*ft_strchr(char *s, char c);
 int		ft_strlen(char *s);

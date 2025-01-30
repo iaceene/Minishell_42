@@ -5,7 +5,8 @@ SRC = ./src/main.c \
 		./src/prompt/prompt_utiles.c \
 		./src/utiles/global_utiles.c \
 		./src/parser/check_path.c \
-		./src/utiles/ft_strjoin.c
+		./src/utiles/ft_strjoin.c \
+		./src/utiles/print_err.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
