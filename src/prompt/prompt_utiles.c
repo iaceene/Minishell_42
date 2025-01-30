@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:44:11 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 20:01:38 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:14:54 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 char *ft_strchr(char *s, char c)
 {
+    if (!s || !*s)
+        return (NULL);
     int i = 0;
     while (s[i])
     {
         if (c == s[i])
-            return (s + i);
+        {
+            if (s[i + 1])
+                return (s + i + 1);
+            else
+                return (NULL);
+        }
         i++;
     }
     return (NULL);

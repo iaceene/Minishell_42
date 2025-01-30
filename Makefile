@@ -8,17 +8,20 @@ SRC = ./src/main.c \
 		./src/utiles/ft_strjoin.c \
 		./src/utiles/print_err.c \
 		./src/prompt/get_next_line.c \
-		./src/prompt/get_next_line_utils.c
+		./src/prompt/get_next_line_utils.c \
+		./src/utiles/ft_strtrim.c \
+		./src/utiles/ft_splite.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 INCLUDE = ./src/include/minishell.h
+# DEBUG = -g -fsanitize=address
 
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	cc $(CFLAGS) $(OBJ) -o $(NAME)
+	cc $(CFLAGS) $(OBJ) $(DEBUG) -o $(NAME)
 
 %.o: %.c $(INCLUDE)
 	cc $(C_FLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:42:28 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:21:44 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:15:17 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char *ft_get_user(char **env)
     }
     if (flag == 0)
         return (NULL);
-    return (ft_strdup(ft_strchr(env[i], '=') + 1));
+    return (ft_strdup(ft_strchr(env[i], '=')));
 }
 
-char *ft_get_sission(char **env)
+char **ft_get_sission(char **env)
 {
     int i = 0;
     int flag = 0;
@@ -45,13 +45,14 @@ char *ft_get_sission(char **env)
     }
     if (flag == 0)
         return (NULL);
-    return (ft_strdup(ft_strtrim(ft_strchr(env[i], '/') + 1, '.')));
+    return (ft_split(ft_strchr(env[i], '/'), '.'));
 }
 
 char *ft_get_cli(char **env)
 {
     char *user;
-    char *desktop;
+    char **desktop;
+    char *tmp;
     char *cli;
 
     user = ft_get_user(env);
@@ -59,7 +60,8 @@ char *ft_get_cli(char **env)
         user = ft_strdup("user42");
     desktop = ft_get_sission(env);
     if (!desktop)
-        desktop = ft_strdup("1337");
-    cli = ft_join_params(user, "@", desktop, ">> ");
-    return (cli);
+        return (ft_join_params(user, "@", ft_strdup("1337"), " >> "));
+    else
+        return (ft_join_params(user, "@", desktop[0], " >> "));
+    return (NULL);
 }

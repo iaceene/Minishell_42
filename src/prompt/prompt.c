@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:38:30 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 23:09:56 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:48:18 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void exit_the_shell(int state)
 {
     ft_malloc(-1);
+    ft_puterr(state);
     exit(state);
 }
 

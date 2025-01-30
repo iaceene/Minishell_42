@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:07:36 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:15:09 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:55:34 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void    clear_terminal(void)
     write(1, "\033[H\033[J", 6);;
 }
 
-char *get_path(char **env)
+char **get_path(char **env)
 {
     int i;
 
@@ -27,7 +27,7 @@ char *get_path(char **env)
         if (ft_strstr(env[i], "PATH"))
         {
             if (ft_strstr(env[i], "bin"))
-                return(ft_strtrim(ft_strstr(env[i], "/usr/bin"), ':'));
+                return(ft_split(ft_strstr(env[i], "/usr/bin"), ':'));
         }
         i++;
     }
@@ -36,7 +36,11 @@ char *get_path(char **env)
 
 void check_path(t_data *data)
 {
-    data->bin_path = get_path(data->env);
+    char **tmp;
+
+    tmp = get_path(data->env);
+    data->bin_path = tmp[0];
+    printf("%s\n", data->bin_path);
     if (!data->bin_path || access(ft_strjoin(data->bin_path, "/ls"), X_OK) == -1)
         return (exit_the_shell(1));
 }

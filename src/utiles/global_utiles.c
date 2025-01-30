@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:45:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 20:49:18 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:44:44 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int ft_strlen(char *s)
 {
     int i = 0;
+	if (!s)
+		return (0);
     while (s[i])
     {
         i++;
@@ -25,6 +27,8 @@ int ft_strlen(char *s)
 char *ft_strdup(char *s)
 {
     int i = 0;
+	if (!s || !*s)
+		return (NULL);
     char *ret = ft_malloc(ft_strlen(s) + 1);
     while (s[i])
     {
@@ -64,20 +68,4 @@ char	*ft_strstr(char *haystack, char *needle)
 		i++;
 	}
 	return (NULL);
-}
-
-char	*ft_strtrim(char *s1, char set)
-{
-    int i;
-
-	if ((!s1 && !set) || !s1)
-		return (NULL);
-	if (s1 && !set)
-		return (ft_strdup(s1));
-    i = 0;
-    char *s = ft_strchr(s1, set);
-    if (!s)
-        return (NULL);
-    *s = '\0';
-    return (s1);
 }
