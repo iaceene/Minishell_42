@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:45:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 19:54:38 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:49:18 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*ft_strtrim(char *s1, char set)
 	if (s1 && !set)
 		return (ft_strdup(s1));
     i = 0;
-    char *s = ft_strchr(s1, '.');
+    char *s = ft_strchr(s1, set);
     if (!s)
         return (NULL);
     *s = '\0';
