@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:38:30 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:16:27 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:09:56 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,50 @@
 
 void exit_the_shell(int state)
 {
-    ft_puterr(state);
     ft_malloc(-1);
-    exit(0);
+    exit(state);
 }
 
-char *prompt(char *cli)
+void ft_putstr(char *s)
 {
-	char *s;
-	s = readline(cli);
+    int i = 0;
+    while (s[i])
+    {
+        write(1, &s[i], 1);
+        i++;
+    }
+}
+
+void print_cli(char **env)
+{
+    static char *cli;
+    static int  i;
+    
+    if (i == 0)
+        cli = ft_get_cli(env);
+    ft_putstr(cli);
+    i++;
+}
+
+char *prompt(char **env)
+{
+    char *s;
+    print_cli(env);
+    s = get_next_line(0);
     if (!s)
-        return (NULL);
-    if (ft_strncmp(s, "exit", 4) == 0 && ft_strlen(s) == 4)
         exit_the_shell(0);
-    return (free(s), NULL);
-}    
+    if (ft_strncmp(s, "exit\n", 5) == 0 && ft_strlen(s) == 5)
+        exit_the_shell(0);
+    ft_putstr(s);
+    return (NULL);
+} 
 
 void ft_sighandler(int sig)
 {
     if (sig == SIGINT || sig == SIGQUIT)
     {
         write(1, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+        print_cli(NULL);
     }
 }
 

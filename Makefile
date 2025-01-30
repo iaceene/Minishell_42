@@ -6,7 +6,9 @@ SRC = ./src/main.c \
 		./src/utiles/global_utiles.c \
 		./src/parser/check_path.c \
 		./src/utiles/ft_strjoin.c \
-		./src/utiles/print_err.c
+		./src/utiles/print_err.c \
+		./src/prompt/get_next_line.c \
+		./src/prompt/get_next_line_utils.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
@@ -16,7 +18,7 @@ INCLUDE = ./src/include/minishell.h
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	cc $(CFLAGS) $(OBJ) -lreadline -lncurses -o $(NAME)
+	cc $(CFLAGS) $(OBJ) -o $(NAME)
 
 %.o: %.c $(INCLUDE)
 	cc $(C_FLAGS) -c $< -o $@
