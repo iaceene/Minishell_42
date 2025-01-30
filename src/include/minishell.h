@@ -15,6 +15,7 @@ char	*ft_strtrim(char *s1, char set);
 char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
 void	*ft_malloc(ssize_t len);
 char	*ft_get_cli(char **env);
+int		ft_strncmp(char *str1, char *str2, size_t n);
 char	*ft_strchr(char *s, char c);
 int		ft_strlen(char *s);
 char	*prompt(char *cli);
