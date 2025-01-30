@@ -10,11 +10,13 @@ typedef struct s_gb
 	struct s_gb	*next;
 }t_gb;
 
-char	*ft_strnstr(char *haystack, char *needle, size_t len);
+char	*ft_strstr(char *haystack, char *needle);
+char	*ft_strtrim(char *s1, char set);
 char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
 void	*ft_malloc(ssize_t len);
 char	*ft_get_cli(char **env);
 char	*ft_strchr(char *s, char c);
 int		ft_strlen(char *s);
+char	*prompt(char *cli);
 void	ft_sighandler(int sig);
 char	*ft_strdup(char *s);

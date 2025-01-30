@@ -1,4 +1,11 @@
-SRC = ./src/main.c ./src/parser/ft_strnsstr.c
+SRC = ./src/main.c \
+		./src/memory/memory_tracker.c \
+		./src/parser/ft_strnstr.c \
+		./src/prompt/get_cli.c \
+		./src/prompt/prompt.c \
+		./src/prompt/prompt_utiles.c \
+		./src/utiles/global_utiles.c
+
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
