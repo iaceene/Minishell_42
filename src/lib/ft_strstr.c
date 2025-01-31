@@ -1,43 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   global_utiles.c                                    :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:45:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 23:44:44 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:26:16 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-int ft_strlen(char *s)
-{
-    int i = 0;
-	if (!s)
-		return (0);
-    while (s[i])
-    {
-        i++;
-    }
-    return (i);
-}
-
-char *ft_strdup(char *s)
-{
-    int i = 0;
-	if (!s || !*s)
-		return (NULL);
-    char *ret = ft_malloc(ft_strlen(s) + 1);
-    while (s[i])
-    {
-        ret[i] = s[i]; 
-        i++;
-    }
-    ret[i] = '\0';
-    return (ret);
-}
+#include "../../include/minishell.h"
 
 int	ft_strcheck(char *str, char *word, size_t index)
 {
