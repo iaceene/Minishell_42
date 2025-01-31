@@ -6,11 +6,16 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:48:34 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 18:05:55 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:42:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void    clear_terminal(void)
+{
+    write(1, "\033[H\033[J", 6);;
+}
 
 int	count_env_list(t_env *env_list);
 
@@ -32,7 +37,6 @@ char	**convert_env_to_array(t_env *env_list)
 	{
 		env_array[i] = ft_strjoin(temp->key, "=");
 		temp_value = ft_strjoin(env_array[i], temp->value);
-		free(env_array[i]);
 		env_array[i] = temp_value;
 		temp = temp->next;
 		i++;
@@ -54,13 +58,16 @@ int main(int ac, char **av, char **env)
     (void)ac;
     (void)av;
 
-    data.env = env;
-    // data.env_var = ft_env_create(env);
+    data.env_var = ft_env_create(env);
+    data.env = convert_env_to_array(data.env_var);
     clear_terminal();
-    signal(SIGINT, ft_sighandler);
     signal(SIGINT, ft_sighandler);
     signal(SIGQUIT, ft_sighandler);
     while (1)
-        prompt(env);
+    {
+        data.prompt = prompt(data.env);
+        parser(&data);
+        // execution(data.shell);
+    }
     return (0);
 }

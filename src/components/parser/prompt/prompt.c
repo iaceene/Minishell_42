@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:38:30 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 18:07:19 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:33:54 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ char *prompt(char **env)
         exit_the_shell(0);
     if (ft_strncmp(s, "exit\n", 5) == 0 && ft_strlen(s) == 5)
         exit_the_shell(0);
-    ft_putstr(s);
-    // init_env(env);
-    return (NULL);
+    return (s);
 } 
 
 void ft_sighandler(int sig)
