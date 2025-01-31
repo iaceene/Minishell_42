@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_cli.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:42:28 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 13:08:57 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:31:00 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../../include/minishell.h"
 
 char *ft_get_user(char **env)
 {

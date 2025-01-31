@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_err.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 22:16:01 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:16:31 by yaajagro         ###   ########.fr       */
+/*   Created: 2025/01/31 17:25:25 by iezzam            #+#    #+#             */
+/*   Updated: 2025/01/31 17:25:41 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-void ft_print_err(char *s)
+char *ft_strdup(char *s)
 {
-    int i;
-
-    i = 0;
+    int i = 0;
+	if (!s || !*s)
+		return (NULL);
+    char *ret = ft_malloc(ft_strlen(s) + 1);
     while (s[i])
     {
-        write(2, &s[i], 1);
+        ret[i] = s[i]; 
         i++;
     }
-}
-
-void ft_puterr(int state)
-{
-    if (state == 1)
-        ft_print_err("Invalid env!\n");   
+    ret[i] = '\0';
+    return (ret);
 }
