@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:22:25 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/31 18:06:44 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:20:25 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int		ft_isspace(int c);
 char	**ft_split_shell(const char *s);
 char	**ft_split(char const *s, char c);
 char	*ft_strcat(char *dest, char *src);
-char	*ft_strchr(const char *str, int search);
+char	*ft_strchr(char *s, char c);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);

@@ -30,6 +30,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_splite.c \
 		./src/lib/ft_split_shell.c \
 		./src/lib/ft_strcat.c \
+		./src/lib/ft_strchr.c \
 		./src/lib/ft_strcpy.c \
 		./src/lib/ft_strdup.c \
 		./src/lib/ft_strjoin.c \

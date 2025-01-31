@@ -12,16 +12,35 @@
 
 #include "../../include/minishell.h"
 
+static	void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (*((unsigned char *)s + i) == (unsigned char)c)
+			return ((void *)(s + i));
+		i++;
+	}
+	return (NULL);
+}
+
+static char	*ft_strchrv(const char *str, int search)
+{
+	return (ft_memchr(str, search, ft_strlen(str) + 1));
+}
+
 static char	*skip_delimiters(char *str, const char *delim)
 {
-	while (*str && ft_strchr(delim, *str))
+	while (*str && ft_strchrv(delim, *str))
 		str++;
 	return (str);
 }
 
 static char	*find_token_end(char *str, const char *delim)
 {
-	while (*str && !ft_strchr(delim, *str))
+	while (*str && !ft_strchrv(delim, *str))
 		str++;
 	return (str);
 }
