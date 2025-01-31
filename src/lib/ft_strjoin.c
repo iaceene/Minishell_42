@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:05:56 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:06:32 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:08:45 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-char *ft_strjoin(char *s1, char *s2)
+char    *ft_strjoin(char const *s1, char const *s2)
 {
     int i = 0;
     int j = 0;

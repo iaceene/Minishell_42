@@ -3,51 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:44:11 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 00:14:54 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:52:04 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-char *ft_strchr(char *s, char c)
-{
-    if (!s || !*s)
-        return (NULL);
-    int i = 0;
-    while (s[i])
-    {
-        if (c == s[i])
-        {
-            if (s[i + 1])
-                return (s + i + 1);
-            else
-                return (NULL);
-        }
-        i++;
-    }
-    return (NULL);
-}
-
-int	ft_strncmp(char *str1, char *str2, size_t n)
-{
-	size_t	i;
-
-	if (n == 0)
-		return (0);
-	i = 0;
-	while (i < n)
-	{
-		if (str1[i] != str2[i])
-			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
-		if (str1[i] == '\0')
-			return (0);
-		i++;
-	}
-	return (0);
-}
+#include "../../../../include/minishell.h"
 
 char *ft_join_params(char *user, char *sep, char *dis, char *dock)
 {

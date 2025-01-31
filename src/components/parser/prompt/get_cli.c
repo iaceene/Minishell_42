@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:42:28 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 17:31:00 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:07:05 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ char *ft_get_cli(char **env)
 {
     char *user;
     char **desktop;
-    char *tmp;
-    char *cli;
 
     user = ft_get_user(env);
     if (!user)

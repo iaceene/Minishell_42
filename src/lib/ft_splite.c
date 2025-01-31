@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splite.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 23:51:23 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 00:10:13 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:08:00 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int	ft_isspliter(char c, char spliter)
 {

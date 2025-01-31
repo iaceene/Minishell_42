@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   memory_tracker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:27:12 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/29 18:45:55 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:07:45 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
 void	ft_free(t_gb **head)
 {
