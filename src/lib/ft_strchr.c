@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 17:24:40 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/31 17:56:39 by iezzam           ###   ########.fr       */
+/*   Created: 2025/01/31 17:51:52 by iezzam            #+#    #+#             */
+/*   Updated: 2025/01/31 17:52:01 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-size_t	ft_strlen(const char *str)
+char *ft_strchr(char *s, char c)
 {
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+    if (!s || !*s)
+        return (NULL);
+    int i = 0;
+    while (s[i])
+    {
+        if (c == s[i])
+        {
+            if (s[i + 1])
+                return (s + i + 1);
+            else
+                return (NULL);
+        }
+        i++;
+    }
+    return (NULL);
 }

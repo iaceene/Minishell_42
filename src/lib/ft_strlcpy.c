@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 17:24:40 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/31 17:56:39 by iezzam           ###   ########.fr       */
+/*   Created: 2025/01/31 09:58:29 by iezzam            #+#    #+#             */
+/*   Updated: 2025/01/31 09:58:52 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlcpy(char *dest, const char *src, size_t destsize)
 {
 	size_t	i;
 
-	if (!str)
-		return (0);
+	if (destsize == 0)
+		return (ft_strlen(src));
 	i = 0;
-	while (str[i])
+	while (src[i] != '\0' && i < destsize - 1)
+	{
+		dest[i] = src[i];
 		i++;
-	return (i);
+	}
+	dest[i] = '\0';
+	return (ft_strlen(src));
 }

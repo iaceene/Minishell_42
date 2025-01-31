@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 00:04:11 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/30 22:51:23 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:01:56 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../../include/minishell.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 12

@@ -6,11 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:38:30 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 17:14:16 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:07:19 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../../include/minishell.h"
 
 void exit_the_shell(int state)
 {
@@ -50,7 +50,7 @@ char *prompt(char **env)
     if (ft_strncmp(s, "exit\n", 5) == 0 && ft_strlen(s) == 5)
         exit_the_shell(0);
     ft_putstr(s);
-    init_env(env);
+    // init_env(env);
     return (NULL);
 } 
 
