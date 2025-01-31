@@ -1,4 +1,4 @@
-SRC = ./src/main.c \
+SRC =	./src/main/main.c \
 		./src/memory/memory_tracker.c \
 		./src/prompt/get_cli.c \
 		./src/prompt/prompt.c \
