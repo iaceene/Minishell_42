@@ -75,7 +75,7 @@ void init_shell(t_shell *shell)
     shell->commands = calloc(shell->num_cmds, sizeof(t_command));
     shell->redirect = calloc(1, sizeof(t_redirect));
 
-    shell->commands[0].args = calloc(2, sizeof(char *));
+    shell->commands[0].args = calloc(3, sizeof(char *));
     shell->commands[0].args[0] = ft_strdup("ls");
     shell->commands[0].args[1] = ft_strdup("-la");
     shell->commands[0].args[2] = NULL;
