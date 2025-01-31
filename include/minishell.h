@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:22:25 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/31 18:20:25 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:38:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ typedef struct s_data
 {
 	char **env;
 	t_env *env_var; /// use this instead of env
-	char *bin_path;
+	t_shell *shell;
+	char *prompt;
 }t_data;
 
 typedef struct s_gb
@@ -137,14 +138,22 @@ void	ft_init_signals(void);
 //src/components/parser
 	//creat_env
 t_env	*ft_env_create(char **envp);
+void	parser(t_data *data);
+
+
+
+
+
+
+
+
+
 	//prompt
 char	*ft_get_cli(char **env);
 char	*get_next_line(int fd);
 void	exit_the_shell(int state);
 char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
 void	ft_sighandler(int sig);
-void	check_path(t_data *data);
-void    clear_terminal(void);
 char	*prompt(char **env);
 
 
