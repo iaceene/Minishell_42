@@ -10,7 +10,8 @@ SRC = ./src/main.c \
 		./src/prompt/get_next_line.c \
 		./src/prompt/get_next_line_utils.c \
 		./src/utiles/ft_strtrim.c \
-		./src/utiles/ft_splite.c
+		./src/utiles/ft_splite.c \
+		./src/parser/env_creator.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror

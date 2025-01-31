@@ -10,9 +10,17 @@ typedef struct s_gb
 	struct s_gb	*next;
 }t_gb;
 
+typedef struct s_list
+{
+	char *val;
+	struct s_list *next;
+}t_list;
+
+
 typedef struct s_data
 {
 	char **env;
+	t_list *env_var; /// use this instead of env
 	char *bin_path;
 }t_data;
 
@@ -33,4 +41,6 @@ char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 void	check_path(t_data *data);
 void    clear_terminal(void);
+t_list *env_creator(char **env);
+void	add_new_env(t_list **head, t_list *new); /// add a new env vars
 char	*get_next_line(int fd);

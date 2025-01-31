@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:42:28 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/01/31 00:15:17 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:08:57 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ char *ft_get_cli(char **env)
         user = ft_strdup("user42");
     desktop = ft_get_sission(env);
     if (!desktop)
-        return (ft_join_params(user, "@", ft_strdup("1337"), " >> "));
+        return (ft_join_params(user, "\033[32m@\033[0m", ft_strdup("1337"), "\033[32m$ \033[0m"));
     else
-        return (ft_join_params(user, "@", desktop[0], " >> "));
+        return (ft_join_params(user, "\033[32m@\033[0m", desktop[0], "\033[32m$ \033[0m"));
     return (NULL);
 }
