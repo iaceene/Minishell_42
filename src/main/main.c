@@ -72,10 +72,10 @@ void init_shell(t_shell *shell)
     shell->last_exit = 0;
     shell->in_pipe = 0;
 
-    shell->commands = calloc(shell->num_cmds, sizeof(t_command));
-    shell->redirect = calloc(1, sizeof(t_redirect));
+    shell->commands = ft_malloc(shell->num_cmds * sizeof(t_command));
+    shell->redirect = ft_malloc(1 *sizeof(t_redirect));
 
-    shell->commands[0].args = calloc(3, sizeof(char *));
+    shell->commands[0].args = ft_malloc(3 * sizeof(char *));
     shell->commands[0].args[0] = ft_strdup("ls");
     shell->commands[0].args[1] = ft_strdup("-la");
     shell->commands[0].args[2] = NULL;
