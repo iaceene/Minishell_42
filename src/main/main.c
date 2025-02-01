@@ -17,33 +17,6 @@ void    clear_terminal(void)
     write(1, "\033[H\033[J", 6);;
 }
 
-int	count_env_list(t_env *env_list);
-
-char	**convert_env_to_array(t_env *env_list)
-{
-	int		count;
-	t_env	*temp;
-	int		i;
-	char	*temp_value;
-	char	**env_array;
-
-	count = count_env_list(env_list);
-	env_array = malloc((count + 1) * sizeof(char *));
-	if (!env_array)
-		return (NULL);
-	temp = env_list;
-	i = 0;
-	while (i < count)
-	{
-		env_array[i] = ft_strjoin(temp->key, "=");
-		temp_value = ft_strjoin(env_array[i], temp->value);
-		env_array[i] = temp_value;
-		temp = temp->next;
-		i++;
-	}
-	env_array[count] = NULL;
-	return (env_array);
-}
 void open_files(t_shell *data, int ac, char **av)
 {
     data->redirect->infile = av[1];
