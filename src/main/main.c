@@ -41,7 +41,7 @@ void open_files(t_shell *data, int ac, char **av)
 
 void init_shell(t_shell *shell)
 {
-    shell->num_cmds = 1;
+    shell->num_cmds = 2;
     shell->last_exit = 0;
     shell->in_pipe = 0;
 

@@ -12,9 +12,6 @@
 
 #include "../../../../include/minishell.h"
 
-
-
-
 int is_empty(const char *str)
 {
     if (!str || *str == '\0')
