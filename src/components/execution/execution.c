@@ -37,5 +37,8 @@
 
 void execution(t_shell *shell)
 {
-    ft_pipex(shell);
+    if (!shell)
+        return ;
+    execute_builtin(shell);
+    // ft_pipex(shell);
 }

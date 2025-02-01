@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror   -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror   -g #-fsanitize=address
 INC = ./include/minishell.h
 RM = rm -f
 
@@ -11,6 +11,14 @@ RESET = \033[0m
 
 
 SRCS =	./src/main/main.c \
+		./src/components/execution/builtin_Functions/builtin_cd.c \
+		./src/components/execution/builtin_Functions/builtin_echo.c \
+		./src/components/execution/builtin_Functions/builtin_env.c \
+		./src/components/execution/builtin_Functions/builtin_exit.c \
+		./src/components/execution/builtin_Functions/builtin_export.c \
+		./src/components/execution/builtin_Functions/builtin_pwd.c \
+		./src/components/execution/builtin_Functions/builtin_unset.c \
+		./src/components/execution/builtin_Functions/builtin.c \
 		./src/components/execution/creat_child.c \
 		./src/components/execution/error_handling.c \
 		./src/components/execution/execution.c \

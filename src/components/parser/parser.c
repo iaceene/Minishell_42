@@ -16,5 +16,5 @@
 void parser(t_data *data)
 {
     (void)data;
-    printf("welcome!\n");
+    printf("welcome parser!\n");
 }

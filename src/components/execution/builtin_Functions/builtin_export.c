@@ -39,7 +39,7 @@ void builtin_export(char **args, char ***env)
 
     *equal_sign = '\0';
     char *key = var;
-    char *value = equal_sign + 1;
+    // char *value = equal_sign + 1;
 
     int i = 0;
     while ((*env)[i])
