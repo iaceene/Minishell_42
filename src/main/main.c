@@ -49,16 +49,15 @@ void init_shell(t_shell *shell)
     shell->redirect = ft_malloc(1 *sizeof(t_redirect));
 
     shell->commands[0].args = ft_malloc(3 * sizeof(char *));
-    shell->commands[0].args[0] = ft_strdup("ls");
-    shell->commands[0].args[1] = ft_strdup("-la");
+    shell->commands[0].args[0] = ft_strdup("cd");
+    shell->commands[0].args[1] = ft_strdup("..");
     shell->commands[0].args[2] = NULL;
     shell->commands[0].append = 0;
 
-    // shell->commands[1].args = calloc(2, sizeof(char *));
-    // shell->commands[1].args[0] = ft_strdup("cat");
-    // shell->commands[1].args[1] = NULL;
-    // shell->commands[1].path = "/bin/cat";
-    // shell->commands[1].append = 0;
+    shell->commands[1].args = ft_malloc(2 * sizeof(char *));
+    shell->commands[1].args[0] = ft_strdup("pwd");
+    shell->commands[1].args[1] = NULL;
+    shell->commands[1].append = 0;
 
     // shell->commands[2].args = calloc(2, sizeof(char *));
     // shell->commands[2].args[0] = ft_strdup("cat");
@@ -98,7 +97,7 @@ int main(int ac, char **av, char **env)
     int i = 0;
     while (data.env[i])
     {
-        fprintf(stderr, "+++++++++++++++++++++data.env[%d]: %s\n", i, data.env[i]);
+        fprintf(stderr, "data.env[%d]: %s\n", i, data.env[i]);
         i++;
     }
 

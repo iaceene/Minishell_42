@@ -14,6 +14,11 @@
 
 void builtin_cd(char **args, char ***env)
 {
+    // while (*env)
+    // {
+    //     fprintf(stderr, "----env: %s\n", (*env)[0]);
+    //     env++;
+    // }
     char *path = args[1];
     char cwd[1024];
     char *old_pwd;

@@ -92,6 +92,16 @@ typedef struct s_gb
 
 //  src/components/execution/execution.c
 void	execution(t_shell *shell);
+// buildin
+void	builtin_cd(char **args, char ***env);
+void	builtin_echo(char **args);
+void	builtin_env(char **env);
+void	builtin_exit(char **args);
+void	builtin_export(char **args, char ***env);
+void	builtin_pwd(void);
+void	builtin_unset(char **args, char ***env);
+void	execute_builtin(t_shell *shell);
+
 
 //  src/components/execution/creat_child.c
 void	child2(t_shell *data, int **wr_pipe);
