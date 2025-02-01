@@ -148,7 +148,7 @@ void	ft_init_signals(void);
 //src/components/parser
 	//creat_env
 t_env	*ft_env_create(char **envp);
-void	parser(t_data *data);
+int		parser(t_data *data);
 
 
 

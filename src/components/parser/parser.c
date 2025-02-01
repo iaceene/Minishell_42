@@ -13,8 +13,9 @@
 #include "../../../include/minishell.h"
 
 
-void parser(t_data *data)
+int parser(t_data *data)
 {
     (void)data;
     printf("welcome parser!\n");
+    return (-1);
 }

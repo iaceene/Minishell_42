@@ -27,5 +27,7 @@ void ft_print_err(char *s)
 void ft_puterr(int state)
 {
     if (state == 1)
-        ft_print_err("Invalid env!\n");   
+        ft_print_err("Invalid env!\n");
+    if (state == -1)   
+        ft_print_err("invalid parse\n");
 }
