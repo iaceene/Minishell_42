@@ -51,10 +51,12 @@ typedef struct s_redirect
 
 typedef struct s_env
 {
-	char *key;
-	char *value;
-	struct s_env *next;
-} t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+	char			*pwd;
+	char			**envp;
+}			t_env;
 
 typedef struct s_shell
 {
@@ -71,7 +73,7 @@ typedef struct s_shell
 typedef struct s_data
 {
 	char **env;
-	t_env *env_var; /// use this instead of env
+	t_env *env_var;
 	t_shell *shell;
 	char *prompt;
 }t_data;
@@ -93,7 +95,7 @@ typedef struct s_gb
 //  src/components/execution/execution.c
 void	execution(t_shell *shell);
 // buildin
-void	builtin_cd(char **args, char ***env);
+void	builtin_cd(char **args, t_env **env);
 void	builtin_echo(char **args);
 void	builtin_env(char **env);
 void	builtin_exit(char **args);
@@ -101,6 +103,10 @@ void	builtin_export(char **args, char ***env);
 void	builtin_pwd(void);
 void	builtin_unset(char **args, char ***env);
 void	execute_builtin(t_shell *shell);
+	//creat_env
+int 	change_value_env(t_env **env_list, const char *key, const char *new_value);
+t_env	*ft_env_create(char **envp);
+char	*get_value_env(t_env *env_list, const char *key);
 
 
 //  src/components/execution/creat_child.c
@@ -146,8 +152,6 @@ void	ft_init_signals(void);
 
 /*****************                       Parser                            ****************/
 //src/components/parser
-	//creat_env
-t_env	*ft_env_create(char **envp);
 int		parser(t_data *data);
 
 
@@ -177,6 +181,7 @@ void	*ft_malloc(ssize_t len);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isspace(int c);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	**ft_split_shell(const char *s);
 char	**ft_split(char const *s, char c);
 char	*ft_strcat(char *dest, char *src);
@@ -192,6 +197,7 @@ char	*ft_strtok(char *str, const char *delim);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_puterr(int state);
+int		exitstatus(int newstatus, int flag);
 
 
 

@@ -19,13 +19,15 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/builtin_Functions/builtin_pwd.c \
 		./src/components/execution/builtin_Functions/builtin_unset.c \
 		./src/components/execution/builtin_Functions/builtin.c \
+		./src/components/parser/creat_env/change_value_env.c \
+		./src/components/parser/creat_env/creat_env.c \
+		./src/components/execution/creat_env/get_value_env.c \
 		./src/components/execution/creat_child.c \
 		./src/components/execution/error_handling.c \
 		./src/components/execution/execution.c \
 		./src/components/execution/find_command_path.c \
 		./src/components/execution/pipex.c \
 		./src/components/parser/parser.c \
-		./src/components/parser/creat_env/creat_env.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/get_next_line.c \
 		./src/components/parser/prompt/get_next_line_utils.c \

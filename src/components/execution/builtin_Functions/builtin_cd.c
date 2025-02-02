@@ -12,105 +12,94 @@
 
 #include "../../../../include/minishell.h"
 
-void builtin_cd(char **args, char ***env)
-{
-    char *path = args[1];
-    char cwd[1024];
-    char *old_pwd;
 
-    if (!path)
+static int change_to_home_directory(t_env **env)
+{
+    char *home = get_value_env(*env, "HOME");
+    if (!home)
     {
-        path = getenv("HOME");
-        if (!path)
+        perror("bash: cd: HOME not set\n");
+        exitstatus(1, 1);
+        return (1);
+    }
+    if (chdir(home) == -1)
+    {
+        perror("bash: cd: ");
+        perror(home);
+        perror(": No such file or directory\n");
+        exitstatus(1, 1);
+        return (1);
+    }
+    change_value_env(env, "OLDPWD", ft_strdup(get_value_env(*env, "PWD")));
+    change_value_env(env, "PWD", ft_strdup(home));
+    return (1);
+}
+
+static int change_to_previous_directory(t_env **env)
+{
+    char *oldpwd = get_value_env(*env, "OLDPWD");
+    if (!oldpwd)
+    {
+        perror("bash: cd: OLDPWD not set\n");
+        exitstatus(1, 1);
+        return (1);
+    }
+    if (chdir(oldpwd) == -1)
+    {
+        perror("bash: ");
+        perror(oldpwd);
+        perror(": No such file or directory\n");
+        exitstatus(1, 1);
+        return (1);
+    }
+    change_value_env(env, "OLDPWD", ft_strdup(get_value_env(*env, "PWD")));
+    change_value_env(env, "PWD", ft_strdup(oldpwd));
+    return (1);
+}
+
+static int handle_special_cd_cases(t_env **env, char *path)
+{
+    if (!ft_strncmp(path, "~", 1))
+        return change_to_home_directory(env);
+    else if (!ft_strncmp(path, "-", 1))
+        return change_to_previous_directory(env);
+    return (0);
+}
+
+static int check_directory_exists(char *path)
+{
+    DIR *dir = opendir(path); 
+    if (!dir)
+    {
+        perror("bash: cd: ");
+        perror(path);
+        perror(": ");
+        perror("");
+        exitstatus(1, 1);
+        return (1);
+    }
+    closedir(dir);
+    return (0);
+}
+
+void builtin_cd(char **args, t_env **env)
+{
+    if (!args[1] || !handle_special_cd_cases(env, args[1]))
+    {
+        if (args[1] && check_directory_exists(args[1]))
+            return ;
+        if (chdir(args[1]) == -1)
         {
-            write(2, "cd: HOME not set\n", 17);
-            return;
+            perror("bash: cd: ");
+            perror(args[1]);
+            perror(": ");
+            perror("");
+            exitstatus(1, 1);
+            return ;
         }
     }
-    if (!getcwd(cwd, sizeof(cwd)))
-    {
-        write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
-        return;
-    }
-    old_pwd = ft_strdup(cwd);
-    if (chdir(path) != 0)
-    {
-        write(2, "cd:  no such file or directory: ", 32);
-        write(2, path, ft_strlen(path));
-        write(2, "\n", 1);
-        free(old_pwd);
-        return;
-    }
-    int updated = 0;
-    int i = 0;
-    while ((*env)[i])
-    {
-        if (ft_strncmp((*env)[i], "OLDPWD=", 7) == 0)
-        {
-            free((*env)[i]);
-            (*env)[i] = malloc(ft_strlen("OLDPWD=") + ft_strlen(old_pwd) + 1);
-            if ((*env)[i])
-            {
-                strcpy((*env)[i], "OLDPWD=");
-                strcat((*env)[i], old_pwd);
-            }
-            updated = 1;
-            break;
-        }
-        i++;
-    }
-    if (!updated)
-    {
-        int count = 0;
-        while ((*env)[count])
-            count++;
-        *env = realloc(*env, sizeof(char *) * (count + 2));
-        (*env)[count] = malloc(ft_strlen("OLDPWD=") + ft_strlen(old_pwd) + 1);
-        if ((*env)[count])
-        {
-            ft_strcpy((*env)[count], "OLDPWD=");
-            ft_strcat((*env)[count], old_pwd);
-        }
-        (*env)[count + 1] = NULL;
-    }
-    free(old_pwd);
-    updated = 0;
-    if (getcwd(cwd, sizeof(cwd)))
-    {
-        int i = 0;
-        while ((*env)[i])
-        {
-            if (ft_strncmp((*env)[i], "PWD=", 4) == 0)
-            {
-                free((*env)[i]);
-                (*env)[i] = malloc(ft_strlen("PWD=") + ft_strlen(cwd) + 1);
-                if ((*env)[i])
-                {
-                    ft_strcpy((*env)[i], "PWD=");
-                    ft_strcat((*env)[i], cwd);
-                }
-                updated = 1;
-                break;
-            }
-            i++;
-        }
-        if (!updated)
-        {
-            int count = 0;
-            while ((*env)[count])
-                count++;
-            *env = realloc(*env, sizeof(char *) * (count + 2));
-            (*env)[count] = malloc(ft_strlen("PWD=") + ft_strlen(cwd) + 1);
-            if ((*env)[count])
-            {
-                ft_strcpy((*env)[count], "PWD=");
-                ft_strcat((*env)[count], cwd);
-            }
-            (*env)[count + 1] = NULL;
-        }
-    }
-    else
-    {
-        write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
-    }
+    change_value_env(env, "OLDPWD", ft_strdup(get_value_env(*env, "PWD")));
+    char *new_pwd = getcwd(NULL, 0);
+    change_value_env(env, "PWD", ft_strdup(new_pwd));
+    return ;
 }
