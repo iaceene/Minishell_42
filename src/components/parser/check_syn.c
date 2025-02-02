@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:01:58 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/02 20:33:43 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:00:17 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int check_operators(char *str)
         pip = ft_split(str, '|');
         return (check_pip(pip));   
     }
-    return (check_condition(str));
+    // return (check_condition(str));
+    return (0);
 }
 
 int check_syntax(char *str)
@@ -120,7 +121,7 @@ int check_left_red(char **str)
     printf("<\n");
     while (str[i])
     {
-        printf("%s\n", str[i]);
+        if (ft_find(str[i], ' ') || )
         i++;
     }
     return (0);
@@ -153,29 +154,29 @@ int check_pip(char **str)
     return (i % 2);
 }
 
-int ft_check_and(char *str)
-{
-    
-}
+// int ft_check_and(char *str)
+// {
+//     char **
+// }
 
-int check_condition(char *str)
-{
-    int i;
-    int err;
+// int check_condition(char *str)
+// {
+//     int i;
+//     int err;
 
-    i = 0;
-    err = 0;
-    while (str[i])
-    {
-        if (str[i] == '&' && str[i + 1] != '&')
-            return (1);
-        if (str[i] == '&' && str[i + 1] == '&')
-            err += ft_check_and(str);
-        if (str[i] == '|' && str[i + 1] == '|')
-            err += ft_check_or(str);
-        i++;
-    }
-    if (err != 0)
-        return (1);
-    return (0);
-}
+//     i = 0;
+//     err = 0;
+//     while (str[i])
+//     {
+//         if (str[i] == '&' && str[i + 1] != '&')
+//             return (1);
+//         if (str[i] == '&' && str[i + 1] == '&')
+//             err += ft_check_and(str);
+//         if (str[i] == '|' && str[i + 1] == '|')
+//             err += ft_check_or(str);
+//         i++;
+//     }
+//     if (err != 0)
+//         return (1);
+//     return (0);
+// }

@@ -26,6 +26,7 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/pipex.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/check_syn.c \
+		./src/components/parser/ft_split_word.c \
 		./src/components/parser/creat_env/creat_env.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/prompt_utiles.c \
@@ -44,6 +45,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strlcpy.c \
 		./src/lib/ft_strlen.c \
 		./src/lib/ft_strncmp.c \
+		./src/lib/ft_strncpy.c \
 		./src/lib/ft_strstr.c \
 		./src/lib/ft_strtok.c \
 		./src/lib/ft_strtrim.c \

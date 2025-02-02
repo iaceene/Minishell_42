@@ -187,6 +187,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 char	*ft_strstr(char *haystack, char *needle);
 char	*ft_strtok(char *str, const char *delim);
 char	*ft_strtrim(char *s1, char *set);

@@ -6,50 +6,87 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 20:34:42 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/02 20:58:38 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/02 21:55:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/parser.h"
 
-char **ft_allocat(char *str, char *word, int count, int flag)
+static int	ft_count_occurrences(char *str, char *word)
 {
-    char **ret;
-    int     i;
+	int		count;
+	size_t	len;
+	char	*tmp;
 
-    if (count == 0)
-        return (NULL);
-    ret = ft_malloc(sizeof(char *) * count + flag);
-    ret[count] = NULL;
-    while (i < count)
-    {
-        ret[i]
-        
-    }
+	count = 0;
+	len = ft_strlen(word);
+	tmp = str;
+	while ((tmp = ft_strstr(tmp, word)))
+	{
+		count++;
+		tmp += len;
+	}
+	return (count);
 }
 
-char **ft_split_word(char *str, char *word)
+static char	**ft_allocate_result(int count, int flag)
 {
-    int     count;
-    char    *tmp;
-    size_t  len;
-    int     flag;
-    
-    if (!str || !word)
-        return (NULL);
-    count = 0;
-    len = ft_strlen(word);
-    tmp = ft_strstr(str, word);
-    while (1)
-    {
-        if (!tmp)
-            break ;
-        tmp = ft_strstr(tmp + len, word);
-        len++;
-    }
-    if (!tmp + len + 1)
-        flag = 1;
-    else
-        flag = 2;
-    return (ft_allocat(str, word, count, flag));
+	char	**result;
+	int		i;
+
+	result = (char **)ft_malloc(sizeof(char *) * (count + flag));
+	i = 0;
+	while (i < count + flag)
+	{
+		result[i] = NULL;
+		i++;
+	}
+	return (result);
+}
+
+static void	ft_split_into_substrings(char *str, char *word, char **result, int count)
+{
+	size_t	len;
+	char	*tmp;
+	int		i;
+
+	len = ft_strlen(word);
+	tmp = str;
+	i = 0;
+	while (i < count)
+	{
+		char *next = ft_strstr(tmp, word);
+		if (!next)
+			break ;
+		result[i] = (char *)ft_malloc(next - tmp + 1);
+		ft_strncpy(result[i], tmp, next - tmp);
+		result[i][next - tmp] = '\0';
+		tmp = next + len;
+		i++;
+	}
+}
+
+static void	ft_handle_last_substring(char *tmp, char **result, int count)
+{
+	result[count] = ft_strdup(tmp);
+}
+
+char	**ft_split_word(char *str, char *word)
+{
+	int		count;
+	int		flag;
+	char	**result;
+
+	if (!str || !word)
+		return (NULL);
+	count = ft_count_occurrences(str, word);
+	flag = 2;
+	if (ft_strstr(str + ft_strlen(str) - ft_strlen(word), word)
+		== str + ft_strlen(str) - ft_strlen(word))
+		flag = 1;
+	result = ft_allocate_result(count, flag);
+	ft_split_into_substrings(str, word, result, count);
+	if (flag == 2)
+		ft_handle_last_substring(str + ft_strlen(str) - ft_strlen(word), result, count);
+	return (result);
 }
