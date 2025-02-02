@@ -35,8 +35,8 @@ void execute_builtin(t_shell *shell)
     // char **args1 = shell->commands[1].args;
     if (ft_strncmp(args[0], "echo", 4) == 0)
         builtin_echo(args);
-    else if (ft_strncmp(args[0], "cd", 2) == 0)
-        builtin_cd(args, env);
+    // else if (ft_strncmp(args[0], "cd", 2) == 0)
+        // builtin_cd(args, enlz);
     else if (ft_strncmp(args[0], "pwd", 3) == 0)
         builtin_pwd();
     else if (ft_strncmp(args[0], "export", 6) == 0)
@@ -56,50 +56,3 @@ void execute_builtin(t_shell *shell)
     // if (ft_strncmp(args1[0], "pwd", 3) == 0)
     //     builtin_pwd();
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-//     char *line = NULL;
-//     size_t len = 0;
-//     char **env = NULL;
-
-//     int env_count = 0;
-//     while (envp[env_count])
-//         env_count++;
-//     env = malloc(sizeof(char *) * (env_count + 1));
-//     for (int i = 0; i < env_count; i++)
-//     {
-//         env[i] = strdup(envp[i]);
-//     }
-//     env[env_count] = NULL;
-
-//     while (1)
-//     {
-//         printf("minishell> ");
-//         if (getline(&line, &len, stdin) == -1)
-//         {
-//             perror("getline");
-//             break;
-//         }
-
-//         // Remove the newline character
-//         line[strcspn(line, "\n")] = '\0';
-//         if (is_empty(line))
-//             continue;
-
-//         // Split input into arguments
-//         char **args = ft_split(line, ' ');
-//         if (!args[0])
-//             continue;
-
-//         // Check for builtins
-//         execute_builtin(args, &env);
-
-//         // Free memory
-//         ft_free_string(args);
-//     }
-
-//     free(line);
-//     ft_free_string(env);
-//     return 0;
-// }

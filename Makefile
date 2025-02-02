@@ -2,6 +2,8 @@ NAME = minishell
 CC = cc
 FLAGS = -Wall -Wextra -Werror   -g #-fsanitize=address
 INC = ./include/minishell.h
+INCE = ./include/execution.h
+INCP = ./include/parser.h
 RM = rm -f
 
 GREEN = \033[0;32m
@@ -11,17 +13,17 @@ RESET = \033[0m
 
 
 SRCS =	./src/main/main.c \
-		./src/components/execution/builtin_Functions/builtin_cd.c \
-		./src/components/execution/builtin_Functions/builtin_echo.c \
-		./src/components/execution/builtin_Functions/builtin_env.c \
-		./src/components/execution/builtin_Functions/builtin_exit.c \
-		./src/components/execution/builtin_Functions/builtin_export.c \
-		./src/components/execution/builtin_Functions/builtin_pwd.c \
-		./src/components/execution/builtin_Functions/builtin_unset.c \
-		./src/components/execution/builtin_Functions/builtin.c \
-		./src/components/parser/creat_env/change_value_env.c \
-		./src/components/parser/creat_env/creat_env.c \
-		./src/components/execution/creat_env/get_value_env.c \
+		./src/components/execution/builtin/builtin_cd.c \
+		./src/components/execution/builtin/builtin_echo.c \
+		./src/components/execution/builtin/builtin_env.c \
+		./src/components/execution/builtin/builtin_exit.c \
+		./src/components/execution/builtin/builtin_export.c \
+		./src/components/execution/builtin/builtin_pwd.c \
+		./src/components/execution/builtin/builtin_unset.c \
+		./src/components/execution/builtin/builtin.c \
+		./src/components/execution/env/env_create.c \
+		./src/components/execution/env/env_manage.c \
+		./src/components/execution/env/env_utils.c \
 		./src/components/execution/creat_child.c \
 		./src/components/execution/error_handling.c \
 		./src/components/execution/execution.c \
@@ -37,6 +39,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_atoi.c \
 		./src/lib/ft_isdigit.c \
 		./src/lib/ft_isspace.c \
+		./src/lib/ft_memcpy.c \
 		./src/lib/ft_splite.c \
 		./src/lib/ft_split_shell.c \
 		./src/lib/ft_strcat.c \
@@ -44,6 +47,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strcpy.c \
 		./src/lib/ft_strdup.c \
 		./src/lib/ft_strjoin.c \
+		./src/lib/ft_strlcat.c \
 		./src/lib/ft_strlcpy.c \
 		./src/lib/ft_strlen.c \
 		./src/lib/ft_strncmp.c \
@@ -64,7 +68,7 @@ ${NAME}: ${OBJS}
 	@printf "$(GREEN)Building: ${NAME}$(RESET)\n"
 	${CC} ${FLAGS} ${OBJS} -o ${NAME}  -lreadline -lncurses
 
-%.o: %.c ${INC}
+%.o: %.c ${INC} ${INCE} ${INCP}
 	@printf "$(YELLOW)Compiling: $<$(RSEST)\n"
 	@${CC} ${FLAGS} -c $< -o $@
 

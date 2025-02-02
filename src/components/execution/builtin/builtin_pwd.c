@@ -12,16 +12,26 @@
 
 #include "../../../../include/minishell.h"
 
-void builtin_pwd()
+char	*ft_get_cwd(char *tojoin, int i)
 {
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-    {
-        write(1, cwd, ft_strlen(cwd));
-        write(1, "\n", 1);
-    }
-    else
-    {
-        write(2, "pwd: error: cannot retrieve current directory\n", 46);
-    }
+	char		cwd[MAXPATHLEN];
+	static char	save_cwd[MAXPATHLEN];
+
+	if (getcwd(cwd, MAXPATHLEN) != NULL)
+		ft_strlcpy(save_cwd, cwd, MAXPATHLEN);
+	else if (i == 1)
+	{
+		ft_strlcat(save_cwd, "/", MAXPATHLEN);
+		ft_strlcat(save_cwd, tojoin, MAXPATHLEN);
+	}
+	return (ft_strdup(save_cwd));
+}
+
+void	builtin_pwd(void)
+{
+	char	*cwd;
+
+	cwd = ft_get_cwd(NULL, 0);
+	printf("%s\n", cwd);
+	free(cwd);
 }
