@@ -25,6 +25,7 @@ int main(int ac, char **av, char **env)
     t_data data;
 
     clear_terminal();
+    data.env = env; 
     signal(SIGINT, ft_sighandler);
     signal(SIGQUIT, ft_sighandler);
     while (1)

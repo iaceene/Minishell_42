@@ -12,10 +12,9 @@
 
 #include "../../../include/minishell.h"
 
-
 int parser(t_data *data)
 {
     (void)data;
-    printf("welcome parser!\n");
+    printf("yassine\n");
     return (-1);
 }
