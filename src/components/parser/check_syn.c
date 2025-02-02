@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:01:58 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/02 19:52:53 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:33:43 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int ft_find(char *str, char tofind)
 int check_left_red(char **str);
 int check_right_red(char **str);
 int check_pip(char **str);
+int check_condition(char *str);
 
 int check_operators(char *str)
 {
@@ -95,7 +96,7 @@ int check_operators(char *str)
         pip = ft_split(str, '|');
         return (check_pip(pip));   
     }
-    return (0);
+    return (check_condition(str));
 }
 
 int check_syntax(char *str)
@@ -116,6 +117,7 @@ int check_left_red(char **str)
     int i;
 
     i = 0;
+    printf("<\n");
     while (str[i])
     {
         printf("%s\n", str[i]);
@@ -129,6 +131,7 @@ int check_right_red(char **str)
     int i;
 
     i = 0;
+    printf(">\n");
     while (str[i])
     {
         printf("%s\n", str[i]);
@@ -147,5 +150,32 @@ int check_pip(char **str)
         printf("%s\n", str[i]);
         i++;
     }
+    return (i % 2);
+}
+
+int ft_check_and(char *str)
+{
+    
+}
+
+int check_condition(char *str)
+{
+    int i;
+    int err;
+
+    i = 0;
+    err = 0;
+    while (str[i])
+    {
+        if (str[i] == '&' && str[i + 1] != '&')
+            return (1);
+        if (str[i] == '&' && str[i + 1] == '&')
+            err += ft_check_and(str);
+        if (str[i] == '|' && str[i + 1] == '|')
+            err += ft_check_or(str);
+        i++;
+    }
+    if (err != 0)
+        return (1);
     return (0);
 }
