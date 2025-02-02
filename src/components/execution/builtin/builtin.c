@@ -27,6 +27,13 @@ int is_empty(const char *str)
 }
 void execute_builtin(t_shell *shell)
 {
+        ft_print_err("use\n");
+    
+    if (ft_strncmp(*shell->commands[0].args, "pwd", 3))
+    {
+        printf("hhh");
+    }
+
     if (!shell || !shell->commands || !shell->commands[0].args || !shell->commands[0].args[0])
         return;
 
@@ -38,7 +45,10 @@ void execute_builtin(t_shell *shell)
     // else if (ft_strncmp(args[0], "cd", 2) == 0)
         // builtin_cd(args, enlz);
     else if (ft_strncmp(args[0], "pwd", 3) == 0)
+    {
+        ft_print_err("use\n");
         builtin_pwd();
+    }
     else if (ft_strncmp(args[0], "export", 6) == 0)
         builtin_export(args, env);
     else if (ft_strncmp(args[0], "unset", 5) == 0)
