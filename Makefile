@@ -28,8 +28,6 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/check_syn.c \
 		./src/components/parser/creat_env/creat_env.c \
 		./src/components/parser/prompt/get_cli.c \
-		./src/components/parser/prompt/get_next_line.c \
-		./src/components/parser/prompt/get_next_line_utils.c \
 		./src/components/parser/prompt/prompt_utiles.c \
 		./src/components/parser/prompt/prompt.c \
 		./src/lib/memory/memory_tracker.c \
