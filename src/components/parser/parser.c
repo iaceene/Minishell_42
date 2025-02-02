@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../../include/parser.h"
 
 int parser(t_data *data)
 {
     (void)data;
-    printf("yassine\n");
-    return (-1);
+
+    if (check_syntax(data->prompt) == -1)
+        printf ("syntax error\n");
+    else
+        printf ("systax valid\n");
+    return (11);
 }
