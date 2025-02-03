@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:32:34 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 05:51:27 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int starts_with(const char *str, const char *prefix)
     return (ft_strncmp(str, prefix, strlen(prefix)) == 0);
 }
 
-int lexer_init(const char *str)
+t_node *lexer_init(const char *str)
 {
     t_node *head = NULL;
     const char *current = str;
@@ -103,12 +103,5 @@ int lexer_init(const char *str)
 		}
         current++;
     }
-
-    t_node *temp = head;
-    while (temp)
-	{
-        printf("Token: %s, Type: %d\n", temp->value, temp->type);
-        temp = temp->next;
-    }
-    return 0;
+    return (head);
 }

@@ -14,7 +14,10 @@
 
 int parser(t_data *data)
 {
-    if (lexer_init(data->prompt) == -1)
+    t_node *tock_data;
+
+    tock_data = lexer_init(data->prompt);
+    if (syntax_checker(tock_data) == -1)
         printf ("syntax error\n");
     else
         printf ("systax valid\n");
