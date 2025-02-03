@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 14:32:39 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 14:43:26 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #define PARSER_H
 
 #include "minishell.h"
+#include "execution.h"
 
-/*****************Parser****************/
-int		parser(t_data *data);
+
 
 
 #endif

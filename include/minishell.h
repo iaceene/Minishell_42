@@ -14,8 +14,6 @@
 #ifndef MINI_SHELL_H
 #define MINI_SHELL_H
 
-#include "execution.h"
-#include "parser.h"
 
 # include <sys/param.h>
 # include <sys/wait.h>
@@ -118,7 +116,7 @@ void	exit_the_shell(int state);
 char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
 char	*prompt(char **env);
 //*****************************signals********************************
-void	ft_handle_signals(int sig);
+// void	ft_handle_signals(int sig);
 void	ft_init_signals(void);
 void	ft_sighandler(int sig);
 // ****************************herdoc****************************
@@ -153,6 +151,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strstr(char *haystack, char *needle);
+char	*ft_itoa(int n);
 char	*ft_strtok(char *str, const char *delim);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -161,5 +160,7 @@ void	ft_puterr(int state);
 int		exitstatus(int newstatus, int flag);
 
 
+#include "execution.h"
+#include "parser.h"
 
 #endif

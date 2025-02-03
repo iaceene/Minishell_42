@@ -6,14 +6,14 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 14:12:07 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:11:39 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 #define EXECUTION_H
+# include "minishell.h"
 
-# include "./minishell.h"
 
 # define SUCCESS 0
 # define FAILED 1
@@ -21,13 +21,12 @@
 # define SPACE ' '
 # define EQUAL '='
 
+
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }	t_list;
-
-
 
 typedef struct s_command
 {
@@ -177,6 +176,17 @@ void	ft_exp_init(t_expand *exp);
 int		ft_is_match(char *s, char *p);
 int		ft_get_matching(t_list **head, char *pattern);
 int		ft_only_star(char *cmd);
+/*****************Parser****************/
+int		parser(t_data *data);
+
+
+
+
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstlast(t_list *lst);
+int		ft_lstsize(t_list *lst);
+void	ft_lstclear(t_list **lst);
 
 
 #endif

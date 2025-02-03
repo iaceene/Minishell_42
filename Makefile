@@ -34,9 +34,14 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/env/env_update.c \
 		./src/components/execution/execute/creat_child.c \
 		./src/components/execution/execute/error_handling.c \
+		./src/components/execution/execute/execution_cmd.c \
 		./src/components/execution/execute/execution.c \
 		./src/components/execution/execute/find_command_path.c \
 		./src/components/execution/execute/pipex.c \
+		./src/components/execution/expand/expand.c \
+		./src/components/execution/expand/expand_dollar.c \
+		./src/components/execution/expand/expand_tools.c \
+		./src/components/execution/expand/wildcard.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/get_next_line.c \
@@ -45,6 +50,7 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/prompt/prompt.c \
 		./src/lib/memory/memory_tracker.c \
 		./src/lib/ft_atoi.c \
+		./src/lib/ft_itoa.c \
 		./src/lib/ft_isdigit.c \
 		./src/lib/ft_isspace.c \
 		./src/lib/ft_memcpy.c \
@@ -63,6 +69,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strtok.c \
 		./src/lib/ft_strtrim.c \
 		./src/lib/ft_substr.c \
+		./src/lib/linked_list.c \
 		./src/lib/print_err.c \
 
 

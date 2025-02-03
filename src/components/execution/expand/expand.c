@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:32:11 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 10:32:12 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:12:00 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ static void	ft_expand_quote(t_expand *exp, char *cmd)
 	{
 		if (exp->noting_before_quote && cmd[exp->i - 1] == exp->quote
 			&& (!cmd[exp->i + 1] || ft_isspace(cmd[exp->i + 1])))
-			ft_lstadd_back(&(exp->head), ft_lstnew(ft_strdup2("")));
+			ft_lstadd_back(&(exp->head), ft_lstnew(ft_strdup("")));
 		exp->quote = 0;
 		exp->noting_before_quote = 0;
 	}
 	else
 	{
-		exp->buff_exp = ft_strjoin2(exp->buff_exp, ft_char_to_str(cmd[exp->i]));
+		exp->buff_exp = ft_strjoin(exp->buff_exp, ft_char_to_str(cmd[exp->i]));
 		exp->found_another_char = 1;
 	}
 }
 
 static void	ft_expand_others(t_expand *exp, char c)
 {
-	exp->buff_exp = ft_strjoin2(exp->buff_exp, ft_char_to_str(c));
+	exp->buff_exp = ft_strjoin(exp->buff_exp, ft_char_to_str(c));
 	if (c != '*' || exp->quote != 0)
 		exp->found_another_char = 1;
 	else

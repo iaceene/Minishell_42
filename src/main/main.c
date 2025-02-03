@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/minishell.h"
 #include "../../include/execution.h"
 #include "../../include/parser.h"
-
-int	g_signal;
 
 void    clear_terminal(void)
 {
@@ -23,39 +22,42 @@ void    clear_terminal(void)
 
 static void	ft_init(t_tool *tool, int ac, char **av, char **env)
 {
-	tool->grbg = NULL;
-	tool->env = ft_env_create(env);
-    tool->env->a_ven = ft_env_create_2d(tool->env);
-	tool->err = 0;
-	g_signal = 0;
-	rl_catch_signals = 0;
-	signal(SIGINT, ft_handle_signals);
-	signal(SIGQUIT, ft_handle_signals);
 	(void)(ac);
 	(void)(av);
+	tool->grbg = NULL;
+	tool->env = ft_env_create(env);
+	tool->env->a_ven = ft_env_create_2d(tool->env);
+	tool->err = 0;
 }
+
 
 int main(int ac, char **av, char **env)
 {
     t_data data;
     t_tree *tree;
     t_tool tool;
+	int err;
 
     tree = NULL;
-
+    clear_terminal();
+    signal(SIGINT, ft_sighandler);
+    signal(SIGQUIT, ft_sighandler);
     ft_init(&tool, ac, av, env);
 	if (!isatty(0))
 		return (printf("tty required!\n"), 1);
 
-    clear_terminal();
-    signal(SIGINT, ft_sighandler);
-    signal(SIGQUIT, ft_sighandler);
     while (1)
     {
-        data.prompt = prompt(data.env);
-		// err = parser(&data);
+        data.prompt = prompt(tool.env->a_ven);
+		err = parser(&data);
+		if (err == 0)
         execution(tree, &tool.env, &tool.err);
-    }
+		else
+		{
+			ft_print_err("Parsing error\n");
+			ft_puterr(err);
+		}
+	}
     return (0);
 }
 

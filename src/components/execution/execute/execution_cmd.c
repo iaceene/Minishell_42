@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 10:44:21 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:05:13 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 static void run_child_process(t_env **env, char **cmd_argv)
 {
     char **envp;
-
+    
+    envp = NULL;
     if (!envp || !(*envp))
         return ;
     envp = (*env)->a_ven;
@@ -63,7 +64,7 @@ void execution_cmd(char *cmd, t_env **env, int *exit_status)
     if (WIFSIGNALED(*exit_status) && WTERMSIG(*exit_status) == SIGQUIT)
         tcsetattr(STDOUT_FILENO, TCSANOW, &state);
     *exit_status = retrieve_exit_status(*exit_status);
-    signal(SIGINT, ft_handle_signals);
-    signal(SIGQUIT, ft_handle_signals);
+	signal(SIGINT, ft_sighandler);
+    signal(SIGQUIT, ft_sighandler);
 }
 

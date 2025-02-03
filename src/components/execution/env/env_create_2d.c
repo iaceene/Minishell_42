@@ -6,7 +6,7 @@ char	**ft_env_create_2d(t_env *env)
 	char	**env_2d;
 	int		r;
 
-	env_2d = malloc(sizeof(char *) * (ft_env_size(env) + 1));
+	env_2d = ft_malloc(sizeof(char *) * (ft_env_size(env) + 1));
 	if (!env_2d)
 	{
 		ft_print_err("malloc failed\n");

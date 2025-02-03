@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:31:53 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 11:57:58 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:24:05 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_list_cwd(t_list **head)
 	while (entry != NULL)
 	{
 		if (entry->d_name[0] != '.')
-			ft_lstadd_back(head, ft_lstnew(ft_strdup2(entry->d_name)));
+			ft_lstadd_back(head, ft_lstnew(ft_strdup(entry->d_name)));
 		entry = readdir(dir);
 	}
 	if (closedir(dir) != 0)
@@ -85,7 +85,7 @@ int	ft_get_matching(t_list **head, char *pattern)
 	{
 		if (entry->d_name[0] != '.' && ft_is_match(entry->d_name, pattern))
 		{
-			ft_lstadd_back(head, ft_lstnew(ft_strdup2(entry->d_name)));
+			ft_lstadd_back(head, ft_lstnew(ft_strdup(entry->d_name)));
 			found_match = 1;
 		}
 		entry = readdir(dir);

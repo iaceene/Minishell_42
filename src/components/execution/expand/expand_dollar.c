@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:32:39 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 10:32:41 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:16:09 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ static void	ft_help(t_expand *exp, char *cmd, int exit_status, char *env_var)
 		(exp->i)++;
 	else if (cmd[exp->i] == '*')
 		exp->found_star = 1;
-	if (ft_strlen2(exp->buff_env) == 1)
+	if (ft_strlen(exp->buff_env) == 1)
 	{
 		if (cmd[exp->i] == '?')
 		{
-			exp->buff_exp = ft_strjoin2(exp->buff_exp, ft_itoa2(exit_status));
+			exp->buff_exp = ft_strjoin(exp->buff_exp, ft_itoa(exit_status));
 			(exp->i)++;
 		}
 		else if ((cmd[exp->i] != '\'' && cmd[exp->i] != '"' && exp->quote == 0)
 			|| exp->quote != 0)
 		{
-			exp->buff_exp = ft_strjoin2(exp->buff_exp, ft_char_to_str('$'));
+			exp->buff_exp = ft_strjoin(exp->buff_exp, ft_char_to_str('$'));
 			exp->found_another_char = 1;
 		}
 	}
@@ -62,7 +62,7 @@ static void	ft_add_to_expand_buffer(t_expand *exp, char *env_var)
 		if (ft_isspace(env_var[i]))
 			ft_expand_cut(exp);
 		else
-			exp->buff_exp = ft_strjoin2(exp->buff_exp,
+			exp->buff_exp = ft_strjoin(exp->buff_exp,
 					ft_char_to_str(env_var[i]));
 		i++;
 	}
@@ -85,17 +85,17 @@ void	ft_expand_dollar(t_expand *exp, t_env *env, char *cmd, int exit_status)
 			exp->buff_env = NULL;
 			break ;
 		}
-		exp->buff_env = ft_strjoin2(exp->buff_env,
+		exp->buff_env = ft_strjoin(exp->buff_env,
 				ft_char_to_str(cmd[(exp->i)++]));
 	}
 	if (!exp->buff_env)
 		return ;
 	env_var = ft_env_search(env, exp->buff_env + 1);
 	if (!env_var && exp->quote)
-		exp->buff_exp = ft_strjoin2(exp->buff_exp, ft_strdup2(""));
+		exp->buff_exp = ft_strjoin(exp->buff_exp, ft_strdup(""));
 	else if (env_var && exp->quote == 0)
 		ft_add_to_expand_buffer(exp, env_var);
 	else if (env_var && exp->quote != 0)
-		exp->buff_exp = ft_strjoin2(exp->buff_exp, ft_strdup2(env_var));
+		exp->buff_exp = ft_strjoin(exp->buff_exp, ft_strdup(env_var));
 	ft_help(exp, cmd, exit_status, env_var);
 }

@@ -14,6 +14,8 @@
 
 char *ft_get_user(char **env)
 {
+    if (!*env)
+        return 0;
     int i = 0;
     int flag = 0;
     while (env[i])
@@ -52,6 +54,8 @@ char *ft_get_cli(char **env)
 {
     char *user;
     char **desktop;
+    if (!*env)
+        return 0;
 
     user = ft_get_user(env);
     if (!user)

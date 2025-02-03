@@ -7,7 +7,7 @@ int	ft_env_add(t_env **env, char *key, char *value, int visible)
 	t_env	*new;
 	t_env	*last;
 
-	new = (t_env *)malloc(sizeof(t_env));
+	new = ft_malloc(sizeof(t_env));
 	if (new == NULL)
 		return (ft_print_err("malloc failed\n"), -1);
 	new->key = key;

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
+#include "../../../../include/parser.h"
 
 // static void	ft_execute_and(t_tree *root, t_env **env, int *exit_status)
 // {

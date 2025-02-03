@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:32:15 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 10:32:16 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:23:44 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_char_to_str(char c)
 
 	str[0] = c;
 	str[1] = 0;
-	return (ft_strdup2(str));
+	return (ft_strdup(str));
 }
 
 char	**ft_lst_to_2d_char(t_list **head)
@@ -29,14 +29,14 @@ char	**ft_lst_to_2d_char(t_list **head)
 	int		r;
 	t_list	*cur;
 
-	char_2d = (char **)malloc(sizeof(char *) * (ft_lstsize(*head) + 1));
+	char_2d = ft_malloc(sizeof(char *) * (ft_lstsize(*head) + 1));
 	if (!char_2d)
 		return (NULL);
 	r = 0;
 	cur = *head;
 	while (cur)
 	{
-		char_2d[r] = ft_strdup2(cur->content);
+		char_2d[r] = ft_strdup(cur->content);
 		cur = cur->next;
 		r++;
 	}
@@ -77,7 +77,7 @@ void	ft_expand_cut(t_expand *exp)
 			if (ft_only_star(exp->buff_exp) || \
 			!ft_get_matching(&(exp->head), exp->buff_exp))
 				ft_lstadd_back(&(exp->head), \
-				ft_lstnew(ft_strdup2(exp->buff_exp)));
+				ft_lstnew(ft_strdup(exp->buff_exp)));
 		}
 		free(exp->buff_exp);
 		exp->buff_exp = NULL;

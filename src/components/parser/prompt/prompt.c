@@ -21,6 +21,8 @@ void exit_the_shell(int state)
 
 void ft_putstr(char *s)
 {
+    if (!s)
+        return ;
     int i = 0;
     while (s[i])
     {
