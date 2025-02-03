@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 02:57:51 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 03:03:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int starts_with(const char *str, const char *prefix)
 {
-    return (strncmp(str, prefix, strlen(prefix)) == 0);
+    return (ft_strncmp(str, prefix, strlen(prefix)) == 0);
 }
 
 int lexer_init(const char *str)
@@ -26,7 +26,7 @@ int lexer_init(const char *str)
 
     while (*current) {
         // Skip whitespace
-        if (isspace(*current))
+        if (ft_isspace(*current))
 		{
             current++;
             continue;
@@ -109,14 +109,14 @@ int lexer_init(const char *str)
             continue;
         }
         // Handle words (commands/arguments)
-        if (isalnum(*current) || *current == '-')
+        if (ft_isalnum(*current) || *current == '-')
 		{
             token_len = 0;
             token = malloc(sizeof(char));  // Start with a small allocation
             if (!token)
 				return -1;  // Check malloc failure
             // Collect the word
-            while (*current && (isalnum(*current) || *current == '-'))
+            while (*current && (ft_isalnum(*current) || *current == '-'))
 			{
                 token[token_len++] = *current++;
                 token = realloc(token, token_len + 1);  // Reallocate space for the next character

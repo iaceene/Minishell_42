@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_utiles.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 02:24:01 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 03:03:59 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_node	*add_new_node(TokenType type, char *val)
 
 	ret = ft_malloc(sizeof(t_node));
 	ret->type = type;
-	ret->value = val;
+	ret->value = ft_strdup(val);
 	ret->next = NULL;
 	return (ret);
 }
@@ -41,4 +41,15 @@ void	add_to_list(t_node **head, t_node *new)
 			last = last->next;
 		last->next = new;
 	}
+}
+
+int ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t');
+}
+
+int ft_isalnum(char c)
+{
+	return ((c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'));
 }
