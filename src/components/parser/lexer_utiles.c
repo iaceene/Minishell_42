@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 03:03:59 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 04:52:29 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ void	add_to_list(t_node **head, t_node *new)
 			last = last->next;
 		last->next = new;
 	}
-}
-
-int ft_isspace(char c)
-{
-	return (c == ' ' || c == '\t');
 }
 
 int ft_isalnum(char c)

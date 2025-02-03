@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:58:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 03:01:58 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 04:52:49 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ typedef struct s_node{
 	struct  s_node		*next;
 } t_node;
 
-int		lexer_init(char *str);
+int		lexer_init(const char *str);
 char	**ft_split_word(char *str, char *word);
 void	add_to_list(t_node **head, t_node *new);
 t_node	*add_new_node(TokenType type, char *val);
-int		ft_isspace(char c);
 int		ft_isalnum(char c);
 
 #endif
