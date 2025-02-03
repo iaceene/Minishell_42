@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:51:27 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:42:30 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ t_node *lexer_init(const char *str)
 		else if (*current == '<')
 		{
             add_to_list(&head, add_new_node(LEFT_RED, "<"));
+            current++;
+            continue;
+        }
+        // handel ()
+		else if (*current == '(')
+		{
+            add_to_list(&head, add_new_node(OPEN_PAR, "("));
+            current++;
+            continue;
+        }
+		else if (*current == ')')
+		{
+            add_to_list(&head, add_new_node(CLOSE_PAR, ")"));
             current++;
             continue;
         }
