@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:58:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:17:06 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 05:28:34 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ typedef struct s_node{
 	char				*value;
 	struct  s_node		*next;
 } t_node;
+
+typedef struct s_cmd
+{
+	TokenType	type;
+	char		*value;
+	struct s_cmd *left;
+	struct s_cmd *right;
+}t_cmd;
+
 
 int		lexer_init(const char *str);
 char	**ft_split_word(char *str, char *word);

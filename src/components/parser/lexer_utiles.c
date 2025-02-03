@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:24:30 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 05:32:48 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char *extract_word(char *s)
 	start = s;
 	len = 0;
 	i = 0;
-	while (ft_isalnum(*s))
+	while (ft_isalnum(*s) || ft_isspace(*s) || *s == '-')
 	{
         s++;
         len++;

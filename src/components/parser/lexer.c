@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:22:01 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 05:32:34 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int lexer_init(const char *str)
 {
     t_node *head = NULL;
     const char *current = str;
-    // char *token = NULL;
-    // size_t token_len = 0;
 
     while (*current) {
         if (ft_isspace(*current))
@@ -99,7 +97,7 @@ int lexer_init(const char *str)
 		if (ft_isalnum(*current))
 		{
 			add_to_list(&head, add_new_node(WORD, extract_word((char *)current)));
-			while (*current && ft_isalnum(*current))
+			while (*current && (ft_isalnum(*current) || ft_isspace(*current) || *current == '-'))
 				current++;
 			continue;
 		}
