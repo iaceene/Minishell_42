@@ -29,7 +29,7 @@ static void	ft_init(t_tool *tool, t_tree *trrep, int ac, char **av, char **env)
 	tool->env->a_ven = ft_env_create_2d(tool->env);
 	tool->err = 0;
 
-	trrep->value = "echo pwd";
+	trrep->value = "echo /home/iezzam";
 	trrep->prio = 0;
 	trrep->read = 0;
 	trrep->type = 0;
