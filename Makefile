@@ -26,6 +26,8 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/pipex.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/ft_split_word.c \
+		./src/components/parser/lexer_utiles.c \
+		./src/components/parser/lexer.c \
 		./src/components/parser/creat_env/creat_env.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/prompt_utiles.c \

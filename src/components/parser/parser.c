@@ -14,9 +14,7 @@
 
 int parser(t_data *data)
 {
-    (void)data;
-
-    if (check_syntax(data->prompt) == -1)
+    if (lexer_init(data->prompt) == -1)
         printf ("syntax error\n");
     else
         printf ("systax valid\n");
