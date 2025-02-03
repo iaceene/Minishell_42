@@ -6,9 +6,13 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 02:25:52 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:34:10 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/parser.h"
 
+int lexer_init(char *str)
+{
+	
+}
