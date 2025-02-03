@@ -18,7 +18,7 @@ int parser(t_data *data)
 
     tock_data = lexer_init(data->prompt);
     if (syntax_checker(tock_data) == -1)
-        printf ("syntax error\n");
+        printf ("Syntax error\n");
     else
         printf ("systax valid\n");
     return (11);
