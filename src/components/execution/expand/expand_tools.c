@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:32:15 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 18:40:49 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 19:48:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@ char	*ft_char_to_str(char c)
 
 char	**ft_lst_to_2d_char(t_list **head)
 {
+	printf("lst_to_2d_char\n");
 	char	**char_2d;
 	int		r;
 	t_list	*cur;
 
 	char_2d = ft_malloc(sizeof(char *) * (ft_lstsize(*head) + 1));
-	if (!char_2d)
-		return (NULL);
 	r = 0;
 	cur = *head;
+	// printf("c %c\n", cur->content);
 	while (cur)
 	{
+		printf(" 1\n");
 		char_2d[r] = ft_strdup(cur->content);
 		cur = cur->next;
 		r++;
@@ -68,6 +69,7 @@ int	ft_only_star(char *cmd)
 
 void	ft_expand_cut(t_expand *exp)
 {
+	printf("cut\n");
 	if (exp->buff_exp)
 	{
 		if (exp->found_star && !exp->found_another_char)

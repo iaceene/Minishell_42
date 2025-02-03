@@ -15,6 +15,7 @@
 
 void builtin_echo(char **args)
 {
+    printf("builtin_echo\n");
     int newline = 1;
     int i = 1;
 

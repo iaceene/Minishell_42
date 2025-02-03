@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:32:11 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 19:00:58 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 19:44:42 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**ft_expand(char *cmd, t_env *env, int exit_status)
 	ft_exp_init(&exp);
 	while (cmd[++(exp.i)])
 	{
-		printf("cmd[%d]: %c\n", exp.i, cmd[exp.i]);	
+		printf("cmdi[%d]: %c\n", exp.i, cmd[exp.i]);	
 		if (ft_isspace(cmd[exp.i]) && exp.quote == 0)
 			ft_expand_cut(&exp);
 		else if (cmd[exp.i] == '"' || cmd[exp.i] == '\'')
@@ -67,7 +67,13 @@ char	**ft_expand(char *cmd, t_env *env, int exit_status)
 		if (!cmd[exp.i])
 			break ;
 	}
+	// printf("buff_exp[%s]\n", exp.buff_exp);
 	if (exp.buff_exp)
+	{
+		printf("buff_exp[%s]\n", exp.buff_exp);
 		ft_expand_cut(&exp);
+			
+	}
+	printf("head[]\n");
 	return (ft_lst_to_2d_char(&(exp.head)));
 }
