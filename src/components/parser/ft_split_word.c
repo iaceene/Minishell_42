@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 20:34:42 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/02 21:55:08 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:16:22 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	**ft_allocate_result(int count, int flag)
 	char	**result;
 	int		i;
 
-	result = (char **)ft_malloc(sizeof(char *) * (count + flag));
+	result = ft_malloc(sizeof(char *) * (count + flag));
 	i = 0;
 	while (i < count + flag)
 	{
@@ -58,7 +58,7 @@ static void	ft_split_into_substrings(char *str, char *word, char **result, int c
 		char *next = ft_strstr(tmp, word);
 		if (!next)
 			break ;
-		result[i] = (char *)ft_malloc(next - tmp + 1);
+		result[i] = ft_malloc(next - tmp + 1);
 		ft_strncpy(result[i], tmp, next - tmp);
 		result[i][next - tmp] = '\0';
 		tmp = next + len;
@@ -87,6 +87,7 @@ char	**ft_split_word(char *str, char *word)
 	result = ft_allocate_result(count, flag);
 	ft_split_into_substrings(str, word, result, count);
 	if (flag == 2)
-		ft_handle_last_substring(str + ft_strlen(str) - ft_strlen(word), result, count);
+		ft_handle_last_substring(str + ft_strlen(str)
+			- ft_strlen(word), result, count);
 	return (result);
 }
