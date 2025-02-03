@@ -1,69 +1,67 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_create.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/02 20:20:30 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/02 20:40:31 by iezzam           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+ 
+#include "../../../../include/execution.h"
 
-#include "../../../../include/minishell.h"
 
-static char *ft_strtok_r(char *str, const char *delim, char **saveptr)
+static char	*ft_get_join_value(char **splited_row)
 {
-    char *token;
+	char	*value;
+	int		c;
 
-    if (str == NULL)
-        str = *saveptr;
-    if (str == NULL)
-        return NULL;
-    str += strspn(str, delim);
-    if (*str == '\0')
-        return NULL;
-    token = str;
-    str = strpbrk(token, delim);
-    if (str == NULL)
-        *saveptr = NULL;
-    else
-        (*str = '\0', *saveptr = str + 1);
-    return token;
+	value = NULL;
+	c = 0;
+	while (splited_row[++c])
+	{
+		if (c == 1)
+			value = ft_strjoin(value, ft_strdup(splited_row[c]));
+		else
+			value = ft_strjoin(value,
+					ft_strjoin(ft_strdup("="),
+						ft_strdup(splited_row[c])));
+	}
+	return (value);
 }
 
-t_env	*ft_env_create(char **envp)
+static int	ft_add_item(t_env **env, char *key, char *value, int visible)
 {
-	t_env	*env_list;
-	t_env	*new_node;
+	t_env	*new;
+	t_env	*last;
+
+	new = (t_env *)malloc(sizeof(t_env));
+	if (new == NULL)
+		return (-1);
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	new->visible = visible;
+	last = *env;
+	if (!last)
+		return (*env = new, 0);
+	while (last->next)
+		last = last->next;
+	last->next = new;
+	return (0);
+}
+
+t_env	*ft_env_create(char **ev)
+{
+	t_env	*env;
+	char	**splited_row;
+	int		r;
 	char	*key;
 	char	*value;
-	char	*saveptr;
-	int		i;
 
-	if (!envp)
-		return (NULL);
-	env_list = NULL;
-	i = 0;
-	while (envp[i])
+	r = -1;
+	env = NULL;
+	while (ev[++r])
 	{
-		new_node = malloc(sizeof(t_env));
-		if (!new_node)
+		splited_row = ft_split(ev[r], EQUAL);
+		if (!splited_row)
 			return (NULL);
-		key = ft_strdup(ft_strtok_r(envp[i], "=", &saveptr));
-		value = ft_strdup(saveptr);
-		if (!key || !value)
-		{
-			free(key);
-			free(value);
-			free(new_node);
-			return (NULL);
-		}
-		new_node->key = key;
-		new_node->value = value;
-		new_node->next = env_list;
-		env_list = new_node;
-		i++;
+		key = ft_strdup(splited_row[0]);
+		value = ft_get_join_value(splited_row);
+		ft_add_item(&env, key, value, 1);
 	}
-	return (env_list);
+	ft_env_delete(&env, "OLDPWD");
+	ft_env_add(&env, ft_strdup("OLDPWD"), ft_strdup(""), 0);
+	return (env);
 }

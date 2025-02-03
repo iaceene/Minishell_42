@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
 void close_fd(t_redirect *data)
 {
@@ -93,48 +93,3 @@ void ft_pipex(t_shell *shell)
   }
   fprintf(stderr, "last exit: %d\n", shell->last_exit);
 }
-
-// void ft_pipex(t_ast *node)
-// {
-//     int **pipes;
-//     int num_cmds;
-//     t_ast *curr_node = node;
-//     t_shell shell;
-
-//     num_cmds = 0;
-//     while (curr_node)
-//     {
-//         num_cmds++;
-//         curr_node = curr_node->right;
-//     }
-//     shell.num_cmds = num_cmds;
-
-//     pipes = allocate_pipes(num_cmds - 1);
-//     if (!pipes)
-//         error_and_exit("Failed to allocate pipes\n", 1);
-
-//     child1(&shell, pipes);
-
-//     if (num_cmds > 2)
-//         child_intermediate(&shell, pipes);
-
-//     if (num_cmds > 1)
-//         child2(&shell, pipes);
-
-//     close_all_pipe(pipes, num_cmds);
-//     if (shell.redirect->fdin != STDIN_FILENO)
-//         close_fd(shell.redirect);
-
-//     free_all_pipe(pipes, num_cmds - 1);
-
-//     int i = 0;
-//     while (i < num_cmds)
-//     {
-//         int status;
-//         wait(&status);
-//         if (WIFEXITED(status))
-//             shell.last_exit = WEXITSTATUS(status);
-//         i++;
-//     }
-//     fprintf(stderr, "last exit: %d\n", shell.last_exit);
-// }

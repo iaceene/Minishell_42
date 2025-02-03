@@ -17,18 +17,26 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/builtin/builtin_echo.c \
 		./src/components/execution/builtin/builtin_env.c \
 		./src/components/execution/builtin/builtin_exit.c \
+		./src/components/execution/builtin/builtin_export_help.c \
 		./src/components/execution/builtin/builtin_export.c \
 		./src/components/execution/builtin/builtin_pwd.c \
 		./src/components/execution/builtin/builtin_unset.c \
 		./src/components/execution/builtin/builtin.c \
+		./src/components/execution/env/env_add.c \
+		./src/components/execution/env/env_clear.c \
 		./src/components/execution/env/env_create.c \
-		./src/components/execution/env/env_manage.c \
-		./src/components/execution/env/env_utils.c \
-		./src/components/execution/creat_child.c \
-		./src/components/execution/error_handling.c \
-		./src/components/execution/execution.c \
-		./src/components/execution/find_command_path.c \
-		./src/components/execution/pipex.c \
+		./src/components/execution/env/env_create_2d.c \
+		./src/components/execution/env/env_delete.c \
+		./src/components/execution/env/env_duplicate.c \
+		./src/components/execution/env/env_print.c \
+		./src/components/execution/env/env_search.c \
+		./src/components/execution/env/env_size.c \
+		./src/components/execution/env/env_update.c \
+		./src/components/execution/execute/creat_child.c \
+		./src/components/execution/execute/error_handling.c \
+		./src/components/execution/execute/execution.c \
+		./src/components/execution/execute/find_command_path.c \
+		./src/components/execution/execute/pipex.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/get_next_line.c \

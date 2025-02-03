@@ -10,30 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-void builtin_unset(char **args, char ***env)
+static int ft_is_valid_identifier1(char *str)
 {
-    if (!args[1])
-    {
-        write(2, "unset: missing argument\n", 24);
-        return;
-    }
-    int i = 0;
+    int i;
 
-    while ((*env)[i])
+    if (!str || !str[0])
+        return (0);
+    i = 0;
+    while (str[i])
     {
-        if (ft_strncmp((*env)[i], args[1], ft_strlen(args[1])) == 0 && (*env)[i][ft_strlen(args[1])] == '=')
-        {
-            free((*env)[i]);
-            int j = i;
-            while ((*env)[j])
-            {
-                (*env)[j] = (*env)[j + 1];
-                j++;
-            }
-            return;
-        }
+        if ('0' <= str[i] && str[i] <= '9' && i == 0)
+            return (0);
+        if (!(('0' <= str[i] && str[i] <= '9') || ('a' <= str[i] && str[i] <= 'z') || ('A' <= str[i] && str[i] <= 'Z') || str[i] == '_'))
+            return (0);
         i++;
     }
+    return (1);
+}
+
+void builtin_unset(t_env **env, char **cmd_2d, int *exit_status)
+{
+    int i;
+    int something_wrong;
+
+    i = 1;
+    something_wrong = 0;
+    while (cmd_2d[i])
+    {
+        if (!(ft_is_valid_identifier1(cmd_2d[i])))
+        {
+            ft_print_err("unset: `");
+            ft_print_err(cmd_2d[i]);
+            ft_print_err("': not a valid identifier\n");
+            something_wrong = 1;
+        }
+        else
+            ft_env_delete(env, cmd_2d[i]);
+        i++;
+    }
+    if (something_wrong)
+        *exit_status = 1;
+    else
+        *exit_status = 0;
 }

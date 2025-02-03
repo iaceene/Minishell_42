@@ -10,59 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-int is_empty(const char *str)
+int	ft_execute_builtins(char **cmd_2d, t_env **env, int *exit_status)
 {
-    if (!str || *str == '\0')
-        return 1;
-
-    while (*str)
-    {
-        if (!ft_isspace((unsigned char)*str))
-            return 0;
-        str++;
-    }
-    return 1;
-}
-void execute_builtin(t_shell *shell)
-{
-        ft_print_err("use\n");
-    
-    if (ft_strncmp(*shell->commands[0].args, "pwd", 3))
-    {
-        printf("hhh");
-    }
-
-    if (!shell || !shell->commands || !shell->commands[0].args || !shell->commands[0].args[0])
-        return;
-
-    char **args = shell->commands[0].args;
-    char ***env = &shell->env;
-    // char **args1 = shell->commands[1].args;
-    if (ft_strncmp(args[0], "echo", 4) == 0)
-        builtin_echo(args);
-    // else if (ft_strncmp(args[0], "cd", 2) == 0)
-        // builtin_cd(args, enlz);
-    else if (ft_strncmp(args[0], "pwd", 3) == 0)
-    {
-        ft_print_err("use\n");
-        builtin_pwd();
-    }
-    else if (ft_strncmp(args[0], "export", 6) == 0)
-        builtin_export(args, env);
-    else if (ft_strncmp(args[0], "unset", 5) == 0)
-        builtin_unset(args, env);
-    else if (ft_strncmp(args[0], "env", 3) == 0)
-        builtin_env(*env);
-    else if (ft_strncmp(args[0], "exit", 4) == 0)
-        builtin_exit(args);
-    else
-    {
-        write(2, "Command not found: ", 19);
-        write(2, args[0], ft_strlen(args[0]));
-        write(2, "\n", 1);
-    }
-    // if (ft_strncmp(args1[0], "pwd", 3) == 0)
-    //     builtin_pwd();
+	if (!cmd_2d || !(*cmd_2d))
+		return (*exit_status = 0, SUCCESS);
+	else if (!ft_strncmp("env", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_env(*env, cmd_2d, exit_status), SUCCESS);
+	else if (!ft_strncmp("exit", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_exit(cmd_2d, exit_status, env), SUCCESS);
+	else if (!ft_strncmp("echo", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_echo(cmd_2d), *exit_status = 0, SUCCESS);
+	else if (!ft_strncmp("cd", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_cd(cmd_2d, env, exit_status), SUCCESS);
+	else if (!ft_strncmp("export", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_export(env, cmd_2d, exit_status), SUCCESS);
+	else if (!ft_strncmp("pwd", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_pwd(), *exit_status = 0, SUCCESS);
+	else if (!ft_strncmp("unset", cmd_2d[0], ft_strlen(cmd_2d[0])))
+		return (builtin_unset(env, cmd_2d, exit_status), SUCCESS);
+	else
+		return (FAILED);
 }

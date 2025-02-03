@@ -10,55 +10,84 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-void builtin_export(char **args, char ***env)
+static void ft_swap(t_env *node1, t_env *node2)
 {
-    if (!args[1])
-    {
-        int i;
+    char *tmp_value;
+    char *tmp_key;
 
-        i = 0;
-        while ((*env)[i])
+    tmp_key = node1->key;
+    tmp_value = node1->value;
+    node1->key = node2->key;
+    node2->key = tmp_key;
+    node1->value = node2->value;
+    node2->value = tmp_value;
+}
+
+static void ft_print_sorted_env(t_env *env_dup)
+{
+    t_env *cur = env_dup;
+
+    while (cur)
+    {
+        if (ft_strncmp(cur->key, "_", 1))
         {
-            write(1, (*env)[i], ft_strlen((*env)[i]));
-            write(1, "\n", 1);
-            i++;
+            printf("declare -x %s", cur->key);
+            if (cur->value && cur->visible)
+                printf("=\"%s\"", cur->value);
+            printf("\n");
         }
+        cur = cur->next;
+    }
+}
+
+static void ft_env_sort(t_env **env_dup)
+{
+    t_env *left = *env_dup;
+    t_env *right;
+
+    while (left && left->next)
+    {
+        right = left->next;
+        while (right)
+        {
+            if (ft_strncmp(left->key, right->key, ft_strlen(right->key)) > 0)
+                ft_swap(left, right);
+            right = right->next;
+        }
+        left = left->next;
+    }
+}
+
+void ft_export_error(char *slice1, char *slice2, int equal, int append)
+{
+    ft_print_err("export: `");
+    ft_print_err(slice1);
+    if (equal)
+        ft_print_err("=");
+    else if (append == 1)
+        ft_print_err("+");
+    ft_print_err(slice2);
+    ft_print_err("': not a valid identifier\n");
+
+}
+
+void builtin_export(t_env **env, char **cmd_2d, int *exit_status)
+{
+    int i;
+    t_env *env_dup;
+
+    *exit_status = 0;
+    if (!(cmd_2d[1]))
+    {
+        env_dup = ft_env_duplicate(*env);
+        ft_env_sort(&env_dup);
+        ft_print_sorted_env(env_dup);
+        ft_env_clear(&env_dup);
         return;
     }
-
-    char *var = ft_strdup(args[1]);
-    char *equal_sign = ft_strchr(var, '=');
-    if (!equal_sign)
-    {
-        write(2, "export: invalid argument\n", 25);
-        free(var);
-        return;
-    }
-
-    *equal_sign = '\0';
-    char *key = var;
-    // char *value = equal_sign + 1;
-
-    int i = 0;
-    while ((*env)[i])
-    {
-        if (ft_strncmp((*env)[i], key, ft_strlen(key)) == 0 && (*env)[i][ft_strlen(key)] == '=')
-        {
-            free((*env)[i]);
-            (*env)[i] = ft_strdup(args[1]);
-            free(var);
-            return;
-        }
-        i++;
-    }
-
-    int count = 0;
-    while ((*env)[count])
-        count++;
-    *env = realloc(*env, sizeof(char *) * (count + 2));
-    (*env)[count] = ft_strdup(args[1]);
-    (*env)[count + 1] = NULL;
-    free(var);
+    i = 0;
+    while (cmd_2d[++i])
+        ft_export_help(cmd_2d[i], env, exit_status);
 }

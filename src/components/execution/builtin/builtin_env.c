@@ -10,19 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
 
-
-void builtin_env(char **env)
+void	builtin_env(t_env *env, char **cmd_2d, int *exit_status)
 {
-    int i;
-
-    i = 0;
-    while (env[i])
-    {
-        write(1, env[i], ft_strlen(env[i]));
-        write(1, "\n", 1);
-        i++;
-    }
+	if (cmd_2d[1])
+	{
+		ft_print_err("env: invalid argument\n");
+		*exit_status = 127;
+		return ;
+	}
+	ft_env_print(env);
+	*exit_status = 0;
 }

@@ -14,8 +14,9 @@
 #ifndef MINI_SHELL_H
 #define MINI_SHELL_H
 
-#include "../include/execution.h"
-#include "../include/parser.h"
+#include "execution.h"
+#include "parser.h"
+
 # include <sys/param.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -32,17 +33,63 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+# define REDIRECTION 1
+# define INPUT 2
+# define PIPE 3
+# define SINGL_AND 4
+# define AND 5
+# define OR 6
+# define SINGLE_QUAT 7
+# define DOUBLE_QUAT 8
+# define APPEND_REDIRECTION 9
+# define HERE_DOC 10
+# define CLOSE_PARENTH 11
+# define OPEN_PARENTH 12
+# define OPERAND 0
+# define OUTFILE -2
+# define INFILE -3
+# define LIMITER -4
+# define OUTFILE_APPAND -5
 
+# define L_TO_R 3
+# define R_TO_L 2
+
+enum e_peroirty
+{
+	open_par = 6 ,
+	close_par = 6,
+	and = 5,
+	or = 5,
+	pip = 3,
+	redir = 1,
+	appand = 1,
+	here_doc = 1,
+	input = 1
+};
 
 
 // *********************tree******************
 
 
+typedef struct s_tree
+{
+	char			*value;
+	int				prio;
+	int				read;
+	int				type;
+	struct s_tree	*right;
+	struct s_tree	*left;
+}	t_tree;
 
-
-
-
-
+/************************* env struct *************************/
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+	int				visible;
+	char			**a_ven;
+}	t_env;
 
 
 /************************* her_doc struct *************************/
@@ -54,6 +101,14 @@ typedef struct s_expand_herdoc
 	int		exit_status;
 	t_env	*env;
 }	t_expand_herdoc;
+
+
+
+
+
+
+
+
 
 
 // ********************prompt*************************

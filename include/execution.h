@@ -6,13 +6,14 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/02 20:44:42 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 14:12:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 #define EXECUTION_H
 
+# include "./minishell.h"
 
 # define SUCCESS 0
 # define FAILED 1
@@ -20,6 +21,11 @@
 # define SPACE ' '
 # define EQUAL '='
 
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
 
 
 
@@ -42,15 +48,15 @@ typedef struct s_redirect
 	int heredoc;
 } t_redirect;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
+// typedef struct s_env
+// {
+// 	char			*key;
+// 	char			*value;
+// 	struct s_env	*next;
 
-	char			*pwd;
-	char			**envp;
-}			t_env;
+// 	char			*pwd;
+// 	char			**envp;
+// }			t_env;
 
 typedef struct s_shell
 {
@@ -76,55 +82,101 @@ typedef struct s_gb
 {
 	void		*ptr;
 	struct s_gb	*next;
-}t_gb;
+}	t_gb;
 
+typedef struct s_tool
+{
+	int			prac;
+	int			quot;
+	int			err;
+	int			anderr;
+	t_env		*env;
+	t_gb	*grbg;
+}	t_tool;
 
+/************************* expand *************************/
+typedef struct s_expand
+{
+	t_list	*head;
+	int		quote;
+	int		noting_before_quote;
+	char	*buff_exp;
+	char	*buff_env;
+	int		i;
+	int		found_star;
+	int		found_another_char;
+}	t_expand;
 
 
 /*****************                       Execution                            ****************/
-void	execution(t_shell *shell);
-//*******************buildin****************************
-int		builtin_cd(char **cmd_2d, t_env **env, int *exit_status);
-void	builtin_echo(char **args);
-void	builtin_env(char **env);
-void	builtin_exit(char **args);
-void	builtin_export(char **args, char ***env);
-char	*ft_get_cwd(char *tojoin, int i);
-void	builtin_pwd(void);
-void	builtin_unset(char **args, char ***env);
-void	execute_builtin(t_shell *shell);
-//**********************creat_env******************************
-t_env	*ft_env_create(char **envp);
-
-/* env_utils.c */
-int		count_env_list(t_env *env_list);
-char	*ft_env_search(t_env *env, const char *key);
-char	**convert_env_to_array(t_env *env_list);
-
-/* env_manage.c */
-void	ft_env_delete(t_env **env, char *key);
-void	ft_env_add(t_env **env, char *key, char *value, int overwrite);
-int		ft_env_update(t_env **env, char *key, char *value, int overwrite);
-//****************************creat_child**********************
+void	execution(t_tree *root, t_env **env, int *exit_status);
+//*******************execute****************************
+void	execution_cmd(char *cmd, t_env **env, int *exit_status);
+//creat_child
 void	child2(t_shell *data, int **wr_pipe);
 void	child1(t_shell *data, int **wr_pipe);
 void	child_intermediate(t_shell *data, int **pipes);
-//**********************error_handling***********************
+//error_handling
 void	ft_free_string(char **str);
 void	error_and_exit(const char *str, int exite);
 void	close_fd(t_redirect *data);
 void	cleanup_shell(t_shell *shell);
-//***********************pipex****************************
+//pipex
 // void		redirect_fd(int from_fd, int to_fd, const char *str);
 void	close_all_pipe(int **pipes, int num_cmd);
 void	free_all_pipe(int **pipes, int i);
 void	ft_pipex(t_shell *shell);
-//****************************find_command_path***************************
+//find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);
+void	execution_cmd(char *cmd, t_env **env, int *exit_status);
+//*******************buildin****************************
+typedef struct s_export
+{
+	char	*slice1;
+	char	*slice2;
+	char	*value;
+	int		right;
+	int		equal;
+	int		append;
+}	t_export;
+int		builtin_cd(char **cmd_2d, t_env **env, int *exit_status);
+void	builtin_echo(char **args);
+void	builtin_env(t_env *env, char **cmd_2d, int *exit_status);
+void	builtin_exit(char **cmd_2d, int *exit_status, t_env **env);
+void	ft_export_help(char *cmd, t_env **env, int *exit_status);
+void	ft_export_error(char *slice1, char *slice2, int equal, int append);
+void 	builtin_export(t_env **env, char **cmd_2d, int *exit_status);
+char	*ft_get_cwd(char *tojoin, int i);
+void	builtin_pwd(void);
+void 	builtin_unset(t_env **env, char **cmd_2d, int *exit_status);
+int		ft_execute_builtins(char **cmd_2d, t_env **env, int *exit_status);
+/************************* env *************************/
+int		ft_env_add(t_env **env, char *key, char *value, int visible);
+void	ft_env_clear(t_env **env);
+char	**ft_env_create_2d(t_env *env);
+t_env	*ft_env_create(char **ev);
+void	ft_env_delete(t_env **env, char *key);
+t_env	*ft_env_duplicate(t_env *env);
+void	ft_env_print(t_env *env);
+char	*ft_env_search(t_env *env, char *key);
+int		ft_env_size(t_env *env);
+int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
 
 
 
+
+char	**ft_expand(char *cmd, t_env *env, int exit_status);
+// expand tools
+void	ft_expand_dollar(t_expand *exp, t_env *env, char *cmd, int exit_status);
+void	ft_expand_cut(t_expand *exp);
+char	*ft_char_to_str(char c);
+char	**ft_lst_to_2d_char(t_list **head);
+void	ft_list_cwd(t_list **head);
+void	ft_exp_init(t_expand *exp);
+int		ft_is_match(char *s, char *p);
+int		ft_get_matching(t_list **head, char *pattern);
+int		ft_only_star(char *cmd);
 
 
 #endif

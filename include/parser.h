@@ -6,15 +6,14 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/02 19:50:47 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 14:32:39 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "../include/minishell.h"
-
+#include "minishell.h"
 
 /*****************Parser****************/
 int		parser(t_data *data);
