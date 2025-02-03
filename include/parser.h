@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:58:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:51:34 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:47:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef enum {
 	DOLLAR,     // $
 	OPEN_PAR,  // (
 	CLOSE_PAR, // )
-	TOKEN_EOF         // End of input
 } TokenType;
 
 typedef struct s_node{
