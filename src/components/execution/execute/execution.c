@@ -31,8 +31,12 @@
 
 void	execution(t_tree *root, t_env **env, int *exit_status)
 {
+	printf("---%s\n", root->value);
 	if (!root)
+	{
+		printf("Root is NULL\n");
 		return ;
+	}
 	// else if (root->type == PIPE)
 	// 	ft_execute_pipe(root, env, exit_status);
 	// else if (root->type == REDIRECTION || root->type == APPEND_REDIRECTION)
@@ -44,5 +48,8 @@ void	execution(t_tree *root, t_env **env, int *exit_status)
 	// else if (root->type == OR)
 	// 	ft_execute_or(root, env, exit_status);
 	// else
-	execution_cmd(root->value, env, exit_status);
+	if (ft_strncmp(root->value, "pwd", 3) == 0)
+		execution_cmd(root->value, env, exit_status);
+	else
+		printf("Command not found\n");
 }

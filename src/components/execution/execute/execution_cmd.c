@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 15:05:13 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/03 19:03:09 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static int retrieve_exit_status(int status)
 
 void execution_cmd(char *cmd, t_env **env, int *exit_status)
 {
+    printf("++|++%s\n", cmd);
     char **cmd_argv;
+    // char **cmd_argv = ft_split(cmd, ' ');
     pid_t pid;
     struct termios state;
     if (!(cmd_argv = ft_expand(cmd, *env, *exit_status)))
@@ -48,8 +50,16 @@ void execution_cmd(char *cmd, t_env **env, int *exit_status)
         ft_print_err("ft_expand failed\n");
         return;
     }
+    if (!cmd_argv || !(*cmd_argv))
+    {
+        ft_print_err("cmd_argv is NULL\n");
+        return;
+    }
+    printf("++|++cmd_argv[%s]\n", cmd_argv[0]);
+    ft_execute_builtins(cmd_argv, env, exit_status);
     if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)
         return;
+    printf("good\n");
     signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
     tcgetattr(STDOUT_FILENO, &state);

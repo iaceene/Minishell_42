@@ -20,7 +20,7 @@ void    clear_terminal(void)
 }
 
 
-static void	ft_init(t_tool *tool, int ac, char **av, char **env)
+static void	ft_init(t_tool *tool, t_tree *trrep, int ac, char **av, char **env)
 {
 	(void)(ac);
 	(void)(av);
@@ -28,21 +28,29 @@ static void	ft_init(t_tool *tool, int ac, char **av, char **env)
 	tool->env = ft_env_create(env);
 	tool->env->a_ven = ft_env_create_2d(tool->env);
 	tool->err = 0;
+
+	trrep->value = "pwd";
+	trrep->prio = 0;
+	trrep->read = 0;
+	trrep->type = 0;
+	trrep->right = NULL;
+	trrep->left = NULL;	
+		// execution_cmd("pwd", &tool->env, &tool->err);
+
 }
 
 
 int main(int ac, char **av, char **env)
 {
     t_data data;
-    t_tree *tree;
+    t_tree tree;
     t_tool tool;
 	int err;
 
-    tree = NULL;
     clear_terminal();
     signal(SIGINT, ft_sighandler);
     signal(SIGQUIT, ft_sighandler);
-    ft_init(&tool, ac, av, env);
+    ft_init(&tool, &tree, ac, av, env);
 	if (!isatty(0))
 		return (printf("tty required!\n"), 1);
 
@@ -50,13 +58,13 @@ int main(int ac, char **av, char **env)
     {
         data.prompt = prompt(tool.env->a_ven);
 		err = parser(&data);
-		if (err == 0)
-        execution(tree, &tool.env, &tool.err);
-		else
-		{
-			ft_print_err("Parsing error\n");
-			ft_puterr(err);
-		}
+		// if (err == 0)
+       	execution(&tree, &tool.env, &tool.err);
+		// else
+		// {
+		// 	ft_print_err("Parsing error\n");
+		// 	ft_puterr(err);
+		// }
 	}
     return (0);
 }

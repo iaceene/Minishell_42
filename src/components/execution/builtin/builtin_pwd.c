@@ -29,6 +29,7 @@ char	*ft_get_cwd(char *tojoin, int i)
 
 void	builtin_pwd(void)
 {
+	printf("builtin_pwd\n");
 	char	*cwd;
 
 	cwd = ft_get_cwd(NULL, 0);
