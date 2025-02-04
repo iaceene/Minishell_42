@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 11:58:31 by behave_shel       #+#    #+#             */
-/*   Updated: 2025/02/02 19:41:48 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/04 20:33:27 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void expand_dollar(char *input, t_expand_herdoc *exp)
 {
 	char *env_value;
 
-	exp->buffer_env = ft_char_to_str(input[(exp->i)++]);
+	exp->buffer_env = char_to_string(input[(exp->i)++]);
 	while (input[exp->i] && is_valid_identifier_char(input[exp->i]))
 	{
 		if (is_numeric_char(input[exp->i]) && input[exp->i - 1] == '$')
@@ -35,7 +35,7 @@ static void expand_dollar(char *input, t_expand_herdoc *exp)
 			exp->buffer_env = NULL;
 			return;
 		}
-		exp->buffer_env = ft_strjoin2(exp->buffer_env, ft_char_to_str(input[(exp->i)++]));
+		exp->buffer_env = ft_strjoin2(exp->buffer_env, char_to_string(input[(exp->i)++]));
 	}
 	if (!exp->buffer_env)
 		return;
@@ -57,7 +57,7 @@ char *expand_heredoc_input(char *input, t_env *env, int exit_code)
 		if (input[exp.i] == '$')
 			expand_dollar(input, &exp);
 		else
-			exp.buffer_exp = ft_strjoin2(exp.buffer_exp, ft_char_to_str(input[exp.i]));
+			exp.buffer_exp = ft_strjoin2(exp.buffer_exp, char_to_string(input[exp.i]));
 		(exp.i)++;
 	}
 	return (exp.buffer_exp);

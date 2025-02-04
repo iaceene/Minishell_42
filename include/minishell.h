@@ -69,14 +69,13 @@ enum e_peroirty
 // *********************tree******************
 
 
+
 typedef struct s_tree
 {
 	char			*value;
-	int				prio;
-	int				read;
 	int				type;
-	struct s_tree	*right;
-	struct s_tree	*left;
+	char			**args;
+	struct s_tree	*next;
 }	t_tree;
 
 /************************* env struct *************************/
@@ -145,7 +144,7 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strchr(char *s, char c);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strdup(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char  *s1, char  *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);

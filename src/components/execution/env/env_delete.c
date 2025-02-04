@@ -14,7 +14,6 @@ void	ft_env_delete(t_env **env, char *key)
 	{
 		(*env) = prev->next;
 		return ;
-		// return (free(prev->key), free(prev->value), free(prev));
 	}
 	cur = prev->next;
 	while (cur)
@@ -22,7 +21,6 @@ void	ft_env_delete(t_env **env, char *key)
 		if (!ft_strncmp(key, cur->key, ft_strlen(cur->key)))
 		{
 			prev->next = cur->next;
-			// return (free(cur->key), free(cur->value), free(cur));
 			return ;
 		}
 		cur = cur->next;

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 15:54:31 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/04 20:39:12 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,31 @@ typedef struct s_tool
 	t_gb	*grbg;
 }	t_tool;
 
-/************************* expand *************************/
-typedef struct s_expand
+
+/************************* expander *************************/
+typedef struct s_expander
 {
 	t_list	*head;
-	int		quote;
-	int		noting_before_quote;
-	char	*buff_exp;
+	int		current_quote;
+	int		is_isolated_quote;
+	char	*buffer;
 	char	*buff_env;
 	int		i;
-	int		found_star;
-	int		found_another_char;
-}	t_expand;
+	int		contains_wildcard;
+	int		has_non_whitespace;
+}	t_expander;
+
+char **expand_input(char *input, t_env *env, int exit_status);
+// expand tools
+void	expand_dollar_variable(t_expander *exp, t_env *env, char *cmd, int exit_status);
+void	process_buffer(t_expander *exp);
+char	*char_to_string(char c);
+char	**convert_list_to_array(t_list **head);
+void	ft_list_cwd(t_list **head);
+void	initialize_expander(t_expander *exp);
+int		ft_is_match(char *s, char *p);
+int		get_matching_files(t_list **head, char *pattern);
+int		only_wildcards(char *cmd);
 
 
 /*****************                       Execution                            ****************/

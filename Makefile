@@ -38,6 +38,10 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/execute/execution.c \
 		./src/components/execution/execute/find_command_path.c \
 		./src/components/execution/execute/pipex.c \
+		./src/components/execution/expanding/expand.c \
+		./src/components/execution/expanding/expand_dollar.c \
+		./src/components/execution/expanding/expand_tools.c \
+		./src/components/execution/expanding/wildcard.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/get_next_line.c \
