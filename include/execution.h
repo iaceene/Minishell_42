@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 18:40:59 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/04 08:43:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,17 +165,17 @@ int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
 
 
 
-char	**ft_expand(char *cmd, t_env *env, int exit_status);
-// expand tools
-void	ft_expand_dollar(t_expand *exp, t_env *env, char *cmd, int exit_status);
-void	ft_expand_cut(t_expand *exp);
-char	*ft_char_to_str(char c);
-char	**ft_lst_to_2d_char(t_list **head);
-void	ft_list_cwd(t_list **head);
-void	ft_exp_init(t_expand *exp);
-int		ft_is_match(char *s, char *p);
-int		ft_get_matching(t_list **head, char *pattern);
-int		ft_only_star(char *cmd);
+// char	**ft_expand(char *cmd, t_env *env, int exit_status);
+// // expand tools
+// void	ft_expand_dollar(t_expand *exp, t_env *env, char *cmd, int exit_status);
+// void	ft_expand_cut(t_expand *exp);
+// char	*ft_char_to_str(char c);
+// char	**ft_lst_to_2d_char(t_list **head);
+// void	ft_list_cwd(t_list **head);
+// void	ft_exp_init(t_expand *exp);
+// int		ft_is_match(char *s, char *p);
+// int		ft_get_matching(t_list **head, char *pattern);
+// int		ft_only_star(char *cmd);
 /*****************Parser****************/
 int		parser(t_data *data);
 

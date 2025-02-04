@@ -48,7 +48,7 @@ void	execution(t_tree *root, t_env **env, int *exit_status)
 	// else if (root->type == OR)
 	// 	ft_execute_or(root, env, exit_status);
 	// else
-	if (ft_strncmp(root->value, "echo $PWD", 3) == 0)
+	if (ft_strncmp(root->value, "env", 3) == 0)
 		execution_cmd(root->value, env, exit_status);
 	else
 		printf("Command not found\n");
