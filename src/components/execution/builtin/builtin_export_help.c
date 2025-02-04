@@ -6,110 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 13:28:22 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:26:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
-
-// static int ft_is_valid_identifier(char *str)
-// {
-//     int i;
-
-//     if (!str || !str[0])
-//         return (-1);
-
-//     if ('0' <= str[0] && str[0] <= '9')
-//         return (-1);
-//     i = 0;
-//     while (str[i])
-//     {
-//         if (!(('0' <= str[i] && str[i] <= '9') || 
-//               ('a' <= str[i] && str[i] <= 'z') || 
-//               ('A' <= str[i] && str[i] <= 'Z') || 
-//               str[i] == '_'))
-//             return (-1);
-//         i++;
-//     }
-
-//     return 0;
-// }
-
-// static char *ft_get_slice(char *str, int *right, char stop)
-// {
-//     char *slice;
-//     int left = *right;
-//     int i = 0;
-
-//     if (!str)
-//         return (NULL);
-
-//     while (str[*right] && str[*right] != stop)
-//         (*right)++;
-
-//     slice = (char *)malloc(sizeof(char) * (*right - left + 1)); // +1 for '\0'
-//     if (!slice)
-//         return (NULL);
-
-//     while (left < *right)
-//         slice[i++] = str[left++];
-    
-//     slice[i] = '\0';
-//     return (slice);
-// }
-
-// static char *ft_remove_plus_from_slice1(char *old_slice1)
-// {
-//     char *new_slice1 = ft_substr(old_slice1, 0, ft_strlen(old_slice1) - 1);
-//     free(old_slice1);
-//     return (new_slice1);
-// }
-
-// static void ft_export_init(t_export *expt, char *str)
-// {
-//     expt->right = 0;
-//     expt->slice1 = ft_get_slice(str, &expt->right, '=');
-//     expt->equal = (str[expt->right] == '=');
-//     expt->right += expt->equal; // Move past '=' if exists
-//     expt->append = ft_is_valid_identifier(expt->slice1);
-//     expt->slice2 = ft_get_slice(str, &expt->right, '\0');
-//     expt->value = NULL;
-// }
-
-// void ft_export_help(char *str, t_env **env, int *exit_status)
-// {
-//     t_export expt;
-
-//     ft_export_init(&expt, str);
-
-//     if (expt.append == -1)
-//         return (*exit_status = 1, ft_export_error(expt.slice1, expt.slice2, expt.equal, expt.append));
-
-//     if (expt.append)
-//         expt.slice1 = ft_remove_plus_from_slice1(expt.slice1);
-
-//     if (expt.append && !expt.equal)
-//         return (*exit_status = 1, ft_export_error(expt.slice1, expt.slice2, expt.equal, expt.append));
-
-//     if (expt.slice1 && !ft_strncmp(expt.slice1, "_", 1))
-//         return (free(expt.slice1), free(expt.slice2));
-
-//     expt.value = ft_env_search(*env, expt.slice1);
-
-//     if (!expt.equal && expt.value)
-//         return (free(expt.value), free(expt.slice1), free(expt.slice2));
-
-//     free(expt.value);
-
-//     if (ft_env_update(env, expt.slice1, expt.slice2, expt.append))
-//     {
-//         if (expt.slice2 && expt.equal)
-//             ft_env_add(env, expt.slice1, expt.slice2, 1);
-//         else
-//             ft_env_add(env, expt.slice1, expt.slice2, 0);
-//     }
-// }
-
 
 static int	ft_is_valid_identifier(char *str)
 {
@@ -138,7 +39,7 @@ static int	ft_is_valid_identifier(char *str)
 	return (0);
 }
 
-static char	*ft_get_slice(char *str, int *right, char stop)
+static char	*ft_get_slice(char *str, int *pos, char stop)
 {
 	char	*slice;
 	int		left;
@@ -146,35 +47,35 @@ static char	*ft_get_slice(char *str, int *right, char stop)
 
 	if (!str)
 		return (NULL);
-	left = *right;
-	while (str[*right] && str[*right] != stop)
-		(*right)++;
-	slice = (char *)malloc(sizeof(char) * (*right - left) + 1);
+	left = *pos;
+	while (str[*pos] && str[*pos] != stop)
+		(*pos)++;
+	slice = (char *)malloc(sizeof(char) * (*pos - left) + 1);
 	i = 0;
-	while (left < *right)
+	while (left < *pos)
 		slice[i++] = str[left++];
 	slice[i] = '\0';
 	return (slice);
 }
 
-static char	*ft_remove_plus_from_slice1(char *old_slice1)
+static char	*ft_remove_plus_from_key_part(char *old_key_part)
 {
-	char	*new_slice1;
+	char	*new_key_part;
 
-	new_slice1 = ft_substr(old_slice1, 0, ft_strlen(old_slice1) - 1);
-	free(old_slice1);
-	return (new_slice1);
+	new_key_part = ft_substr(old_key_part, 0, ft_strlen(old_key_part) - 1);
+	free(old_key_part);
+	return (new_key_part);
 }
 
 static void	ft_export_init(t_export *expt, char *str)
 {
-	expt->right = 0;
-	expt->slice1 = ft_get_slice(str, &expt->right, '=');
-	expt->equal = 1 * (str[expt->right] == '=');
-	expt->right += 1 * (str[expt->right] == '=');
-	expt->append = ft_is_valid_identifier(expt->slice1);
-	expt->slice2 = ft_get_slice(str, &expt->right, '\0');
-	expt->value = NULL;
+	expt->pos = 0;
+	expt->key_part = ft_get_slice(str, &expt->pos, '=');
+	expt->has_equal = 1 * (str[expt->pos] == '=');
+	expt->pos += 1 * (str[expt->pos] == '=');
+	expt->is_append = ft_is_valid_identifier(expt->key_part);
+	expt->value_part = ft_get_slice(str, &expt->pos, '\0');
+	expt->existing_value = NULL;
 }
 
 void	ft_export_help(char *str, t_env **env, int *exit_status)
@@ -182,25 +83,25 @@ void	ft_export_help(char *str, t_env **env, int *exit_status)
 	t_export	expt;
 
 	ft_export_init(&expt, str);
-	if (expt.append == -1)
+	if (expt.is_append == -1)
 		return (*exit_status = 1, \
-		ft_export_error(expt.slice1, expt.slice2, expt.equal, expt.append));
-	if (expt.append)
-		expt.slice1 = ft_remove_plus_from_slice1(expt.slice1);
-	if (expt.append && !expt.equal)
+		ft_export_error(expt.key_part, expt.value_part, expt.has_equal, expt.is_append));
+	if (expt.is_append)
+		expt.key_part = ft_remove_plus_from_key_part(expt.key_part);
+	if (expt.is_append && !expt.has_equal)
 		return (*exit_status = 1, \
-		ft_export_error(expt.slice1, expt.slice2, expt.equal, expt.append));
-	if (expt.slice1 && !ft_strncmp(expt.slice1, "_", 1))
-		return (free(expt.slice1), free(expt.slice2));
-	expt.value = ft_env_search(*env, expt.slice1);
-	if (!expt.equal && expt.value)
-		return (free(expt.value), free(expt.slice1), free(expt.slice2));
-	free(expt.value);
-	if (ft_env_update(env, expt.slice1, expt.slice2, expt.append))
+		ft_export_error(expt.key_part, expt.value_part, expt.has_equal, expt.is_append));
+	if (expt.key_part && !ft_strncmp(expt.key_part, "_", 1))
+		return (free(expt.key_part), free(expt.value_part));
+	expt.existing_value = ft_env_search(*env, expt.key_part);
+	if (!expt.has_equal && expt.existing_value)
+		return (free(expt.existing_value), free(expt.key_part), free(expt.value_part));
+	free(expt.existing_value);
+	if (ft_env_update(env, expt.key_part, expt.value_part, expt.is_append))
 	{
-		if (expt.slice2 && expt.equal)
-			ft_env_add(env, expt.slice1, expt.slice2, 1);
+		if (expt.value_part && expt.has_equal)
+			ft_env_add(env, expt.key_part, expt.value_part, 1);
 		else
-			ft_env_add(env, expt.slice1, expt.slice2, 0);
+			ft_env_add(env, expt.key_part, expt.value_part, 0);
 	}
 }

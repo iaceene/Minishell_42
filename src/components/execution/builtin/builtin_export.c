@@ -11,18 +11,20 @@
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
-void	ft_export_error(char *slice1, char *slice2, int equal, int append)
+
+void ft_export_error(char *slice1, char *slice2, int equal, int append)
 {
-	ft_print_err("export: `");
-	ft_print_err(slice1);
-	if (equal)
-		ft_print_err("=");
-	else if (append == 1)
-		ft_print_err("+");
-	ft_print_err(slice2);
-	ft_print_err("': not a valid identifier\n");
+    ft_print_err("export: `");
+    ft_print_err(slice1);
+    if (equal)
+        ft_print_err("=");
+    else if (append == 1)
+        ft_print_err("+");
+    ft_print_err(slice2);
+    ft_print_err("': not a valid identifier\n");
 }
-static t_env *sorted_merge(t_env *a, t_env *b) {
+static t_env *sorted_merge(t_env *a, t_env *b)
+{
     t_env *result = NULL;
 
     if (!a)
@@ -30,25 +32,31 @@ static t_env *sorted_merge(t_env *a, t_env *b) {
     if (!b)
         return a;
 
-    if (strcmp(a->key, b->key) <= 0) {
+    if (strcmp(a->key, b->key) <= 0)
+    {
         result = a;
         result->next = sorted_merge(a->next, b);
-    } else {
+    }
+    else
+    {
         result = b;
         result->next = sorted_merge(a, b->next);
     }
     return result;
 }
 
-static void front_back_split(t_env *source, t_env **front_ref, t_env **back_ref) {
+static void front_back_split(t_env *source, t_env **front_ref, t_env **back_ref)
+{
     t_env *fast;
     t_env *slow;
     slow = source;
     fast = source->next;
 
-    while (fast) {
+    while (fast)
+    {
         fast = fast->next;
-        if (fast) {
+        if (fast)
+        {
             slow = slow->next;
             fast = fast->next;
         }
@@ -59,7 +67,8 @@ static void front_back_split(t_env *source, t_env **front_ref, t_env **back_ref)
     slow->next = NULL;
 }
 
-void ft_env_sort(t_env **head_ref) {
+void ft_env_sort(t_env **head_ref)
+{
     t_env *head = *head_ref;
     t_env *a;
     t_env *b;
@@ -75,10 +84,13 @@ void ft_env_sort(t_env **head_ref) {
     *head_ref = sorted_merge(a, b);
 }
 
-static void ft_print_sorted_env(t_env *env) {
+static void ft_print_sorted_env(t_env *env)
+{
     t_env *cur = env;
-    while (cur) {
-        if (strcmp(cur->key, "_") != 0) {
+    while (cur)
+    {
+        if (strcmp(cur->key, "_") != 0)
+        {
             printf("declare -x %s", cur->key);
             if (cur->value && cur->visible)
                 printf("=\"%s\"", cur->value);
@@ -88,12 +100,14 @@ static void ft_print_sorted_env(t_env *env) {
     }
 }
 
-void builtin_export(t_env **env, char **cmd_2d, int *exit_status) {
+void builtin_export(t_env **env, char **cmd_2d, int *exit_status)
+{
     int i;
     t_env *env_dup;
 
     *exit_status = 0;
-    if (!cmd_2d[1]) {
+    if (!cmd_2d[1])
+    {
         env_dup = ft_env_duplicate(*env);
         ft_env_sort(&env_dup);
         ft_print_sorted_env(env_dup);

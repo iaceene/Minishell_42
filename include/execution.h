@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 13:28:34 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:28:15 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,24 +130,16 @@ char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);
 void	execution_cmd(char *cmd, t_env **env, int *exit_status);
 //*******************buildin****************************
+
 typedef struct s_export
 {
-	char	*slice1;
-	char	*slice2;
-	char	*value;
-	int		right;
-	int		equal;
-	int		append;
+    int     pos;
+    char    *key_part;
+    char    *value_part;
+    int     has_equal;
+    int     is_append;
+    char    *existing_value;
 }	t_export;
-// typedef struct s_export
-// {
-//     int     pos;
-//     char    *key_part;
-//     char    *value_part;
-//     int     has_equal;
-//     int     is_append;
-//     char    *existing_value;
-// }	t_export;
 int		builtin_cd(char **cmd_2d, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
 void	builtin_env(t_env *env, char **cmd_2d, int *exit_status);
@@ -173,18 +165,6 @@ int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
 
 
 
-
-// char	**ft_expand(char *cmd, t_env *env, int exit_status);
-// // expand tools
-// void	ft_expand_dollar(t_expand *exp, t_env *env, char *cmd, int exit_status);
-// void	ft_expand_cut(t_expand *exp);
-// char	*ft_char_to_str(char c);
-// char	**ft_lst_to_2d_char(t_list **head);
-// void	ft_list_cwd(t_list **head);
-// void	ft_exp_init(t_expand *exp);
-// int		ft_is_match(char *s, char *p);
-// int		ft_get_matching(t_list **head, char *pattern);
-// int		ft_only_star(char *cmd);
 /*****************Parser****************/
 int		parser(t_data *data);
 

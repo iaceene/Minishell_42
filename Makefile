@@ -107,9 +107,3 @@ print_header:
 	@echo "\033[0m"
 
 .PHONY: all clean fclean re
-
-
-		# ./src/components/execution/expand/expand.c \
-		# ./src/components/execution/expand/expand_dollar.c \
-		# ./src/components/execution/expand/expand_tools.c \
-		# ./src/components/execution/expand/wildcard.c \
