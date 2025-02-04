@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 05:52:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/03 23:09:46 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_node	*add_new_node(TokenType type, char *val)
 
 	ret = ft_malloc(sizeof(t_node));
 	ret->flaged = 0;
+	ret->visit = 0;
 	ret->type = type;
 	ret->value = ft_strdup(val);
 	ret->next = NULL;

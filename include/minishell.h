@@ -83,8 +83,24 @@ typedef struct s_gb
 }t_gb;
 
 
+// this is the main struct
 
 
+typedef enum
+{
+	N_CMD,
+	N_OR,
+	N_AND,
+	N_PIP,
+} node_type;
+
+typedef struct s_ast_node
+{
+	node_type	type;
+	char		*val;
+	struct s_ast_node *left;
+	struct s_ast_node *right;
+}t_ast_node;
 
 
 

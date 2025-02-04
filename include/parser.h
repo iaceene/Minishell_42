@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:58:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 19:47:04 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:11:47 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,19 @@ typedef struct s_node{
 	TokenType			type;   // Type of token
 	char				*value;
 	int					flaged;
+	int					visit;
 	struct  s_node		*next;
 } t_node;
 
+
+// struct 
 typedef struct s_cmd
 {
-	TokenType	type;
-	char		*value;
-	struct s_cmd *left;
-	struct s_cmd *right;
-}t_cmd;
-
+	TokenType		type;
+	char			*value;
+	char 			**args;
+	struct s_cmd	*next;
+}	t_cmd;
 
 t_node	*lexer_init(const char *str);
 int		syntax_checker(t_node *data);

@@ -12,14 +12,21 @@
 
 #include "../../../include/parser.h"
 
+// int parser_init(t_data *data, t_node *tock_data)
+// {
+// 	(void)data;
+// }
+
+
 int parser(t_data *data)
 {
-    t_node *tock_data;
+	t_node *tock_data;
 
-    tock_data = lexer_init(data->prompt);
-    if (syntax_checker(tock_data) == -1)
-        printf ("Syntax error\n");
-    else
-        printf ("systax valid\n");
-    return (11);
+	tock_data = lexer_init(data->prompt);
+	if (syntax_checker(tock_data) == -1)
+		printf ("Syntax error\n");
+	else
+		printf("Valid syntax\n");
+		// parser_init(data, tock_data);
+	return (11);
 }
