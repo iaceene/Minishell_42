@@ -86,7 +86,6 @@ void	execute_cmd(char **cmd, char **env)
 {
 	char	**args;
 	char	*full_path;
-    fprintf(stderr, "cmd: %s\n", cmd[0]);
 
 	args = cmd;
 	full_path = find_command_path(args[0], env);
@@ -101,13 +100,6 @@ void	execute_cmd(char **cmd, char **env)
 	}
 	free(args[0]);
 	args[0] = full_path;
-	int i = 0;
-	while (args[i])
-	{
-		fprintf(stderr, "execute_commande args[%d]: %s\n", i, args[i]);
-		i++;
-	}
-	fprintf(stderr, "full_path: %s\n\n", full_path);
 	execve(full_path, args, env);
 	ft_free_string(args);
 	free(args);

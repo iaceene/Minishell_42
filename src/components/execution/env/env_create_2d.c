@@ -1,24 +1,36 @@
- 
+
 #include "../../../../include/execution.h"
 
-char	**ft_env_create_2d(t_env *env)
+char **ft_env_create_2d(t_env *env)
 {
-	char	**env_2d;
-	int		r;
+	int count;
+	int i;
+	t_env *temp;
 
-	env_2d = ft_malloc(sizeof(char *) * (ft_env_size(env) + 1));
-	if (!env_2d)
+	count = 0;
+	temp = env;
+	while (temp)
 	{
-		ft_print_err("malloc failed\n");
-		return (NULL);
+		count++;
+		temp = temp->next;
 	}
-	r = 0;
-	while (env)
+	char **envp = ft_malloc((count + 1) * sizeof(char *));
+	temp = env;
+	i = 0;
+	while (i < count)
 	{
-		env_2d[r++] = ft_strjoin(ft_strdup(env->key),
-				ft_strjoin(ft_strdup("="), ft_strdup(env->value)));
-		env = env->next;
+		int key_len = ft_strlen(temp->key);
+		int value_len = ft_strlen(temp->value);
+		int len = key_len + value_len + 2;
+
+		envp[i] = ft_malloc(len * sizeof(char));
+		ft_memcpy(envp[i], temp->key, key_len);
+		envp[i][key_len] = '=';
+		ft_memcpy(envp[i] + key_len + 1, temp->value, value_len);
+		envp[i][len - 1] = '\0';
+		temp = temp->next;
+		i++;
 	}
-	env_2d[r] = NULL;
-	return (env_2d);
+	envp[count] = NULL;
+	return envp;
 }

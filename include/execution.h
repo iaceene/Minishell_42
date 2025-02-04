@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 08:43:51 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/04 13:28:34 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,15 @@ typedef struct s_export
 	int		equal;
 	int		append;
 }	t_export;
+// typedef struct s_export
+// {
+//     int     pos;
+//     char    *key_part;
+//     char    *value_part;
+//     int     has_equal;
+//     int     is_append;
+//     char    *existing_value;
+// }	t_export;
 int		builtin_cd(char **cmd_2d, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
 void	builtin_env(t_env *env, char **cmd_2d, int *exit_status);
