@@ -13,7 +13,7 @@
 #include "../../../../include/execution.h"
 void	ft_export_error(char *slice1, char *slice2, int equal, int append)
 {
-	ft_print_err("🍪: export: `");
+	ft_print_err("export: `");
 	ft_print_err(slice1);
 	if (equal)
 		ft_print_err("=");
