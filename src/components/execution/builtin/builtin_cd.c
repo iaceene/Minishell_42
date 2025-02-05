@@ -50,7 +50,7 @@ static int change_to_path(t_env **env, char *target_path)
         free(error_msg);
         exit_status = 1;
     }
-    free(prev_wd);
+    // free(prev_wd);
     return (exit_status);
 }
 

@@ -75,9 +75,9 @@ void expand_dollar_variable(t_expander *arg, t_env *env, char *input, int exit_s
 	}
 	if (!arg->buff_env)
 		return;
-	printf("buff_env: %s\n", arg->buff_env);
+	// printf("buff_env: %s\n", arg->buff_env);
 	env_value = ft_env_search(env, arg->buff_env + 1);
-	printf("env_value: %s\n", env_value);
+	// printf("env_value: %s\n", env_value);
 	if (!env_value && arg->current_quote)
 		arg->buffer = ft_strjoin(arg->buffer, ft_strdup(""));
 	else if (env_value && arg->current_quote == 0)

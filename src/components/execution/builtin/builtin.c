@@ -31,8 +31,5 @@ int	ft_execute_builtins(char **arg, t_env **env, int *exit_status)
 	else if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
 		return (builtin_unset(env, arg, exit_status), SUCCESS);
 	else
-	{
-		printf("minishell: %s: command not found\n", arg[0]);
 		return (FAILED);
-	}
 }

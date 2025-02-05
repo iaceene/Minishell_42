@@ -47,10 +47,10 @@ char **expand_input(char *input, t_env *env, int exit_status)
 		else if (input[exp.i] == '"' || input[exp.i] == '\'')
 			handle_quotes(&exp, input);
 		else if (input[exp.i] == '$' && exp.current_quote != '\'')
-		{
+		// {
 			expand_dollar_variable(&exp, env, input, exit_status);
-			printf("buffer: %s\n", exp.buffer);
-		}
+			// printf("buffer: %s\n", exp.buffer);
+		// }
 		else
 			handle_other_chars(&exp, input[exp.i]);
 		if (!input[exp.i])
