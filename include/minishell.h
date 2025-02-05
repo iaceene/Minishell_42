@@ -110,7 +110,6 @@ typedef struct s_expand_herdoc
 
 // ********************prompt*************************
 char	*ft_get_cli(char **env);
-char	*get_next_line(int fd);
 void	exit_the_shell(int state);
 char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
 char	*prompt(char **env);
