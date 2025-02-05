@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 23:09:46 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:06:56 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int ft_isalnum(char c)
 		|| (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'));
 }
 
+int	ft_isascii(int c)
+{
+	return (c >= 0 && c <= 127);
+}
+
 char *extract_word(char *s)
 {
     char	*tmp;
@@ -61,7 +66,7 @@ char *extract_word(char *s)
 	start = s;
 	len = 0;
 	i = 0;
-	while (ft_isalnum(*s) || ft_isspace(*s) || *s == '-')
+	while (*s && !operator(*s))
 	{
         s++;
         len++;

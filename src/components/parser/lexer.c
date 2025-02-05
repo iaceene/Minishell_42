@@ -6,115 +6,92 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/03 19:42:30 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:20:48 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/parser.h"
+
+int operator(char c)
+{
+    return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')' || c == '"'
+        || c == '\'' || c == '$');
+}
 
 int starts_with(const char *str, const char *prefix)
 {
     return (ft_strncmp(str, prefix, strlen(prefix)) == 0);
 }
 
-t_node *lexer_init(const char *str)
+void	other_oper(t_node **head, char *s)
 {
-    t_node *head = NULL;
-    const char *current = str;
+	if (starts_with(s, "'"))
+		add_to_list(head, add_new_node(SIN_QUOTE, "'"));
+	else if (starts_with(s, "\""))
+		add_to_list(head, add_new_node(DOB_QUOTE, "\""));
+	else if (starts_with(s, "("))
+		add_to_list(head, add_new_node(OPEN_PAR, "("));
+	else if (starts_with(s, ")"))
+		add_to_list(head, add_new_node(CLOSE_PAR, ")"));
+	else if (starts_with(s, "$"))
+		add_to_list(head, add_new_node(DOLLAR, "$"));
+}
 
-    while (*current) {
-        if (ft_isspace(*current))
-		{
-            current++;
-            continue;
-        }
-        // Handle multi-character operators first (&&, ||, >>, <<)
-        if (starts_with(current, "&&"))
-		{
-            add_to_list(&head, add_new_node(AND, "&&"));
-            current += 2;
-            continue;
-        }
-		else if (starts_with(current, "||"))
-		{
-            add_to_list(&head, add_new_node(OR, "||"));
-            current += 2;
-            continue;
-        }
-		else if (starts_with(current, ">>"))
-		{
-            add_to_list(&head, add_new_node(RIGHT_APP, ">>"));
-            current += 2;
-            continue;
-        }
-		else if (starts_with(current, "<<"))
-		{
-            add_to_list(&head, add_new_node(LEFT_APP, "<<"));
-            current += 2;
-            continue;
-        }
-        // Handle single-character operators (|, >, <)
-        if (*current == '|')
-		{
-            add_to_list(&head, add_new_node(PIPE, "|"));
-            current++;
-            continue;
-        }
-		else if (*current == '>')
-		{
-            add_to_list(&head, add_new_node(RIGHT_RED, ">"));
-            current++;
-            continue;
-        }
-		else if (*current == '<')
-		{
-            add_to_list(&head, add_new_node(LEFT_RED, "<"));
-            current++;
-            continue;
-        }
-        // handel ()
-		else if (*current == '(')
-		{
-            add_to_list(&head, add_new_node(OPEN_PAR, "("));
-            current++;
-            continue;
-        }
-		else if (*current == ')')
-		{
-            add_to_list(&head, add_new_node(CLOSE_PAR, ")"));
-            current++;
-            continue;
-        }
-        // Handle dollar sign ($)
-        if (*current == '$')
-		{
-            add_to_list(&head, add_new_node(DOLLAR, "$"));
-            current++;
-            continue;
-        }
-		// single q
-        if (*current == '\'')
-		{
-            add_to_list(&head, add_new_node(SIN_QUOTE, "\'"));
-            current++;
-            continue;
-        }
-		// double q
-        if (*current == '"')
-		{
-            add_to_list(&head, add_new_node(DOB_QUOTE, "\""));
-            current++;
-            continue;
-        }
-		// handel words
-		if (ft_isalnum(*current))
-		{
-			add_to_list(&head, add_new_node(WORD, extract_word((char *)current)));
-			while (*current && (ft_isalnum(*current) || ft_isspace(*current) || *current == '-'))
-				current++;
-			continue;
-		}
-        current++;
-    }
-    return (head);
+char	*oper_tock(t_node **head, char *s)
+{
+	int	len;
+
+	len = 1;
+	if (starts_with(s, "<<"))
+	{
+		add_to_list(head, add_new_node(HERDOC, "<<"));
+		len = 2;	
+	}
+	else if (starts_with(s, ">>"))
+	{
+		add_to_list(head, add_new_node(APPEND, ">>"));
+		len = 2;		
+	}
+	else if (starts_with(s, "<"))
+		add_to_list(head, add_new_node(LEFT_RED, "<"));
+	else if (starts_with(s, ">"))
+		add_to_list(head, add_new_node(RIGHT_RED, ">"));
+	else if (starts_with(s, "|"))
+		add_to_list(head, add_new_node(PIPE, "|"));
+	else
+		other_oper(head, s);
+	return (s + len);
+}
+
+char	*add_command(t_node **head, char *s)
+{
+	char	*command;
+
+	command = extract_word(s);
+	add_to_list(head, add_new_node(COMMAND, command));
+	while (*s && !operator(*s))
+		s++;
+	return (s);
+}
+
+t_node	*lexer_init(const char *str)
+{
+	t_node	*head;
+	char	*cur;
+
+	head = NULL;
+	cur = (char *)str;
+	while (*cur)
+	{
+		while (ft_isspace(*cur))
+			cur++;
+		if (operator(*cur))
+			cur = oper_tock(&head, cur);
+		else if (!operator(*cur))
+			cur = add_command(&head, cur);
+		else
+			cur++;
+	}
+	print_data(head);
+	return (head);
 }
