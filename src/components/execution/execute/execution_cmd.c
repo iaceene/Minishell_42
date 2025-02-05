@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 20:22:04 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/05 10:57:39 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ void execution_cmd(char *cmd, t_env **env, int *exit_status)
     pid_t pid;
     struct termios state;
     cmd_argv = expand_input(cmd, *env, *exit_status);
+    printf("sor [0]: %s\n", cmd_argv[0]);
+    printf("sor [0]: %s\n", cmd_argv[1]);
     if (!cmd_argv || !(*cmd_argv))
         return (ft_print_err("cmd_argv is NULL\n"));
     if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)
         return;
     signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
-    tcgetattr(STDOUT_FILENO, &state);
+    // signal(SIGQUIT, SIG_IGN);
+    // tcgetattr(STDOUT_FILENO, &state);
     if ((pid = fork()) < 0)
     {
         ft_print_err("Fork Error\n");
@@ -60,6 +62,6 @@ void execution_cmd(char *cmd, t_env **env, int *exit_status)
     if (WIFSIGNALED(*exit_status) && WTERMSIG(*exit_status) == SIGQUIT)
         tcsetattr(STDOUT_FILENO, TCSANOW, &state);
     *exit_status = retrieve_exit_status(*exit_status);
-    signal(SIGINT, ft_sighandler);
-    signal(SIGQUIT, ft_sighandler);
+    // signal(SIGINT, ft_sighandler);
+    // signal(SIGQUIT, ft_sighandler);
 }

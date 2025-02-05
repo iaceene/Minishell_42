@@ -12,24 +12,27 @@
 
 #include "../../../../include/execution.h"
 
-int	ft_execute_builtins(char **cmd_2d, t_env **env, int *exit_status)
+int	ft_execute_builtins(char **arg, t_env **env, int *exit_status)
 {
-	if (!cmd_2d || !(*cmd_2d))
+	if (!arg || !(*arg))
 		return (*exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("env", cmd_2d[0], ft_strlen(cmd_2d[0])))
-		return (builtin_env(*env, cmd_2d, exit_status), SUCCESS);
-	else if (!ft_strncmp("exit", cmd_2d[0], ft_strlen(cmd_2d[0])))
-		return (builtin_exit(cmd_2d, exit_status, env), SUCCESS);
-	else if (!ft_strncmp("echo", cmd_2d[0], ft_strlen(cmd_2d[0])))
-		return (builtin_echo(cmd_2d), *exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("cd", cmd_2d[0], ft_strlen(cmd_2d[0])))
-		return (builtin_cd(cmd_2d, env, exit_status), SUCCESS);
-	else if (!ft_strncmp("export", cmd_2d[0], ft_strlen(cmd_2d[0])))
-		return (builtin_export(env, cmd_2d, exit_status), SUCCESS);
-	else if (!ft_strncmp("pwd", cmd_2d[0], ft_strlen(cmd_2d[0])))
+	else if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])))
+		return (builtin_env(*env, arg, exit_status), SUCCESS);
+	else if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
+		return (builtin_exit(arg, exit_status, env), SUCCESS);
+	else if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
+		return (builtin_echo(arg), *exit_status = 0, SUCCESS);
+	else if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
+		return (builtin_cd(arg, env, exit_status), SUCCESS);
+	else if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
+		return (builtin_export(env, arg, exit_status), SUCCESS);
+	else if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
 		return (builtin_pwd(), *exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("unset", cmd_2d[0], ft_strlen(cmd_2d[0])))
-		return (builtin_unset(env, cmd_2d, exit_status), SUCCESS);
+	else if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
+		return (builtin_unset(env, arg, exit_status), SUCCESS);
 	else
+	{
+		printf("minishell: %s: command not found\n", arg[0]);
 		return (FAILED);
+	}
 }

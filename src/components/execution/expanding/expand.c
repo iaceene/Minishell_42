@@ -1,9 +1,8 @@
- 
+
 
 #include "../../../../include/execution.h"
 
-
-static void	handle_quotes(t_expander *exp, char *input)
+static void handle_quotes(t_expander *exp, char *input)
 {
 	if (exp->current_quote == 0)
 	{
@@ -13,8 +12,7 @@ static void	handle_quotes(t_expander *exp, char *input)
 	}
 	else if (exp->current_quote == input[exp->i])
 	{
-		if (exp->is_isolated_quote && input[exp->i - 1] == exp->current_quote
-			&& (!input[exp->i + 1] || ft_isspace(input[exp->i + 1])))
+		if (exp->is_isolated_quote && input[exp->i - 1] == exp->current_quote && (!input[exp->i + 1] || ft_isspace(input[exp->i + 1])))
 			ft_lstadd_back(&(exp->head), ft_lstnew(ft_strdup("")));
 		exp->current_quote = 0;
 		exp->is_isolated_quote = 0;
@@ -26,7 +24,7 @@ static void	handle_quotes(t_expander *exp, char *input)
 	}
 }
 
-static void	handle_other_chars(t_expander *exp, char c)
+static void handle_other_chars(t_expander *exp, char c)
 {
 	exp->buffer = ft_strjoin(exp->buffer, char_to_string(c));
 	if (c != '*' || exp->current_quote != 0)
@@ -49,7 +47,10 @@ char **expand_input(char *input, t_env *env, int exit_status)
 		else if (input[exp.i] == '"' || input[exp.i] == '\'')
 			handle_quotes(&exp, input);
 		else if (input[exp.i] == '$' && exp.current_quote != '\'')
+		{
 			expand_dollar_variable(&exp, env, input, exit_status);
+			printf("buffer: %s\n", exp.buffer);
+		}
 		else
 			handle_other_chars(&exp, input[exp.i]);
 		if (!input[exp.i])

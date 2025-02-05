@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 20:39:12 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:07:13 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,12 @@ typedef struct s_expander
 
 char **expand_input(char *input, t_env *env, int exit_status);
 // expand tools
-void	expand_dollar_variable(t_expander *exp, t_env *env, char *cmd, int exit_status);
-void	process_buffer(t_expander *exp);
+void	expand_dollar_variable(t_expander *arg, t_env *env, char *cmd, int exit_status);
+void	process_buffer(t_expander *ar);
 char	*char_to_string(char c);
 char	**convert_list_to_array(t_list **head);
 void	ft_list_cwd(t_list **head);
-void	initialize_expander(t_expander *exp);
+void	initialize_expander(t_expander *arg);
 int		ft_is_match(char *s, char *p);
 int		get_matching_files(t_list **head, char *pattern);
 int		only_wildcards(char *cmd);
@@ -163,7 +163,7 @@ void 	builtin_export(t_env **env, char **cmd_2d, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
 void 	builtin_unset(t_env **env, char **arg, int *exit_status);
-int		ft_execute_builtins(char **cmd_2d, t_env **env, int *exit_status);
+int		ft_execute_builtins(char **arg, t_env **env, int *exit_status);
 /************************* env *************************/
 int		ft_env_add(t_env **env, char *key, char *value, int visible);
 void	ft_env_clear(t_env **env);

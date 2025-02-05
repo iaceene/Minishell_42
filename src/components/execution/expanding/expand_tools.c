@@ -5,12 +5,12 @@
 
 char	*char_to_string(char c)
 {
-	char	*str;
+	char	str[2];
 
-	str = ft_malloc(2 * sizeof(char));
+	// str = ft_malloc(2 * sizeof(char));
 	str[0] = c;
 	str[1] = '\0';
-	return (str);
+	return (ft_strdup(str));
 }
 
 char	**convert_list_to_array(t_list **head)
@@ -36,16 +36,16 @@ char	**convert_list_to_array(t_list **head)
 	return (array);
 }
 
-void	initialize_expander(t_expander *exp)
+void	initialize_expander(t_expander *arg)
 {
-	exp->buffer = NULL;
-	exp->buff_env = NULL;
-	exp->head = NULL;
-	exp->i = -1;
-	exp->current_quote = 0;
-	exp->is_isolated_quote = 0;
-	exp->contains_wildcard = 0;
-	exp->has_non_whitespace = 0;
+	arg->buffer = NULL;
+	arg->buff_env = NULL;
+	arg->head = NULL;
+	arg->i = -1;
+	arg->current_quote = 0;
+	arg->is_isolated_quote = 0;
+	arg->contains_wildcard = 0;
+	arg->has_non_whitespace = 0;
 }
 
 int	only_wildcards(char *cmd)
@@ -57,20 +57,21 @@ int	only_wildcards(char *cmd)
 	return (*cmd == '\0');
 }
 
-void	process_buffer(t_expander *exp)
+void	process_buffer(t_expander *arg)
 {
-	if (exp->buffer)
+	if (arg->buffer)
 	{
-		if (exp->contains_wildcard && !exp->has_non_whitespace)
-			ft_list_cwd(&(exp->head));
+		if (arg->contains_wildcard && !arg->has_non_whitespace)
+			ft_list_cwd(&(arg->head));
 		else
 		{
-			if (only_wildcards(exp->buffer) || !get_matching_files(&(exp->head), exp->buffer))
-				ft_lstadd_back(&(exp->head), ft_lstnew(ft_strdup(exp->buffer)));
+			if (only_wildcards(arg->buffer) || !get_matching_files(&(arg->head), arg->buffer))
+				ft_lstadd_back(&(arg->head), ft_lstnew(ft_strdup(arg->buffer)));
 		}
-		exp->buffer = NULL;
-		exp->contains_wildcard = 0;
-		exp->has_non_whitespace = 0;
-		exp->is_isolated_quote = 0;
+		free(arg->buffer);
+		arg->buffer = NULL;
+		arg->contains_wildcard = 0;
+		arg->has_non_whitespace = 0;
+		arg->is_isolated_quote = 0;
 	}
 }

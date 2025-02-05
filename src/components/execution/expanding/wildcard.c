@@ -1,12 +1,11 @@
- 
+
 #include "../../../../include/execution.h"
 
-
-static char	**ft_create_dp(int row, int col)
+static char **ft_create_dp(int row, int col)
 {
-	char	**dp;
-	int		r;
-	int		c;
+	char **dp;
+	int r;
+	int c;
 
 	dp = (char **)malloc(sizeof(char *) * (row + 1));
 	if (!dp)
@@ -26,24 +25,24 @@ static char	**ft_create_dp(int row, int col)
 	return (dp);
 }
 
-static	int	ft_free_dp_and_return(char **dp, int s_len, int p_len)
+static int ft_free_dp_and_return(char **dp, int s_len, int p_len)
 {
-	int	res;
+	int res;
 
 	res = dp[s_len][p_len] == '1';
 	return (res);
 }
 
-void	ft_list_cwd(t_list **head)
+void ft_list_cwd(t_list **head)
 {
-	DIR				*dir;
-	struct dirent	*entry;
+	DIR *dir;
+	struct dirent *entry;
 
 	dir = opendir(".");
 	if (dir == NULL)
 	{
 		perror("Error");
-		return ;
+		return;
 	}
 	entry = readdir(dir);
 	while (entry != NULL)
@@ -56,11 +55,11 @@ void	ft_list_cwd(t_list **head)
 		perror("Error");
 }
 
-int	get_matching_files(t_list **head, char *pattern)
+int get_matching_files(t_list **head, char *pattern)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	int				found_match;
+	DIR *dir;
+	struct dirent *entry;
+	int found_match;
 
 	found_match = 0;
 	dir = opendir(".");
@@ -84,13 +83,13 @@ int	get_matching_files(t_list **head, char *pattern)
 	return (found_match);
 }
 
-int	ft_is_match(char *s, char *p)
+int ft_is_match(char *s, char *p)
 {
-	char	**dp;
-	int		s_len;
-	int		p_len;
-	int		i;
-	int		j;
+	char **dp;
+	int s_len;
+	int p_len;
+	int i;
+	int j;
 
 	s_len = ft_strlen(s);
 	p_len = ft_strlen(p);

@@ -12,27 +12,43 @@
 
 #include "../../../../include/minishell.h"
 
-
-void builtin_echo(char **args)
+static int ft_echo_valid_flag(char *flag)
 {
-    printf("builtin_echo\n");
-    int newline = 1;
-    int i = 1;
+    int i;
 
-    if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
+    if (flag[0] != '-')
+        return (0);
+    i = 1;
+    if (!flag[i])
+        return (0);
+    while (flag[i])
     {
-        newline = 0;
-        i = 2;
-    }
-
-    while (args[i])
-    {
-        write(1, args[i], ft_strlen(args[i]));
-        if (args[i + 1])
-            write(1, " ", 1);
+        if (flag[i] != 'n')
+            return (0);
         i++;
     }
+    return (1);
+}
 
-    if (newline)
-        write(1, "\n", 1);
+void builtin_echo(char **arg)
+{
+    printf("yse echo\n");
+    int i;
+    int print_nl;
+
+    print_nl = 1;
+    i = 1;
+    while (arg[i] && ft_echo_valid_flag(arg[i]))
+    {
+        print_nl = 0;
+        i++;
+    }
+    while (arg[i])
+    {
+        printf("%s", arg[i++]);
+        if (arg[i])
+            printf(" ");
+    }
+    if (print_nl)
+        printf("\n");
 }
