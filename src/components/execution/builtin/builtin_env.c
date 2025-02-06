@@ -13,14 +13,14 @@
 #include "../../../../include/execution.h"
 
 
-void	builtin_env(t_env *env, char **cmd_2d, int *exit_status)
+void	builtin_env(t_env *env, char **arg, int *exit_status)
 {
-	if (cmd_2d[1])
+	if (arg[1])
 	{
 		ft_print_err("env: invalid argument\n");
 		*exit_status = 127;
 		return ;
 	}
-	ft_env_print(env);
+	ft_print_env(env);
 	*exit_status = 0;
 }

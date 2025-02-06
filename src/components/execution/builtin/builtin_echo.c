@@ -12,15 +12,13 @@
 
 #include "../../../../include/minishell.h"
 
-static int ft_echo_valid_flag(char *flag)
+static int check_falg(char *flag)
 {
     int i;
 
-    if (flag[0] != '-')
+    if (flag[0] != '-' || !flag[1])
         return (0);
     i = 1;
-    if (!flag[i])
-        return (0);
     while (flag[i])
     {
         if (flag[i] != 'n')
@@ -32,15 +30,14 @@ static int ft_echo_valid_flag(char *flag)
 
 void builtin_echo(char **arg)
 {
-    printf("yse echo\n");
     int i;
-    int print_nl;
+    int flag_n;
 
-    print_nl = 1;
-    i = 1;
-    while (arg[i] && ft_echo_valid_flag(arg[i]))
+    flag_n = 1;
+    i = 1; 
+    while (arg[i] && check_falg(arg[i]))
     {
-        print_nl = 0;
+        flag_n = 0;
         i++;
     }
     while (arg[i])
@@ -49,6 +46,6 @@ void builtin_echo(char **arg)
         if (arg[i])
             printf(" ");
     }
-    if (print_nl)
+    if (flag_n)
         printf("\n");
 }

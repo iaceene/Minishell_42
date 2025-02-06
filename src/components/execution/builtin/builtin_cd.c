@@ -54,25 +54,22 @@ static int change_to_path(t_env **env, char *target_path)
     return (exit_status);
 }
 
-int builtin_cd(char **cmd_2d, t_env **env, int *exit_status)
+int builtin_cd(char **arg, t_env **env, int *exit_status)
 {
     char *target_path;
 
-    if (!cmd_2d[1] || !ft_strncmp("~", cmd_2d[1], 1))
+    if (!arg[1] || !ft_strncmp("~", arg[1], 1))
         target_path = ft_env_search(*env, "HOME");
-    else if (!ft_strncmp("-", cmd_2d[1], 1))
+    else if (!ft_strncmp("-", arg[1], 1))
         target_path = ft_env_search(*env, "OLDPWD");
     else
-        target_path = cmd_2d[1];
-
+        target_path = arg[1];
     if (!target_path || !*target_path)
     {
         ft_print_err("cd: HOME or OLDPWD not set\n");
         *exit_status = 1;
         return (1);
     }
-
     *exit_status = change_to_path(env, target_path);
-
     return (0);
 }

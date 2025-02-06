@@ -103,5 +103,7 @@ void	execute_cmd(char **cmd, char **env)
 	execve(full_path, args, env);
 	ft_free_string(args);
 	free(args);
-	error_and_exit("Execution failed\n", 1);
+	write(2, "shell: ", 14);
+	write(2, &full_path, ft_strlen(full_path));
+	error_and_exit("execute failed\n", 1);
 }

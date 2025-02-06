@@ -1,16 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_search.c                                       :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 15:36:32 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/05 15:36:34 by iezzam           ###   ########.fr       */
+/*   Created: 2025/02/05 16:17:32 by iezzam            #+#    #+#             */
+/*   Updated: 2025/02/06 12:53:36 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
+
+int	ft_env_update(t_env **env, char *key, char *newval, int append_mod)
+{
+	t_env	*node;
+
+	node = *env;
+	while (node)
+	{
+		if (!ft_strncmp(node->key, key, ft_strlen(key)))
+		{
+			if (append_mod)
+				node->value = ft_strjoin(node->value, newval);
+			else
+			{
+				free(node->value);
+				node->value = newval;
+			}
+			node->visible = 1;
+			free(key);
+			key = NULL;
+			return (0);
+		}
+		node = node->next;
+	}
+	return (1);
+}
+
+
+int	ft_env_size(t_env *env)
+{
+	int	size;
+
+	size = 0;
+	while (env)
+	{
+		size++;
+		env = env->next;
+	}
+	return (size);
+}
+
 
 int ft_strcmpt(const char *s1, const char *s2)
 {
@@ -30,4 +71,15 @@ char	*ft_env_search(t_env *env, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+
+void	ft_print_env(t_env *env)
+{
+	while (env)
+	{
+		if (env->visible)
+			printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
 }

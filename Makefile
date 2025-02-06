@@ -22,16 +22,9 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/builtin/builtin_pwd.c \
 		./src/components/execution/builtin/builtin_unset.c \
 		./src/components/execution/builtin/builtin.c \
-		./src/components/execution/env/env_add.c \
-		./src/components/execution/env/env_clear.c \
 		./src/components/execution/env/env_create.c \
-		./src/components/execution/env/env_create_2d.c \
-		./src/components/execution/env/env_delete.c \
-		./src/components/execution/env/env_duplicate.c \
-		./src/components/execution/env/env_print.c \
-		./src/components/execution/env/env_search.c \
-		./src/components/execution/env/env_size.c \
-		./src/components/execution/env/env_update.c \
+		./src/components/execution/env/env_utils.c \
+		./src/components/execution/env/env_utils1.c \
 		./src/components/execution/execute/creat_child.c \
 		./src/components/execution/execute/error_handling.c \
 		./src/components/execution/execute/execution_cmd.c \

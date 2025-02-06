@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/05 11:07:13 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/06 12:53:43 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,13 +153,13 @@ typedef struct s_export
     int     is_append;
     char    *existing_value;
 }	t_export;
-int		builtin_cd(char **cmd_2d, t_env **env, int *exit_status);
+int		builtin_cd(char **arg, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
-void	builtin_env(t_env *env, char **cmd_2d, int *exit_status);
-void	builtin_exit(char **cmd_2d, int *exit_status, t_env **env);
+void	builtin_env(t_env *env, char **arg, int *exit_status);
+void	builtin_exit(char **arg, int *exit_status, t_env **env);
 void	ft_export_help(char *cmd, t_env **env, int *exit_status);
 void	print_export_error(char *slice1, char *slice2, int equal, int append);
-void 	builtin_export(t_env **env, char **cmd_2d, int *exit_status);
+void 	builtin_export(t_env **env, char **arg, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
 void 	builtin_unset(t_env **env, char **arg, int *exit_status);
@@ -171,7 +171,7 @@ char	**ft_env_create_2d(t_env *env);
 t_env	*ft_env_create(char **ev);
 void	ft_env_delete(t_env **env, char *key);
 t_env	*ft_env_duplicate(t_env *env);
-void	ft_env_print(t_env *env);
+void	ft_print_env(t_env *env);
 char	*ft_env_search(t_env *env, char *key);
 int		ft_env_size(t_env *env);
 int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
