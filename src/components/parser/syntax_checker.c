@@ -50,7 +50,10 @@ void print_data(t_node *data)
 int search_for_acc (TokenType type, t_node *head)
 {
 	if (!head)
+	{
+		printf("NULL\n");
 		return (1);
+	}
 	while (head)
 	{
 		if (head->type == type && head->flaged == 0)
@@ -130,26 +133,74 @@ int check_redirction(t_node *data)
 }
 
 
-int	syntax_checker(t_node *data)
+int pip_checker(t_node *data)
 {
-	// print_data(data);
-	if (check_pip(data) || check_append(data)
-		|| check_redirction(data))
-		return (-1);
+	t_node *prv;
+
+	prv = NULL;
 	while (data)
 	{
-		if (data->type == SIN_QUOTE && data->flaged == 0)
-			if (search_for_acc(SIN_QUOTE, data->next))
-				return (-1);
-		if (data->type == DOB_QUOTE && data->flaged == 0)
-			if (search_for_acc(DOB_QUOTE, data->next))
-				return (-1);
-		if (data->type == OPEN_PAR && data->flaged == 0)
-			if (data->next != COMMAND || search_for_acc(CLOSE_PAR, data->next))
-				return (-1);
-		if (data->type == CLOSE_PAR && data->flaged == 0)
-			return (-1);
+		if (data->type == PIPE && !prv)
+			return (0);
+		if (data->type == PIPE && !data->next)
+			return (0);
+		if (data->type == PIPE &&
+			(data->next->type != COMMAND || prv->type != COMMAND))
+			return (0);
+		prv = data;
 		data = data->next;
 	}
+	return (1);
+}
+
+int	readdir_checker(t_node *data)
+{
+	t_node *prv;
+
+	prv = NULL;
+	while (data)
+	{
+		// if (!prv && (data->type == LEFT_RED || data->type == RIGHT_RED))
+		// 	return (0);
+		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && !data->next)
+			return (0);
+		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && (data->next->type != COMMAND || prv->type != COMMAND))
+			return (0);
+		prv = data;
+		data = data->next;
+	}
+	return (1);
+}
+
+int valid_parent(t_node *data)
+{
+	if (!data->next)
+		return (1);
+	if (data->type == OPEN_PAR && data->next->type == CLOSE_PAR)
+		return (1);
+	return (0);
+}
+
+int others_checker(t_node *data)
+{
+	while (data)
+	{
+		if (data->type == SIN_QUOTE || data->type == DOB_QUOTE)
+			if (search_for_acc(data->type, data->next))
+				return (0);
+		if (data->type == OPEN_PAR)
+			if (search_for_acc(CLOSE_PAR, data->next) || valid_parent(data))
+				return (0);
+		if ((data->type == APPEND || data->type == RIGHT_RED) && !data->next)
+			return (0);
+		data = data->next;
+	}
+	return (1);
+}
+
+int	syntax_checker(t_node *data)
+{
+	if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data))
+		return (-1);
 	return (0);
 }
