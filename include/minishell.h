@@ -68,12 +68,34 @@ typedef struct s_shell
 } t_shell;
 
 
+// final struct
+
+typedef enum {
+	COMMAND,       // Command or argument
+	PIPE,       // |
+	APPEND,		// >>
+	HERDOC,		// <<
+	RIGHT_RED,	// >
+	LEFT_RED,	// <
+	SIN_QUOTE,  // '
+	DOB_QUOTE, // "
+	DOLLAR,     // $
+	OPEN_PAR,  // (
+	CLOSE_PAR, // )
+} TokenType;
+
+typedef struct s_cmd
+{
+	TokenType		type;
+	char			*value;
+	struct s_cmd	*next;
+}	t_cmd;
+
 typedef struct s_data
 {
-	char **env;
-	t_env *env_var; /// use this instead of env
-	t_shell *shell;
-	char *prompt;
+	char	**env;
+	t_cmd	*head;
+	char	*prompt;
 }t_data;
 
 typedef struct s_gb

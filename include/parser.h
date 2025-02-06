@@ -16,37 +16,13 @@
 
 #include "minishell.h"
 
-typedef enum {
-	COMMAND,       // Command or argument
-	PIPE,       // |
-	APPEND,		// >>
-	HERDOC,		// <<
-	RIGHT_RED,	// >
-	LEFT_RED,	// <
-	SIN_QUOTE,  // '
-	DOB_QUOTE, // "
-	DOLLAR,     // $
-	OPEN_PAR,  // (
-	CLOSE_PAR, // )
-} TokenType;
-
 typedef struct s_node{
 	TokenType			type;   // Type of token
 	char				*value;
 	int					flaged;
-	int					visit;
 	struct  s_node		*next;
 } t_node;
 
-
-// struct 
-typedef struct s_cmd
-{
-	TokenType		type;
-	char			*value;
-	char 			**args;
-	struct s_cmd	*next;
-}	t_cmd;
 
 t_node	*lexer_init(const char *str);
 int		ft_isascii(int c);
@@ -57,6 +33,7 @@ void	add_to_list(t_node **head, t_node *new);
 t_node	*add_new_node(TokenType type, char *val);
 int		ft_isalnum(char c);
 char	*extract_word(char *s);
+t_cmd	*data_maker(t_node *head);
 void print_data(t_node *data);
 
 #endif

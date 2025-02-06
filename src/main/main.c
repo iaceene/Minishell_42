@@ -33,9 +33,9 @@ int main(int ac, char **av, char **env)
         data.prompt = prompt(env);
 		err = parser(&data);
         if (err == 0)
-            execution(data.shell);
+            printf ("executed !\n");
         else
-            ft_puterr(err);
+            ft_puterr(14);
     }
     return (0);
 }

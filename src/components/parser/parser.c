@@ -24,9 +24,10 @@ int parser(t_data *data)
 
 	tock_data = lexer_init(data->prompt);
 	if (syntax_checker(tock_data) == -1)
-		printf ("Syn Error\n");
+		return (1);
 	else
-		printf("Valid\n");
-		// parser_init(data, tock_data);
-	return (11);
+		data->head = data_maker(tock_data);
+	if (!data->head)
+		return (1);
+	return (0);
 }

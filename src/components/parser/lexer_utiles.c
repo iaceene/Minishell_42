@@ -18,7 +18,6 @@ t_node	*add_new_node(TokenType type, char *val)
 
 	ret = ft_malloc(sizeof(t_node));
 	ret->flaged = 0;
-	ret->visit = 0;
 	ret->type = type;
 	ret->value = ft_strdup(val);
 	ret->next = NULL;
