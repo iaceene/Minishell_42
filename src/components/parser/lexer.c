@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/05 20:20:48 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:30:13 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ char	*add_command(t_node **head, char *s)
 {
 	char	*command;
 
+	while (*s && ft_isspace(*s))
+		s++;
+	if (!*s)
+		return (NULL);
 	command = extract_word(s);
 	add_to_list(head, add_new_node(COMMAND, command));
 	while (*s && !operator(*s))
@@ -88,10 +92,13 @@ t_node	*lexer_init(const char *str)
 		if (operator(*cur))
 			cur = oper_tock(&head, cur);
 		else if (!operator(*cur))
+		{
 			cur = add_command(&head, cur);
+			if (!cur)
+				return (head);
+		}
 		else
 			cur++;
 	}
-	// print_data(head);
 	return (head);
 }
