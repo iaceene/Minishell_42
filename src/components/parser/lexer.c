@@ -92,6 +92,6 @@ t_node	*lexer_init(const char *str)
 		else
 			cur++;
 	}
-	print_data(head);
+	// print_data(head);
 	return (head);
 }
