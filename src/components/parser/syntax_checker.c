@@ -181,13 +181,27 @@ int valid_parent(t_node *data)
 	return (0);
 }
 
-int others_checker(t_node *data)
+int check_no_opned_pr(t_node *data)
 {
 	while (data)
 	{
-		if (data->type == SIN_QUOTE || data->type == DOB_QUOTE)
-			if (search_for_acc(data->type, data->next))
-				return (0);
+		if (data->type == CLOSE_PAR && data->flaged == 0)
+			return (1);
+		data = data->next;
+	}
+	return (0);
+}
+
+int others_checker(t_node *data)
+{
+	t_node *tmp;
+
+	tmp = data;
+	while (data)
+	{
+		// if (data->type == SIN_QUOTE || data->type == DOB_QUOTE)
+		// 	if (search_for_acc(data->type, data->next))
+		// 		return (0);
 		if (data->type == OPEN_PAR)
 			if (search_for_acc(CLOSE_PAR, data->next) || valid_parent(data))
 				return (0);
@@ -195,6 +209,8 @@ int others_checker(t_node *data)
 			return (0);
 		data = data->next;
 	}
+	if (check_no_opned_pr(tmp))
+		return (0);
 	return (1);
 }
 
