@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include "../../include/execution.h"
-#include "../../include/parser.h"
 
 void clear_terminal(void)
 {
