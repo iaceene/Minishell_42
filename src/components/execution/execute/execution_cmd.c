@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/05 15:27:36 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 00:30:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void execution_cmd(char *cmd, t_env **env, int *exit_status)
     // char **cmd_argv = ft_split(cmd, ' ');
     pid_t pid;
     struct termios state;
-    printf("cmd: %s\n", cmd);
+    // printf("cmd: %s\n", cmd);
     cmd_argv = expand_input(cmd, *env, *exit_status);
     // printf("sor [0]: %s\n", cmd_argv[0]);
     // printf("sor [0]: %s\n", cmd_argv[1]);
