@@ -36,6 +36,11 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/expanding/expand_tools.c \
 		./src/components/execution/expanding/wildcard.c \
 		./src/components/parser/parser.c \
+		./src/components/parser/ft_split_word.c \
+		./src/components/parser/final_step.c \
+		./src/components/parser/lexer_utiles.c \
+		./src/components/parser/syntax_checker.c \
+		./src/components/parser/lexer.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/prompt_utiles.c \
 		./src/components/parser/prompt/prompt.c \
@@ -55,6 +60,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strlcat.c \
 		./src/lib/ft_strlcpy.c \
 		./src/lib/ft_strlen.c \
+		./src/lib/ft_strncpy.c \
 		./src/lib/ft_strncmp.c \
 		./src/lib/ft_strstr.c \
 		./src/lib/ft_strtok.c \

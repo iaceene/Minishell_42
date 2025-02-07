@@ -14,13 +14,16 @@
 #include "../../../../include/minishell.h"
 #include "../../../../include/parser.h"
 
-void	execution(t_tree *root, t_env **env, int *exit_status)
+void	execution(t_cmd *head, t_env **env, int *exit_status)
 {
-	if (!root)
-	{
-		printf("Root is NULL\n");
-		return ;
-	}
+	(void)env;
+	(void)exit_status;
+	// (void)root;
+	// if (!root)
+	// {
+	// 	printf("Root is NULL\n");
+	// 	return ;
+	// }
 	// else if (root->type == PIPE)
 	// 	ft_execute_pipe(root, env, exit_status);
 	// else if (root->type == REDIRECTION || root->type == APPEND_REDIRECTION)
@@ -28,5 +31,15 @@ void	execution(t_tree *root, t_env **env, int *exit_status)
 	// else if (root->type == INPUT || root->type == HERE_DOC)
 	// 	ft_execute_redirection_in(root, env, exit_status);
 	// else
-		execution_cmd(root->value, env, exit_status);
+	// if ()
+	// 	printf("Root value: %s\n", root->head->value);
+	// else
+	// 	printf("Root value: NULL\n");	
+
+	while (head)
+	{
+		if (head->type == COMMAND)
+			execution_cmd(head->value, env, exit_status);
+		head = head->next;
+	}
 }

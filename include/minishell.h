@@ -31,42 +31,76 @@
 # include <sys/wait.h>
 # include <termios.h>
 
-# define REDIRECTION 1
-# define INPUT 2
-# define PIPE 3
-# define SINGL_AND 4
-# define AND 5
-# define OR 6
-# define SINGLE_QUAT 7
-# define DOUBLE_QUAT 8
-# define APPEND_REDIRECTION 9
-# define HERE_DOC 10
-# define CLOSE_PARENTH 11
-# define OPEN_PARENTH 12
-# define OPERAND 0
-# define OUTFILE -2
-# define INFILE -3
-# define LIMITER -4
-# define OUTFILE_APPAND -5
+// # define REDIRECTION 1
+// # define INPUT 2
+// # define PIPE 3
+// # define SINGL_AND 4
+// # define AND 5
+// # define OR 6
+// # define SINGLE_QUAT 7
+// # define DOUBLE_QUAT 8
+// # define APPEND_REDIRECTION 9
+// # define HERE_DOC 10
+// # define CLOSE_PARENTH 11
+// # define OPEN_PARENTH 12
+// # define OPERAND 0
+// # define OUTFILE -2
+// # define INFILE -3
+// # define LIMITER -4
+// # define OUTFILE_APPAND -5
 
-# define L_TO_R 3
-# define R_TO_L 2
+// # define L_TO_R 3
+// # define R_TO_L 2
 
-enum e_peroirty
-{
-	open_par = 6 ,
-	close_par = 6,
-	and = 5,
-	or = 5,
-	pip = 3,
-	redir = 1,
-	appand = 1,
-	here_doc = 1,
-	input = 1
-};
+// enum e_peroirty
+// {
+// 	open_par = 6 ,
+// 	close_par = 6,
+// 	and = 5,
+// 	or = 5,
+// 	pip = 3,
+// 	redir = 1,
+// 	appand = 1,
+// 	here_doc = 1,
+// 	input = 1
+// };
 
 
 // *********************tree******************
+
+
+// final struct
+
+typedef enum {
+	COMMAND,       // Command or argument
+	PIPE,       // |
+	APPEND,		// >>
+	HERDOC,		// <<
+	RIGHT_RED,	// >
+	LEFT_RED,	// <
+	SIN_QUOTE,  // '
+	DOB_QUOTE, // "
+	DOLLAR,     // $
+	OPEN_PAR,  // (
+	CLOSE_PAR, // )
+} TokenType;
+
+typedef struct s_node{
+	TokenType			type;   // Type of token
+	char				*value;
+	int					flaged;
+	struct  s_node		*next;
+} t_node;
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -122,9 +156,24 @@ char *expand_heredoc_input(char *input, t_env *env, int exit_code);
 void process_here_doc(char *delimiter, int *pipe_fd, t_env *env, int exit_code);
 
 
+typedef struct s_cmd
+{
+	TokenType		type;
+	char			*value;
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_data
+{
+	char	**env;
+	t_cmd	*head;
+	char	*prompt;
+}	t_data;
 
 
 
+/*****************Parser****************/
+int		parser(t_data *data);
 
 
 
@@ -147,6 +196,7 @@ char	*ft_strjoin(char  *s1, char  *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strstr(char *haystack, char *needle);
 char	*ft_itoa(int n);

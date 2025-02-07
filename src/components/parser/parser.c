@@ -13,10 +13,27 @@
 #include "../../../include/execution.h"
 
 
+// int parser(t_data *data)
+// {
+//     (void)data;
+//     printf("welcome parser!\n");
+//     return (-1);
+
+// }
+
+
 int parser(t_data *data)
 {
-    (void)data;
-    printf("welcome parser!\n");
-    return (-1);
+	t_node *tock_data;
 
+	tock_data = lexer_init(data->prompt);
+	if (!tock_data)
+		return (1);
+	if (syntax_checker(tock_data) == -1)
+		return (1);
+	else
+		data->head = data_maker(tock_data);
+	if (!data->head)
+		return (1);
+	return (0);
 }

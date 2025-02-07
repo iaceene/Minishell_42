@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/06 12:53:43 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/07 18:17:29 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ typedef struct s_shell
 } t_shell;
 
 
-typedef struct s_data
-{
-	char **env;
-	t_env *env_var;
-	t_shell *shell;
-	char *prompt;
-}t_data;
+// typedef struct s_data
+// {
+// 	char **env;
+// 	t_env *env_var;
+// 	t_shell *shell;
+// 	char *prompt;
+// }t_data;
 
 typedef struct s_gb
 {
@@ -121,7 +121,7 @@ int		only_wildcards(char *cmd);
 
 
 /*****************                       Execution                            ****************/
-void	execution(t_tree *root, t_env **env, int *exit_status);
+void	execution(t_cmd *head, t_env **env, int *exit_status);
 //*******************execute****************************
 void	execution_cmd(char *cmd, t_env **env, int *exit_status);
 //creat_child
@@ -179,7 +179,7 @@ int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
 
 
 /*****************Parser****************/
-int		parser(t_data *data);
+// int		parser(t_data *data);
 
 
 

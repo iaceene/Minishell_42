@@ -31,31 +31,57 @@ static void ft_init(t_tool *tool, int ac, char **av, char **env)
 }
 
 
+// int main(int ac, char **av, char **env)
+// {
+// 	t_data data;
+// 	t_tree *tree = ft_malloc(sizeof(t_tree));
+// 	t_tool tool;
+// 	int err;
+
+// 	clear_terminal();
+// 	signal(SIGINT, ft_sighandler);
+// 	signal(SIGQUIT, ft_sighandler);
+// 	ft_init(&tool, ac, av, env);
+// 	if (!isatty(0))
+// 		return (printf("tty required!\n"), 1);
+
+// 	while (1)
+// 	{
+// 		data.prompt = prompt(tool.env->a_ven);
+
+// 		char *input = data.prompt;
+
+// 		tree->value = input;
+
+// 		err = parser(&data);
+
+// 		execution(tree, &tool.env, &tool.err);
+// 	}
+// 	return (0);
+// }
+
+
 int main(int ac, char **av, char **env)
 {
-	t_data data;
-	t_tree *tree = ft_malloc(sizeof(t_tree));
+    (void)ac;
+    (void)av;
+    int err;
+    t_data data;
 	t_tool tool;
-	int err;
 
-	clear_terminal();
-	signal(SIGINT, ft_sighandler);
-	signal(SIGQUIT, ft_sighandler);
+    clear_terminal();
+    data.env = env; 
+    signal(SIGINT, ft_sighandler);
+    signal(SIGQUIT, ft_sighandler);
 	ft_init(&tool, ac, av, env);
-	if (!isatty(0))
-		return (printf("tty required!\n"), 1);
-
-	while (1)
-	{
-		data.prompt = prompt(tool.env->a_ven);
-
-		char *input = data.prompt;
-
-		tree->value = input;
-
+    while (1)
+    {
+        data.prompt = prompt(env);
 		err = parser(&data);
-
-		execution(tree, &tool.env, &tool.err);
-	}
-	return (0);
+		if (err == 0)
+			execution(data.head, &tool.env, &tool.err);
+        else
+            ft_puterr(14);
+    }
+    return (0);
 }
