@@ -14,6 +14,8 @@
 
 char *ft_get_user(char **env)
 {
+    if (!*env)
+        return 0;
     int i = 0;
     int flag = 0;
     while (env[i])
@@ -52,14 +54,16 @@ char *ft_get_cli(char **env)
 {
     char *user;
     char **desktop;
+    if (!*env)
+        return 0;
 
     user = ft_get_user(env);
     if (!user)
         user = ft_strdup("user42");
     desktop = ft_get_sission(env);
     if (!desktop)
-        return (ft_join_params(user, "\033[32m@\033[0m", ft_strdup("1337"), "\033[32m$ \033[0m"));
+        return (ft_join_params(user, "\033[32m@\033[0m", ft_strdup("1337"), "\033[32m💫$ \033[0m"));
     else
-        return (ft_join_params(user, "\033[32m@\033[0m", desktop[0], "\033[32m$ \033[0m"));
+        return (ft_join_params(user, "\033[32m@\033[0m", desktop[0], "\033[32m💫$ \033[0m"));
     return (NULL);
 }

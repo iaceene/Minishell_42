@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 10:07:33 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/27 13:06:06 by iezzam           ###   ########.fr       */
+/*   Created: 2025/01/27 10:11:50 by iezzam            #+#    #+#             */
+/*   Updated: 2025/01/27 10:34:44 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-void builtin_exit(char **args)
+
+void	builtin_env(t_env *env, char **arg, int *exit_status)
 {
-    int exit_code = 0;
-
-    if (args[1])
-    {
-        int i;
-
-        i = 0;
-        while (args[1][i])
-        {
-            if (!ft_isdigit(args[1][i]))
-                error_and_exit("exit: numeric argument required\n", 255);
-            i++;
-        }
-        exit_code = ft_atoi(args[1]);
-    }
-
-    exit(exit_code);
+	if (arg[1])
+	{
+		ft_print_err("env: invalid argument\n");
+		*exit_status = 127;
+		return ;
+	}
+	ft_print_env(env);
+	*exit_status = 0;
 }

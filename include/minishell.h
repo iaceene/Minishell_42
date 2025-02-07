@@ -14,140 +14,165 @@
 #ifndef MINI_SHELL_H
 #define MINI_SHELL_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdbool.h>
-#include <signal.h>
 
-#include <dirent.h>
+# include <sys/param.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <string.h>
+# include <limits.h>
+# include <sys/wait.h>
+# include <termios.h>
+
+// # define REDIRECTION 1
+// # define INPUT 2
+// # define PIPE 3
+// # define SINGL_AND 4
+// # define AND 5
+// # define OR 6
+// # define SINGLE_QUAT 7
+// # define DOUBLE_QUAT 8
+// # define APPEND_REDIRECTION 9
+// # define HERE_DOC 10
+// # define CLOSE_PARENTH 11
+// # define OPEN_PARENTH 12
+// # define OPERAND 0
+// # define OUTFILE -2
+// # define INFILE -3
+// # define LIMITER -4
+// # define OUTFILE_APPAND -5
+
+// # define L_TO_R 3
+// # define R_TO_L 2
+
+// enum e_peroirty
+// {
+// 	open_par = 6 ,
+// 	close_par = 6,
+// 	and = 5,
+// 	or = 5,
+// 	pip = 3,
+// 	redir = 1,
+// 	appand = 1,
+// 	here_doc = 1,
+// 	input = 1
+// };
 
 
-typedef struct s_command
+// *********************tree******************
+
+
+// final struct
+
+typedef enum {
+	COMMAND,       // Command or argument
+	PIPE,       // |
+	APPEND,		// >>
+	HERDOC,		// <<
+	RIGHT_RED,	// >
+	LEFT_RED,	// <
+	SIN_QUOTE,  // '
+	DOB_QUOTE, // "
+	DOLLAR,     // $
+	OPEN_PAR,  // (
+	CLOSE_PAR, // )
+} TokenType;
+
+typedef struct s_node{
+	TokenType			type;   // Type of token
+	char				*value;
+	int					flaged;
+	struct  s_node		*next;
+} t_node;
+
+
+
+
+
+
+
+
+
+
+
+
+
+typedef struct s_tree
 {
-	char **args;
-	char *path;
-	char *input_path;
-	char *output_path;
-	int append;
-} t_command;
+	char			*value;
+	int				type;
+	char			**args;
+	struct s_tree	*next;
+}	t_tree;
 
-typedef struct s_redirect
-{
-	char *infile;
-	char *outfile;
-	int fdin;
-	int fdout;
-	int num_cmds;
-	int heredoc;
-} t_redirect;
-
+/************************* env struct *************************/
 typedef struct s_env
 {
-	char *key;
-	char *value;
-	struct s_env *next;
-} t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+	int				visible;
+	char			**a_ven;
+}	t_env;
 
-typedef struct s_shell
+
+/************************* her_doc struct *************************/
+typedef struct s_expand_herdoc
 {
-	char **env;
-	t_env **envp;
-	t_command *commands;
-	t_redirect *redirect;
-	int num_cmds;
-	int last_exit;
-	int in_pipe;
-} t_shell;
+	char	*buffer_env;
+	char	*buffer_exp;
+	int     i;
+	int		exit_status;
+	t_env	*env;
+}	t_expand_herdoc;
 
+
+
+
+
+
+
+
+
+
+// ********************prompt*************************
+char	*ft_get_cli(char **env);
+void	exit_the_shell(int state);
+char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
+char	*prompt(char **env);
+//*****************************signals********************************
+// void	ft_handle_signals(int sig);
+void	ft_init_signals(void);
+void	ft_sighandler(int sig);
+// ****************************herdoc****************************
+char *expand_heredoc_input(char *input, t_env *env, int exit_code);
+void process_here_doc(char *delimiter, int *pipe_fd, t_env *env, int exit_code);
+
+
+typedef struct s_cmd
+{
+	TokenType		type;
+	char			*value;
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_data
 {
-	char **env;
-	t_env *env_var; /// use this instead of env
-	t_shell *shell;
-	char *prompt;
-}t_data;
-
-typedef struct s_gb
-{
-	void		*ptr;
-	struct s_gb	*next;
-}t_gb;
+	char	**env;
+	t_cmd	*head;
+	char	*prompt;
+}	t_data;
 
 
 
-
-
-
-
-/*****************                       Execution                            ****************/
-
-//  src/components/execution/execution.c
-void	execution(t_shell *shell);
-// buildin
-void	builtin_cd(char **args, char ***env);
-void	builtin_echo(char **args);
-void	builtin_env(char **env);
-void	builtin_exit(char **args);
-void	builtin_export(char **args, char ***env);
-void	builtin_pwd(void);
-void	builtin_unset(char **args, char ***env);
-void	execute_builtin(t_shell *shell);
-
-
-//  src/components/execution/creat_child.c
-void	child2(t_shell *data, int **wr_pipe);
-void	child1(t_shell *data, int **wr_pipe);
-// void    child_intermediate(t_shell data, char **av, int **pipes, char **env);
-void	child_intermediate(t_shell *data, int **pipes);
-
-//  src/components/execution/error_handling.c
-void	ft_free_string(char **str);
-void	error_and_exit(const char *str, int exite);
-
-// void    close_fd(int fd, char *str);
-void	close_fd(t_redirect *data);
-void	cleanup_shell(t_shell *shell);
-
-//  src/components/execution/pipex.c
-// void		redirect_fd(int from_fd, int to_fd, const char *str);
-void	close_all_pipe(int **pipes, int num_cmd);
-void	free_all_pipe(int **pipes, int i);
-void	ft_pipex(t_shell *shell);
-
-
-//src/components/execution/find_command_path.c
-char	*find_command_path(char *cmd, char **env);
-void	execute_cmd(char **cmd, char **env);
-
-
-//  src/components/execution/creat_env/creat_env.c
-void	free_env(t_env *env_list);
-char	**convert_env_to_array(t_env *env_list);
-t_env	*ft_env_create(char **envp);
-
-//src/components/execution/signals/signals.c
-void	ft_handle_signals(int sig);
-void	ft_init_signals(void);
-
-
-
-
-
-
-
-/*****************                       Parser                            ****************/
-//src/components/parser
-	//creat_env
-t_env	*ft_env_create(char **envp);
+/*****************Parser****************/
 int		parser(t_data *data);
 
 
@@ -155,50 +180,35 @@ int		parser(t_data *data);
 
 
 
-
-
-
-	//prompt
-char	*ft_get_cli(char **env);
-char	*get_next_line(int fd);
-void	exit_the_shell(int state);
-char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
-void	ft_sighandler(int sig);
-char	*prompt(char **env);
-
-
-
-
-
-
-//src/lib
-		//memory
+// ***********************lib***************************
 void	*ft_malloc(ssize_t len);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isspace(int c);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	**ft_split_shell(const char *s);
 char	**ft_split(char const *s, char c);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strchr(char *s, char c);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strdup(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char  *s1, char  *s2);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strstr(char *haystack, char *needle);
+char	*ft_itoa(int n);
 char	*ft_strtok(char *str, const char *delim);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	ft_print_err(char *s);
 void	ft_puterr(int state);
+int		exitstatus(int newstatus, int flag);
 
 
-
-
-
-
-
-
+#include "execution.h"
+#include "parser.h"
 
 #endif

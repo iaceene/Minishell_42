@@ -5,92 +5,90 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/01 11:58:31 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/01 12:06:44 by iezzam           ###   ########.fr       */
+/*   Created: 2025/02/01 11:58:31 by behave_shel       #+#    #+#             */
+/*   Updated: 2025/02/04 20:33:27 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
-
-void	handle_here_doc(char *limiter, int *fd)
+static int is_valid_identifier_char(char c)
 {
-	char	*line;
+	return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') || (c == '_'));
+}
 
-	if (pipe(fd) == -1)
-		error_and_exit("Pipe creation failed for here_doc\n", 1);
+static int is_numeric_char(char c)
+{
+	return ('0' <= c && c <= '9');
+}
+
+static void expand_dollar(char *input, t_expand_herdoc *exp)
+{
+	char *env_value;
+
+	exp->buffer_env = char_to_string(input[(exp->i)++]);
+	while (input[exp->i] && is_valid_identifier_char(input[exp->i]))
+	{
+		if (is_numeric_char(input[exp->i]) && input[exp->i - 1] == '$')
+		{
+			free(exp->buffer_env);
+			exp->buffer_env = NULL;
+			return;
+		}
+		exp->buffer_env = ft_strjoin2(exp->buffer_env, char_to_string(input[(exp->i)++]));
+	}
+	if (!exp->buffer_env)
+		return;
+	env_value = ft_env_search(exp->env, exp->buffer_env + 1);
+	exp->buffer_exp = ft_strjoin2(exp->buffer_exp, env_value ? env_value : "");
+	free(exp->buffer_env);
+}
+
+char *expand_heredoc_input(char *input, t_env *env, int exit_code)
+{
+	t_expand_herdoc exp;
+	exp.buffer_env = NULL;
+	exp.buffer_exp = NULL;
+	exp.i = 0;
+	exp.exit_status = exit_code;
+	exp.env = env;
+	while (input[exp.i])
+	{
+		if (input[exp.i] == '$')
+			expand_dollar(input, &exp);
+		else
+			exp.buffer_exp = ft_strjoin2(exp.buffer_exp, char_to_string(input[exp.i]));
+		(exp.i)++;
+	}
+	return (exp.buffer_exp);
+}
+
+void process_here_doc(char *delimiter, int *pipe_fd, t_env *env, int exit_code)
+{
+	char *input;
+	char *expanded;
+
+	if (pipe(pipe_fd) == -1)
+		error_and_exit("Failed to create pipe for heredoc\n", 1);
 	while (1)
 	{
-		write(1, "here_doc> ", 10);
-		line = readline(0);
-		if (!line)
+		write(1, "heredoc> ", 9);
+		input = readline(0);
+		if (!input)
 		{
 			write(1, "\n", 1);
-			break ;
-		}
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-		{
-			free(line);
-			break ;
-		}
-		(write(fd[1], line, ft_strlen(line)), write(fd[1], "\n", 1));
-		free(line);
-	}
-	close(fd[1]);
-}
-
-void	herdoc(t_redirect data, char **av, char **env)
-{
-	int		heredoc_pipe[2];
-	int		cmd_pipe[2];
-	pid_t	pid1;
-	pid_t	pid2;
-
-	handle_here_doc(av[2], heredoc_pipe);
-	if (pipe(cmd_pipe) == -1)
-		error_and_exit("Pipe creation failed\n", 1);
-	pid1 = fork();
-	if (pid1 == 0)
-	{
-		close(heredoc_pipe[1]);
-		redirect_fd(heredoc_pipe[0], 0, "Error redirecting heredoc input\n");
-		redirect_fd(cmd_pipe[1], 1, "Error redirecting output\n");
-		(close(cmd_pipe[0]), execute_cmd(av[3], env));
-	}
-	(close(heredoc_pipe[0]), close(cmd_pipe[1]));
-	pid2 = fork();
-	if (pid2 == 0)
-		(redirect_fd(cmd_pipe[0], 0, "Error redirecting input\n"),
-			redirect_fd(data.fdout, 1, "Error redirecting output\n"),
-			execute_cmd(av[4], env));
-	(close(cmd_pipe[0]), close(data.fdout));
-	while (wait(NULL) != -1)
-		;
-}
-
-int main(int argc, char **argv, char **env)
-{
-	t_redirect data;
-	char *line;
-
-	(void)argc;
-	data.fdout = STDOUT_FILENO;
-
-	while (1)
-	{
-		line = readline("shell>$ ");
-		if (!line)
 			break;
-		if (ft_strlen(line) == 0)
-		{
-			free(line);
-			continue;
 		}
-		char *args[] = { "./minishell", "heredoc", "END", line, NULL };
-		herdoc(data, args, env);
-		free(line);
+		if (ft_strncmp(input, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(input);
+			break;
+		}
+		expanded = expand_heredoc_input(input, env, exit_code);
+		free(input);
+		write(pipe_fd[1], expanded, ft_strlen(expanded));
+		write(pipe_fd[1], "\n", 1);
+		free(expanded);
 	}
-	return (0);
+	close(pipe_fd[1]);
 }

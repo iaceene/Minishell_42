@@ -10,35 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
+#include "../../../../include/parser.h"
 
-// void exec_ast(t_ast *node)
-// {
-//   if (!node)
-//     return;
-
-//   // else if (strcmp(node->type, "HEREDOC") == 0)
-//   // {
-//   //   handle_heredoc(node);
-//   // }
-//   if (ft_strcmp(node->type, "PIPE") == 0)
-//   {
-//     ft_pipex(node);
-//   }
-//   else if (strcmp(node->type, "CMD") == 0)
-//   {
-//     exec_command(node);
-//   }
-//   else if (strcmp(node->type, "REDIR") == 0)
-//   {
-//     exec_redir(node);
-//   }
-// }
-
-void execution(t_shell *shell)
+void	execution(t_cmd *head, t_env **env, int *exit_status)
 {
-    if (!shell)
-        return ;
-    execute_builtin(shell);
-    // ft_pipex(shell);
+	(void)env;
+	(void)exit_status;
+	// (void)root;
+	// if (!root)
+	// {
+	// 	printf("Root is NULL\n");
+	// 	return ;
+	// }
+	// else if (root->type == PIPE)
+	// 	ft_execute_pipe(root, env, exit_status);
+	// else if (root->type == REDIRECTION || root->type == APPEND_REDIRECTION)
+	// 	ft_execute_redirection_out(root, env, exit_status);
+	// else if (root->type == INPUT || root->type == HERE_DOC)
+	// 	ft_execute_redirection_in(root, env, exit_status);
+	// else
+	// if ()
+	// 	printf("Root value: %s\n", root->head->value);
+	// else
+	// 	printf("Root value: NULL\n");	
+
+	while (head)
+	{
+		if (head->type == COMMAND)
+			execution_cmd(head->value, env, exit_status);
+		head = head->next;
+	}
 }

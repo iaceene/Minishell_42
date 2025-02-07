@@ -2,39 +2,54 @@ NAME = minishell
 CC = cc
 FLAGS = -Wall -Wextra -Werror   -g #-fsanitize=address
 INC = ./include/minishell.h
+INCE = ./include/execution.h
+INCP = ./include/parser.h
 RM = rm -f
 
 GREEN = \033[0;32m
 YELLOW = \033[0;33m
-RED = \033[0;31m
+RED = \033[31m
 RESET = \033[0m
 
 
 SRCS =	./src/main/main.c \
-		./src/components/execution/builtin_Functions/builtin_cd.c \
-		./src/components/execution/builtin_Functions/builtin_echo.c \
-		./src/components/execution/builtin_Functions/builtin_env.c \
-		./src/components/execution/builtin_Functions/builtin_exit.c \
-		./src/components/execution/builtin_Functions/builtin_export.c \
-		./src/components/execution/builtin_Functions/builtin_pwd.c \
-		./src/components/execution/builtin_Functions/builtin_unset.c \
-		./src/components/execution/builtin_Functions/builtin.c \
-		./src/components/execution/creat_child.c \
-		./src/components/execution/error_handling.c \
-		./src/components/execution/execution.c \
-		./src/components/execution/find_command_path.c \
-		./src/components/execution/pipex.c \
+		./src/components/execution/builtin/builtin_cd.c \
+		./src/components/execution/builtin/builtin_echo.c \
+		./src/components/execution/builtin/builtin_env.c \
+		./src/components/execution/builtin/builtin_exit.c \
+		./src/components/execution/builtin/builtin_export_help.c \
+		./src/components/execution/builtin/builtin_export.c \
+		./src/components/execution/builtin/builtin_pwd.c \
+		./src/components/execution/builtin/builtin_unset.c \
+		./src/components/execution/builtin/builtin.c \
+		./src/components/execution/env/env_create.c \
+		./src/components/execution/env/env_utils.c \
+		./src/components/execution/env/env_utils1.c \
+		./src/components/execution/execute/creat_child.c \
+		./src/components/execution/execute/error_handling.c \
+		./src/components/execution/execute/execution_cmd.c \
+		./src/components/execution/execute/execution.c \
+		./src/components/execution/execute/find_command_path.c \
+		./src/components/execution/execute/pipex.c \
+		./src/components/execution/expanding/expand.c \
+		./src/components/execution/expanding/expand_dollar.c \
+		./src/components/execution/expanding/expand_tools.c \
+		./src/components/execution/expanding/wildcard.c \
 		./src/components/parser/parser.c \
-		./src/components/parser/creat_env/creat_env.c \
+		./src/components/parser/ft_split_word.c \
+		./src/components/parser/final_step.c \
+		./src/components/parser/lexer_utiles.c \
+		./src/components/parser/syntax_checker.c \
+		./src/components/parser/lexer.c \
 		./src/components/parser/prompt/get_cli.c \
-		./src/components/parser/prompt/get_next_line.c \
-		./src/components/parser/prompt/get_next_line_utils.c \
 		./src/components/parser/prompt/prompt_utiles.c \
 		./src/components/parser/prompt/prompt.c \
 		./src/lib/memory/memory_tracker.c \
 		./src/lib/ft_atoi.c \
+		./src/lib/ft_itoa.c \
 		./src/lib/ft_isdigit.c \
 		./src/lib/ft_isspace.c \
+		./src/lib/ft_memcpy.c \
 		./src/lib/ft_splite.c \
 		./src/lib/ft_split_shell.c \
 		./src/lib/ft_strcat.c \
@@ -42,13 +57,16 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strcpy.c \
 		./src/lib/ft_strdup.c \
 		./src/lib/ft_strjoin.c \
+		./src/lib/ft_strlcat.c \
 		./src/lib/ft_strlcpy.c \
 		./src/lib/ft_strlen.c \
+		./src/lib/ft_strncpy.c \
 		./src/lib/ft_strncmp.c \
 		./src/lib/ft_strstr.c \
 		./src/lib/ft_strtok.c \
 		./src/lib/ft_strtrim.c \
 		./src/lib/ft_substr.c \
+		./src/lib/linked_list.c \
 		./src/lib/print_err.c \
 
 
@@ -56,13 +74,13 @@ SRCS =	./src/main/main.c \
 OBJS = $(SRCS:.c=.o)
 OBJSB = $(SRCSB:.c=.o)
 
-all: ${NAME}
+all: print_error ${NAME}
 
 ${NAME}: ${OBJS}
 	@printf "$(GREEN)Building: ${NAME}$(RESET)\n"
 	${CC} ${FLAGS} ${OBJS} -o ${NAME}  -lreadline -lncurses
 
-%.o: %.c ${INC}
+%.o: %.c ${INC} ${INCE} ${INCP}
 	@printf "$(YELLOW)Compiling: $<$(RSEST)\n"
 	@${CC} ${FLAGS} -c $< -o $@
 
@@ -76,5 +94,35 @@ fclean: clean
 	@$(RM) ${NAME}
 
 re: fclean all
+
+
+print_error:
+	@echo "$(RED)"
+	@echo " ███▄ ▄███▓ ██▓ ███▄    █  ██▓  ██████  ██░ ██ ▓█████  ██▓     ██▓    "
+	@echo "▓██▒▀█▀ ██▒▓██▒ ██ ▀█   █ ▓██▒▒██    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    "
+	@echo "▓██    ▓██░▒██▒▓██  ▀█ ██▒▒██▒░ ▓██▄   ▒██▀▀██░▒███   ▒██░    ▒██░    "
+	@echo "▒██    ▒██ ░██░▓██▒  ▐▌██▒░██░  ▒   ██▒░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░    "
+	@echo "▒██▒   ░██▒░██░▒██░   ▓██░░██░▒██████▒▒░▓█▒░██▓░▒████▒░██████▒░██████▒"
+	@echo "░ ▒░   ░  ░░▓  ░ ▒░   ▒ ▒ ░▓  ▒ ▒▓▒ ▒ ░ ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░"
+	@echo "░  ░      ░ ▒ ░░ ░░   ░ ▒░ ▒ ░░ ░▒  ░ ░ ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░"
+	@echo "░      ░    ▒ ░   ░   ░ ░  ▒ ░░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   "
+	@echo "       ░    ░           ░  ░        ░   ░  ░  ░   ░  ░    ░  ░    ░  ░"
+	@echo " ⢸⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⡷⠀⠀						"
+	@echo " ⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⣀⠀⠀					    "
+	@echo " ⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇ Are you winning son?	"
+	@echo " ⢸⠀⠀⠀⠀ ⠖⠒⠒⠒⢤⠀⠀⠀⠀⠀⡇⠀						"
+	@echo " ⢸⠀⠀⣀⢤⣼⣀⡠⠤⠤⠼⠤⡄⠀⠀⡇⠀						"
+	@echo " ⢸⠀⠀⠑⡤⠤⡒⠒⠒⡊⠙⡏⠀⢀⠀⡇⠀						"
+	@echo " ⢸⠀⠀⠀⠇⠀⣀⣀⣀⣀⢀⠧⠟⠁⠀⡇						"
+	@echo " ⢸⠀⠀⠀⠸⣀⠀⠀⠈⢉⠟⠓⠀⠀⠀⠀						"
+	@echo " ⢸⠀⠀⠀⠀⠈⢱⡖⠋⠁⠀⠀⠀⠀⠀⠀⡇						"
+	@echo " ⢸⠀⠀⠀⠀⣠⢺⠧⢄⣀⠀⠀⣀⣀⠀⠀⡇						"
+	@echo " ⢸⠀⠀⠀⣠⠃⢸⠀⠀⠈⠉⡽⠿⠯⡆							"
+	@echo " ⢸⠀⠀⣰⠁⠀⢸⠀⠀⠀⠀⠉⠉⠉⠀⠀⡇						"
+	@echo " ⢸⠀⠀⠣⠀⠀⢸⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇						"
+	@echo " ⢸⠀⠀⠀⠀⠀⢸⠀⢇⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀						"
+	@echo "\033[38;2;89;180;195m"
+	@echo "                       by: kaneki, iaceene                       "
+	@echo "\033[0m"                                                         
 
 .PHONY: all clean fclean re

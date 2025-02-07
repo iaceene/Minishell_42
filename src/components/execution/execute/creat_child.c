@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
 void redirect_fd(int from_fd, int to_fd, const char *str)
 {
