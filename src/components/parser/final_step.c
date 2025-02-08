@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 02:19:12 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 03:10:09 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ t_cmd	*new_cmd(t_node *node)
 	t_cmd *ret;
 
 	ret = ft_malloc(sizeof(t_cmd));
+	if (!node)
+	{
+		ret->type = NIL;
+		ret->value = NULL;
+		ret->next = NULL;
+		return (ret);
+	}
 	ret->type = node->type;
 	ret->value = node->value;
 	ret->next = NULL;
@@ -50,7 +57,7 @@ int no_need(TokenType tp)
 
 void print_command(t_cmd *cmd);
 
-t_cmd	*data_maker(t_node *head)
+t_cmd	*data_maker(t_node *head, t_fake_env *env)
 {
 	t_cmd *cmd;
 
@@ -60,14 +67,14 @@ t_cmd	*data_maker(t_node *head)
 	while (head)
 	{
 		if (head->type == DOLLAR)
-			head = expander(head);
+			head = expander(head, env, &cmd);
 		else
 		{
 			add_to_cmd(&cmd, new_cmd(head));
 			head = head->next;
 		}
 	}
-	// print_command(cmd);
+	print_command(cmd);
 	return (cmd);
 }
 

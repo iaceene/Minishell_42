@@ -6,13 +6,36 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:14:23 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 02:17:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 03:06:01 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-t_node  *expander(t_node *node)
+t_node *val_node(char *val)
 {
-    return (node->next);
+    t_node *ret;
+
+    ret = ft_malloc(sizeof(t_node));
+    ret->type = WORD;
+    ret->value = val;
+    return (ret);
+}
+
+t_node  *expander(t_node *node, t_fake_env *head, t_cmd **cmd)
+{
+    char    *value;
+
+    value = node->next->value;
+    while (head)
+    {
+        if (ft_strstr(head->key, value))
+            break;
+        head = head->next;
+    }
+    if (!head)
+        add_to_cmd(cmd, new_cmd(NULL));
+    else
+        add_to_cmd(cmd, new_cmd(val_node(head->value)));
+    return (node->next->next);
 }

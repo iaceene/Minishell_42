@@ -37,6 +37,7 @@
 
 typedef enum {
 	COMMAND,       // Command or argument
+	WORD,            /// for expanding
 	PIPE,       // |
 	APPEND,		// >>
 	HERDOC,		// <<
@@ -47,6 +48,7 @@ typedef enum {
 	DOLLAR,     // $
 	OPEN_PAR,  // (
 	CLOSE_PAR, // )
+	NIL /// this a NULL node
 } TokenType;
 
 /************************* env struct *************************/

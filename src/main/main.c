@@ -17,7 +17,6 @@ void clear_terminal(void)
 	write(1, "\033[H\033[J", 6);
 }
 
-
 static void ft_init(t_tool *tool, char **env)
 {
 	tool->grbg = NULL;
@@ -34,7 +33,7 @@ int main(int ac, char **av, char **env)
 	t_tool tool;
 
     clear_terminal();
-    data.env = env; 
+    data.env = env;
     signal(SIGINT, ft_sighandler);
     signal(SIGQUIT, ft_sighandler);
 	ft_init(&tool, env);
