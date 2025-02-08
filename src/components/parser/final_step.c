@@ -50,8 +50,7 @@ t_cmd	*data_maker(t_node *head)
 	cmd = NULL;
 	while (head)
 	{
-		if (!no_need(head->type))
-			add_to_cmd(&cmd, new_cmd(head));
+		add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
 	// print_command(cmd);

@@ -12,16 +12,6 @@
 
 #include "../../../include/execution.h"
 
-
-// int parser(t_data *data)
-// {
-//     (void)data;
-//     printf("welcome parser!\n");
-//     return (-1);
-
-// }
-
-
 int parser(t_data *data)
 {
 	t_node *tock_data;

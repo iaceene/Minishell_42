@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 01:15:28 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 01:48:35 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	search_for_acc(TokenType type, t_node *head)
 	{
 		if (head->type == type && head->visit == false)
 		{
-			printf("zb\n");
 			head->visit = true;
 			return 0;
 		}
@@ -181,7 +180,7 @@ int check_no_opned_pr(t_node *data)
 {
 	while (data)
 	{
-		if (data->type == CLOSE_PAR && data->flaged == 0)
+		if (data->type == CLOSE_PAR && data->visit == false)
 			return (1);
 		data = data->next;
 	}
@@ -190,42 +189,40 @@ int check_no_opned_pr(t_node *data)
 
 int others_checker(t_node *data)
 {
-    if (!data)
-        return 1;
+	t_node	*tmp;
+
+	tmp = data;
     while (data)
     {
-        if (data->type == SIN_QUOTE && data->visit == false)
-        {
-			// data->visit = true;
-			int check =  search_for_acc(data->type, data->next);
-			printf("%d\n", check);
-            if (check == 1)
-                return 0;
-        }
-        if (data->type == OPEN_PAR)
-        {
-            if (search_for_acc(CLOSE_PAR, data->next) || valid_parent(data))
-                return 0;
-        }
-        if ((data->type == APPEND || data->type == RIGHT_RED) && !data->next)
-            return 0;
-
+		if ((data->type == SIN_QUOTE || data->type == DOB_QUOTE)
+			&& data->visit == false)
+		{
+			data->visit = true;
+			if (search_for_acc(data->type, data))
+				return (0);
+		}
+		if ((data->type == OPEN_PAR)
+			&& data->visit == false)
+		{
+			data->visit = true;
+			if (search_for_acc(CLOSE_PAR, data))
+				return (0);
+		}
         data = data->next;
     }
-
+	if (check_no_opned_pr(tmp))
+		return (0);
     return 1;
 }
 
 int	syntax_checker(t_node *data)
 {
-	print_data (data);
-	// if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data))
-	if (!others_checker(data))
+	if (!data)
+		return (-1);
+	if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data))
 	{
-		print_data (data);
+		print_data(data);
 		return (-1);
 	}
-	printf("------------\n");
-	print_data (data);
 	return (0);
 }
