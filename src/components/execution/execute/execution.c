@@ -48,9 +48,23 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
                 commands[i++] = current;
             current = current->next;
         }
-
         if (cmd_count > 1)
             ft_pipex(commands, cmd_count, env, exit_status);
+        // else if (commands[0]->type == APPEND || commands[0]->type == RIGHT_RED)
+        // {
+        //     printf("Executing redirection\n");
+        //     ft_execute_redirection_out(commands[0], env, exit_status);
+        // }
+        // else if (commands[0]->type == LEFT_RED)
+        // {
+        //     printf("Executing redirection\n");
+        //         ft_execute_redirection_in(commands[0], env, exit_status);
+        // }
+        // else if (commands[0]->type == HERDOC)
+        // {
+        //     printf("Executing heredoc\n");
+        //     ft_execute_heredoc(commands[0], env, exit_status);
+        // }
         else
 		{
 			printf("Executing single\n");
@@ -60,14 +74,3 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
         free(commands);
     }
 }
-
-		// else if (root->type == REDIRECTION || root->type == APPEND_REDIRECTION)
-		// 	ft_execute_redirection_out(root, env, exit_status);
-		// else if (root->type == INPUT || root->type == HERE_DOC)
-		// 	ft_execute_redirection_in(root, env, exit_status);
-		// else
-		// if ()
-		// 	printf("Root value: %s\n", root->head->value);
-		// else
-		// 	printf("Root value: NULL\n");
-		// else
