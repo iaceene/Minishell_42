@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/08 09:53:51 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:21:21 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ void	execution(t_cmd *head, t_env **env, int *exit_status);
 //*******************execute****************************
 void	execution_cmd(char *cmd, t_env **env, int *exit_status);
 //creat_child
-void	child2(t_shell *data, int **wr_pipe);
-void	child1(t_shell *data, int **wr_pipe);
-void	child_intermediate(t_shell *data, int **pipes);
+void child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
+void child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
+void	child_intermediate(t_cmd *cmd, int **pipes, int pipe_idx, int pipe_count, t_env **env);
 //error_handling
 void	ft_free_string(char **str);
 void	error_and_exit(const char *str, int exite);
@@ -136,7 +136,7 @@ void	close_fd(t_redirect *data);
 // void		redirect_fd(int from_fd, int to_fd, const char *str);
 void	close_all_pipe(int **pipes, int num_cmd);
 void	free_all_pipe(int **pipes, int i);
-void	ft_pipex(t_shell *shell);
+void	ft_pipex(t_cmd **commands, int cmd_count, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);

@@ -12,84 +12,117 @@
 
 #include "../../../../include/execution.h"
 
-void close_fd(t_redirect *data)
+static void close_pipes(int **pipes, int count)
 {
-  close(data->fdin);
-  close(data->fdout);
-}
+  int i;
 
-void close_all_pipe(int **pipes, int num_cmd)
-{
-  int j;
-
-  j = 0;
-  if (!pipes)
-    return;
-  while (j < num_cmd - 1)
+  i = 0;
+  while (i < count)
   {
-    close(pipes[j][0]);
-    close(pipes[j][1]);
-    j++;
+    close(pipes[i][0]);
+    close(pipes[i][1]);
+    i++;
   }
 }
 
-void free_all_pipe(int **pipes, int i)
+static void free_pipes(int **pipes, int count)
 {
-  while (--i >= 0)
-    free(pipes[i]);
+  int i;
+
+  i = 0;
+  while (i < count)
+    free(pipes[i++]);
   free(pipes);
 }
 
-int **allocate_pipes(int num_pipes)
+static int **create_pipes(int count)
 {
-  int **pipes = malloc(num_pipes * sizeof(int *));
-  if (!pipes)
-    return NULL;
-  int i = 0;
-  while (i < num_pipes)
+  int i;
+  int **pipes;
+
+  i = 0;
+  pipes = ft_malloc(sizeof(int *) * count);
+  while (i < count)
   {
-    pipes[i] = malloc(2 * sizeof(int));
-    if (!pipes[i] || pipe(pipes[i]) == -1)
+    pipes[i] = ft_malloc(sizeof(int) * 2);
+    if (!pipes[i])
     {
-      free_all_pipe(pipes, i);
-      error_and_exit("Failed to create pipe\n", 1);
+      free_pipes(pipes, i);
+      return NULL;
+    }
+    if (pipe(pipes[i]) == -1)
+    {
+      free_pipes(pipes, i);
+      return NULL;
     }
     i++;
   }
   return pipes;
 }
-
-void ft_pipex(t_shell *shell)
+void create_child_processes(t_cmd **commands, int cmd_count, int **pipes, int pipe_count, t_env **env, pid_t *pids)
 {
-  int **pipes;
-  int num_cmds = shell->num_cmds;
+  int i;
 
-  pipes = allocate_pipes(num_cmds - 1);
-  if (!pipes)
-    error_and_exit("Failed to allocate pipes\n", 1);
+  i = 0;
+  while (i < cmd_count)
+  {
+    pids[i] = fork();
+    if (pids[i] == -1)
+    {
+      close_pipes(pipes, pipe_count);
+      free_pipes(pipes, pipe_count);
+      free(pids);
+      error_and_exit("Fork failed", 1);
+    }
+    if (pids[i] == 0)
+    {
+      if (i == 0)
+        child1(commands[i], pipes, pipe_count, env);
+      else if (i == cmd_count - 1)
+        child_last(commands[i], pipes, pipe_count, env);
+      else
+        child_intermediate(commands[i], pipes, i, pipe_count, env);
+    }
+  }
+  i++;
+}
 
+void wait_for_processes(pid_t *pids, int cmd_count, int *exit_status)
+{
+  int last_status;
+  int i;
 
-  child1(shell, pipes);
-
-  if (num_cmds > 2)
-    child_intermediate(shell, pipes);
-
-  if (num_cmds > 1)
-    child2(shell, pipes);
-
-  close_all_pipe(pipes, num_cmds);
-  if (shell->redirect->fdin != STDIN_FILENO)
-    close_fd(shell->redirect);
-  free_all_pipe(pipes, num_cmds - 1);
-
-  int i = 0;
-  while (i < num_cmds)
+  i = 0;
+  while (i < cmd_count)
   {
     int status;
-    wait(&status);
-    if (WIFEXITED(status))
-      shell->last_exit = WEXITSTATUS(status);
+    waitpid(pids[i], &status, 0);
+    if (i == cmd_count - 1)
+      last_status = status;
     i++;
   }
-  fprintf(stderr, "last exit: %d\n", shell->last_exit);
+  if (WIFEXITED(last_status))
+    *exit_status = WEXITSTATUS(last_status);
+}
+void ft_pipex(t_cmd **commands, int cmd_count, t_env **env, int *exit_status)
+{
+  int pipe_count;
+  int **pipes;
+  pid_t *pids;
+
+  pipe_count = cmd_count - 1;
+  pipes = create_pipes(pipe_count);
+  if (!pipes)
+    error_and_exit("Pipe creation failed", 1);
+  pids = ft_malloc(sizeof(pid_t) * cmd_count);
+  if (!pids)
+  {
+    free_pipes(pipes, pipe_count);
+    error_and_exit("Memory allocation failed", 1);
+  }
+  create_child_processes(commands, cmd_count, pipes, pipe_count, env, pids);
+  close_pipes(pipes, pipe_count);
+  free_pipes(pipes, pipe_count);
+  wait_for_processes(pids, cmd_count, exit_status);
+  free(pids);
 }

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/08 09:52:58 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 10:17:29 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void execution_cmd(char *cmd, t_env **env, int *exit_status)
     char **cmd_argv = ft_split(cmd, ' ');
     pid_t pid;
     struct termios state;
-    printf("cmd: %s\n", cmd);
+    // printf("cmd: %s\n", cmd);
     // cmd_argv = expand_input(cmd, *env, *exit_status);
     // printf("sor [0]: %s\n", cmd_argv[0]);
     // printf("sor [0]: %s\n", cmd_argv[1]);

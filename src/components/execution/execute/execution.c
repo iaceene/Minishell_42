@@ -14,32 +14,60 @@
 #include "../../../../include/minishell.h"
 #include "../../../../include/parser.h"
 
-void	execution(t_cmd *head, t_env **env, int *exit_status)
+void execution(t_cmd *head, t_env **env, int *exit_status)
 {
-	(void)env;
-	(void)exit_status;
-	// (void)root;
-	// if (!root)
-	// {
-	// 	printf("Root is NULL\n");
-	// 	return ;
-	// }
-	// else if (root->type == PIPE)
-	// 	ft_execute_pipe(root, env, exit_status);
-	// else if (root->type == REDIRECTION || root->type == APPEND_REDIRECTION)
-	// 	ft_execute_redirection_out(root, env, exit_status);
-	// else if (root->type == INPUT || root->type == HERE_DOC)
-	// 	ft_execute_redirection_in(root, env, exit_status);
-	// else
-	// if ()
-	// 	printf("Root value: %s\n", root->head->value);
-	// else
-	// 	printf("Root value: NULL\n");	
+    if (!head)
+    {
+        printf("Root is NULL\n");
+        return;
+    }
 
-	while (head)
-	{
-		if (head->type == COMMAND)
-			execution_cmd(head->value, env, exit_status);
-		head = head->next;
-	}
+    t_cmd *current = head;
+    int cmd_count = 0;
+    t_cmd **commands = NULL;
+
+    // Count commands and collect them
+    while (current)
+    {
+        if (current->type != PIPE)
+            cmd_count++;
+        current = current->next;
+    }
+
+    if (cmd_count > 0)
+    {
+        commands = malloc(sizeof(t_cmd *) * cmd_count);
+        if (!commands)
+            error_and_exit("Memory allocation failed", 1);
+
+        current = head;
+        int i = 0;
+        while (current)
+        {
+            if (current->type != PIPE)
+                commands[i++] = current;
+            current = current->next;
+        }
+
+        if (cmd_count > 1)
+            ft_pipex(commands, cmd_count, env, exit_status);
+        else
+		{
+			printf("Executing single\n");
+            execution_cmd(commands[0]->value, env, exit_status);
+		}
+
+        free(commands);
+    }
 }
+
+		// else if (root->type == REDIRECTION || root->type == APPEND_REDIRECTION)
+		// 	ft_execute_redirection_out(root, env, exit_status);
+		// else if (root->type == INPUT || root->type == HERE_DOC)
+		// 	ft_execute_redirection_in(root, env, exit_status);
+		// else
+		// if ()
+		// 	printf("Root value: %s\n", root->head->value);
+		// else
+		// 	printf("Root value: NULL\n");
+		// else
