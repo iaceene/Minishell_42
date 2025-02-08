@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/07 18:17:29 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 09:53:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ void	child_intermediate(t_shell *data, int **pipes);
 void	ft_free_string(char **str);
 void	error_and_exit(const char *str, int exite);
 void	close_fd(t_redirect *data);
-void	cleanup_shell(t_shell *shell);
 //pipex
 // void		redirect_fd(int from_fd, int to_fd, const char *str);
 void	close_all_pipe(int **pipes, int num_cmd);

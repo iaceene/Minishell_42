@@ -31,29 +31,3 @@ void error_and_exit(const char *str, int exite)
 	exit(exite);
 }
 
-void cleanup_shell(t_shell *shell)
-{
-    if (shell->commands)
-	{
-		int	i = 0;
-        while (i < shell->num_cmds)
-		{
-            if (shell->commands[i].args)
-                free(shell->commands[i].args);
-            if (shell->commands[i].path)
-                free(shell->commands[i].path);
-			i++;
-        }
-        free(shell->commands);
-    }
-
-    if (shell->redirect)
-	{
-        if (shell->redirect->infile)
-            free(shell->redirect->infile);
-        if (shell->redirect->outfile)
-            free(shell->redirect->outfile);
-        free(shell->redirect);
-    }
-}
-
