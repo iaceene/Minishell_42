@@ -85,15 +85,6 @@ typedef enum {
 	CLOSE_PAR, // )
 } TokenType;
 
-typedef struct s_node{
-	TokenType			type;   // Type of token
-	char				*value;
-	int					flaged;
-	struct  s_node		*next;
-} t_node;
-
-
-
 
 
 

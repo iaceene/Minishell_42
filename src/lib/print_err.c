@@ -30,4 +30,6 @@ void ft_puterr(int state)
         ft_print_err("Invalid env!\n");
     if (state == 14)   
         ft_print_err("\033[31mError\033[0m : Invalid syntax\n");
+    if (state == 32)   
+        rl_on_new_line();
 }

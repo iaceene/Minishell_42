@@ -28,12 +28,12 @@ int parser(t_data *data)
 
 	tock_data = lexer_init(data->prompt);
 	if (!tock_data)
-		return (1);
+		return (0);
 	if (syntax_checker(tock_data) == -1)
-		return (1);
+		return (0);
 	else
 		data->head = data_maker(tock_data);
 	if (!data->head)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }

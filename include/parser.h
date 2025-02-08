@@ -3,21 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/07 17:24:18 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 00:59:01 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 #define PARSER_H
 
-// #include "minishell.h"
-// #include "execution.h"
 # include "minishell.h"
+# include "stdbool.h"
 
 
+typedef struct s_node{
+	TokenType			type;   // Type of token
+	char				*value;
+	bool			    flaged;
+	bool			    visit;
+	struct  s_node		*next;
+} t_node;
 
 
 
