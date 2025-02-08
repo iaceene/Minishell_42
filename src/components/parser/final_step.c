@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 03:10:09 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 05:32:00 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,10 @@ t_cmd	*data_maker(t_node *head, t_fake_env *env)
 	cmd = NULL;
 	while (head)
 	{
-		if (head->type == DOLLAR)
-			head = expander(head, env, &cmd);
-		else
-		{
-			add_to_cmd(&cmd, new_cmd(head));
-			head = head->next;
-		}
+		if (head->type == COMMAND && ft_strstr(head->value, "$"))
+			expander(head, env, &cmd);
+		add_to_cmd(&cmd, new_cmd(head));
+		head = head->next;
 	}
 	print_command(cmd);
 	return (cmd);
@@ -83,7 +80,7 @@ void print_command(t_cmd *cmd)
 	int i = 0;
 	while (cmd)
 	{
-		printf("====\ncommand %s\nN : %d\nType %d\n", cmd->value, i, cmd->type);
+		printf("\n================Command======================\n[ %s ]\nType %d\n", cmd->value, cmd->type);
 		i++;
 		cmd = cmd->next;
 	}

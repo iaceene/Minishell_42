@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 01:48:35 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 04:52:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,10 +219,8 @@ int	syntax_checker(t_node *data)
 {
 	if (!data)
 		return (-1);
+	// print_data(data);
 	if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data))
-	{
-		print_data(data);
 		return (-1);
-	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/08 02:51:04 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 05:07:07 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		ft_isalnum(char c);
 char	*extract_word(char *s);
 void    add_to_cmd(t_cmd **head, t_cmd *new);
 t_cmd   *new_cmd(t_node *node);
-t_node  *expander(t_node *node, t_fake_env *head, t_cmd **cmd);
+void	expander(t_node *node, t_fake_env *head, t_cmd **cmd);
 t_cmd	*data_maker(t_node *head, t_fake_env *env);
 void print_data(t_node *data);
 
