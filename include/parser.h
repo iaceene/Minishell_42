@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/08 05:07:07 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/09 00:02:44 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_fake_env
 
 t_node	*lexer_init(const char *str);
 int		ft_isascii(int c);
+char	*ft_strndup(char *s, size_t n);
 int		operator(char c);
 int		syntax_checker(t_node *data);
 char	**ft_split_word(char *str, char *word);

@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:14:23 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 06:17:46 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/09 00:23:53 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,18 @@ char *copy_until_space(char *s)
     char *tmp;
     int len;
 
-    if (!s) return NULL;
-
-    len = 0;
-    while (s[len] && !ft_isspace(s[len]))
-        len++;
-
-    tmp = ft_malloc(len + 1);
-    if (!tmp) return NULL;
-
-    for (int i = 0; i < len; i++)
-        tmp[i] = s[i];
-    tmp[len] = '\0';
-
-    return tmp;
+    if (!s)
+		return (NULL);
+	len = 0;
+	s = find_dollar(s);
+	tmp = s;
+	while (*s && !ft_isspace(*s))
+	{
+		len++;
+		s++;
+	}
+	tmp = ft_strndup(tmp, len);
+    return (tmp);
 }
 
 char *copy_befor_dlr(char *s)
@@ -81,20 +79,12 @@ char *expand_one_arg(char *s, t_fake_env *head)
 		return (NULL);
 	tmp = s;
 	befor_dolar = copy_befor_dlr(s);
-	printf("BD = %s\n", befor_dolar);
 	after_dolar = copy_after_dlr(s);
-	printf("AD = %s\n", after_dolar);
 	s = copy_until_space(s);
-	printf("S = %s\n", s);
 	while (head)
 	{
-		if (ft_strncmp(s, head->key, ft_strlen(s)) == 0
-            && ft_strlen(s) == ft_strlen(head->key))
-			{
-				printf("wwwn\n");
+		if (ft_strncmp(s, head->key, ft_strlen(s)) == 0)
 			break ;
-				
-			}
 		head = head->next;
 	}
 	if (!head)
@@ -127,6 +117,22 @@ char *expander_init(char *s, t_fake_env *head)
 	return (NULL);
 }
 
+char	*no_provided_var(char *s)
+{
+	char	*tmp;
+	int		len;
+
+	len = 0;
+	tmp = s;
+	while (*tmp && *tmp != '$')
+	{
+		tmp++;
+		len++;
+	}
+	printf("%d\n", len);
+	return (ft_strndup(s, len - 1));
+}
+
 void	expander(t_node *node, t_fake_env *head, t_cmd **cmd)
 {
 	char    *position;
@@ -135,7 +141,10 @@ void	expander(t_node *node, t_fake_env *head, t_cmd **cmd)
 
 	position = find_dollar(node->value);
 	if(!position || !*position)
+	{
+		node->value = no_provided_var(node->value);
 		return ;
+	}
 	expanded = expander_init(node->value, head);
 	if (!expanded)
 		return ;
