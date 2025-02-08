@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/08 00:59:01 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/08 02:19:43 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 typedef struct s_node{
 	TokenType			type;   // Type of token
 	char				*value;
-	bool			    flaged;
 	bool			    visit;
 	struct  s_node		*next;
 } t_node;
@@ -36,6 +35,9 @@ void	add_to_list(t_node **head, t_node *new);
 t_node	*add_new_node(TokenType type, char *val);
 int		ft_isalnum(char c);
 char	*extract_word(char *s);
+void    add_to_cmd(t_cmd **head, t_cmd *new);
+t_cmd   *new_cmd(t_node *node);
+t_node  *expander(t_node *node);
 t_cmd	*data_maker(t_node *head);
 void print_data(t_node *data);
 

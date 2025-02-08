@@ -1,7 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   final_step.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
+/*   Updated: 2025/02/08 02:19:12 by yaajagro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../include/minishell.h"
-
-
-
 
 t_cmd	*new_cmd(t_node *node)
 {
@@ -50,8 +59,13 @@ t_cmd	*data_maker(t_node *head)
 	cmd = NULL;
 	while (head)
 	{
-		add_to_cmd(&cmd, new_cmd(head));
-		head = head->next;
+		if (head->type == DOLLAR)
+			head = expander(head);
+		else
+		{
+			add_to_cmd(&cmd, new_cmd(head));
+			head = head->next;
+		}
 	}
 	// print_command(cmd);
 	return (cmd);
