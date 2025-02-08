@@ -83,8 +83,8 @@ void create_child_processes(t_cmd **commands, int cmd_count, int **pipes, int pi
       else
         child_intermediate(commands[i], pipes, i, pipe_count, env);
     }
+    i++;
   }
-  i++;
 }
 
 void wait_for_processes(pid_t *pids, int cmd_count, int *exit_status)

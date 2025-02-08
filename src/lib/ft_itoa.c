@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   itoa.c                                             :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:13:11 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/03 15:15:59 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:48:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_itoa(int n)
 
 	ln = (long long)n;
 	size = len_of_number(ln);
-	ptr = malloc(size + 1);
+	ptr = ft_malloc(size + 1);
 	if (ptr == NULL)
 		return (NULL);
 	fill(ptr, ln, size);

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:18:58 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/05 16:22:28 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:47:43 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int ft_env_add(t_env **env, char *key, char *value, int visible)
 
     new = ft_malloc(sizeof(t_env));
     if (new == NULL)
-        return (ft_print_err("malloc failed\n"), -1);
+        return (ft_print_err("ft_malloc failed\n"), -1);
     new->key = key;
     new->value = value;
     new->next = NULL;

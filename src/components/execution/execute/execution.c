@@ -36,7 +36,7 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
 
     if (cmd_count > 0)
     {
-        commands = malloc(sizeof(t_cmd *) * cmd_count);
+        commands = ft_malloc(sizeof(t_cmd *) * cmd_count);
         if (!commands)
             error_and_exit("Memory allocation failed", 1);
 

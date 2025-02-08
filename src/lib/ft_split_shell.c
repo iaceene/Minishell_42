@@ -150,7 +150,7 @@ char **ft_split_shell(const char *s)
 	if (!s || ft_check_syntax(s))
 		return (NULL);
 	token_count = ft_count_tokens(s);
-	result = malloc((token_count + 1) * sizeof(char *));
+	result = ft_malloc((token_count + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
 	while (*s)

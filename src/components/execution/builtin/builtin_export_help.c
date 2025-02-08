@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/04 15:44:13 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:47:31 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char *ft_get_slice(char *str, int *pos, char stop)
 	left = *pos;
 	while (str[*pos] && str[*pos] != stop)
 		(*pos)++;
-	slice = (char *)malloc(sizeof(char) * (*pos - left) + 1);
+	slice = ft_malloc(sizeof(char) * (*pos - left) + 1);
 	i = 0;
 	while (left < *pos)
 		slice[i++] = str[left++];
