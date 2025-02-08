@@ -26,7 +26,6 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
     int cmd_count = 0;
     t_cmd **commands = NULL;
 
-    // Count commands and collect them
     while (current)
     {
         if (current->type != PIPE)
