@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_utiles.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/06 19:54:54 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 09:30:34 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/parser.h"
+
 
 t_node	*add_new_node(TokenType type, char *val)
 {
 	t_node *ret;
 
 	ret = ft_malloc(sizeof(t_node));
-	ret->flaged = 0;
+	ret->visit = false;
 	ret->type = type;
 	ret->value = ft_strdup(val);
 	ret->next = NULL;

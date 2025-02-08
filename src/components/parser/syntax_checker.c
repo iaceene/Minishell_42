@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/07 18:24:18 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/08 09:25:22 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void print_data(t_node *data)
 		if (temp->type == LEFT_RED)
 			printf("left redirection");
 		if (temp->type == SIN_QUOTE)
-			printf("single quate FLAGE = %d", data->flaged);
+			printf("single quate FLAGE = %s", data->visit ? "Treu" : "False");
 		if (temp->type == DOB_QUOTE)
-			printf("double quate FLAGE = %d", data->flaged);
+			printf("double quate FLAGE = %s", data->value ? "Treu" : "False");
 		if (temp->type == DOLLAR)
 			printf("dolar");
 		if (temp->type == OPEN_PAR)
@@ -51,9 +51,9 @@ int	search_for_acc(TokenType type, t_node *head)
 {
 	while (head)
 	{
-		if (head->type == type && head->flaged == 0)
+		if (head->type == type && head->visit == false)
 		{
-			head->flaged = 1;
+			head->visit = true;
 			return 0;
 		}
 		head = head->next;
@@ -180,7 +180,7 @@ int check_no_opned_pr(t_node *data)
 {
 	while (data)
 	{
-		if (data->type == CLOSE_PAR && data->flaged == 0)
+		if (data->type == CLOSE_PAR && data->visit == false)
 			return (1);
 		data = data->next;
 	}
@@ -189,32 +189,37 @@ int check_no_opned_pr(t_node *data)
 
 int others_checker(t_node *data)
 {
-    if (!data)
-        return 1;
+	t_node	*tmp;
+
+	tmp = data;
     while (data)
     {
-        if ((data->type == SIN_QUOTE || data->type == DOB_QUOTE) && data->flaged == 0)
-        {
-            if (search_for_acc(data->type, data->next))
-                return 0;
-        }
-        if (data->type == OPEN_PAR)
-        {
-            if (search_for_acc(CLOSE_PAR, data->next) || valid_parent(data))
-                return 0;
-        }
-        if ((data->type == APPEND || data->type == RIGHT_RED) && !data->next)
-            return 0;
-
+		if ((data->type == SIN_QUOTE || data->type == DOB_QUOTE)
+			&& data->visit == false)
+		{
+			data->visit = true;
+			if (search_for_acc(data->type, data))
+				return (0);
+		}
+		if ((data->type == OPEN_PAR)
+			&& data->visit == false)
+		{
+			data->visit = true;
+			if (search_for_acc(CLOSE_PAR, data))
+				return (0);
+		}
         data = data->next;
     }
-
+	if (check_no_opned_pr(tmp))
+		return (0);
     return 1;
 }
 
 int	syntax_checker(t_node *data)
 {
-	// print_data (data);
+	if (!data)
+		return (-1);
+	// print_data(data);
 	if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data))
 		return (-1);
 	return (0);
