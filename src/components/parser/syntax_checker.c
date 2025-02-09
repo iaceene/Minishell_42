@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 09:25:22 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/09 09:54:59 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	readdir_checker(t_node *data)
 		// 	return (0);
 		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && !data->next)
 			return (0);
-		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && (data->next->type != COMMAND || prv->type != COMMAND))
+		if (!(data->next) && (data->type == LEFT_RED || data->type == RIGHT_RED) && (data->next->type != COMMAND || prv->type != COMMAND))
 			return (0);
 		prv = data;
 		data = data->next;

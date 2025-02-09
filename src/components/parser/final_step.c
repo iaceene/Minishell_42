@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 17:32:51 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/09 09:13:00 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ t_cmd	*data_maker(t_node *head, t_fake_env *env)
 		add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
-	// print_command(cmd);
+	print_command(cmd);
 	return (cmd);
 }
 
-// void print_command(t_cmd *cmd)
-// {
-// 	int i = 0;
-// 	while (cmd)
-// 	{
-// 		printf("\n================Command======================\n[ %s ]\nType %d\n", cmd->value, cmd->type);
-// 		i++;
-// 		cmd = cmd->next;
-// 	}
-// }
+void print_command(t_cmd *cmd)
+{
+	int i = 0;
+	while (cmd)
+	{
+		printf("\n================Command======================\n[ %s ]\nType %d\n", cmd->value, cmd->type);
+		i++;
+		cmd = cmd->next;
+	}
+}

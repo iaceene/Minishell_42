@@ -46,6 +46,7 @@ typedef enum {
 	SIN_QUOTE,  // '
 	DOB_QUOTE, // "
 	DOLLAR,     // $
+	FILENAME,
 	OPEN_PAR,  // (
 	CLOSE_PAR, // )
 	NIL /// this a NULL node

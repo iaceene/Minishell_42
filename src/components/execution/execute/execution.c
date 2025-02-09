@@ -15,13 +15,14 @@
 
 void ft_execute_heredoc(t_cmd *cmd, t_env **env, int *exit_status)
 {
-    int temp_fd = open(".temp_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (temp_fd == -1)
+    int pipe_fd[2];
+    if (pipe(pipe_fd) == -1)
     {
+        perror("pipe");
         *exit_status = 1;
-        perror("heredoc");
         return;
     }
+
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -35,27 +36,22 @@ void ft_execute_heredoc(t_cmd *cmd, t_env **env, int *exit_status)
             line[read - 1] = '\0';
         if (strcmp(line, &cmd->value[1]) == 0)
             break;
-        write(temp_fd, line, strlen(line));
-        write(temp_fd, "\n", 1);
+        write(pipe_fd[1], line, strlen(line));
+        write(pipe_fd[1], "\n", 1);
     }
     free(line);
-    close(temp_fd);
-    int fd_in = open(".temp_heredoc", O_RDONLY);
-    if (fd_in == -1)
-    {
-        *exit_status = 1;
-        perror("heredoc");
-        unlink(".temp_heredoc");
-        return;
-    }
+    close(pipe_fd[1]);
+
     int stdin_backup = dup(STDIN_FILENO);
-    dup2(fd_in, STDIN_FILENO);
-    close(fd_in);
+    dup2(pipe_fd[0], STDIN_FILENO);
+    close(pipe_fd[0]);
+
     execution_cmd(cmd->value, env, exit_status);
+
     dup2(stdin_backup, STDIN_FILENO);
     close(stdin_backup);
-    unlink(".temp_heredoc");
 }
+
 
 void ft_execute_redirection_out(t_cmd *cmd, t_env **env, int *exit_status)
 {
@@ -103,7 +99,6 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
     int cmd_count = 0;
     t_cmd **commands = NULL;
 
-    // Count commands excluding pipes
     while (current)
     {
         if (current->type != PIPE)
@@ -118,7 +113,6 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
     if (!commands)
         error_and_exit("Memory allocation failed", 1);
 
-    // Fill commands array
     current = head;
     int i = 0;
     while (current)
@@ -126,20 +120,18 @@ void execution(t_cmd *head, t_env **env, int *exit_status)
         if (current->type != PIPE)
         {
             commands[i] = current;
-            // Check if next command is a redirection
             if (current->next && (current->next->type == RIGHT_RED || 
                 current->next->type == APPEND || 
                 current->next->type == LEFT_RED ||
                 current->next->type == HERDOC))
             {
-                current = current->next;  // Skip the redirection token
+                current = current->next;
             }
             i++;
         }
         current = current->next;
     }
 
-    // Execute commands
     if (cmd_count > 1)
         ft_pipex(commands, cmd_count, env, exit_status);
     else if (commands[0]->type == APPEND || commands[0]->type == RIGHT_RED)
