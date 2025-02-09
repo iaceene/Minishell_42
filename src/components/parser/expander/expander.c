@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:14:23 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 00:23:53 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/09 01:06:45 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,18 @@ char *expand_one_arg(char *s, t_fake_env *head)
 {
 	char	*befor_dolar;
 	char	*after_dolar;
-	char	*tmp;
 
 	if (!*s || !s)
 		return (NULL);
-	tmp = s;
 	befor_dolar = copy_befor_dlr(s);
 	after_dolar = copy_after_dlr(s);
 	s = copy_until_space(s);
 	while (head)
 	{
-		if (ft_strncmp(s, head->key, ft_strlen(s)) == 0)
+		if (!s || !*s)	
+			return (ft_strjoin(befor_dolar, after_dolar));
+		if (ft_strncmp(s, head->key, ft_strlen(head->key)) == 0
+			&& ft_strlen(s) == ft_strlen(head->key))
 			break ;
 		head = head->next;
 	}
@@ -91,8 +92,8 @@ char *expand_one_arg(char *s, t_fake_env *head)
 		return (ft_strjoin(befor_dolar, after_dolar));
 	else
 	{
-		tmp = ft_strjoin(befor_dolar, head->value);
-		return (ft_strjoin(tmp, after_dolar));
+		s = ft_strjoin(befor_dolar, head->value);
+		return (ft_strjoin(s, after_dolar));
 	}
 	return (NULL);
 }
@@ -113,7 +114,7 @@ char *expander_init(char *s, t_fake_env *head)
 	if (count == 1)
 		return (expand_one_arg(s, head));
 	else if (count > 1)
-		return(ft_strdup("echo bzaff"));
+		return(multiple_var_expander(s, head));
 	return (NULL);
 }
 
@@ -129,7 +130,6 @@ char	*no_provided_var(char *s)
 		tmp++;
 		len++;
 	}
-	printf("%d\n", len);
 	return (ft_strndup(s, len - 1));
 }
 
