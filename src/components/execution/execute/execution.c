@@ -28,7 +28,7 @@ void ft_execute_heredoc(t_cmd *cmd, t_env **env, int *exit_status)
     ssize_t read;
     while (1)
     {
-        write(1, "> ", 2);
+        write(1, "herdoc> ", 8);
         read = getline(&line, &len, stdin);
         if (read == -1)
             break;

@@ -27,6 +27,7 @@ static void execute_command(t_cmd *cmd, int input_fd, int output_fd, t_env **env
     execution_cmd(cmd->value, env, NULL);
     exit(EXIT_FAILURE);
 }
+
 static void closeAll_pipe(int **pipes, int pipe_count, int keep_read, int keep_write)
 {
     int i;
