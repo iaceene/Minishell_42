@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 03:53:08 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:16:47 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ t_cmd	*data_maker(t_node *head, t_fake_env *env)
 	{
 		if (head->type == COMMAND && ft_strstr(head->value, "$"))
 			expander(head, env, &cmd);
-		add_to_cmd(&cmd, new_cmd(head));
+		if (!no_need(head->type))
+			add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
 	print_command(cmd);
