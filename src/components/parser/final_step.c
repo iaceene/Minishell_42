@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 05:32:00 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/09 03:53:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void print_command(t_cmd *cmd)
 	int i = 0;
 	while (cmd)
 	{
-		printf("\n================Command======================\n[ %s ]\nType %d\n", cmd->value, cmd->type);
+		printf("[ %s ]\n", cmd->value);
 		i++;
 		cmd = cmd->next;
 	}

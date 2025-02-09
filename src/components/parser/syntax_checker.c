@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 03:46:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:09:19 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ void print_data(t_node *data)
     }
 }
 
+int valid_next(TokenType type)
+{
+	return (type == SIN_QUOTE || type == DOB_QUOTE || type == COMMAND);
+}
+
 int	search_for_acc(TokenType type, t_node *head)
 {
 	while (head)
@@ -59,28 +64,6 @@ int	search_for_acc(TokenType type, t_node *head)
 		head = head->next;
 	}
 	return 1;
-}
-
-int check_pip(t_node *data)
-{
-	t_node *prv;
-
-	prv = NULL;
-	while (data)
-	{
-		if (data->type == PIPE)
-		{
-			if (!prv)
-				return (1);
-			if (!data->next)
-				return (1);
-			if (data->next->type != COMMAND || prv->type != COMMAND)
-				return (1);
-		}
-		prv = data;	
-		data = data->next;
-	}
-	return (0);
 }
 
 int check_append(t_node *data)
@@ -127,7 +110,6 @@ int check_redirction(t_node *data)
 	return (0);
 }
 
-
 int pip_checker(t_node *data)
 {
 	t_node *prv;
@@ -135,12 +117,11 @@ int pip_checker(t_node *data)
 	prv = NULL;
 	while (data)
 	{
-		if (data->type == PIPE && !prv)
+		if (data->type == PIPE && (!prv || !data->next))
 			return (0);
-		if (data->type == PIPE && !data->next)
-			return (0);
-		if (data->type == PIPE &&
-			(data->next->type != COMMAND || prv->type != COMMAND))
+		if (data->type == PIPE
+			&& (!valid_next(data->next->type)
+			|| !valid_next(prv->type)))
 			return (0);
 		prv = data;
 		data = data->next;
