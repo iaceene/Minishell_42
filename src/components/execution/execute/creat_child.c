@@ -45,6 +45,7 @@ static void closeAll_pipe(int **pipes, int pipe_count, int keep_read, int keep_w
 
 void child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env)
 {
+    
     closeAll_pipe(pipes, pipe_count, -1, 0);
     execute_command(cmd, STDIN_FILENO, pipes[0][1], env);
 }

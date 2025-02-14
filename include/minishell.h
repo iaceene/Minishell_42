@@ -36,20 +36,20 @@
 // final struct
 
 typedef enum {
-	COMMAND,       // Command or argument
-	WORD,            /// for expanding
-	PIPE,       // |
-	APPEND,		// >>
-	HERDOC,		// <<
-	RIGHT_RED,	// >
-	LEFT_RED,	// <
-	SIN_QUOTE,  // '
-	DOB_QUOTE, // "
-	DOLLAR,     // $
-	FILENAME,   // file name
-	OPEN_PAR,  // (
-	CLOSE_PAR, // )
-	NIL /// this a NULL node
+	COMMAND,       // Command or argument 0 
+	WORD,            /// for expanding 1
+	PIPE,       // | 2 
+	APPEND,		// >> 3
+	HERDOC,		// << 4
+	RIGHT_RED,	// > 5 
+	LEFT_RED,	// < 6
+	SIN_QUOTE,  // ' 7
+	DOB_QUOTE, // " 8
+	DOLLAR,     // $ 9
+	FILENAME,   // file name 10
+	OPEN_PAR,  // (  11
+	CLOSE_PAR, // )  12
+	NIL /// this a NULL node 13
 } TokenType;
 
 /************************* env struct *************************/

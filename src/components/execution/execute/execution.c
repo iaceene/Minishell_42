@@ -9,139 +9,69 @@
 /*   Updated: 2025/01/26 16:51:29 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../../../include/execution.h"
+
+
 #include "../../../../include/minishell.h"
-#include "../../../../include/parser.h"
 
-void ft_execute_heredoc(t_cmd *cmd, t_env **env, int *exit_status)
+int ft_lstsize_cmd(t_cmd *lst)
 {
-    int pipe_fd[2];
-    if (pipe(pipe_fd) == -1)
+    int i = 0;
+    while (lst)
     {
-        perror("pipe");
-        *exit_status = 1;
-        return;
+        i++;
+        lst = lst->next;
     }
-
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    while (1)
-    {
-        write(1, "herdoc> ", 8);
-        read = getline(&line, &len, stdin);
-        if (read == -1)
-            break;
-        if (line[read - 1] == '\n')
-            line[read - 1] = '\0';
-        if (strcmp(line, &cmd->value[1]) == 0)
-            break;
-        write(pipe_fd[1], line, strlen(line));
-        write(pipe_fd[1], "\n", 1);
-    }
-    free(line);
-    close(pipe_fd[1]);
-
-    int stdin_backup = dup(STDIN_FILENO);
-    dup2(pipe_fd[0], STDIN_FILENO);
-    close(pipe_fd[0]);
-
-    execution_cmd(cmd->value, env, exit_status);
-
-    dup2(stdin_backup, STDIN_FILENO);
-    close(stdin_backup);
+    return (i);
 }
-
-
-void ft_execute_redirection_out(t_cmd *cmd, t_env **env, int *exit_status)
-{
-    int fd;
-    if (cmd->type == APPEND)
-        fd = open(&cmd->value[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-    else
-        fd = open(&cmd->value[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1)
-    {
-        *exit_status = 1;
-        perror("redirection");
-        return;
-    }
-    int stdout_backup = dup(STDOUT_FILENO);
-    dup2(fd, STDOUT_FILENO);
-    close(fd);
-    execution_cmd(cmd->value, env, exit_status);
-    dup2(stdout_backup, STDOUT_FILENO);
-    close(stdout_backup);
-}
-
-void ft_execute_redirection_in(t_cmd *cmd, t_env **env, int *exit_status)
-{
-    int fd = open(&cmd->value[1], O_RDONLY);
-    if (fd == -1)
-    {
-        *exit_status = 1;
-        perror("redirection");
-        return;
-    }
-    int stdin_backup = dup(STDIN_FILENO);
-    dup2(fd, STDIN_FILENO);
-    close(fd);
-    execution_cmd(cmd->value, env, exit_status);
-    dup2(stdin_backup, STDIN_FILENO);
-    close(stdin_backup);
-}
-
 void execution(t_cmd *head, t_env **env, int *exit_status)
 {
     if (!head)
         return;
-    t_cmd *current = head;
-    int cmd_count = 0;
-    t_cmd **commands = NULL;
 
-    while (current)
-    {
-        if (current->type != PIPE)
-            cmd_count++;
-        current = current->next;
-    }
-
+    int cmd_count = ft_lstsize_cmd(head);
     if (cmd_count == 0)
         return;
 
-    commands = ft_malloc(sizeof(t_cmd *) * cmd_count);
+    t_cmd **commands = ft_malloc(sizeof(t_cmd *) * (cmd_count + 1));
     if (!commands)
         error_and_exit("Memory allocation failed", 1);
 
-    current = head;
+    t_cmd *cmd = head;
     int i = 0;
-    while (current)
+    int j = 0;
+
+    while (cmd)
     {
-        if (current->type != PIPE)
+        if (cmd->type == RIGHT_RED || cmd->type == APPEND || cmd->type == LEFT_RED || cmd->type == HERDOC)
         {
-            commands[i] = current;
-            if (current->next && (current->next->type == RIGHT_RED || 
-                current->next->type == APPEND || 
-                current->next->type == LEFT_RED ||
-                current->next->type == HERDOC))
-            {
-                current = current->next;
-            }
-            i++;
+            if (cmd->next)
+                cmd->next->type = FILENAME;
+            commands[i++] = cmd;
         }
-        current = current->next;
+        else if (cmd->type != PIPE)
+        {
+            commands[i++] = cmd;
+            j++;
+        }
+        cmd = cmd->next;
     }
+    commands[i] = NULL;
+    // int j = 0;
+    // while (commands[j])
+    // {
+    //     printf("command: {%s}", commands[j]->value);
+    //     printf("type: %d\n", commands[j]->type);
+    //     j++;
+    // }
 
-    if (cmd_count > 1)
-        ft_pipex(commands, cmd_count, env, exit_status);
-    else if (commands[0]->type == APPEND || commands[0]->type == RIGHT_RED)
-        ft_execute_redirection_out(commands[0], env, exit_status);
-    else if (commands[0]->type == LEFT_RED)
-        ft_execute_redirection_in(commands[0], env, exit_status);
-    else if (commands[0]->type == HERDOC)
-        ft_execute_heredoc(commands[0], env, exit_status);
-    else
+    // printf("cmd_count: %d\n", i);  // Debugging output
+
+    printf("number commands: %d\n", i);
+    if (i == 1)
         execution_cmd(commands[0]->value, env, exit_status);
-
+    else
+        ft_pipex(commands, i, env, exit_status);
+    (void)exit_status;
+    (void)env;
     free(commands);
 }
