@@ -88,6 +88,8 @@ void	execute_cmd(char **cmd, char **env)
 	char	*full_path;
 
 	args = cmd;
+	if (!env)
+		write(2, "shell: env is NULL\n", 19);
 	full_path = find_command_path(args[0], env);
 	if (!full_path)
 	{
@@ -95,15 +97,15 @@ void	execute_cmd(char **cmd, char **env)
 		write(2, args[0], ft_strlen(args[0]));
 		write(2, "\n", 1);
 		ft_free_string(args);
-		free(args);
+		// free(args);
 		exit(1);
 	}
-	free(args[0]);
+	// free(args[0]);
 	args[0] = full_path;
 	execve(full_path, args, env);
 	ft_free_string(args);
-	free(args);
-	write(2, "shell: ", 14);
+	// free(args);
+	write(2, "shell: ", 7);
 	write(2, &full_path, ft_strlen(full_path));
 	error_and_exit("execute failed\n", 1);
 }

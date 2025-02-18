@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 09:54:59 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/09 23:41:48 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ void print_data(t_node *data)
     }
 }
 
+int valid_next(TokenType type)
+{
+	return (type == COMMAND);
+}
+
 int	search_for_acc(TokenType type, t_node *head)
 {
 	while (head)
@@ -59,28 +64,6 @@ int	search_for_acc(TokenType type, t_node *head)
 		head = head->next;
 	}
 	return 1;
-}
-
-int check_pip(t_node *data)
-{
-	t_node *prv;
-
-	prv = NULL;
-	while (data)
-	{
-		if (data->type == PIPE)
-		{
-			if (!prv)
-				return (1);
-			if (!data->next)
-				return (1);
-			if (data->next->type != COMMAND || prv->type != COMMAND)
-				return (1);
-		}
-		prv = data;	
-		data = data->next;
-	}
-	return (0);
 }
 
 int check_append(t_node *data)
@@ -127,7 +110,6 @@ int check_redirction(t_node *data)
 	return (0);
 }
 
-
 int pip_checker(t_node *data)
 {
 	t_node *prv;
@@ -135,12 +117,11 @@ int pip_checker(t_node *data)
 	prv = NULL;
 	while (data)
 	{
-		if (data->type == PIPE && !prv)
+		if (data->type == PIPE && (!prv || !data->next))
 			return (0);
-		if (data->type == PIPE && !data->next)
-			return (0);
-		if (data->type == PIPE &&
-			(data->next->type != COMMAND || prv->type != COMMAND))
+		if (data->type == PIPE
+			&& (!valid_next(data->next->type)
+			|| !valid_next(prv->type)))
 			return (0);
 		prv = data;
 		data = data->next;
@@ -159,7 +140,8 @@ int	readdir_checker(t_node *data)
 		// 	return (0);
 		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && !data->next)
 			return (0);
-		if (!(data->next) && (data->type == LEFT_RED || data->type == RIGHT_RED) && (data->next->type != COMMAND || prv->type != COMMAND))
+		if ((data->type == LEFT_RED || data->type == RIGHT_RED) &&
+			!data->next && (data->next->type != COMMAND || prv->type != COMMAND))
 			return (0);
 		prv = data;
 		data = data->next;
@@ -187,6 +169,26 @@ int check_no_opned_pr(t_node *data)
 	return (0);
 }
 
+int check_command(char *s)
+{
+	int sing;
+	int doub;
+
+	doub = 0;
+	sing = 0;
+	while (*s)
+	{
+		if (*s == '\'')
+			sing++;
+		if (*s == '"')
+			doub++;
+		s++;
+	}
+	if (sing % 2 != 0 || doub % 2 != 0)
+		return (1);
+	return (0);
+}
+
 int others_checker(t_node *data)
 {
 	t_node	*tmp;
@@ -194,13 +196,8 @@ int others_checker(t_node *data)
 	tmp = data;
     while (data)
     {
-		if ((data->type == SIN_QUOTE || data->type == DOB_QUOTE)
-			&& data->visit == false)
-		{
-			data->visit = true;
-			if (search_for_acc(data->type, data))
-				return (0);
-		}
+		if (data->type == COMMAND && check_command(data->value))
+			return (0);
 		if ((data->type == OPEN_PAR)
 			&& data->visit == false)
 		{

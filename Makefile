@@ -36,6 +36,7 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/expander/expander_utiles.c \
 		./src/components/parser/expander/multiple_var_expander.c \
 		./src/components/parser/ft_split_word.c \
+		./src/components/parser/qoats_handler.c \
 		./src/components/parser/final_step.c \
 		./src/components/parser/lexer_utiles.c \
 		./src/components/parser/syntax_checker.c \
@@ -49,6 +50,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_isdigit.c \
 		./src/lib/ft_isspace.c \
 		./src/lib/ft_memcpy.c \
+		./src/lib/ft_memmove.c \
 		./src/lib/ft_splite.c \
 		./src/lib/ft_split_shell.c \
 		./src/lib/ft_strcat.c \

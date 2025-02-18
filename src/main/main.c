@@ -43,7 +43,7 @@ int main(int ac, char **av, char **env)
         if (!data.prompt[0])
             ft_puterr(32);
 		else if (parser(&data))
-			execution(data.head, &tool.env, &tool.err);
+			execution(&data.head, &tool.env, &tool.err);
         else
             ft_puterr(14);
     }

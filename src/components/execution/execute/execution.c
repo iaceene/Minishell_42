@@ -9,11 +9,9 @@
 /*   Updated: 2025/01/26 16:51:29 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 #include "../../../../include/minishell.h"
 
-int ft_lstsize_cmd(t_cmd *lst)
+int ft_lstsize_head(t_exec *lst)
 {
     int i = 0;
     while (lst)
@@ -23,55 +21,106 @@ int ft_lstsize_cmd(t_cmd *lst)
     }
     return (i);
 }
-void execution(t_cmd *head, t_env **env, int *exit_status)
+
+t_exec *copy_cmd_to_exec(t_cmd *cmd)
 {
-    if (!head)
-        return;
-
-    int cmd_count = ft_lstsize_cmd(head);
-    if (cmd_count == 0)
-        return;
-
-    t_cmd **commands = ft_malloc(sizeof(t_cmd *) * (cmd_count + 1));
-    if (!commands)
-        error_and_exit("Memory allocation failed", 1);
-
-    t_cmd *cmd = head;
-    int i = 0;
-    int j = 0;
+    t_exec *new_exec = NULL;
+    t_exec *current_exec = NULL;
 
     while (cmd)
     {
-        if (cmd->type == RIGHT_RED || cmd->type == APPEND || cmd->type == LEFT_RED || cmd->type == HERDOC)
-        {
-            if (cmd->next)
-                cmd->next->type = FILENAME;
-            commands[i++] = cmd;
-        }
-        else if (cmd->type != PIPE)
-        {
-            commands[i++] = cmd;
-            j++;
-        }
+        t_exec *new_node = malloc(sizeof(t_exec));
+        if (!new_node)
+            return NULL;
+
+        new_node->type = cmd->type;
+        new_node->value = ft_strdup(cmd->value);
+        new_node->next = NULL;
+
+        if (new_exec == NULL)
+            new_exec = new_node;
+        else
+            current_exec->next = new_node;
+
+        current_exec = new_node;
         cmd = cmd->next;
     }
-    commands[i] = NULL;
-    // int j = 0;
-    // while (commands[j])
+
+    return new_exec;
+}
+void change_redirections_and_delete_pipe(t_exec **exec_list)
+{
+    t_exec *current = *exec_list;
+    t_exec *prev = NULL;
+
+    while (current)
+    {
+        if (current->type == PIPE)
+        {
+            t_exec *temp = current;
+            if (prev)
+                prev->next = current->next;
+            else
+                *exec_list = current->next;
+            current = current->next;
+            free(temp->value);
+            free(temp);
+        }
+        else if (current->type == HERDOC || current->type == RIGHT_RED || current->type == LEFT_RED)
+        {
+            if (current->next)
+            {
+                if (current->type == RIGHT_RED)
+                    current->next->type = OUTFILE;
+                else if (current->type == LEFT_RED)
+                    current->next->type = INFILE;
+                else if (current->type == HERDOC)
+                    current->next->type = HEREDOC_FILE;
+                else if (current->type == APPEND)
+                    current->next->type = APPEND_FILE;
+                t_exec *temp = current;
+                if (prev)
+                    prev->next = current->next;
+                current = current->next;
+                free(temp->value);
+                free(temp);
+            }
+            else
+            {
+                prev = current;
+                current = current->next;
+            }
+        }
+        else
+        {
+            prev = current;
+            current = current->next;
+        }
+    }
+}
+
+void execution(t_cmd **head, t_env **env, int *exit_status)
+{
+    if (!head || !*head)
+        return;
+
+    t_exec *exec_list = copy_cmd_to_exec(*head);
+
+    change_redirections_and_delete_pipe(&exec_list);
+
+    // while (exec_list)
     // {
-    //     printf("command: {%s}", commands[j]->value);
-    //     printf("type: %d\n", commands[j]->type);
-    //     j++;
+    //     fprintf(stderr, "exec_list->value: %s => ", exec_list->value);
+    //     fprintf(stderr, "exec_list->type: %d\n", exec_list->type);
+    //     exec_list = exec_list->next;
     // }
+    int cmd_count = ft_lstsize_head(exec_list);
+    if (cmd_count == 0)
+        return;
+    // printf("cmd_count: %d\n", cmd_count);
 
-    // printf("cmd_count: %d\n", i);  // Debugging output
-
-    printf("number commands: %d\n", i);
-    if (i == 1)
-        execution_cmd(commands[0]->value, env, exit_status);
+    if (cmd_count == 1)
+        execution_cmd(exec_list->value, env, exit_status);
     else
-        ft_pipex(commands, i, env, exit_status);
-    (void)exit_status;
-    (void)env;
-    free(commands);
+        ft_pipex(exec_list, cmd_count, env, exit_status);
 }

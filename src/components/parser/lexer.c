@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 09:53:23 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/09 23:36:35 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int operator(char c)
 {
-    return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')' || c == '"'
-        || c == '\'');
+    return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')');
 }
 
 int starts_with(const char *str, const char *prefix)
@@ -25,11 +24,7 @@ int starts_with(const char *str, const char *prefix)
 
 void	other_oper(t_node **head, char *s)
 {
-	if (starts_with(s, "'"))
-		add_to_list(head, add_new_node(SIN_QUOTE, "'"));
-	else if (starts_with(s, "\""))
-		add_to_list(head, add_new_node(DOB_QUOTE, "\""));
-	else if (starts_with(s, "("))
+	if (starts_with(s, "("))
 		add_to_list(head, add_new_node(OPEN_PAR, "("));
 	else if (starts_with(s, ")"))
 		add_to_list(head, add_new_node(CLOSE_PAR, ")"));

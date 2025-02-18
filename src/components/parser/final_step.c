@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/12 14:59:49 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/17 17:48:52 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void add_to_cmd(t_cmd **head, t_cmd *new)
 
 int no_need(TokenType tp)
 {
-	return (tp == OPEN_PAR || tp == CLOSE_PAR || tp == SIN_QUOTE || tp == DOB_QUOTE);
+	return (tp == OPEN_PAR || tp == CLOSE_PAR);
 }
 
 void print_command(t_cmd *cmd);
@@ -60,15 +60,17 @@ void print_command(t_cmd *cmd);
 t_cmd	*data_maker(t_node *head, t_fake_env *env)
 {
 	t_cmd *cmd;
+	(void)env;
 
 	if (!head)
 		return (NULL);
 	cmd = NULL;
 	while (head)
 	{
-		if (head->type == COMMAND && ft_strstr(head->value, "$"))
-			expander(head, env, &cmd);
-		add_to_cmd(&cmd, new_cmd(head));
+		if (head->type == COMMAND)
+			command_handler(head, env);
+		if (!no_need(head->type))
+			add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
 	// print_command(cmd);
@@ -80,7 +82,7 @@ void print_command(t_cmd *cmd)
 	int i = 0;
 	while (cmd)
 	{
-		printf("\n================Command======================\n[%s]\nType %d\n", cmd->value, cmd->type);
+		printf("[ %s ]\n", cmd->value);
 		i++;
 		cmd = cmd->next;
 	}

@@ -71,8 +71,8 @@ t_fake_env *fake_env_creator()
 
 int parser(t_data *data)
 {
-	t_node *tock_data;
-	t_fake_env *head;
+	t_node		*tock_data;
+	t_fake_env	*head;
 
 	head = fake_env_creator();
 	tock_data = lexer_init(data->prompt);

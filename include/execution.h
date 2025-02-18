@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/11 11:11:42 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/17 17:40:48 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@
 # define SPACE ' '
 # define EQUAL '='
 
+typedef struct s_pipe
+{
+    int end[2];
+    int end2[2];
+    int in;
+} t_pipe;
+
+typedef struct s_exec
+{
+    TokenType type;
+    char *value;
+    struct s_exec *next;
+} t_exec;
 
 typedef struct s_list
 {
@@ -121,7 +134,7 @@ int		only_wildcards(char *cmd);
 
 
 /*****************                       Execution                            ****************/
-void	execution(t_cmd *head, t_env **env, int *exit_status);
+void	execution(t_cmd **head, t_env **env, int *exit_status);
 //*******************execute****************************
 void	execution_cmd(char *cmd, t_env **env, int *exit_status);
 //creat_child
@@ -136,7 +149,7 @@ void	close_fd(t_redirect *data);
 // void		redirect_fd(int from_fd, int to_fd, const char *str);
 void	close_all_pipe(int **pipes, int num_cmd);
 void	free_all_pipe(int **pipes, int i);
-void	ft_pipex(t_cmd **commands, int cmd_count, t_env **env, int *exit_status);
+void	ft_pipex(t_exec *commands, int cmd_count, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);

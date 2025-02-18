@@ -36,7 +36,7 @@ char *prompt(char **env)
 
     if (i == 0)
         cli = ft_get_cli(env);
-    s = readline(cli);
+    s = readline("sh> ");
     if (!s)
         exit_the_shell(0);
     if (ft_strncmp(s, "exit", 4) == 0 && ft_strlen(s) == 4)
@@ -50,8 +50,9 @@ void ft_sighandler(int sig)
 {
     if (sig == SIGINT || sig == SIGQUIT)
     {
-        write(1, "\n", 1);
+        write(STDOUT_FILENO, "\n", 1);
         rl_on_new_line();
+        rl_replace_line("", 0);
         rl_redisplay();
     }
 }

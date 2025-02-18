@@ -39,6 +39,10 @@ typedef enum {
 	COMMAND,       // Command or argument 0 
 	WORD,            /// for expanding 1
 	PIPE,       // | 2 
+	INFILE,		// < 3
+	OUTFILE,  	// > 4
+	APPEND_FILE,
+	HEREDOC_FILE,
 	APPEND,		// >> 3
 	HERDOC,		// << 4
 	RIGHT_RED,	// > 5 
@@ -117,6 +121,7 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isspace(int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_memmove(void *dest, const void *src, size_t len);
 char	**ft_split_shell(const char *s);
 char	**ft_split(char const *s, char c);
 char	*ft_strcat(char *dest, char *src);
