@@ -4,8 +4,9 @@
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
-/*   Created: 2025/01/25 10:13:16 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/26 15:43:13 by iezzam           ###   ########.fr       */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 10:02:23 by iezzam            #+#    #+#             */
+/*   Updated: 2025/02/19 10:02:23 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +75,11 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
                     close(*infile);
                 *infile = open(filename, O_RDONLY);
                 if (*infile < 0)
-                    perror("Failed to open input file");
+                {
+                    write(2, "Failed to open input file: ", 27);
+                    write(2, filename, ft_strlen(filename));
+                    write(2, "\n", 1);
+                }
             }
             else if (cmd->type == OUTFILE)
             {
@@ -109,24 +114,48 @@ int count_commands(t_exec *cmd)
     return count;
 }
 
-void execute_command(t_exec *cmd, char **env, int in_fd, int out_fd)
+void cleanup_child_fds(int infile, int outfile, int pipe_read, int pipe_write, int prev_pipe)
 {
-    if (in_fd != -1)
-        redirect_fd(in_fd, STDIN_FILENO, "dup2 failed (stdin)");
-    if (out_fd != -1)
-        redirect_fd(out_fd, STDOUT_FILENO, "dup2 failed (stdout)");
+    if (infile != -1 && infile != STDIN_FILENO)
+        close(infile);
+    if (outfile != -1 && outfile != STDOUT_FILENO)
+        close(outfile);
+    if (pipe_read != -1 && pipe_read != STDIN_FILENO)
+        close(pipe_read);
+    if (pipe_write != -1 && pipe_write != STDOUT_FILENO)
+        close(pipe_write);
+    if (prev_pipe != -1 && prev_pipe != STDIN_FILENO)
+        close(prev_pipe);
+}
 
+void execute_command(t_exec *cmd, char **env)
+{
     char **cmd_args = ft_split(cmd->value, ' ');
     if (!cmd_args)
         error_and_exit("Failed to split command", 1);
     execute_cmd(cmd_args, env);
 }
 
-void	ft_pipex(t_exec *commands, int cmd_counxt, t_env **env, int *exit_status)
+void handle_child_process(t_exec *cmd, char **env, int infile, int outfile,
+                          int *pipe_fd, int prev_pipe_read, int current_cmd, int cmd_count)
 {
-    (void)cmd_counxt;
+    if (current_cmd == 0 && infile != -1)
+        redirect_fd(infile, STDIN_FILENO, "dup2 failed (stdin)");
+    else if (current_cmd > 0)
+        redirect_fd(prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin)");
+    if (current_cmd == cmd_count - 1 && outfile != -1)
+        redirect_fd(outfile, STDOUT_FILENO, "dup2 failed (stdout)");
+    else if (current_cmd < cmd_count - 1)
+        redirect_fd(pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
+    cleanup_child_fds(infile, outfile, pipe_fd[0], pipe_fd[1], prev_pipe_read);
+    execute_command(cmd, env);
+    exit(1);
+}
+
+void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
+{
     int infile = -1, outfile = -1;
-    int pipe_fd[2];
+    int pipe_fd[2] = {-1, -1};
     int prev_pipe_read = -1;
     pid_t pid;
     char **envp = ft_env_create_2d(*env);
@@ -134,50 +163,22 @@ void	ft_pipex(t_exec *commands, int cmd_counxt, t_env **env, int *exit_status)
     int current_cmd = 0;
 
     handle_file_redirection(commands, &infile, &outfile);
-
-    // Process commands
     t_exec *cmd = commands;
     while (cmd)
     {
         if (cmd->type == COMMAND)
         {
-            if (current_cmd < cmd_count - 1) 
+            if (current_cmd < cmd_count - 1)
             {
                 if (pipe(pipe_fd) == -1)
                     error_and_exit("Pipe creation failed", 1);
             }
-
             pid = fork();
             if (pid == 0)
-            {
-                if (current_cmd == 0)
-                {
-                    if (infile != -1)
-                        redirect_fd(infile, STDIN_FILENO, "dup2 failed (stdin)");
-                }
-                else
-                {
-                    redirect_fd(prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin)");
-                }
-
-                if (current_cmd == cmd_count - 1)
-                {
-                    if (outfile != -1)
-                        redirect_fd(outfile, STDOUT_FILENO, "dup2 failed (stdout)");
-                }
-                else
-                {
-                    redirect_fd(pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
-                }
-
-                execute_command(cmd, envp, -1, -1);
-                exit(1);
-            }
+                handle_child_process(cmd, envp, infile, outfile,
+                                    pipe_fd, prev_pipe_read, current_cmd, cmd_count);
             else if (pid < 0)
-            {
                 error_and_exit("Fork failed", 1);
-            }
-
             if (prev_pipe_read != -1)
                 close(prev_pipe_read);
             if (current_cmd < cmd_count - 1)
@@ -189,21 +190,21 @@ void	ft_pipex(t_exec *commands, int cmd_counxt, t_env **env, int *exit_status)
         }
         cmd = cmd->next;
     }
-
     if (infile != -1)
         close(infile);
     if (outfile != -1)
         close(outfile);
     if (prev_pipe_read != -1)
         close(prev_pipe_read);
-
     int status;
     int last_status = 0;
-    for (int i = 0; i < cmd_count; i++)
+    int i = 0;
+    while (i < cmd_count)
     {
         wait(&status);
         if (WIFEXITED(status))
             last_status = WEXITSTATUS(status);
+        i++;
     }
     *exit_status = last_status;
 }

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/19 09:34:38 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:45:46 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	close_fd(t_redirect *data);
 // void		redirect_fd(int from_fd, int to_fd, const char *str);
 void	close_all_pipe(int **pipes, int num_cmd);
 void	free_all_pipe(int **pipes, int i);
-void	ft_pipex(t_exec *commands, int cmd_counxt, t_env **env, int *exit_status);
+void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);
