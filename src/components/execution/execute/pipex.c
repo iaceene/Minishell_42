@@ -8,8 +8,8 @@
 /*   Updated: 2025/01/26 15:43:13 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../../../include/execution.h"
 
+#include "../../../../include/execution.h"
 
 void close_all_pipe(int **pipes, int num_cmd)
 {
@@ -59,147 +59,151 @@ char *clean_filename(char *filename)
     return filename;
 }
 
-int creat_file(t_cmd *cmd)
+void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
 {
-    int i = 0;
+    char *filename;
+
     while (cmd)
     {
-        printf("cmd->value: %s\n", cmd->value);
-        i++;
-    }
-    return 0;
-}
-void open_file(t_exec *cmd, int *infile, int *outfile)
-{
-    char *filename = clean_filename(cmd->value);
-    if (cmd->type == INFILE || cmd->type == HEREDOC_FILE)
-    {
-        *infile = open(filename, O_RDONLY);
-        if (*infile < 0)
-            perror("Failed to open input file");
-    }
-    else if (cmd->type == OUTFILE)
-    {
-        *outfile = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
-        if (*outfile < 0)
-            error_and_exit("Failed to open output file", 1);
-    }
-    else if (cmd->type == APPEND_FILE)
-    {
-        *outfile = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
-        if (*outfile < 0)
-            error_and_exit("Failed to open output file for append", 1);
-    }
-}
-
-void setup_redirections(int i, int num_cmds, int infile, int outfile, int **pipes)
-{
-    if (i == 0)
-    {
-        if (infile != -1)
-            redirect_fd(infile, STDIN_FILENO, "dup2 failed (stdin)");
-        if (num_cmds > 1)
-            redirect_fd(pipes[i][1], STDOUT_FILENO, "dup2 failed (stdout)");
-    }
-    else if (i == num_cmds - 1)
-    {
-        if (outfile != -1)
-            redirect_fd(outfile, STDOUT_FILENO, "dup2 failed (stdout)");
-        redirect_fd(pipes[i - 1][0], STDIN_FILENO, "dup2 failed (stdin)");
-    }
-    else
-    {
-        redirect_fd(pipes[i - 1][0], STDIN_FILENO, "dup2 failed (stdin)");
-        redirect_fd(pipes[i][1], STDOUT_FILENO, "dup2 failed (stdout)");
-    }
-}
-
-void execute_child_command(t_exec *cmd, char **env)
-{
-    if (cmd->value && cmd->type == COMMAND)
-    {
-        fprintf(stderr, "cmd->value in child_process: %s\n", cmd->value);
-        char **cmd_args = ft_split(cmd->value, ' ');
-        if (!cmd_args)
-            error_and_exit("Failed to split command", 1);
-        execute_cmd(cmd_args, env);
-    }
-}
-
-void child_process(t_exec *cmd, int **pipes, char **env, int i, int num_cmds)
-{
-    int infile = -1, outfile = -1;
-    open_file(cmd, &infile, &outfile);
-    setup_redirections(i, num_cmds, infile, outfile, pipes);
-    close_all_pipe(pipes, num_cmds);
-    execute_child_command(cmd, env);
-}
-
-void fork_child_processes(t_exec *commands, int **pipes, char **env, int num_cmds)
-{
-
-    pid_t pid;
-    int i = 0;
-    t_exec *cmd = commands;
-
-    while (cmd && i < num_cmds)
-    {
-        fprintf(stderr, "cmd->value: %s\n", cmd->value);
-        
-        pid = fork();
-        if (pid == 0)
-            child_process(cmd, pipes, env, i, num_cmds);
-        else if (pid < 0)
+        if (cmd->type != COMMAND)
         {
-            perror("fork failed");
-            close_all_pipe(pipes, num_cmds);
-            free_all_pipe(pipes, num_cmds - 1);
-            exit(1);
+            filename = clean_filename(cmd->value);
+            if (cmd->type == INFILE || cmd->type == HEREDOC_FILE)
+            {
+                if (*infile != -1)
+                    close(*infile);
+                *infile = open(filename, O_RDONLY);
+                if (*infile < 0)
+                    perror("Failed to open input file");
+            }
+            else if (cmd->type == OUTFILE)
+            {
+                if (*outfile != -1)
+                    close(*outfile);
+                *outfile = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
+                if (*outfile < 0)
+                    error_and_exit("Failed to open output file", 1);
+            }
+            else if (cmd->type == APPEND_FILE)
+            {
+                if (*outfile != -1)
+                    close(*outfile);
+                *outfile = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
+                if (*outfile < 0)
+                    error_and_exit("Failed to open output file for append", 1);
+            }
         }
         cmd = cmd->next;
-        i++;
     }
 }
 
-void wait_for_processes(int num_cmds, int *exit_status)
+int count_commands(t_exec *cmd)
 {
+    int count = 0;
+    while (cmd)
+    {
+        if (cmd->type == COMMAND)
+            count++;
+        cmd = cmd->next;
+    }
+    return count;
+}
+
+void execute_command(t_exec *cmd, char **env, int in_fd, int out_fd)
+{
+    if (in_fd != -1)
+        redirect_fd(in_fd, STDIN_FILENO, "dup2 failed (stdin)");
+    if (out_fd != -1)
+        redirect_fd(out_fd, STDOUT_FILENO, "dup2 failed (stdout)");
+
+    char **cmd_args = ft_split(cmd->value, ' ');
+    if (!cmd_args)
+        error_and_exit("Failed to split command", 1);
+    execute_cmd(cmd_args, env);
+}
+
+void	ft_pipex(t_exec *commands, int cmd_counxt, t_env **env, int *exit_status)
+{
+    (void)cmd_counxt;
+    int infile = -1, outfile = -1;
+    int pipe_fd[2];
+    int prev_pipe_read = -1;
+    pid_t pid;
+    char **envp = ft_env_create_2d(*env);
+    int cmd_count = count_commands(commands);
+    int current_cmd = 0;
+
+    handle_file_redirection(commands, &infile, &outfile);
+
+    // Process commands
+    t_exec *cmd = commands;
+    while (cmd)
+    {
+        if (cmd->type == COMMAND)
+        {
+            if (current_cmd < cmd_count - 1) 
+            {
+                if (pipe(pipe_fd) == -1)
+                    error_and_exit("Pipe creation failed", 1);
+            }
+
+            pid = fork();
+            if (pid == 0)
+            {
+                if (current_cmd == 0)
+                {
+                    if (infile != -1)
+                        redirect_fd(infile, STDIN_FILENO, "dup2 failed (stdin)");
+                }
+                else
+                {
+                    redirect_fd(prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin)");
+                }
+
+                if (current_cmd == cmd_count - 1)
+                {
+                    if (outfile != -1)
+                        redirect_fd(outfile, STDOUT_FILENO, "dup2 failed (stdout)");
+                }
+                else
+                {
+                    redirect_fd(pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
+                }
+
+                execute_command(cmd, envp, -1, -1);
+                exit(1);
+            }
+            else if (pid < 0)
+            {
+                error_and_exit("Fork failed", 1);
+            }
+
+            if (prev_pipe_read != -1)
+                close(prev_pipe_read);
+            if (current_cmd < cmd_count - 1)
+            {
+                close(pipe_fd[1]);
+                prev_pipe_read = pipe_fd[0];
+            }
+            current_cmd++;
+        }
+        cmd = cmd->next;
+    }
+
+    if (infile != -1)
+        close(infile);
+    if (outfile != -1)
+        close(outfile);
+    if (prev_pipe_read != -1)
+        close(prev_pipe_read);
+
     int status;
     int last_status = 0;
-
-    int i = 0;
-    while (i < num_cmds)
+    for (int i = 0; i < cmd_count; i++)
     {
         wait(&status);
         if (WIFEXITED(status))
             last_status = WEXITSTATUS(status);
-        i++;
     }
     *exit_status = last_status;
-}
-
-void ft_pipex(t_exec *commands, int cmd_count, t_env **env, int *exit_status)
-{
-    int **pipes = calloc(cmd_count - 1, sizeof(int *));
-    if (!pipes)
-        error_and_exit("Pipe allocation failed", 1);
-
-    int i = 0;
-    while (i < cmd_count - 1)
-    {
-        pipes[i] = ft_malloc(2 * sizeof(int));
-        if (!pipes[i] || pipe(pipes[i]) == -1)
-        {
-            free_all_pipe(pipes, i);
-            error_and_exit("Pipe creation failed", 1);
-        }
-        i++;
-    }
-
-    char **envp = ft_env_create_2d(*env);
-
-    fork_child_processes(commands, pipes, envp, cmd_count);
-
-    close_all_pipe(pipes, cmd_count);
-    free_all_pipe(pipes, cmd_count - 1);
-    wait_for_processes(cmd_count, exit_status);
 }
