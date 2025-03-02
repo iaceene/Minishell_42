@@ -1,5 +1,18 @@
- 
+
 #include "../../../../include/execution.h"
+
+t_env *ft_env_create_default(void)
+{
+	t_env *head = NULL;
+
+	ft_env_add(&head, "PWD", "/", 1);
+	// ft_env_add(&head, "OLDPWD", "/home/iezzam/kaneki", 1);
+	ft_env_add(&head, "SHLVL", "1", 1);
+	ft_env_add(&head, "_", "/usr/bin/env", 1);
+	ft_env_add(&head, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 1);
+
+	return head;
+}
 
 char **ft_env_create_2d(t_env *env)
 {
@@ -35,38 +48,37 @@ char **ft_env_create_2d(t_env *env)
 	return envp;
 }
 
-static char	*ft_get_join_value(char **splited_row)
+static char *ft_get_join_value(char **splited_row)
 {
-    char	*value;
-    char	*tmp;
-    int		c;
+	char *value;
+	char *tmp;
+	int c;
 
-    value = NULL;
-    c = 0;
-    while (splited_row[++c])
-    {
-        if (c == 1)
-            value = ft_strdup(splited_row[c]);
-        else
-        {
-            tmp = value;
-            value = ft_strjoin(value, "=");
-            // free(tmp);
-            tmp = value;
-            value = ft_strjoin(value, splited_row[c]);
-            // free(tmp);
-        }
-    }
-    // printf("Generated value: %s\n", value); // 🔴 DEBUG
-    return (value);
+	value = NULL;
+	c = 0;
+	while (splited_row[++c])
+	{
+		if (c == 1)
+			value = ft_strdup(splited_row[c]);
+		else
+		{
+			tmp = value;
+			value = ft_strjoin(value, "=");
+			// free(tmp);
+			tmp = value;
+			value = ft_strjoin(value, splited_row[c]);
+			// free(tmp);
+		}
+	}
+	// printf("Generated value: %s\n", value); // 🔴 DEBUG
+	return (value);
 }
 
-
-static int	ft_add_item(t_env **env, char *key, char *value, int visible)
+static int ft_add_item(t_env **env, char *key, char *value, int visible)
 {
 	// printf("Adding key: %s, value: %s\n", key, value);
-	t_env	*new;
-	t_env	*last;
+	t_env *new;
+	t_env *last;
 
 	new = ft_malloc(sizeof(t_env));
 	if (!new)
@@ -87,14 +99,19 @@ static int	ft_add_item(t_env **env, char *key, char *value, int visible)
 	return (0);
 }
 
-
-t_env	*ft_env_create(char **ev)
+t_env *ft_env_create(char **ev)
 {
-	t_env	*env;
-	char	**splited_row;
-	int		r;
-	char	*key;
-	char	*value;
+	t_env *env;
+	char **splited_row;
+	int r;
+	char *key;
+	char *value;
+
+	t_env *head;
+
+	head = NULL;
+	if (!ev || !*ev)
+		return ft_env_create_default();
 
 	r = -1;
 	env = NULL;

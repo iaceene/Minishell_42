@@ -29,7 +29,7 @@ static int update_env_paths(t_env **env, char *prev_wd, char *new_path)
     cwd_value = ft_get_cwd(new_path, 1);
     if (cwd_value)
     {
-        if (ft_env_update(env, ft_strdup("PWD"), cwd_value, 0))
+        if (ft_env_update(env, ft_strdup("PWD"), cwd_value, 0) != 0)
             free(cwd_value);
     }
     return (ex_status);
@@ -57,6 +57,23 @@ static int change_to_path(t_env **env, char *target_path)
 int builtin_cd(char **arg, t_env **env, int *exit_status)
 {
     char *target_path;
+    char cwd[MAXPATHLEN];
+
+    if (!ft_env_search(*env, "PWD"))
+    {
+        if (getcwd(cwd, MAXPATHLEN))
+            ft_env_add(env, ft_strdup("PWD"), ft_strdup(cwd), 1);
+        else
+        {
+            perror("cd: error setting initial PWD");
+            // *exit_status = 1;
+            // return 1;
+        }
+    }
+    if (!ft_env_search(*env, "OLDPWD"))
+    {
+        ft_env_add(env , ft_strdup("OLDPWD"), ft_strdup(""), 1);
+    }
 
     if (!arg[1] || !ft_strncmp("~", arg[1], 1))
         target_path = ft_env_search(*env, "HOME");
