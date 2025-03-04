@@ -38,7 +38,7 @@ char **ft_env_create_2d(t_env *env)
 static char	*ft_get_join_value(char **splited_row)
 {
     char	*value;
-    char	*tmp;
+    // char	*tmp;
     int		c;
 
     value = NULL;
@@ -49,10 +49,10 @@ static char	*ft_get_join_value(char **splited_row)
             value = ft_strdup(splited_row[c]);
         else
         {
-            tmp = value;
+            // tmp = value;
             value = ft_strjoin(value, "=");
             // free(tmp);
-            tmp = value;
+            // tmp = value;
             value = ft_strjoin(value, splited_row[c]);
             // free(tmp);
         }

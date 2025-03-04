@@ -1,16 +1,16 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror   -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h
 RM = rm -f
+MKDIR = mkdir -p
 
 GREEN = \033[0;32m
 YELLOW = \033[0;33m
 RED = \033[31m
 RESET = \033[0m
-
 
 SRCS =	./src/main/main.c \
 		./src/components/execution/builtin/builtin_cd.c \
@@ -70,62 +70,31 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strtrim.c \
 		./src/lib/ft_substr.c \
 		./src/lib/linked_list.c \
-		./src/lib/print_err.c \
+		./src/lib/print_err.c
 
+OBJS = $(patsubst ./src/%.c, ./obj/%.o, $(SRCS))
 
+OBJ_DIR = ./obj
 
-OBJS = $(SRCS:.c=.o)
-OBJSB = $(SRCSB:.c=.o)
-
-all: print_error ${NAME}
+all: ${NAME}
 
 ${NAME}: ${OBJS}
-	@printf "$(GREEN)Building: ${NAME}$(RESET)\n"
-	${CC} ${FLAGS} ${OBJS} -o ${NAME}  -lreadline -lncurses
+	@${CC} ${FLAGS} ${OBJS} -o ${NAME} -lreadline -lncurses
+	@echo "${GREEN}${NAME} compiled successfully!${RESET}"
 
-%.o: %.c ${INC} ${INCE} ${INCP}
-	@printf "$(YELLOW)Compiling: $<$(RSEST)\n"
+$(OBJ_DIR)/%.o: ./src/%.c ${INC} ${INCE} ${INCP}
+	@$(MKDIR) $(dir $@)
 	@${CC} ${FLAGS} -c $< -o $@
-
+	@echo "${YELLOW}Compiled $< -> $@${RESET}"
 
 clean:
-	@printf "$(RED)Cleaning object files...$(RESET)\n"
-	@$(RM) $(OBJS) $(OBJSB)
+	@$(RM) -r $(OBJ_DIR)
+	@echo "${RED}Object files removed!${RESET}"
 
 fclean: clean
-	@printf "$(RED)Removing executable...$(RESET)\n"
 	@$(RM) ${NAME}
+	@echo "${RED}${NAME} removed!${RESET}"
 
 re: fclean all
-
-
-print_error:
-	@echo "$(RED)"
-	@echo " ███▄ ▄███▓ ██▓ ███▄    █  ██▓  ██████  ██░ ██ ▓█████  ██▓     ██▓    "
-	@echo "▓██▒▀█▀ ██▒▓██▒ ██ ▀█   █ ▓██▒▒██    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    "
-	@echo "▓██    ▓██░▒██▒▓██  ▀█ ██▒▒██▒░ ▓██▄   ▒██▀▀██░▒███   ▒██░    ▒██░    "
-	@echo "▒██    ▒██ ░██░▓██▒  ▐▌██▒░██░  ▒   ██▒░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░    "
-	@echo "▒██▒   ░██▒░██░▒██░   ▓██░░██░▒██████▒▒░▓█▒░██▓░▒████▒░██████▒░██████▒"
-	@echo "░ ▒░   ░  ░░▓  ░ ▒░   ▒ ▒ ░▓  ▒ ▒▓▒ ▒ ░ ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░"
-	@echo "░  ░      ░ ▒ ░░ ░░   ░ ▒░ ▒ ░░ ░▒  ░ ░ ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░"
-	@echo "░      ░    ▒ ░   ░   ░ ░  ▒ ░░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   "
-	@echo "       ░    ░           ░  ░        ░   ░  ░  ░   ░  ░    ░  ░    ░  ░"
-	@echo " ⢸⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⡷⠀⠀						"
-	@echo " ⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⣀⠀⠀					    "
-	@echo " ⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇ Are you winning son?	"
-	@echo " ⢸⠀⠀⠀⠀ ⠖⠒⠒⠒⢤⠀⠀⠀⠀⠀⡇⠀						"
-	@echo " ⢸⠀⠀⣀⢤⣼⣀⡠⠤⠤⠼⠤⡄⠀⠀⡇⠀						"
-	@echo " ⢸⠀⠀⠑⡤⠤⡒⠒⠒⡊⠙⡏⠀⢀⠀⡇⠀						"
-	@echo " ⢸⠀⠀⠀⠇⠀⣀⣀⣀⣀⢀⠧⠟⠁⠀⡇						"
-	@echo " ⢸⠀⠀⠀⠸⣀⠀⠀⠈⢉⠟⠓⠀⠀⠀⠀						"
-	@echo " ⢸⠀⠀⠀⠀⠈⢱⡖⠋⠁⠀⠀⠀⠀⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠀⠀⣠⢺⠧⢄⣀⠀⠀⣀⣀⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠀⣠⠃⢸⠀⠀⠈⠉⡽⠿⠯⡆							"
-	@echo " ⢸⠀⠀⣰⠁⠀⢸⠀⠀⠀⠀⠉⠉⠉⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠣⠀⠀⢸⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠀⠀⠀⢸⠀⢇⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀						"
-	@echo "\033[38;2;89;180;195m"
-	@echo "                       by: kaneki, iaceene                       "
-	@echo "\033[0m"                                                         
 
 .PHONY: all clean fclean re
