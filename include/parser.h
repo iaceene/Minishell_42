@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/04 17:25:51 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:35:55 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@ typedef struct s_node{
 	struct  s_node		*next;
 } t_node;
 
-typedef struct s_fake_env
-{
-    char                *key;
-    char                *value;
-    struct s_fake_env   *next;
-}t_fake_env;
-
+typedef enum {
+    STATE_NORMAL,
+    STATE_IN_SINGLE_QUOTE,
+    STATE_IN_DOUBLE_QUOTE
+} ParserState;
 
 t_node	*lexer_init(const char *str);
 int		check_no_opned_pr(t_node *data);
@@ -52,7 +50,7 @@ int		ft_isalnum(char c);
 char	*extract_word(char *s);
 void    add_to_cmd(t_cmd **head, t_cmd *new);
 t_cmd   *new_cmd(t_node *node);
-void	expander(t_node *node, t_env *head, t_cmd **cmd);
+char	*expander(t_node *node, t_env *head);
 char	*expand_one_arg(char *s, t_env *head);
 char	*multiple_var_expander(char *s, t_env *head);
 t_cmd	*data_maker(t_node *head, t_env *env);
