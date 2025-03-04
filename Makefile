@@ -22,6 +22,7 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/lexer/lexer_utiles.c \
 		./src/components/parser/lexer/syntax_checker.c \
 		./src/components/parser/lexer/syntax_utiles.c \
+		./src/components/parser/lexer/syntax_utiles_two.c \
 		./src/components/parser/lexer/lexer.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/prompt_utiles.c \

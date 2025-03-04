@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/04 17:21:44 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:25:51 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int		find_it(char *s, char c);
 int		check_qoats(char *val);
 int		others_checker(t_node *data);
 int		check_redirction(t_node *data);
+int		valid_next(TokenType type);
+int		check_append(t_node *data);
 int		ft_isascii(int c);
 char	*ft_strndup(char *s, size_t n);
 int		operator(char c);

@@ -6,53 +6,11 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/04 17:21:09 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:25:29 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
-
-int valid_next(TokenType type)
-{
-	return (type == COMMAND);
-}
-
-int	search_for_acc(TokenType type, t_node *head)
-{
-	while (head)
-	{
-		if (head->type == type && head->visit == false)
-		{
-			head->visit = true;
-			return 0;
-		}
-		head = head->next;
-	}
-	return 1;
-}
-
-int check_append(t_node *data)
-{
-	t_node *prv;
-
-	prv = NULL;
-	while (data)
-	{
-		if (data->type == HERDOC)
-		{
-			if (!prv)
-				return (1);
-			if (!data->next)
-				return (1);
-			if (data->next->type != COMMAND || prv->type != COMMAND)
-				return (1);
-		}
-		prv = data;	
-		data = data->next;
-	}
-	return (0);
-}
-
 
 int pip_checker(t_node *data)
 {
