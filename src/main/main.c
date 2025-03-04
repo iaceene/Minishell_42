@@ -27,37 +27,37 @@ void clear_terminal(void)
 
 void	print_final_data(t_cmd *head)
 {
-    while (head)
-    {
-        if (head->type == COMMAND)
-            printf("CMD [%s]\n", head->value);
-        else if (head->value)
-            printf("%s\n", head->value);
-        head = head->next;
-    }
+	while (head)
+	{
+		if (head->type == COMMAND)
+			printf("CMD [%s]\n", head->value);
+		else if (head->value)
+			printf("%s\n", head->value);
+		head = head->next;
+	}
 }
 
 int main(int ac, char **av, char **env)
 {
-    (void)ac;
-    (void)av;
-    t_data data;
+	(void)ac;
+	(void)av;
+	t_data data;
 	// t_tool tool;
 
-    clear_terminal();
-    data.env = env;
-    signal(SIGINT, ft_sighandler);
-    signal(SIGQUIT, ft_sighandler);
+	clear_terminal();
+	data.env = env;
+	signal(SIGINT, ft_sighandler);
+	signal(SIGQUIT, ft_sighandler);
 	// ft_init(&tool, env);
-    while (1)
-    {
-        data.prompt = prompt(env);
-        if (!data.prompt[0])
-            ft_puterr(32);
+	while (1)
+	{
+		data.prompt = prompt(env);
+		if (!data.prompt[0])
+			ft_puterr(32);
 		else if (parser(&data))
-            print_final_data(data.head);
-        else
-            ft_puterr(14);
-    }
-    return (0);
+			print_final_data(data.head);
+		else
+			ft_puterr(14);
+	}
+	return (0);
 }

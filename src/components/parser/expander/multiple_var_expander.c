@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 00:26:36 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 03:43:27 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:02:24 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int still_dlrs(char *s)
 	return (0);
 }
 
-char	*none_successive(char *s, t_fake_env *head)
+char	*none_successive(char *s, t_env *head)
 {
 	char *final;
 	
@@ -58,7 +58,7 @@ char	*none_successive(char *s, t_fake_env *head)
 	return (final);
 }
 
-char *multiple_var_expander(char *s, t_fake_env *head)
+char *multiple_var_expander(char *s, t_env *head)
 {
 	if (successive_dollars(s))
 		return(successive_d_handler(s));

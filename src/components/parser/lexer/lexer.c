@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/04 16:35:55 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:55:20 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int operator(char c)
 {
-    return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')' || c == '"'
-        || c == '\'');
+    return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')');
 }
 
 int starts_with(const char *str, const char *prefix)

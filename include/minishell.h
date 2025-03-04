@@ -97,6 +97,7 @@ typedef struct s_data
 {
 	char	**env;
 	t_cmd	*head;
+	t_env	*final_env;
 	char	*prompt;
 }	t_data;
 
