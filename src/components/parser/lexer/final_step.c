@@ -6,11 +6,11 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/09 04:18:05 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:35:36 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../../../include/minishell.h"
 
 t_cmd	*new_cmd(t_node *node)
 {
@@ -56,8 +56,6 @@ int no_need(TokenType tp)
 		|| tp == SIN_QUOTE || tp == DOB_QUOTE);
 }
 
-void print_command(t_cmd *cmd);
-
 t_cmd	*data_maker(t_node *head, t_fake_env *env)
 {
 	t_cmd *cmd;
@@ -73,17 +71,5 @@ t_cmd	*data_maker(t_node *head, t_fake_env *env)
 			add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
-	print_command(cmd);
 	return (cmd);
-}
-
-void print_command(t_cmd *cmd)
-{
-	int i = 0;
-	while (cmd)
-	{
-		printf("[ %s ]\n", cmd->value);
-		i++;
-		cmd = cmd->next;
-	}
 }

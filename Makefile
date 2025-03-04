@@ -17,11 +17,11 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/expander/expander.c \
 		./src/components/parser/expander/expander_utiles.c \
 		./src/components/parser/expander/multiple_var_expander.c \
-		./src/components/parser/ft_split_word.c \
-		./src/components/parser/final_step.c \
-		./src/components/parser/lexer_utiles.c \
-		./src/components/parser/syntax_checker.c \
-		./src/components/parser/lexer.c \
+		./src/components/parser/lexer/ft_split_word.c \
+		./src/components/parser/lexer/final_step.c \
+		./src/components/parser/lexer/lexer_utiles.c \
+		./src/components/parser/lexer/syntax_checker.c \
+		./src/components/parser/lexer/lexer.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/prompt_utiles.c \
 		./src/components/parser/prompt/prompt.c \

@@ -6,11 +6,11 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/08 02:16:13 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:35:40 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser.h"
+#include "../../../../include/parser.h"
 
 
 t_node	*add_new_node(TokenType type, char *val)

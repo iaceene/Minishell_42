@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_word.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 20:34:42 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/07 17:48:05 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/04 16:35:28 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser.h"
+#include "../../../../include/parser.h"
 
 static int	ft_count_occurrences(char *str, char *word)
 {
