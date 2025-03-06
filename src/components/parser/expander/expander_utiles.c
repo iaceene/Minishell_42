@@ -6,17 +6,22 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 23:58:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 21:17:42 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:56:05 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char *ft_strndup(char *s, size_t n)
+int	is_sperator(char c)
 {
-	char		*ret;
-	size_t		i;
-	
+	return (c == '-' || c == ' ' || c == '\t' || c == '\'' || c == '"' || c == '$');
+}
+
+char	*ft_strndup(char *s, size_t n)
+{
+	char	*ret;
+	size_t	i;
+
 	i = 0;
 	if (!s)
 		return (NULL);
@@ -60,9 +65,13 @@ char	*get_after(char *s)
 	i = 0;
 	while (s[i] && s[i] != '$')
 		i++;
-	while (s[i] && s[i] != ' ')
+	if (s[i] == '$')
+	{
 		i++;
-	len = ft_strlen(s) - i;
+		while (s[i] && !is_sperator(s[i]))
+			i++;
+	}
+	len = ft_strlen(s + i);
 	ret = ft_malloc(len + 1);
 	len = 0;
 	while (s[i])
@@ -79,31 +88,26 @@ char	*extract_name(char *str)
 {
 	int		i;
 	int		start;
-	int		len;
 	char	*ret;
 
 	i = 0;
-	len = 0;
 	while (str[i] && str[i] != '$')
 		i++;
 	if (!str[i + 1])
 		return (NULL);
 	start = i + 1;
-	i++;
-	while (str[i] && str[i] != ' ')
+	i = start;
+	while (str[i] && !is_sperator(str[i]))
+		i++;
+	ret = ft_malloc(i - start + 1);
+	i = 0;
+	while (str[start] && !is_sperator(str[start]))
 	{
-		i++;	
-		len++;
-	}
-	ret = ft_malloc(len + 1);
-	len = 0;
-	while (str[start] && str[start] != ' ')
-	{
-		ret[len] = str[start];
+		ret[i] = str[start];
 		start++;
-		len++;
+		i++;
 	}
-	ret[start] = '\0';
+	ret[i] = '\0';
 	return (ret);
 }
 
@@ -113,16 +117,19 @@ char	*get_val(char *str)
 	char	*ret;
 
 	name = extract_name(str);
+	if (!name)
+		return (ft_strdup(""));
 	ret = getenv(name);
 	return (ret);
 }
 
 char	*join_all(char *s1, char *s2, char *s3)
 {
+	char	*tmp;
 	char	*ret;
 
-	ret = ft_strjoin(s1, s2);
-	ret = ft_strjoin(ret, s3);
+	tmp = ft_strjoin(s1, s2);
+	ret = ft_strjoin(tmp, s3);
 	return (ret);
 }
 
@@ -132,12 +139,17 @@ char	*expand_this(char *str)
 	char	*after;
 	char	*expand;
 
-	while (find_it(str, '$'))
+	while (1)
 	{
+		if (!find_it(str, '$'))
+			break ;
 		before = get_before(str);
 		after = get_after(str);
 		expand = get_val(str);
+		if (!expand)
+			expand = ft_strdup("");
 		str = join_all(before, expand, after);
+		// printf("here\n");
 	}
 	return (str);
 }
