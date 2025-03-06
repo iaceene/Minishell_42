@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 17:51:43 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:13:29 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ char *handle_quotes(char *input)
 			add_expand(&head, node);
 		}
 	}
-	// t_expand *tmp = head;
-	// while (tmp)
-	// {
-	// 	printf("val: %s, state: %d\n", tmp->val, tmp->state);
-	// 	tmp = tmp->next;
-	// }
 	return (expand_and_join(head));
 }
 

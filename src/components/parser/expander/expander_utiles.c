@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 23:58:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 17:49:54 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:17:42 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ char	*get_after(char *s)
 	int		i;
 	int		len;
 
-	i = ft_strlen(s) - 1;
+	i = 0;
 	while (s[i] && s[i] != '$')
-		i--;
+		i++;
 	while (s[i] && s[i] != ' ')
 		i++;
 	len = ft_strlen(s) - i;
