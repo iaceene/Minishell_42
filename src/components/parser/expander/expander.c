@@ -6,23 +6,11 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 21:13:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 23:48:56 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
-
-typedef struct s_expand
-{
-	State			state;
-	char			*val;
-	struct s_expand	*next;
-}	t_expand;
-
-t_expand	*new_expand(State state, char *val);
-void		add_expand(t_expand **head, t_expand *new);
-char		*expand_and_join(t_expand *head);
-char	*expand_this(char *str);
 
 char *handle_quotes(char *input)
 {
