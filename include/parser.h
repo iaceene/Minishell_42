@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/06 23:48:49 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 23:50:15 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include "minishell.h"
 # include "stdbool.h"
 
-
 typedef struct s_node{
-	TokenType			type;   // Type of token
+	TokenType			type;
 	char				*value;
 	bool			    visit;
 	struct  s_node		*next;
@@ -62,6 +61,5 @@ t_expand	*new_expand(State state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
 char		*expand_and_join(t_expand *head);
 char		*expand_this(char *str);
-
 
 #endif

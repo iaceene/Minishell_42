@@ -48,6 +48,8 @@ typedef enum {
 	DOLLAR,     // $
 	OPEN_PAR,  // (
 	CLOSE_PAR, // )
+	IN_FILE,
+	OUT_FILE,
 	NIL /// this a NULL node
 } TokenType;
 
