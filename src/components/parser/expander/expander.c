@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 00:30:32 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:51:43 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ typedef struct s_expand
 	struct s_expand	*next;
 }	t_expand;
 
-
 t_expand	*new_expand(State state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
 char		*expand_and_join(t_expand *head);
+char	*expand_this(char *str);
 
 char *handle_quotes(char *input)
 {
@@ -70,30 +70,13 @@ char *handle_quotes(char *input)
 			add_expand(&head, node);
 		}
 	}
-	t_expand *tmp = head;
-	while (tmp)
-	{
-		printf("val: %s, state: %d\n", tmp->val, tmp->state);
-		tmp = tmp->next;
-	}
+	// t_expand *tmp = head;
+	// while (tmp)
+	// {
+	// 	printf("val: %s, state: %d\n", tmp->val, tmp->state);
+	// 	tmp = tmp->next;
+	// }
 	return (expand_and_join(head));
-}
-
-char	*expand_this(char *str)
-{
-	char	*env_name;
-	char	*env_value;
-
-	if (!str || str[0] != '$')
-		return (ft_strdup(str));
-
-	env_name = str + 1; 
-	env_value = getenv(env_name); // Get environment variable value
-
-	if (!env_value) // If variable doesn't exist, return empty string
-		return (ft_strdup(""));
-
-	return (ft_strdup(env_value)); // Return the expanded value
 }
 
 char	*expand_and_join(t_expand *head)
@@ -124,7 +107,6 @@ char *expander(t_node *node, t_env *env)
 		&& !find_it(node->value, '"'))
 		return node->value;
 	expanded = handle_quotes(node->value);
-	printf("%s\n", expanded);
 	return expanded;
 }
 
