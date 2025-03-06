@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 00:26:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 00:30:32 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,19 +98,17 @@ char	*expand_this(char *str)
 
 char	*expand_and_join(t_expand *head)
 {
-	char	*buffer = ft_strdup(""); // Start with an empty string
+	char	*buffer;
 	char	*tmp;
-	char	*new_buffer;
 
+	buffer = NULL;
 	while (head)
 	{
-		if (head->state != IN_SQUOTE && find_it(head->val, '$')) // Expand only if not in single quotes
+		if (head->state != IN_SQUOTE && find_it(head->val, '$'))
 			tmp = expand_this(head->val);
 		else
 			tmp = ft_strdup(head->val);
-
-		new_buffer = ft_strjoin(buffer, tmp);
-		buffer = new_buffer;
+		buffer = ft_strjoin(buffer, tmp);
 		head = head->next;
 	}
 	return (buffer);
