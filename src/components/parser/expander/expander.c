@@ -6,74 +6,155 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/04 17:50:36 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/06 00:26:29 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char *expand_variable(char *input, t_env *env) {
-	(void)env;
-    if (input[0] == '$') {
-        char *var_name = input + 1;
-        char *value = getenv(var_name);
-        return value ? value : ""; // Return empty string if variable is undefined
-    }
-    return input;
-}
-
-// Handle quotes and variable expansion
-char *handle_quotes(char *input, t_env *env) {
-	ParserState state = STATE_NORMAL;
-	char *result = malloc(strlen(input) + 1);
-	int j = 0;
-
-	for (int i = 0; input[i]; i++) {
-		if (input[i] == '\'' && state != STATE_IN_DOUBLE_QUOTE) {
-			state = (state == STATE_IN_SINGLE_QUOTE) ? STATE_NORMAL : STATE_IN_SINGLE_QUOTE;
-		} else if (input[i] == '"' && state != STATE_IN_SINGLE_QUOTE) {
-			state = (state == STATE_IN_DOUBLE_QUOTE) ? STATE_NORMAL : STATE_IN_DOUBLE_QUOTE;
-		} else if (input[i] == '$' && state != STATE_IN_SINGLE_QUOTE) {
-			char *expanded = expand_variable(input + i, env);
-			strcpy(result + j, expanded);
-			j += strlen(expanded);
-			i += strlen(input + i) - 1; // Skip the variable name
-		} else {
-			result[j++] = input[i];
-		}
-	}
-	result[j] = '\0';
-	return result;
-}
-
-// Handle nested quotes (optional, for demonstration)
-char *handle_nested_quotes(char *input)
+typedef struct s_expand
 {
-	int single_quote_depth = 0;
-	int double_quote_depth = 0;
-	char *result = malloc(strlen(input) + 1);
-	int j = 0;
+	State			state;
+	char			*val;
+	struct s_expand	*next;
+}	t_expand;
 
-	for (int i = 0; input[i]; i++) {
-		if (input[i] == '\'' && double_quote_depth == 0) {
-			single_quote_depth++;
-		} else if (input[i] == '"' && single_quote_depth == 0) {
-			double_quote_depth++;
-		} else {
-			result[j++] = input[i];
+
+t_expand	*new_expand(State state, char *val);
+void		add_expand(t_expand **head, t_expand *new);
+char		*expand_and_join(t_expand *head);
+
+char *handle_quotes(char *input)
+{
+	t_expand	*head;
+	t_expand	*node;
+	State		state;
+	char		*start;
+
+	head = NULL;
+	state = NORMAL;
+	while (*input)
+	{
+		if (*input == '\'' && state == NORMAL) // Enter single-quoted mode
+		{
+			state = IN_SQUOTE;
+			input++;
+			start = input;
+			while (*input && *input != '\'') // Collect inside single quotes
+				input++;
+			node = new_expand(state, ft_substr(start, 0, input - start));
+			add_expand(&head, node);
+			if (*input) // Skip closing quote
+				input++;
+			state = NORMAL;
+		}
+		else if (*input == '"' && state == NORMAL) // Enter double-quoted mode
+		{
+			state = IN_DQUOTE;
+			input++;
+			start = input;
+			while (*input && *input != '"') // Collect inside double quotes
+				input++;
+			node = new_expand(state, ft_substr(start, 0, input - start));
+			add_expand(&head, node);
+			if (*input) // Skip closing quote
+				input++;
+			state = NORMAL;
+		}
+		else // Normal text (outside quotes)
+		{
+			start = input;
+			while (*input && *input != '\'' && *input != '"')
+				input++;
+			node = new_expand(state, ft_substr(start, 0, input - start));
+			add_expand(&head, node);
 		}
 	}
-	result[j] = '\0';
-	return result;
+	t_expand *tmp = head;
+	while (tmp)
+	{
+		printf("val: %s, state: %d\n", tmp->val, tmp->state);
+		tmp = tmp->next;
+	}
+	return (expand_and_join(head));
 }
 
-char *expander(t_node *node, t_env *env) {
+char	*expand_this(char *str)
+{
+	char	*env_name;
+	char	*env_value;
+
+	if (!str || str[0] != '$')
+		return (ft_strdup(str));
+
+	env_name = str + 1; 
+	env_value = getenv(env_name); // Get environment variable value
+
+	if (!env_value) // If variable doesn't exist, return empty string
+		return (ft_strdup(""));
+
+	return (ft_strdup(env_value)); // Return the expanded value
+}
+
+char	*expand_and_join(t_expand *head)
+{
+	char	*buffer = ft_strdup(""); // Start with an empty string
+	char	*tmp;
+	char	*new_buffer;
+
+	while (head)
+	{
+		if (head->state != IN_SQUOTE && find_it(head->val, '$')) // Expand only if not in single quotes
+			tmp = expand_this(head->val);
+		else
+			tmp = ft_strdup(head->val);
+
+		new_buffer = ft_strjoin(buffer, tmp);
+		buffer = new_buffer;
+		head = head->next;
+	}
+	return (buffer);
+}
+
+char *expander(t_node *node, t_env *env)
+{
+	(void)env;
 	char	*expanded;
 
 	if	(!find_it(node->value, '$')
 		&& !find_it(node->value, '\'')
 		&& !find_it(node->value, '"'))
 		return node->value;
-	expanded = handle_quotes(node->value, env);
+	expanded = handle_quotes(node->value);
+	printf("%s\n", expanded);
 	return expanded;
+}
+
+void	add_expand(t_expand **head, t_expand *new)
+{
+	t_expand	*tmp;
+
+	tmp = *head;
+	if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	else
+	{
+		while (tmp && tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+t_expand	*new_expand(State state, char *val)
+{
+	t_expand	*ret;
+
+	ret = ft_malloc(sizeof(t_expand));
+	ret->next = NULL;
+	ret->state = state;
+	ret->val = val;
+	return (ret);
 }

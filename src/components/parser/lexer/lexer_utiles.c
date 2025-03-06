@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/04 16:35:40 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/05 23:35:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char *extract_word(char *s)
         tmp[i] = start[i];
 		i++;
     }
-    tmp[len] = '\0';
+	while (tmp[--len] == ' ')
+		tmp[len] = '\0';
     return tmp;
 }

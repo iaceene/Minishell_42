@@ -55,7 +55,8 @@ int main(int ac, char **av, char **env)
 		if (!data.prompt[0])
 			ft_puterr(32);
 		else if (parser(&data))
-			print_final_data(data.head);
+			printf("\n");
+			// print_final_data(data.head);
 		else
 			ft_puterr(14);
 	}
