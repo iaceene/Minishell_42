@@ -50,7 +50,7 @@ typedef enum {
 	CLOSE_PAR, // )
 	IN_FILE,
 	OUT_FILE,
-	NIL /// this a NULL node
+	NIL /// this is NULL node
 } TokenType;
 
 /************************* env struct *************************/
@@ -77,7 +77,7 @@ typedef struct s_expand_herdoc
 // ********************prompt*************************
 char	*ft_get_cli(char **env);
 void	exit_the_shell(int state);
-char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
+char	*ft_join_params(char *user, char *dis);
 char	*prompt(char **env);
 //*****************************signals********************************
 // void	ft_handle_signals(int sig);
