@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/05 23:35:04 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/07 20:10:39 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,28 @@ int	ft_isascii(int c)
 char *extract_word(char *s)
 {
     char	*tmp;
-	int		i;
+    int		i;
     int		len;
     char	*start;
 
-	start = s;
-	len = 0;
-	i = 0;
-	while (*s && !operator(*s))
+    while (*s == ' ')
+        s++;
+    start = s;
+    len = 0;
+    while (*s && !operator(*s))
 	{
         s++;
         len++;
     }
     tmp = ft_malloc(len + 1);
+    i = 0;
     while (i < len)
 	{
         tmp[i] = start[i];
-		i++;
+        i++;
     }
-	while (tmp[--len] == ' ')
-		tmp[len] = '\0';
-    return tmp;
+    tmp[len] = '\0';
+    while (len > 0 && tmp[len - 1] == ' ')
+        tmp[--len] = '\0';
+    return (tmp);
 }

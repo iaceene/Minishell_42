@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
+
 void exit_the_shell(int state)
 {
     ft_malloc(-1);

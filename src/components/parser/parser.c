@@ -17,6 +17,8 @@ int parser(t_data *data)
 	t_node *tock_data;
 
 	tock_data = lexer_init(data->prompt);
+	free(data->prompt);
+	data->prompt = NULL;
 	if (!tock_data)
 		return (0);
 	if (syntax_checker(tock_data) == -1)
