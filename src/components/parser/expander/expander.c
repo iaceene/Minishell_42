@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 23:48:56 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:31:47 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char *expander(t_node *node, t_env *env)
 		&& !find_it(node->value, '"'))
 		return node->value;
 	expanded = handle_quotes(node->value);
-	return expanded;
+	return (expanded);
 }
 
 void	add_expand(t_expand **head, t_expand *new)

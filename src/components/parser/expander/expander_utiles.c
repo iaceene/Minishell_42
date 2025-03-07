@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 23:58:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/06 21:56:05 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:42:37 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*extract_name(char *str)
 	i = 0;
 	while (str[i] && str[i] != '$')
 		i++;
-	if (!str[i + 1])
+	if (!str[i + 1] || is_sperator(str[i + 1]))
 		return (NULL);
 	start = i + 1;
 	i = start;
@@ -118,7 +118,7 @@ char	*get_val(char *str)
 
 	name = extract_name(str);
 	if (!name)
-		return (ft_strdup(""));
+		return (ft_strdup("$"));
 	ret = getenv(name);
 	return (ret);
 }
@@ -133,23 +133,37 @@ char	*join_all(char *s1, char *s2, char *s3)
 	return (ret);
 }
 
+
+int	count_dollars(char *s)
+{
+	int	count;
+
+	count = 0;
+	while (*s)
+	{
+		if (*s == '$')
+			count++;
+		s++;
+	}
+	return (count);
+}
+
 char	*expand_this(char *str)
 {
+	int		count;
 	char	*before;
 	char	*after;
 	char	*expand;
 
-	while (1)
+	count = count_dollars(str);
+	while (--count >= 0)
 	{
-		if (!find_it(str, '$'))
-			break ;
 		before = get_before(str);
 		after = get_after(str);
 		expand = get_val(str);
 		if (!expand)
 			expand = ft_strdup("");
 		str = join_all(before, expand, after);
-		// printf("here\n");
 	}
 	return (str);
 }
