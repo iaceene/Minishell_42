@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/07 21:15:31 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/07 21:36:12 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_buffer *new_buff(char *val)
 
 	ret = ft_malloc(sizeof(t_buffer));
 	ret->next = NULL;
-	ret->val = val;
+	ret->val = ft_strjoin(val, ft_strdup("\n"));
 	return (ret);
 }
 
@@ -54,9 +54,12 @@ char	*join_buffer(t_buffer *head)
 	while (head)
 	{
 		joined = ft_strjoin(joined, head->val);
+		if (!joined)
+			return (NULL);
 		head = head->next;
 	}
-	return (joined);
+	printf("%s\n", joined);
+	return joined;
 }
 
 char	*herdoc(t_env *env, char *exit)
@@ -69,7 +72,8 @@ char	*herdoc(t_env *env, char *exit)
 	while (1)
 	{
 		prom = readline("> ");
-		if (prom && !ft_strncmp(prom, exit, ft_strlen(prom)))
+		if (prom && !ft_strncmp(prom, exit, ft_strlen(prom))
+			&& ft_strlen(prom) == ft_strlen(exit))
 			break ;
 		add_buff(&head, new_buff(prom));
 	}
