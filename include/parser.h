@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/06 23:50:15 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/07 21:00:20 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ t_expand	*new_expand(State state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
 char		*expand_and_join(t_expand *head);
 char		*expand_this(char *str);
+char		*herdoc(t_env *env, char *exit);
 
 #endif
