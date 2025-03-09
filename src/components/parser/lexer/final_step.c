@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/09 00:09:43 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:45:55 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_cmd	*data_maker(t_node *head, t_env *env)
 			add_to_cmd(&cmd, new_cmd(head));
 			head = head->next;
 		}
+		else
+			add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
 	return (cmd);

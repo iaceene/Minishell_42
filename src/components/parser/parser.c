@@ -12,6 +12,9 @@
 
 #include "../../../include/execution.h"
 
+
+t_cmd	*final_data(t_cmd *head);
+
 int parser(t_data *data)
 {
 	t_node *tock_data;
@@ -27,5 +30,6 @@ int parser(t_data *data)
 		data->head = data_maker(tock_data, data->final_env);
 	if (!data->head)
 		return (0);
+	data->head = final_data(data->head);
 	return (1);
 }
