@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/07 21:36:12 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/08 00:02:07 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*herdoc(t_env *env, char *exit)
 		prom = readline("> ");
 		if (prom && !ft_strncmp(prom, exit, ft_strlen(prom))
 			&& ft_strlen(prom) == ft_strlen(exit))
+			break ;
+		if (prom && prom[0] == EOF)
 			break ;
 		add_buff(&head, new_buff(prom));
 	}
