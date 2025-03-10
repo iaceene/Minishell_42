@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/09 00:10:25 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/10 23:37:40 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,22 @@ int	find_it(char *s, char c)
 	return (0);
 }
 
-int	check_qoats(char *val)
+int check_qoats(char *val)
 {
-	int	single;
-	int	doubl;
+	int single;
+	int doubl;
 
-	if (!find_it(val, '\'') && !find_it(val, '"'))
-		return (0);
 	single = 0;
 	doubl = 0;
 	while (*val)
 	{
-		if (*val == '\'')
-			single++;
-		if (*val == '"')
-			doubl++;
+		if (*val == '\'' && doubl == 0)
+			single = !single;
+		else if (*val == '"' && single == 0)
+			doubl = !doubl;
 		val++;
 	}
-	if (single % 2 != 0 ||
-		doubl % 2 != 0)
-		return (1);
-	return(0);
+	return (single || doubl);
 }
 
 int	check_herdoc(t_node *data)
