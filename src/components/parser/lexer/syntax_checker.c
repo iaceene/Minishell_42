@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/04 17:25:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:42:30 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	readdir_checker(t_node *data)
 	prv = NULL;
 	while (data)
 	{
-		// if (!prv && (data->type == LEFT_RED || data->type == RIGHT_RED))
+		// if (!prv && (data->type == L	EFT_RED || data->type == RIGHT_RED))
 		// 	return (0);
 		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && !data->next)
 			return (0);

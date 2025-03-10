@@ -12,8 +12,45 @@
 
 #include "../../../include/execution.h"
 
+t_cmd	*new_cmd_val(char *val, TokenType typ)
+{
+	t_cmd	*new;
 
-t_cmd	*final_data(t_cmd *head);
+	new = ft_malloc(sizeof(t_cmd));
+	new->next = NULL;
+	new->type = typ;
+	new->value = val;
+	return (new);
+}
+
+t_cmd	*final_data(t_cmd *head)
+{
+	t_cmd	*new;
+
+	new = NULL;
+	while (head)
+	{
+		if (head->type == COMMAND)
+			add_to_cmd(&new, new_cmd_val(head->value, COMMAND));
+		else if (head->next && head->type == RIGHT_RED)
+		{
+			add_to_cmd(&new, new_cmd_val(head->next->value, OUT_FILE));
+			head = head->next;
+		}
+		else if (head->next && head->type == APPEND)
+		{
+			add_to_cmd(&new, new_cmd_val(head->next->value, APPEND));
+			head = head->next;
+		}
+		else if (head->next && head->type == LEFT_RED)
+		{
+			add_to_cmd(&new, new_cmd_val(head->next->value, IN_FILE));
+			head = head->next;
+		}
+		head = head->next;
+	}
+	return (new);
+}
 
 int parser(t_data *data)
 {
