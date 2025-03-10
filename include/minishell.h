@@ -92,6 +92,7 @@ typedef struct s_cmd
 {
 	TokenType		type;
 	char			*value;
+	char			**cmd;
 	struct s_cmd	*next;
 }	t_cmd;
 

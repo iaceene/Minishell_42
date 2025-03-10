@@ -18,6 +18,8 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 
 	new = ft_malloc(sizeof(t_cmd));
 	new->next = NULL;
+	if (typ == COMMAND)
+		new->cmd = ft_split(val, ' ');
 	new->type = typ;
 	new->value = val;
 	return (new);
