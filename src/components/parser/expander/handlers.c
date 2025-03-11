@@ -6,13 +6,13 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:29:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:31:22 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:52:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-void	handle_single_quote(char **input, t_expand **head, State *state)
+void	handle_single_quote(char **input, t_expand **head, t_state *state)
 {
 	char		*start;
 	t_expand	*node;
@@ -29,7 +29,7 @@ void	handle_single_quote(char **input, t_expand **head, State *state)
 	*state = NORMAL;
 }
 
-void	handle_double_quote(char **input, t_expand **head, State *state)
+void	handle_double_quote(char **input, t_expand **head, t_state *state)
 {
 	char		*start;
 	t_expand	*node;
@@ -46,7 +46,7 @@ void	handle_double_quote(char **input, t_expand **head, State *state)
 	*state = NORMAL;
 }
 
-void	handle_normal_text(char **input, t_expand **head, State state)
+void	handle_normal_text(char **input, t_expand **head, t_state state)
 {
 	char		*start;
 	t_expand	*node;

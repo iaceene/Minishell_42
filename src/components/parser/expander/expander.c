@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:36:30 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:51:30 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*handle_quotes(char *input)
 {
 	t_expand	*head;
-	State		state;
+	t_state		state;
 
 	head = NULL;
 	state = NORMAL;
@@ -80,7 +80,7 @@ void	add_expand(t_expand **head, t_expand *new)
 	}
 }
 
-t_expand	*new_expand(State state, char *val)
+t_expand	*new_expand(t_state state, char *val)
 {
 	t_expand	*ret;
 
