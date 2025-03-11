@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:32:30 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:36:30 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 char	*handle_quotes(char *input)
 {
 	t_expand	*head;
-	t_expand	*node;
 	State		state;
-	char		*start;
 
 	head = NULL;
 	state = NORMAL;

@@ -25,7 +25,7 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 	return (new);
 }
 
-void	handel_outfile(t_cmd **head, char *val, int f)
+void	handle_outfile(t_cmd **head, char *val, int f)
 {
 	char	**sp;
 	int		i;
@@ -44,7 +44,7 @@ void	handel_outfile(t_cmd **head, char *val, int f)
 	}
 }
 
-void	handel_infile(t_cmd **head, char *val, int f)
+void	handle_infile(t_cmd **head, char *val, int f)
 {
 	char	**sp;
 	int		i;
@@ -108,8 +108,7 @@ int	parser(t_data *data)
 		return (0);
 	if (syntax_checker(tock_data) == -1)
 		return (0);
-	else
-		data->head = data_maker(tock_data, data->final_env);
+	data->head = data_maker(tock_data, data->final_env);
 	if (!data->head)
 		return (0);
 	data->head = final_data(data->head);
