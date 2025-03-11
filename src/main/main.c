@@ -31,6 +31,12 @@ void	print_final_data(t_cmd *head)
 	{
 		if (head->type == COMMAND)
 			printf("CMD [%s]\n", head->value);
+		else if (head->type == IN_FILE)
+			printf("infile [%s]\n", head->value);
+		else if (head->type == OUT_FILE)
+			printf("outfile [%s]\n", head->value);
+		else if (head->type == APPEND)
+			printf("append [%s]\n", head->value);
 		else if (head->value)
 			printf("%s\n", head->value);
 		head = head->next;

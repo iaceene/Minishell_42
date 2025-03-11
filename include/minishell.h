@@ -50,6 +50,7 @@ typedef enum {
 	CLOSE_PAR, // )
 	IN_FILE,
 	OUT_FILE,
+	SIMPLE_FILE,
 	NIL /// this is NULL node
 } TokenType;
 
