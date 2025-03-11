@@ -6,20 +6,13 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/08 00:02:07 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:19:32 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
-typedef struct s_buffer
-{
-	char	*val;
-	struct s_buffer *next;
-}t_buffer;
-
-
-t_buffer *new_buff(char *val)
+t_buffer	*new_buff(char *val)
 {
 	t_buffer	*ret;
 
@@ -31,11 +24,11 @@ t_buffer *new_buff(char *val)
 
 void	add_buff(t_buffer **head, t_buffer *new)
 {
-	t_buffer *tmp;
+	t_buffer	*tmp;
 
 	tmp = *head;
 	if (!head || !new)
-		return;
+		return ;
 	if (!*head)
 		*head = new;
 	else
@@ -58,16 +51,15 @@ char	*join_buffer(t_buffer *head)
 			return (NULL);
 		head = head->next;
 	}
-	printf("%s\n", joined);
-	return joined;
+	return (joined);
 }
 
 char	*herdoc(t_env *env, char *exit)
 {
-	(void)env;
 	char		*prom;
 	t_buffer	*head;
-	
+
+	(void)env;
 	head = NULL;
 	while (1)
 	{

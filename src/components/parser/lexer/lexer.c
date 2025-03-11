@@ -6,20 +6,15 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/07 20:08:16 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:15:53 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-int operator(char c)
+int	starts_with(const char *str, const char *prefix)
 {
-    return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')');
-}
-
-int starts_with(const char *str, const char *prefix)
-{
-    return (ft_strncmp(str, prefix, strlen(prefix)) == 0);
+	return (ft_strncmp(str, prefix, strlen(prefix)) == 0);
 }
 
 void	other_oper(t_node **head, char *s)
@@ -44,12 +39,12 @@ char	*oper_tock(t_node **head, char *s)
 	if (starts_with(s, "<<"))
 	{
 		add_to_list(head, add_new_node(HERDOC, "<<"));
-		len = 2;	
+		len = 2;
 	}
 	else if (starts_with(s, ">>"))
 	{
 		add_to_list(head, add_new_node(APPEND, ">>"));
-		len = 2;		
+		len = 2;
 	}
 	else if (starts_with(s, "<"))
 		add_to_list(head, add_new_node(LEFT_RED, "<"));

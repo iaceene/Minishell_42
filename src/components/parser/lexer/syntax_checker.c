@@ -6,15 +6,15 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/10 20:42:30 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:13:21 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-int pip_checker(t_node *data)
+int	pip_checker(t_node *data)
 {
-	t_node *prv;
+	t_node	*prv;
 
 	prv = NULL;
 	while (data)
@@ -23,7 +23,7 @@ int pip_checker(t_node *data)
 			return (0);
 		if (data->type == PIPE
 			&& (!valid_next(data->next->type)
-			|| !valid_next(prv->type)))
+				|| !valid_next(prv->type)))
 			return (0);
 		prv = data;
 		data = data->next;
@@ -31,19 +31,20 @@ int pip_checker(t_node *data)
 	return (1);
 }
 
+		// if (!prv && (data->type == L	EFT_RED || data->type == RIGHT_RED))
+		// 	return (0);
 int	readdir_checker(t_node *data)
 {
-	t_node *prv;
+	t_node	*prv;
 
 	prv = NULL;
 	while (data)
 	{
-		// if (!prv && (data->type == L	EFT_RED || data->type == RIGHT_RED))
-		// 	return (0);
 		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && !data->next)
 			return (0);
-		if ((data->type == LEFT_RED || data->type == RIGHT_RED) &&
-			!data->next && (data->next->type != COMMAND || prv->type != COMMAND))
+		if ((data->type == LEFT_RED || data->type == RIGHT_RED)
+			&& !data->next && (data->next->type != COMMAND
+				|| prv->type != COMMAND))
 			return (0);
 		prv = data;
 		data = data->next;
@@ -51,7 +52,7 @@ int	readdir_checker(t_node *data)
 	return (1);
 }
 
-int valid_parent(t_node *data)
+int	valid_parent(t_node *data)
 {
 	if (!data->next)
 		return (1);

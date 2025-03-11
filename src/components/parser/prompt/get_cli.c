@@ -14,10 +14,13 @@
 
 char	*ft_get_user(char **env)
 {
+	int	i;
+	int	flag;
+
+	flag = 0;
+	i = 0;
 	if (!*env)
-		return 0;
-	int i = 0;
-	int flag = 0;
+		return (0);
 	while (env[i])
 	{
 		if (ft_strstr(env[i], "LOGNAME"))
@@ -32,10 +35,13 @@ char	*ft_get_user(char **env)
 	return (ft_strdup(ft_strchr(env[i], '=')));
 }
 
-char **ft_get_sission(char **env)
+char	**ft_get_sission(char **env)
 {
-	int i = 0;
-	int flag = 0;
+	int	i;
+	int	flag;
+
+	flag = 0;
+	i = 0;
 	while (env[i])
 	{
 		if (ft_strstr(env[i], "SESSION_MANAGER"))
@@ -50,13 +56,13 @@ char **ft_get_sission(char **env)
 	return (ft_split(ft_strchr(env[i], '/'), '.'));
 }
 
-char *ft_get_cli(char **env)
+char	*ft_get_cli(char **env)
 {
-	char *user;
-	char **desktop;
-	if (!*env)
-		return 0;
+	char	*user;
+	char	**desktop;
 
+	if (!*env)
+		return (0);
 	user = ft_get_user(env);
 	if (!user)
 		user = ft_strdup("user42");

@@ -83,29 +83,23 @@ t_cmd	*final_data(t_cmd *head)
 		if (head->type == COMMAND)
 			add_to_cmd(&new, new_cmd_val(head->value, COMMAND));
 		else if (head->next && head->type == RIGHT_RED)
-		{
-			handel_outfile(&new, head->next->value, i);
-			head = head->next;
-		}
+			handle_outfile(&new, head->next->value, i);
 		else if (head->next && head->type == APPEND)
-		{
 			add_to_cmd(&new, new_cmd_val(head->next->value, APPEND));
-			head = head->next;
-		}
 		else if (head->next && head->type == LEFT_RED)
-		{
-			handel_infile(&new, head->next->value, i);
+			handle_infile(&new, head->next->value, i);
+		if (head->next && (head->type == RIGHT_RED || head->type == APPEND
+				|| head->type == LEFT_RED))
 			head = head->next;
-		}
 		i++;
 		head = head->next;
 	}
 	return (new);
 }
 
-int parser(t_data *data)
+int	parser(t_data *data)
 {
-	t_node *tock_data;
+	t_node	*tock_data;
 
 	tock_data = lexer_init(data->prompt);
 	free(data->prompt);

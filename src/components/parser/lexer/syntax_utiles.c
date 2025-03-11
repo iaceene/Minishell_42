@@ -6,22 +6,11 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/10 23:37:40 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:11:33 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
-
-int check_no_opned_pr(t_node *data)
-{
-	while (data)
-	{
-		if (data->type == CLOSE_PAR && data->visit == false)
-			return (1);
-		data = data->next;
-	}
-	return (0);
-}
 
 int	find_it(char *s, char c)
 {
@@ -34,10 +23,10 @@ int	find_it(char *s, char c)
 	return (0);
 }
 
-int check_qoats(char *val)
+int	check_qoats(char *val)
 {
-	int single;
-	int doubl;
+	int	single;
+	int	doubl;
 
 	single = 0;
 	doubl = 0;
@@ -68,28 +57,27 @@ int	check_herdoc(t_node *data)
 	return (0);
 }
 
-
-int others_checker(t_node *data)
+int	others_checker(t_node *data)
 {
 	t_node	*tmp;
 
 	tmp = data;
-    while (data)
-    {
+	while (data)
+	{
 		if (data->type == COMMAND)
 			if (check_qoats(data->value))
 				return (0);
-        data = data->next;
-    }
+		data = data->next;
+	}
 	if (check_no_opned_pr(tmp)
 		|| check_herdoc(data))
 		return (0);
-    return (1);
+	return (1);
 }
 
-int check_redirction(t_node *data)
+int	check_redirction(t_node *data)
 {
-	t_node *prv;
+	t_node	*prv;
 
 	prv = NULL;
 	while (data)
@@ -103,7 +91,7 @@ int check_redirction(t_node *data)
 			if (data->next->type != COMMAND || prv->type != COMMAND)
 				return (1);
 		}
-		prv = data;	
+		prv = data;
 		data = data->next;
 	}
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/07 17:31:47 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:32:30 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char *handle_quotes(char *input)
+char	*handle_quotes(char *input)
 {
 	t_expand	*head;
 	t_expand	*node;
@@ -23,40 +23,12 @@ char *handle_quotes(char *input)
 	state = NORMAL;
 	while (*input)
 	{
-		if (*input == '\'' && state == NORMAL) // Enter single-quoted mode
-		{
-			state = IN_SQUOTE;
-			input++;
-			start = input;
-			while (*input && *input != '\'') // Collect inside single quotes
-				input++;
-			node = new_expand(state, ft_substr(start, 0, input - start));
-			add_expand(&head, node);
-			if (*input) // Skip closing quote
-				input++;
-			state = NORMAL;
-		}
-		else if (*input == '"' && state == NORMAL) // Enter double-quoted mode
-		{
-			state = IN_DQUOTE;
-			input++;
-			start = input;
-			while (*input && *input != '"') // Collect inside double quotes
-				input++;
-			node = new_expand(state, ft_substr(start, 0, input - start));
-			add_expand(&head, node);
-			if (*input) // Skip closing quote
-				input++;
-			state = NORMAL;
-		}
-		else // Normal text (outside quotes)
-		{
-			start = input;
-			while (*input && *input != '\'' && *input != '"')
-				input++;
-			node = new_expand(state, ft_substr(start, 0, input - start));
-			add_expand(&head, node);
-		}
+		if (*input == '\'' && state == NORMAL)
+			handle_single_quote(&input, &head, &state);
+		else if (*input == '"' && state == NORMAL)
+			handle_double_quote(&input, &head, &state);
+		else
+			handle_normal_text(&input, &head, state);
 	}
 	return (expand_and_join(head));
 }
@@ -79,15 +51,15 @@ char	*expand_and_join(t_expand *head)
 	return (buffer);
 }
 
-char *expander(t_node *node, t_env *env)
+char	*expander(t_node *node, t_env *env)
 {
-	(void)env;
 	char	*expanded;
 
-	if	(!find_it(node->value, '$')
+	(void)env;
+	if (!find_it(node->value, '$')
 		&& !find_it(node->value, '\'')
 		&& !find_it(node->value, '"'))
-		return node->value;
+		return (node->value);
 	expanded = handle_quotes(node->value);
 	return (expanded);
 }
