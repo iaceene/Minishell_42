@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h
@@ -79,7 +79,7 @@ OBJS = $(patsubst ./src/%.c, ./obj/%.o, $(SRCS))
 
 OBJ_DIR = ./obj
 
-all: print_error ${NAME}
+all: ${NAME}
 
 ${NAME}: ${OBJS}
 	@${CC} ${FLAGS} ${OBJS} -o ${NAME} -lreadline -lncurses
@@ -99,6 +99,8 @@ fclean: clean
 	@echo "${RED}${NAME} removed!${RESET}"
 
 re: fclean all
+
+.PHONY: all clean fclean re
 
 
 print_error:
