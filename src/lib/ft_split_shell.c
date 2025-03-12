@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
 static void	ft_free(char **ptr, int k)
 {
 	int	i;

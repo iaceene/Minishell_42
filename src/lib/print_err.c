@@ -12,22 +12,22 @@
 
 #include "../../include/minishell.h"
 
-void ft_print_err(char *s)
+void	ft_print_err(char *s)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (s[i])
-    {
-        write(2, &s[i], 1);
-        i++;
-    }
+	i = 0;
+	while (s[i])
+	{
+		write(2, &s[i], 1);
+		i++;
+	}
 }
 
-void ft_puterr(int state)
+void	ft_puterr(int state)
 {
-    if (state == 1)
-        ft_print_err("Invalid env!\n");
-    if (state == 14)   
-        ft_print_err("\033[31mError\033[0m : Invalid syntax\n");
+	if (state == 1)
+		ft_print_err("Invalid env!\n");
+	if (state == 14)
+		ft_print_err("\033[31mError\033[0m : Invalid syntax\n");
 }

@@ -15,9 +15,7 @@
 int	ft_strcheck(char *str, char *word, size_t index)
 {
 	size_t	i;
-	// size_t	word_len;
 
-	// word_len = ft_strlen(word);
 	i = 0;
 	while (word[i] && str[index + i] == word[i])
 		i++;
