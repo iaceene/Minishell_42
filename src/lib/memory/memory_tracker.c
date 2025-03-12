@@ -21,8 +21,6 @@ void	ft_free(t_gb **head)
 	while ((*head))
 	{
 		tmp = (*head)->next;
-		// free((*head)->ptr);
-		// free((*head));
 		(*head) = tmp;
 	}
 	*head = NULL;

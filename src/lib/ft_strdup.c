@@ -12,17 +12,20 @@
 
 #include "../../include/minishell.h"
 
-char *ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
-    int i = 0;
+	int		i;
+	char	*ret;
+
+	i = 0;
 	if (!s || !*s)
 		return (NULL);
-    char *ret = ft_malloc(ft_strlen(s) + 1);
-    while (s[i])
-    {
-        ret[i] = s[i]; 
-        i++;
-    }
-    ret[i] = '\0';
-    return (ret);
+	ret = ft_malloc(ft_strlen(s) + 1);
+	while (s[i])
+	{
+		ret[i] = s[i];
+		i++;
+	}
+	ret[i] = '\0';
+	return (ret);
 }
