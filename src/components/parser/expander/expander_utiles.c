@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 23:58:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/12 19:57:05 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:08:39 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ char	*get_val(char *str, t_env *env)
 	char	*ret;
 
 	name = extract_name(str);
+	if (ft_strncmp(name, "?", ft_strlen(name)) == 0
+		&& ft_strlen(name) == ft_strlen("?"))
+		return (ft_strdup("$?"));
 	if (!name)
 		return (ft_strdup("$"));
 	ret = ft_getenv(name, env);
