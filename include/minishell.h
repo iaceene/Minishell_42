@@ -64,7 +64,6 @@ typedef struct s_env
 	char			**a_ven;
 }	t_env;
 
-
 /************************* her_doc struct *************************/
 typedef struct s_expand_herdoc
 {
@@ -88,7 +87,6 @@ void	ft_sighandler(int sig);
 char *expand_heredoc_input(char *input, t_env *env, int exit_code);
 void process_here_doc(char *delimiter, int *pipe_fd, t_env *env, int exit_code);
 
-
 typedef struct s_cmd
 {
 	TokenType		type;
@@ -105,15 +103,8 @@ typedef struct s_data
 	char	*prompt;
 }	t_data;
 
-
-
 /*****************Parser****************/
 int		parser(t_data *data);
-
-
-
-
-
 
 // ***********************lib***************************
 void	*ft_malloc(ssize_t len);
@@ -128,7 +119,7 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strchr(char *s, char c);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strdup(const char *s);
-char	*ft_strjoin(char  *s1, char  *s2);
+char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);
@@ -142,7 +133,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_print_err(char *s);
 void	ft_puterr(int state);
 int		exitstatus(int newstatus, int flag);
-
 
 #include "execution.h"
 #include "parser.h"
