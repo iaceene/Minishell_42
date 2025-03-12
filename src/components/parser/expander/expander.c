@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:52:49 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/12 19:43:50 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char	*handle_quotes(char *input)
+char	*handle_quotes(char *input, t_env *env)
 {
 	t_expand	*head;
 	t_state		state;
@@ -28,10 +28,10 @@ char	*handle_quotes(char *input)
 		else
 			handle_normal_text(&input, &head, state);
 	}
-	return (expand_and_join(head));
+	return (expand_and_join(head, env));
 }
 
-char	*expand_and_join(t_expand *head)
+char	*expand_and_join(t_expand *head, t_env *env)
 {
 	char	*buffer;
 	char	*tmp;
@@ -40,7 +40,7 @@ char	*expand_and_join(t_expand *head)
 	while (head)
 	{
 		if (head->state != IN_SQUOTE && find_it(head->val, '$'))
-			tmp = expand_this(head->val);
+			tmp = expand_this(head->val, env);
 		else
 			tmp = ft_strdup(head->val);
 		buffer = ft_strjoin(buffer, tmp);
@@ -58,7 +58,7 @@ char	*expander(t_node *node, t_env *env)
 		&& !find_it(node->value, '\'')
 		&& !find_it(node->value, '"'))
 		return (node->value);
-	expanded = handle_quotes(node->value);
+	expanded = handle_quotes(node->value, env);
 	return (expanded);
 }
 
