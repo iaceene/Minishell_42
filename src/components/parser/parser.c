@@ -99,6 +99,89 @@ t_cmd	*final_data(t_cmd *head)
 
 int	parser(t_data *data)
 {
+	new = ft_malloc(sizeof(t_cmd));
+	new->next = NULL;
+	if (typ == COMMAND)
+		new->cmd = ft_split(val, ' ');
+	new->type = typ;
+	new->value = val;
+	return (new);
+}
+
+void	handle_outfile(t_cmd **head, char *val, int f)
+{
+	char	**sp;
+	int		i;
+
+	sp = ft_split(val, ' ');
+	if (!sp[1])
+		return (add_to_cmd(head, new_cmd_val(val, OUT_FILE)));
+	i = 0;
+	add_to_cmd(head, new_cmd_val(sp[i], OUT_FILE));
+	while (sp[++i])
+	{
+		if (f == 0)
+			add_to_cmd(head, new_cmd_val(sp[i], COMMAND));
+		else
+			add_to_cmd(head, new_cmd_val(sp[i], SIMPLE_FILE));
+	}
+}
+
+void	handle_infile(t_cmd **head, char *val, int f)
+{
+	char	**sp;
+	int		i;
+	int		k;
+
+	sp = ft_split(val, ' ');
+	if (!sp[1])
+		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
+	i = 0;
+	k = 0;
+	add_to_cmd(head, new_cmd_val(sp[i], IN_FILE));
+	while (sp[++i])
+	{
+		if (f == 0)
+		{
+			if (k == 0)
+				add_to_cmd(head, new_cmd_val(sp[i], COMMAND));
+			else
+				add_to_cmd(head, new_cmd_val(sp[i], SIMPLE_FILE));
+			k++;
+		}
+		else
+			add_to_cmd(head, new_cmd_val(sp[i], SIMPLE_FILE));
+	}
+}
+
+t_cmd	*final_data(t_cmd *head)
+{
+	t_cmd	*new;
+	int		i;
+
+	new = NULL;
+	i = 0;
+	while (head)
+	{
+		if (head->type == COMMAND)
+			add_to_cmd(&new, new_cmd_val(head->value, COMMAND));
+		else if (head->next && head->type == RIGHT_RED)
+			handle_outfile(&new, head->next->value, i);
+		else if (head->next && head->type == APPEND)
+			add_to_cmd(&new, new_cmd_val(head->next->value, APPEND));
+		else if (head->next && head->type == LEFT_RED)
+			handle_infile(&new, head->next->value, i);
+		if (head->next && (head->type == RIGHT_RED || head->type == APPEND
+				|| head->type == LEFT_RED))
+			head = head->next;
+		i++;
+		head = head->next;
+	}
+	return (new);
+}
+
+int	parser(t_data *data)
+{
 	t_node	*tock_data;
 
 	tock_data = lexer_init(data->prompt);
