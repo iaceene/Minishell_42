@@ -6,15 +6,15 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/02/08 11:47:31 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/12 19:45:19 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
 
-static int ft_is_valid_identifier(char *str)
+static int	ft_is_valid_identifier(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || !str[0])
 		return (-1);
@@ -34,11 +34,11 @@ static int ft_is_valid_identifier(char *str)
 	return (0);
 }
 
-static char *ft_get_slice(char *str, int *pos, char stop)
+static char	*ft_get_slice(char *str, int *pos, char stop)
 {
-	char *slice;
-	int left;
-	int i;
+	char	*slice;
+	int		left;
+	int		i;
 
 	if (!str)
 		return (NULL);
@@ -53,16 +53,16 @@ static char *ft_get_slice(char *str, int *pos, char stop)
 	return (slice);
 }
 
-static char *ft_remove_plus_from_key_part(char *old_key_part)
+static char	*ft_remove_plus_from_key_part(char *old_key_part)
 {
-	char *new_key_part;
+	char	*new_key_part;
 
 	new_key_part = ft_substr(old_key_part, 0, ft_strlen(old_key_part) - 1);
 	free(old_key_part);
 	return (new_key_part);
 }
 
-static void ft_export_init(t_export *expt, char *str)
+static void	ft_export_init(t_export *expt, char *str)
 {
 	expt->pos = 0;
 	expt->key_part = ft_get_slice(str, &expt->pos, '=');
@@ -73,9 +73,9 @@ static void ft_export_init(t_export *expt, char *str)
 	expt->existing_value = NULL;
 }
 
-void ft_export_help(char *str, t_env **env, int *exit_status)
+void	ft_export_help(char *str, t_env **env, int *exit_status)
 {
-	t_export expt;
+	t_export	expt;
 
 	ft_export_init(&expt, str);
 	if (expt.is_append == -1)

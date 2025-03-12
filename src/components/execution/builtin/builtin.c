@@ -16,7 +16,8 @@ int	ft_execute_builtins(char **arg, t_env **env, int *exit_status)
 {
 	if (!arg || !(*arg))
 		return (*exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])) && ft_strlen(arg[0]) == ft_strlen("env"))
+	else if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])) && \
+	ft_strlen(arg[0]) == ft_strlen("env"))
 		return (builtin_env(*env, arg, exit_status), SUCCESS);
 	else if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
 		return (builtin_echo(arg), *exit_status = 0, SUCCESS);
