@@ -17,10 +17,11 @@ void	clear_terminal(void)
 	write(1, "\033[H\033[J", 6);
 }
 
-static void	ft_init(t_tool *tool, char **env)
+static void	ft_init(t_tool *tool, char **env, t_data *data)
 {
 	tool->grbg = NULL;
 	tool->env = ft_env_create(env);
+	data->final_env = tool->env;
 	tool->env->a_ven = ft_env_create_2d(tool->env);
 	tool->err = 0;
 }
@@ -52,7 +53,7 @@ int	main(int ac, char **av, char **env)
 	data.env = env;
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, ft_sighandler);
-	ft_init(&tool, env);
+	ft_init(&tool, env, &data);
 	while (1)
 	{
 		data.prompt = prompt(env);
