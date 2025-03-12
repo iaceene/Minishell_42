@@ -36,24 +36,22 @@
 // final struct
 
 typedef enum {
-	COMMAND,       // Command or argument 0 
-	WORD,            /// for expanding 1
-	PIPE,       // | 2 
-	INFILE,		// < 3
-	OUTFILE,  	// > 4
-	APPEND_FILE,
-	HEREDOC_FILE,
-	APPEND,		// >> 3
-	HERDOC,		// << 4
-	RIGHT_RED,	// > 5 
-	LEFT_RED,	// < 6
-	SIN_QUOTE,  // ' 7
-	DOB_QUOTE, // " 8
-	DOLLAR,     // $ 9
-	FILENAME,   // file name 10
-	OPEN_PAR,  // (  11
-	CLOSE_PAR, // )  12
-	NIL /// this a NULL node 13
+	COMMAND,       // Command or argument
+	WORD,            /// for expanding
+	PIPE,       // |
+	APPEND,		// >>
+	HERDOC,		// <<
+	RIGHT_RED,	// >
+	LEFT_RED,	// <
+	SIN_QUOTE,  // '
+	DOB_QUOTE, // "
+	DOLLAR,     // $
+	OPEN_PAR,  // (
+	CLOSE_PAR, // )
+	IN_FILE,
+	OUT_FILE,
+	SIMPLE_FILE,
+	NIL /// this is NULL node
 } TokenType;
 
 /************************* env struct *************************/
@@ -80,7 +78,7 @@ typedef struct s_expand_herdoc
 // ********************prompt*************************
 char	*ft_get_cli(char **env);
 void	exit_the_shell(int state);
-char	*ft_join_params(char *user, char *sep, char *dis, char *dock);
+char	*ft_join_params(char *user, char *dis);
 char	*prompt(char **env);
 //*****************************signals********************************
 // void	ft_handle_signals(int sig);
@@ -95,6 +93,7 @@ typedef struct s_cmd
 {
 	TokenType		type;
 	char			*value;
+	char			**cmd;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -102,6 +101,7 @@ typedef struct s_data
 {
 	char	**env;
 	t_cmd	*head;
+	t_env	*final_env;
 	char	*prompt;
 }	t_data;
 

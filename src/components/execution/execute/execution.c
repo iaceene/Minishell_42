@@ -56,59 +56,6 @@ t_exec *copy_cmd_to_exec(t_cmd *cmd)
     return new_exec;
 }
 
-void change_redirections_and_delete_pipe(t_exec **exec_list)
-{
-    t_exec *current = *exec_list;
-    t_exec *prev = NULL;
-
-    while (current)
-    {
-        if (current->type == PIPE)
-        {
-            t_exec *temp = current;
-            if (prev)
-                prev->next = current->next;
-            else
-                *exec_list = current->next;
-            current = current->next;
-            free(temp->value);
-            free(temp);
-        }
-        else if (current->type == HERDOC || current->type == RIGHT_RED || current->type == LEFT_RED || current->type == APPEND)
-        {
-            if (current->next)
-            {
-                if (current->type == RIGHT_RED)
-                    current->next->type = OUTFILE;
-                else if (current->type == LEFT_RED)
-                    current->next->type = INFILE;
-                else if (current->type == HERDOC)
-                    current->next->type = HEREDOC_FILE;
-                else if (current->type == APPEND)
-                    current->next->type = APPEND_FILE;
-
-                t_exec *temp = current;
-                if (prev)
-                    prev->next = current->next;
-                else
-                    *exec_list = current->next;
-                current = current->next;
-                free(temp->value);
-                free(temp);
-            }
-            else
-            {
-                prev = current;
-                current = current->next;
-            }
-        }
-        else
-        {
-            prev = current;
-            current = current->next;
-        }
-    }
-}
 
 void execution(t_cmd **head, t_env **env, int *exit_status)
 {
@@ -125,7 +72,6 @@ void execution(t_cmd **head, t_env **env, int *exit_status)
         return;
     }
 
-    change_redirections_and_delete_pipe(&exec_list);
     cmd_count = ft_lstsize_head(exec_list);
 
     if (cmd_count == 0)

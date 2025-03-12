@@ -69,7 +69,7 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
         if (cmd->type != COMMAND)
         {
             filename = clean_filename(cmd->value);
-            if (cmd->type == INFILE || cmd->type == HEREDOC_FILE)
+            if (cmd->type == IN_FILE)
             {
                 if (*infile != -1)
                     close(*infile);
@@ -81,7 +81,7 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
                     write(2, "\n", 1);
                 }
             }
-            else if (cmd->type == OUTFILE)
+            else if (cmd->type == OUT_FILE)
             {
                 if (*outfile != -1)
                     close(*outfile);
@@ -89,7 +89,7 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
                 if (*outfile < 0)
                     error_and_exit("Failed to open output file", 1);
             }
-            else if (cmd->type == APPEND_FILE)
+            else if (cmd->type == APPEND)
             {
                 if (*outfile != -1)
                     close(*outfile);

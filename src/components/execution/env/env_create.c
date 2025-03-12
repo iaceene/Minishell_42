@@ -51,7 +51,6 @@ char **ft_env_create_2d(t_env *env)
 static char *ft_get_join_value(char **splited_row)
 {
 	char *value;
-	char *tmp;
 	int c;
 
 	value = NULL;
@@ -62,15 +61,10 @@ static char *ft_get_join_value(char **splited_row)
 			value = ft_strdup(splited_row[c]);
 		else
 		{
-			tmp = value;
 			value = ft_strjoin(value, "=");
-			// free(tmp);
-			tmp = value;
 			value = ft_strjoin(value, splited_row[c]);
-			// free(tmp);
 		}
 	}
-	// printf("Generated value: %s\n", value); // 🔴 DEBUG
 	return (value);
 }
 
@@ -107,9 +101,6 @@ t_env *ft_env_create(char **ev)
 	char *key;
 	char *value;
 
-	t_env *head;
-
-	head = NULL;
 	if (!ev || !*ev)
 		return ft_env_create_default();
 

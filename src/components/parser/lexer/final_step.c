@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   final_step.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/17 17:48:52 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/11 23:17:58 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../../../include/minishell.h"
 
 t_cmd	*new_cmd(t_node *node)
 {
-	t_cmd *ret;
+	t_cmd	*ret;
 
 	ret = ft_malloc(sizeof(t_cmd));
 	if (!node)
@@ -30,10 +30,10 @@ t_cmd	*new_cmd(t_node *node)
 	return (ret);
 }
 
-void add_to_cmd(t_cmd **head, t_cmd *new)
+void	add_to_cmd(t_cmd **head, t_cmd *new)
 {
 	t_cmd	*last;
-	
+
 	if (!head)
 		return ;
 	if (!*head)
@@ -50,40 +50,36 @@ void add_to_cmd(t_cmd **head, t_cmd *new)
 	}
 }
 
-int no_need(TokenType tp)
+int	no_need(TokenType tp)
 {
-	return (tp == OPEN_PAR || tp == CLOSE_PAR);
+	return (tp == OPEN_PAR || tp == CLOSE_PAR
+		|| tp == SIN_QUOTE || tp == DOB_QUOTE);
 }
 
-void print_command(t_cmd *cmd);
-
-t_cmd	*data_maker(t_node *head, t_fake_env *env)
+t_cmd	*data_maker(t_node *head, t_env *env)
 {
-	t_cmd *cmd;
-	(void)env;
+	t_cmd	*cmd;
 
+	(void)env;
 	if (!head)
 		return (NULL);
 	cmd = NULL;
 	while (head)
 	{
 		if (head->type == COMMAND)
-			command_handler(head, env);
-		if (!no_need(head->type))
+		{
+			head->value = expander(head, env);
+			add_to_cmd(&cmd, new_cmd(head));
+		}
+		else if (head->type == HERDOC && head->next)
+		{
+			head->value = herdoc(env, head->next->value);
+			add_to_cmd(&cmd, new_cmd(head));
+			head = head->next;
+		}
+		else
 			add_to_cmd(&cmd, new_cmd(head));
 		head = head->next;
 	}
-	// print_command(cmd);
 	return (cmd);
-}
-
-void print_command(t_cmd *cmd)
-{
-	int i = 0;
-	while (cmd)
-	{
-		printf("[ %s ]\n", cmd->value);
-		i++;
-		cmd = cmd->next;
-	}
 }

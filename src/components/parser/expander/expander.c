@@ -3,162 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/08 02:14:23 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/02/11 04:32:53 by yaajagro         ###   ########.fr       */
+/*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
+/*   Updated: 2025/03/11 23:52:49 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char *find_dollar(char *s)
+char	*handle_quotes(char *input)
 {
-	int flag;
-	int count;
+	t_expand	*head;
+	t_state		state;
 
-	flag = 0;
-	count = 0;
-	while (*s)
+	head = NULL;
+	state = NORMAL;
+	while (*input)
 	{
-		if (*s == '\'')
-		{
-			flag = 1;
-			count++;
-			if (count %  2 == 0)
-				flag = 0;
-		}
-		if (*s == '$' && flag == 0)
-			return (s + 1);
-		s++;
+		if (*input == '\'' && state == NORMAL)
+			handle_single_quote(&input, &head, &state);
+		else if (*input == '"' && state == NORMAL)
+			handle_double_quote(&input, &head, &state);
+		else
+			handle_normal_text(&input, &head, state);
 	}
-	return (s);
+	return (expand_and_join(head));
 }
 
-char *copy_until_space(char *s)
+char	*expand_and_join(t_expand *head)
 {
-    char *tmp;
-    int len;
+	char	*buffer;
+	char	*tmp;
 
-    if (!s)
-		return (NULL);
-	len = 0;
-	s = find_dollar(s);
-	tmp = s;
-	while (*s && !ft_isspace(*s))
-	{
-		len++;
-		s++;
-	}
-	tmp = ft_strndup(tmp, len);
-    return (tmp);
-}
-
-char *copy_befor_dlr(char *s)
-{
-    char *tmp;
-    int len;
-
-    if (!s) return NULL;
-
-    len = 0;
-    while (s[len] && s[len] != '$')
-        len++;
-
-    tmp = ft_malloc(len + 1);
-    if (!tmp) return NULL;
-
-    for (int i = 0; i < len; i++)
-        tmp[i] = s[i];
-    tmp[len] = '\0';
-
-    return tmp;
-}
-
-char *copy_after_dlr(char *s)
-{
-    char *dollar_pos = find_dollar(s);
-	while (*dollar_pos && !ft_isspace(*dollar_pos))
-		dollar_pos++;
-    if (!dollar_pos || !*dollar_pos)
-		return (NULL);
-    return ft_strdup(dollar_pos);
-}
-
-char *expand_one_arg(char *s, t_fake_env *head)
-{
-	char	*befor_dolar;
-	char	*after_dolar;
-
-	if (!*s || !s)
-		return (NULL);
-	befor_dolar = copy_befor_dlr(s);
-	after_dolar = copy_after_dlr(s);
-	s = copy_until_space(s);
+	buffer = NULL;
 	while (head)
 	{
-		if (!s || !*s)	
-			return (ft_strjoin(befor_dolar, after_dolar));
-		if (ft_strncmp(s, head->key, ft_strlen(head->key)) == 0
-			&& ft_strlen(s) == ft_strlen(head->key))
-			break ;
+		if (head->state != IN_SQUOTE && find_it(head->val, '$'))
+			tmp = expand_this(head->val);
+		else
+			tmp = ft_strdup(head->val);
+		buffer = ft_strjoin(buffer, tmp);
 		head = head->next;
 	}
-	if (!head)
-		return (ft_strjoin(befor_dolar, after_dolar));
-	else
-	{
-		s = ft_strjoin(befor_dolar, head->value);
-		return (ft_strjoin(s, after_dolar));
-	}
-	return (NULL);
+	return (buffer);
 }
 
-char *expander_init(char *s, t_fake_env *head)
+char	*expander(t_node *node, t_env *env)
 {
-	int		count;
-	char	*position;
-
-	count = 0;
-	position = s;
-	while (*position)
-	{
-		if (*position == '$')
-			count++;
-		position++;
-	}
-	if (count == 1)
-		return (expand_one_arg(s, head));
-	else if (count > 1)
-		return(multiple_var_expander(s, head));
-	return (NULL);
-}
-
-char	*no_provided_var(char *s)
-{
-	char	*tmp;
-	int		len;
-
-	len = 0;
-	tmp = s;
-	while (*tmp && *tmp != '$')
-	{
-		tmp++;
-		len++;
-	}
-	return (ft_strndup(s, len - 1));
-}
-
-char	*expander(char *node, t_fake_env *head)
-{
-	char    *position;
 	char	*expanded;
 
-	position = find_dollar(node);
-	if(!position || !*position)
-		return (no_provided_var(node));
-	expanded = expander_init(node, head);
-	if (!expanded)
-		return (NULL);
+	(void)env;
+	if (!find_it(node->value, '$')
+		&& !find_it(node->value, '\'')
+		&& !find_it(node->value, '"'))
+		return (node->value);
+	expanded = handle_quotes(node->value);
 	return (expanded);
+}
+
+void	add_expand(t_expand **head, t_expand *new)
+{
+	t_expand	*tmp;
+
+	tmp = *head;
+	if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	else
+	{
+		while (tmp && tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+t_expand	*new_expand(t_state state, char *val)
+{
+	t_expand	*ret;
+
+	ret = ft_malloc(sizeof(t_expand));
+	ret->next = NULL;
+	ret->state = state;
+	ret->val = val;
+	return (ret);
 }

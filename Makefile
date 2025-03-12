@@ -1,10 +1,11 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror   # -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h
 RM = rm -f
+MKDIR = mkdir -p
 
 GREEN = \033[0;32m
 YELLOW = \033[0;33m
@@ -34,13 +35,15 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/expander/expander.c \
 		./src/components/parser/expander/expander_utiles.c \
-		./src/components/parser/expander/multiple_var_expander.c \
-		./src/components/parser/ft_split_word.c \
-		./src/components/parser/qoats_handler.c \
-		./src/components/parser/final_step.c \
-		./src/components/parser/lexer_utiles.c \
-		./src/components/parser/syntax_checker.c \
-		./src/components/parser/lexer.c \
+		./src/components/parser/expander/expander_utiles_two.c \
+		./src/components/parser/expander/handlers.c \
+		./src/components/parser/herdoc/herdoc.c \
+		./src/components/parser/lexer/final_step.c \
+		./src/components/parser/lexer/lexer_utiles.c \
+		./src/components/parser/lexer/syntax_checker.c \
+		./src/components/parser/lexer/syntax_utiles.c \
+		./src/components/parser/lexer/syntax_utiles_two.c \
+		./src/components/parser/lexer/lexer.c \
 		./src/components/parser/prompt/get_cli.c \
 		./src/components/parser/prompt/prompt_utiles.c \
 		./src/components/parser/prompt/prompt.c \
@@ -72,27 +75,28 @@ SRCS =	./src/main/main.c \
 
 
 
-OBJS = $(SRCS:.c=.o)
-OBJSB = $(SRCSB:.c=.o)
+OBJS = $(patsubst ./src/%.c, ./obj/%.o, $(SRCS))
+
+OBJ_DIR = ./obj
 
 all: print_error ${NAME}
 
 ${NAME}: ${OBJS}
-	@printf "$(GREEN)Building: ${NAME}$(RESET)\n"
-	${CC} ${FLAGS} ${OBJS} -o ${NAME}  -lreadline -lncurses
+	@${CC} ${FLAGS} ${OBJS} -o ${NAME} -lreadline -lncurses
+	@echo "${GREEN}${NAME} compiled successfully!${RESET}"
 
-%.o: %.c ${INC} ${INCE} ${INCP}
-	@printf "$(YELLOW)Compiling: $<$(RSEST)\n"
+$(OBJ_DIR)/%.o: ./src/%.c ${INC} ${INCE} ${INCP}
+	@$(MKDIR) $(dir $@)
 	@${CC} ${FLAGS} -c $< -o $@
-
+	@echo "${YELLOW}Compiled $< -> $@${RESET}"
 
 clean:
-	@printf "$(RED)Cleaning object files...$(RESET)\n"
-	@$(RM) $(OBJS) $(OBJSB)
+	@$(RM) -r $(OBJ_DIR)
+	@echo "${RED}Object files removed!${RESET}"
 
 fclean: clean
-	@printf "$(RED)Removing executable...$(RESET)\n"
 	@$(RM) ${NAME}
+	@echo "${RED}${NAME} removed!${RESET}"
 
 re: fclean all
 

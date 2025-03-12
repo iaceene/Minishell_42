@@ -25,6 +25,24 @@ static void ft_init(t_tool *tool, char **env)
 	tool->err = 0;
 }
 
+void	print_final_data(t_cmd *head)
+{
+	while (head)
+	{
+		if (head->type == COMMAND)
+			printf("CMD [%s]\n", head->value);
+		else if (head->type == IN_FILE)
+			printf("infile [%s]\n", head->value);
+		else if (head->type == OUT_FILE)
+			printf("outfile [%s]\n", head->value);
+		else if (head->type == APPEND)
+			printf("append [%s]\n", head->value);
+		else if (head->value)
+			printf("%s\n", head->value);
+		head = head->next;
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
     (void)ac;
@@ -43,7 +61,10 @@ int main(int ac, char **av, char **env)
         if (!data.prompt[0])
             ft_puterr(32);
 		else if (parser(&data))
-			execution(&data.head, &tool.env, &tool.err);
+        {
+            execution(&data.head, &tool.env, &tool.err);
+            print_final_data(data.head);
+        }
         else
             ft_puterr(14);
     }
