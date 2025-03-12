@@ -12,7 +12,6 @@
 
 #include "../../../../include/execution.h"
 
-
 void	builtin_env(t_env *env, char **arg, int *exit_status)
 {
 	if (arg[1])
