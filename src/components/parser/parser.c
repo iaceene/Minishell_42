@@ -31,6 +31,8 @@ void	handle_outfile(t_cmd **head, char *val, int f)
 	int		i;
 
 	sp = ft_split(val, ' ');
+	if (!sp)
+		return ;
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, OUT_FILE)));
 	i = 0;
@@ -51,6 +53,8 @@ void	handle_infile(t_cmd **head, char *val, int f)
 	int		k;
 
 	sp = ft_split(val, ' ');
+	if (!sp)
+		return ;
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
 	i = 0;
