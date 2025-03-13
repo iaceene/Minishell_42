@@ -60,7 +60,49 @@ char *clean_filename(char *filename)
     return filename;
 }
 
-void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
+// void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
+// {
+//     char *filename;
+
+//     while (cmd)
+//     {
+//         if (cmd->type != COMMAND)
+//         {
+//             filename = clean_filename(cmd->value);
+//             if (cmd->type == IN_FILE)
+//             {
+//                 if (*infile != -1)
+//                     close(*infile);
+//                 *infile = open(filename, O_RDONLY);
+//                 if (*infile < 0)
+//                 {
+//                     write(2, "Failed to open input file: ", 27);
+//                     write(2, filename, ft_strlen(filename));
+//                     write(2, "\n", 1);
+//                 }
+//             }
+//             else if (cmd->type == OUT_FILE)
+//             {
+//                 if (*outfile != -1)
+//                     close(*outfile);
+//                 *outfile = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
+//                 if (*outfile < 0)
+//                     error_and_exit("Failed to open output file", 1);
+//             }
+//             else if (cmd->type == APPEND)
+//             {
+//                 if (*outfile != -1)
+//                     close(*outfile);
+//                 *outfile = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
+//                 if (*outfile < 0)
+//                     error_and_exit("Failed to open output file for append", 1);
+//             }
+//         }
+//         cmd = cmd->next;
+//     }
+// }
+
+int handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
 {
     char *filename;
 
@@ -79,6 +121,7 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
                     write(2, "Failed to open input file: ", 27);
                     write(2, filename, ft_strlen(filename));
                     write(2, "\n", 1);
+                    return -1;
                 }
             }
             else if (cmd->type == OUT_FILE)
@@ -87,7 +130,12 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
                     close(*outfile);
                 *outfile = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
                 if (*outfile < 0)
-                    error_and_exit("Failed to open output file", 1);
+                {
+                    write(2, "Failed to open output file: ", 27);
+                    write(2, filename, ft_strlen(filename));
+                    write(2, "\n", 1);
+                    return -1;
+                }
             }
             else if (cmd->type == APPEND)
             {
@@ -95,11 +143,17 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
                     close(*outfile);
                 *outfile = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
                 if (*outfile < 0)
-                    error_and_exit("Failed to open output file for append", 1);
+                {
+                    write(2, "Failed to open output file for append: ", 38);
+                    write(2, filename, ft_strlen(filename));
+                    write(2, "\n", 1);
+                    return -1;
+                }
             }
         }
         cmd = cmd->next;
     }
+    return 0;
 }
 
 int count_commands(t_exec *cmd)
@@ -162,7 +216,11 @@ void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
     int cmd_count = count_commands(commands);
     int current_cmd = 0;
 
-    handle_file_redirection(commands, &infile, &outfile);
+    if (handle_file_redirection(commands, &infile, &outfile) == -1)
+    {
+        *exit_status = 1;
+        return ;
+    }
     t_exec *cmd = commands;
     while (cmd)
     {
