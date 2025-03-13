@@ -32,7 +32,7 @@ void	handle_outfile(t_cmd **head, char *val, int f)
 
 	sp = ft_split(val, ' ');
 	if (!sp)
-		return ;
+		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), OUT_FILE)));
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, OUT_FILE)));
 	i = 0;
@@ -54,7 +54,7 @@ void	handle_infile(t_cmd **head, char *val, int f)
 
 	sp = ft_split(val, ' ');
 	if (!sp)
-		return ;
+		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), IN_FILE)));
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
 	i = 0;
