@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:39:05 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:42:39 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ char		*expander(t_node *node, t_env *head);
 t_cmd		*data_maker(t_node *head, t_env *env);
 t_expand	*new_expand(t_state state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
-char		*expand_and_join(t_expand *head);
-char		*expand_this(char *str);
+char		*expand_and_join(t_expand *head, t_env *env);
+char		*expand_this(char *str, t_env *env);
 char		*herdoc(t_env *env, char *exit);
 int			is_sperator(char c);
 char		*get_before(char *s);

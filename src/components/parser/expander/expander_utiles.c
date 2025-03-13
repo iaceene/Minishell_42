@@ -6,21 +6,38 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 23:58:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:27:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:08:39 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char	*get_val(char *str)
+char	*ft_getenv(char *name, t_env *env)
+{
+	if (!name || !env)
+		return (NULL);
+	while (env)
+	{
+		if (ft_strncmp(name, env->key, ft_strlen(name)) == 0
+			&& ft_strlen(name) == ft_strlen(env->key))
+			return (ft_strdup(env->value));
+		env = env->next;
+	}
+	return (ft_strdup(""));
+}
+
+char	*get_val(char *str, t_env *env)
 {
 	char	*name;
 	char	*ret;
 
 	name = extract_name(str);
+	if (ft_strncmp(name, "?", ft_strlen(name)) == 0
+		&& ft_strlen(name) == ft_strlen("?"))
+		return (ft_strdup("$?"));
 	if (!name)
 		return (ft_strdup("$"));
-	ret = getenv(name);
+	ret = ft_getenv(name, env);
 	return (ret);
 }
 
@@ -48,7 +65,7 @@ int	count_dollars(char *s)
 	return (count);
 }
 
-char	*expand_this(char *str)
+char	*expand_this(char *str, t_env *env)
 {
 	int		count;
 	char	*before;
@@ -60,7 +77,7 @@ char	*expand_this(char *str)
 	{
 		before = get_before(str);
 		after = get_after(str);
-		expand = get_val(str);
+		expand = get_val(str, env);
 		if (!expand)
 			expand = ft_strdup("");
 		str = join_all(before, expand, after);
