@@ -101,11 +101,21 @@ t_cmd	*final_data(t_cmd *head)
 	return (new);
 }
 
+void	print_this(t_node *head)
+{
+	while (head)
+	{
+		printf("(((((%s)))))\n", head->value);
+		head = head->next;
+	}
+}
+
 int	parser(t_data *data)
 {
 	t_node	*tock_data;
 
 	tock_data = lexer_init(data->prompt);
+	print_this(tock_data);
 	free(data->prompt);
 	data->prompt = NULL;
 	if (!tock_data)

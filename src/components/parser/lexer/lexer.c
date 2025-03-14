@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:15:53 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/14 20:45:22 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,10 @@ int	starts_with(const char *str, const char *prefix)
 
 void	other_oper(t_node **head, char *s)
 {
-	if (starts_with(s, "'"))
-		add_to_list(head, add_new_node(SIN_QUOTE, "'"));
-	else if (starts_with(s, "\""))
-		add_to_list(head, add_new_node(DOB_QUOTE, "\""));
-	else if (starts_with(s, "("))
+	if (starts_with(s, "("))
 		add_to_list(head, add_new_node(OPEN_PAR, "("));
 	else if (starts_with(s, ")"))
 		add_to_list(head, add_new_node(CLOSE_PAR, ")"));
-	else if (starts_with(s, "$"))
-		add_to_list(head, add_new_node(DOLLAR, "$"));
 }
 
 char	*oper_tock(t_node **head, char *s)
@@ -60,6 +54,8 @@ char	*oper_tock(t_node **head, char *s)
 char	*add_command(t_node **head, char *s)
 {
 	char	*command;
+	int		in_quotes = 0;
+	char	quote_char = 0;
 
 	while (*s && ft_isspace(*s))
 		s++;
@@ -67,8 +63,20 @@ char	*add_command(t_node **head, char *s)
 		return (NULL);
 	command = extract_word(s);
 	add_to_list(head, add_new_node(COMMAND, command));
-	while (*s && !operator(*s))
+	while (*s && (in_quotes || !operator(*s)))
+	{
+		if ((*s == '\'' || *s == '"') && !in_quotes)
+		{
+			in_quotes = 1;
+			quote_char = *s;
+		}
+		else if (*s == quote_char && in_quotes)
+		{
+			in_quotes = 0;
+			quote_char = 0;
+		}
 		s++;
+	}
 	return (s);
 }
 
@@ -83,9 +91,9 @@ t_node	*lexer_init(const char *str)
 	{
 		while (ft_isspace(*cur))
 			cur++;
-		if (operator(*cur))
+		if (operator(*cur) && !is_inside_quotes((char *)str, cur))
 			cur = oper_tock(&head, cur);
-		else if (!operator(*cur))
+		else if (!operator(*cur) || is_inside_quotes((char *)str, cur))
 		{
 			cur = add_command(&head, cur);
 			if (!cur)

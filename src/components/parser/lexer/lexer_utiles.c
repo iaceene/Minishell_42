@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:15:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/14 20:55:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,53 @@ void	add_to_list(t_node **head, t_node *new)
 	}
 }
 
-int	ft_isalnum(char c)
+int	is_inside_quotes(char *str, char *cur)
 {
-	return ((c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'));
+	int	single_quotes;
+	int	double_quotes;
+
+	single_quotes = 0;
+	double_quotes = 0;
+	while (str < cur)
+	{
+		if (*str == '\'' && !double_quotes)
+			single_quotes = !single_quotes;
+		else if (*str == '"' && !single_quotes)
+			double_quotes = !double_quotes;
+		str++;
+	}
+	return (single_quotes || double_quotes);
 }
 
 int	operator(char c)
 {
 	return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')');
 }
-
 char	*extract_word(char *s)
 {
 	char	*tmp;
 	int		i;
 	int		len;
 	char	*start;
+	int		in_quotes = 0;
+	char	quote_char = 0;
 
 	while (*s == ' ')
 		s++;
 	start = s;
 	len = 0;
-	while (*s && !operator(*s))
+	while (*s && (in_quotes || !operator(*s)))
 	{
+		if ((*s == '\'' || *s == '"') && !in_quotes)
+		{
+			in_quotes = 1;
+			quote_char = *s;
+		}
+		else if (*s == quote_char && in_quotes)
+		{
+			in_quotes = 0;
+			quote_char = 0;
+		}
 		s++;
 		len++;
 	}
