@@ -80,8 +80,6 @@ char	*find_command_path(char *cmd, char **env)
 	return (result);
 }
 
-
-
 void	execute_cmd(char **cmd, char **env)
 {
 	char	**args;
@@ -96,15 +94,10 @@ void	execute_cmd(char **cmd, char **env)
 		write(2, "command not found: ", 19);
 		write(2, args[0], ft_strlen(args[0]));
 		write(2, "\n", 1);
-		ft_free_string(args);
-		// free(args);
 		exit(1);
 	}
-	// free(args[0]);
 	args[0] = full_path;
 	execve(full_path, args, env);
-	ft_free_string(args);
-	// free(args);
 	write(2, "shell: ", 7);
 	write(2, &full_path, ft_strlen(full_path));
 	error_and_exit("execute failed\n", 1);

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/12 19:45:19 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/15 06:26:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static int	ft_is_valid_identifier(char *str)
 			return (-1);
 		if (
 			!(
-				('0' <= str[i] && str[i] <= '9') || ('a' <= str[i] && str[i] <= 'z') || ('A' <= str[i] && str[i] <= 'Z') || str[i] == '_'))
+				('0' <= str[i] && str[i] <= '9') || \
+				('a' <= str[i] && str[i] <= 'z') || \
+				('A' <= str[i] && str[i] <= 'Z') || str[i] == '_'))
 			return (-1);
 		i++;
 	}
@@ -79,19 +81,20 @@ void	ft_export_help(char *str, t_env **env, int *exit_status)
 
 	ft_export_init(&expt, str);
 	if (expt.is_append == -1)
-		return (*exit_status = 1,
-				print_export_error(expt.key_part, expt.value_part, expt.has_equal, expt.is_append));
+		return (*exit_status = 1, \
+				print_export_error(expt.key_part, \
+				expt.value_part, expt.has_equal, expt.is_append));
 	if (expt.is_append)
 		expt.key_part = ft_remove_plus_from_key_part(expt.key_part);
 	if (expt.is_append && !expt.has_equal)
-		return (*exit_status = 1,
-				print_export_error(expt.key_part, expt.value_part, expt.has_equal, expt.is_append));
+		return (*exit_status = 1, \
+				print_export_error(expt.key_part, \
+				expt.value_part, expt.has_equal, expt.is_append));
 	if (expt.key_part && !ft_strncmp(expt.key_part, "_", 1))
-		return (free(expt.key_part), free(expt.value_part));
+		return ;
 	expt.existing_value = ft_env_search(*env, expt.key_part);
 	if (!expt.has_equal && expt.existing_value)
-		return (free(expt.existing_value), free(expt.key_part), free(expt.value_part));
-	free(expt.existing_value);
+		return ;
 	if (ft_env_update(env, expt.key_part, expt.value_part, expt.is_append))
 	{
 		if (expt.value_part && expt.has_equal)

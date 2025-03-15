@@ -19,6 +19,7 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/builtin/builtin_env.c \
 		./src/components/execution/builtin/builtin_exit.c \
 		./src/components/execution/builtin/builtin_export_help.c \
+		./src/components/execution/builtin/builtin_export_help2.c \
 		./src/components/execution/builtin/builtin_export.c \
 		./src/components/execution/builtin/builtin_pwd.c \
 		./src/components/execution/builtin/builtin_unset.c \
@@ -26,7 +27,7 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/env/env_create.c \
 		./src/components/execution/env/env_utils.c \
 		./src/components/execution/env/env_utils1.c \
-		./src/components/execution/execute/creat_child.c \
+		./src/components/execution/env/env_utils2.c \
 		./src/components/execution/execute/error_handling.c \
 		./src/components/execution/execute/execution_cmd.c \
 		./src/components/execution/execute/execution.c \

@@ -6,15 +6,15 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:17:32 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/01 23:52:54 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/15 06:38:52 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
 
-int ft_env_update(t_env **env, char *key, char *newval, int append_mod)
+int	ft_env_update(t_env **env, char *key, char *newval, int append_mod)
 {
-	t_env *node;
+	t_env	*node;
 
 	node = *env;
 	while (node)
@@ -24,12 +24,8 @@ int ft_env_update(t_env **env, char *key, char *newval, int append_mod)
 			if (append_mod)
 				node->value = ft_strjoin(node->value, newval);
 			else
-			{
-				// free(node->value);
 				node->value = newval;
-			}
 			node->visible = 1;
-			free(key);
 			key = NULL;
 			return (0);
 		}
@@ -38,9 +34,9 @@ int ft_env_update(t_env **env, char *key, char *newval, int append_mod)
 	return (1);
 }
 
-int ft_env_size(t_env *env)
+int	ft_env_size(t_env *env)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (env)
@@ -51,16 +47,17 @@ int ft_env_size(t_env *env)
 	return (size);
 }
 
-int ft_strcmpt(const char *s1, const char *s2)
+int	ft_strcmpt(const char *s1, const char *s2)
 {
 	while (*s1 && (*s1 == *s2))
 	{
 		s1++;
 		s2++;
 	}
-	return *(unsigned char *)s1 - *(unsigned char *)s2;
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
-char *ft_env_search(t_env *env, char *key)
+
+char	*ft_env_search(t_env *env, char *key)
 {
 	while (env)
 	{
@@ -71,7 +68,7 @@ char *ft_env_search(t_env *env, char *key)
 	return (NULL);
 }
 
-void ft_print_env(t_env *env)
+void	ft_print_env(t_env *env)
 {
 	while (env)
 	{
