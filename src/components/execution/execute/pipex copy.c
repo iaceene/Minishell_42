@@ -90,7 +90,7 @@ void handle_redirections(t_exec *cmd)
         exit(1);
     }
     fprintf(stderr ,"filename: %s\n", filename);
-    if (cmd->type == INFILE)
+    if (cmd->type == IN_FILE)
     {
         fd = open(filename, O_RDONLY);
         if (fd == -1)
@@ -105,7 +105,7 @@ void handle_redirections(t_exec *cmd)
             exit(1);
         }
     }
-    else if (cmd->type == OUTFILE)
+    else if (cmd->type == OUT_FILE)
     {
         fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
         if (fd == -1)
@@ -122,7 +122,7 @@ void handle_redirections(t_exec *cmd)
             // exit(1);
         }
     }
-    else if (cmd->type == APPEND_FILE)
+    else if (cmd->type == APPEND)
     {
         fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
         if (fd == -1)
@@ -137,7 +137,7 @@ void handle_redirections(t_exec *cmd)
             exit(1);
         }
     }
-    else if (cmd->type == HEREDOC_FILE)
+    else if (cmd->type == HERDOC)
     {
         fd = atoi(filename);
         if (dup2(fd, STDIN_FILENO) == -1)

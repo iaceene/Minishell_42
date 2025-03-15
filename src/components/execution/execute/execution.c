@@ -37,6 +37,7 @@ t_exec *copy_cmd_to_exec(t_cmd *cmd)
 
         new_node->type = cmd->type;
         new_node->value = ft_strdup(cmd->value);
+        new_node->s = cmd->cmd;
         if (!new_node->value)
         {
             free(new_node);

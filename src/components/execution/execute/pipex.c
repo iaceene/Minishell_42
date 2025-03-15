@@ -130,10 +130,10 @@ void cleanup_child_fds(int infile, int outfile, int pipe_read, int pipe_write, i
 
 void execute_command(t_exec *cmd, char **env)
 {
-    char **cmd_args = ft_split(cmd->value, ' ');
-    if (!cmd_args)
-        error_and_exit("Failed to split command", 1);
-    execute_cmd(cmd_args, env);
+    // char **cmd_args = ft_split(cmd->value, ' ');
+    // if (!cmd_args)
+    //     error_and_exit("Failed to split command", 1);
+    execute_cmd(cmd->s, env);
 }
 
 void handle_child_process(t_exec *cmd, char **env, int infile, int outfile,
