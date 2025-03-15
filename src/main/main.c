@@ -26,12 +26,26 @@ static void	ft_init(t_tool *tool, char **env, t_data *data)
 	tool->err = 0;
 }
 
+void	printing(char **v)
+{
+	int i = 0;
+
+	while (v[i])
+	{
+		if (i == 0)
+			printf("CMD [%s]\n", v[i]);
+		else
+			printf("ARG [%s]\n", v[i]);
+		i++;
+	}
+}
+
 void	print_final_data(t_cmd *head)
 {
 	while (head)
 	{
 		if (head->type == COMMAND)
-			printf("CMD [%s]\n", head->value);
+			printing(head->cmd);
 		else if (head->type == IN_FILE)
 			printf("infile [%s]\n", head->value);
 		else if (head->type == OUT_FILE)

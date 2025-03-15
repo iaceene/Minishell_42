@@ -24,7 +24,7 @@ static void execute_command(t_cmd *cmd, int input_fd, int output_fd, t_env **env
         dup2(output_fd, STDOUT_FILENO);
         close(output_fd);
     }
-    execution_cmd(cmd->value, env, NULL);
+    execution_cmd(&cmd->value, env, NULL);
     exit(EXIT_FAILURE);
 }
 

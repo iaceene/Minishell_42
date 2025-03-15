@@ -92,7 +92,7 @@ void execution(t_cmd **head, t_env **env, int *exit_status)
         while (cmd && cmd->type != COMMAND)
             cmd = cmd->next;
         if (cmd)
-            execution_cmd(cmd->value, env, exit_status);
+            execution_cmd(cmd->s, env, exit_status);
     }
     else
         ft_pipex(exec_list, env, exit_status);

@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 00:57:10 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/15 01:16:58 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_expander
 /*****************     Execution      ****************/
 void	execution(t_cmd **head, t_env **env, int *exit_status);
 //*******************execute****************************
-void	execution_cmd(char *cmd, t_env **env, int *exit_status);
+void	execution_cmd(char **cmd, t_env **env, int *exit_status);
 //creat_child
 void	child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
 void	child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
@@ -118,7 +118,6 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);
-void	execution_cmd(char *cmd, t_env **env, int *exit_status);
 //*******************buildin****************************
 
 typedef struct s_export
