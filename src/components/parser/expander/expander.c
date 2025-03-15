@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/12 19:43:50 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/15 00:35:42 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*expander(t_node *node, t_env *env)
 {
 	char	*expanded;
 
-	(void)env;
 	if (!find_it(node->value, '$')
 		&& !find_it(node->value, '\'')
 		&& !find_it(node->value, '"'))

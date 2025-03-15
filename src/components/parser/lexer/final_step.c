@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:17:58 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/15 00:40:52 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ void	add_to_cmd(t_cmd **head, t_cmd *new)
 			last = last->next;
 		last->next = new;
 	}
-}
-
-int	no_need(TokenType tp)
-{
-	return (tp == OPEN_PAR || tp == CLOSE_PAR
-		|| tp == SIN_QUOTE || tp == DOB_QUOTE);
 }
 
 t_cmd	*data_maker(t_node *head, t_env *env)

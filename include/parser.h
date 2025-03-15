@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/14 20:46:00 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/15 00:49:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int			is_sperator(char c);
 char		*get_before(char *s);
 char		*get_after(char *s);
 char		*extract_name(char *str);
+void		set_space_zero(char *tmp);
+void		set_zero_space(char **s);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);
 void		handle_normal_text(char **input, t_expand **head, t_state state);
