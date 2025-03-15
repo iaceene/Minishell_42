@@ -98,6 +98,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char	**env;
+	int		exe_state;
 	t_cmd	*head;
 	t_env	*final_env;
 	char	*prompt;

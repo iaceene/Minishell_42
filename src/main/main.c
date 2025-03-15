@@ -24,6 +24,7 @@ static void	ft_init(t_tool *tool, char **env, t_data *data)
 	data->final_env = tool->env;
 	tool->env->a_ven = ft_env_create_2d(tool->env);
 	tool->err = 0;
+	data->exe_state = 0;
 }
 
 void	printing(char **v)
