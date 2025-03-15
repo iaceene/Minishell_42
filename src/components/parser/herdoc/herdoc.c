@@ -6,72 +6,55 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:19:32 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:28:24 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
-t_buffer	*new_buff(char *val)
+char	*expand_herdoc(char *prom, t_env *env)
 {
-	t_buffer	*ret;
-
-	ret = ft_malloc(sizeof(t_buffer));
-	ret->next = NULL;
-	ret->val = ft_strjoin(val, ft_strdup("\n"));
-	return (ret);
+	if (!prom || !find_it(prom, '$'))
+		return (prom);
+	(void)env;
+	return (prom);
 }
 
-void	add_buff(t_buffer **head, t_buffer *new)
+void	ft_write(int fd, char *buffer)
 {
-	t_buffer	*tmp;
+	int			i;
+	static	int k;
 
-	tmp = *head;
-	if (!head || !new)
-		return ;
-	if (!*head)
-		*head = new;
-	else
+	if (!buffer || fd == -1)
+		return;
+	i = 0;
+	if (k != 0)
+		write(fd, "\n", 1);
+	while (buffer[i])
 	{
-		while (tmp && tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
+		write(fd, buffer + i, 1);
+		i++;
 	}
-}
-
-char	*join_buffer(t_buffer *head)
-{
-	char	*joined;
-
-	joined = NULL;
-	while (head)
-	{
-		joined = ft_strjoin(joined, head->val);
-		if (!joined)
-			return (NULL);
-		head = head->next;
-	}
-	return (joined);
+	k++;
 }
 
 char	*herdoc(t_env *env, char *exit)
 {
 	char		*prom;
-	t_buffer	*head;
+	int 		fd;
 
-	(void)env;
-	head = NULL;
+	fd = open("test.txt", O_CREAT | O_APPEND | O_RDWR, 0644);
+	if (fd == -1)
+		return (NULL);
 	while (1)
 	{
 		prom = readline("> ");
-		if (prom && !ft_strncmp(prom, exit, ft_strlen(prom))
-			&& ft_strlen(prom) == ft_strlen(exit))
+		if (!prom ||
+			(prom && !ft_strncmp(prom, exit, ft_strlen(prom))
+			&& ft_strlen(prom) == ft_strlen(exit)))
 			break ;
-		if (prom && prom[0] == EOF)
-			break ;
-		add_buff(&head, new_buff(prom));
+		ft_write(fd, expand_herdoc(prom, env));
 	}
-	if (!head)
-		return (ft_strdup(""));
-	return (join_buffer(head));
+	close(fd);
+	return (NULL);
 }

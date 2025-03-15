@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -90,6 +91,7 @@ void process_here_doc(char *delimiter, int *pipe_fd, t_env *env, int exit_code);
 typedef struct s_cmd
 {
 	TokenType		type;
+	bool			empty;
 	char			*value;
 	char			**cmd;
 	struct s_cmd	*next;
