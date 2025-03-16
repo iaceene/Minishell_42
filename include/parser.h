@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/15 00:49:04 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/16 22:50:58 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_node
 	TokenType		type;
 	char			*value;
 	bool			visit;
+	int				hr_fd;
 	struct s_node	*next;
 }	t_node;
 
@@ -66,7 +67,7 @@ t_expand	*new_expand(t_state state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
 char		*expand_and_join(t_expand *head, t_env *env);
 char		*expand_this(char *str, t_env *env);
-char		*herdoc(t_env *env, char *exit);
+int			herdoc(t_env *env, char *exit);
 int			is_sperator(char c);
 char		*get_before(char *s);
 char		*get_after(char *s);

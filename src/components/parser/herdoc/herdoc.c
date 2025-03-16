@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/16 19:29:47 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:33:15 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,44 @@ void	ft_write(int fd, char *buffer)
 	k++;
 }
 
-char	*herdoc(t_env *env, char *exit)
+char	*generate_file(void)
 {
-	char		*prom;
-	int 		fd;
+	char			*name;
+	int				fd;
+	unsigned char	*tmp;
+	int				i;
 
-	fd = open("test.txt", O_CREAT | O_APPEND | O_RDWR, 0644);
+	i  = 0;
+	fd = open("/dev/random", 0);
 	if (fd == -1)
 		return (NULL);
+	tmp = ft_malloc(21 * sizeof(unsigned char));
+	if (read(fd, tmp, 20) != 20)
+		return (close(fd), NULL);
+	close(fd);
+	while (i < 20)
+	{
+		tmp[i] = (tmp[i] % 26) + 'A';
+		i++;
+	}
+	tmp[i] = '\0';
+	name = ft_strjoin("/tmp/", ft_strjoin(".", (char *)tmp));
+	return (name);
+}
+
+int	herdoc(t_env *env, char *exit)
+{
+	char		*prom;
+	char		*file_name;
+	int 		fd;
+
+	file_name = generate_file();
+	if (!file_name)
+		return (-1);
+	printf("file name %s\n", file_name);
+	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
+	if (fd == -1)
+		return (-1);
 	while (1)
 	{
 		prom = readline("> ");
@@ -56,5 +86,8 @@ char	*herdoc(t_env *env, char *exit)
 		ft_write(fd, expand_herdoc(prom, env));
 	}
 	close(fd);
-	return (NULL);
+	fd = open(file_name, O_RDONLY);
+	if (unlink(file_name) != 0)
+		return (-1);
+	return (fd);
 }

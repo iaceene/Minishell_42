@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/15 22:59:45 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/16 22:53:58 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ t_cmd	*new_cmd(t_node *node)
 		ret->value = NULL;
 		ret->next = NULL;
 		return (ret);
+	}
+	if (node->type == HERDOC)
+	{
+		ret->fd_herdoc = node->hr_fd;
+		printf("hedoc fd %d\n", ret->fd_herdoc);
 	}
 	ret->type = node->type;
 	ret->value = node->value;
@@ -61,15 +66,12 @@ t_cmd	*data_maker(t_node *head, t_env *env)
 	{
 		if (head->type == COMMAND)
 		{
-			// to do
-			// printf("-------->%s|\n", head->value);
 			head->value = expander(head, env);
-			// printf("-------->%s|\n", head->value);
 			add_to_cmd(&cmd, new_cmd(head));
 		}
 		else if (head->type == HERDOC && head->next)
 		{
-			head->value = herdoc(env, head->next->value);
+			head->hr_fd = herdoc(env, head->next->value);
 			add_to_cmd(&cmd, new_cmd(head));
 			head = head->next;
 		}

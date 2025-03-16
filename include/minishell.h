@@ -92,6 +92,7 @@ typedef struct s_cmd
 {
 	TokenType		type;
 	bool			empty;
+	int				fd_herdoc;
 	char			*value;
 	char			**cmd;
 	struct s_cmd	*next;
