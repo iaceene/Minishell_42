@@ -116,7 +116,6 @@ int		ft_isdigit(int c);
 int		ft_isspace(int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t len);
-char	**ft_split_shell(const char *s);
 char	**ft_split(char const *s, char c);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strchr(char *s, char c);
