@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/16 23:33:15 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:43:12 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ char	*expand_herdoc(char *prom, t_env *env)
 	if (!prom || !find_it(prom, '$'))
 		return (prom);
 	(void)env;
+	// to do 
+	// check this rule also '' if there is a sing or dob in delemter!
+	// this will not be expanded!
 	return (prom);
 }
 
@@ -56,7 +59,7 @@ char	*generate_file(void)
 	while (i < 20)
 	{
 		tmp[i] = (tmp[i] % 26) + 'A';
-		i++;
+		i++;	
 	}
 	tmp[i] = '\0';
 	name = ft_strjoin("/tmp/", ft_strjoin(".", (char *)tmp));
@@ -72,7 +75,6 @@ int	herdoc(t_env *env, char *exit)
 	file_name = generate_file();
 	if (!file_name)
 		return (-1);
-	printf("file name %s\n", file_name);
 	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
 	if (fd == -1)
 		return (-1);
