@@ -33,6 +33,8 @@ char	*join_args(char **sp)
 	int		i;
 	char	*tmp;
 
+	if (!sp)
+		return (NULL);
 	i = 1;
 	tmp = NULL;
 	while (sp[i])
@@ -44,9 +46,51 @@ char	*join_args(char **sp)
 	return (tmp);
 }
 
-void	handle_outfile(t_cmd **head, char *val)
+char	*join_arg_two(char **sp)
+{
+	int		i;
+	char	*tmp;
+
+	if (!sp)
+		return (NULL);
+	i = 0;
+	tmp = NULL;
+	while (sp[i])
+	{
+		sp[i] = ft_strjoin(sp[i], " ");
+		tmp = ft_strjoin(tmp, sp[i]);
+		i++;
+	}
+	return (tmp);
+}
+
+char	**join_args_adv(char **s1, char **s2)
+{
+	char	**ret;
+	char	*tmp;
+
+	tmp = ft_strjoin(join_arg_two(s1), join_arg_two(s2));
+	ret = ft_split(tmp, ' ');
+	return (ret);
+}
+
+t_cmd	*get_last_cmd(t_cmd *head)
+{
+	t_cmd	*prv;
+
+	prv = NULL;
+	while (head && head->next)
+	{
+		prv = head;
+		head = head->next;
+	}
+	return (prv);
+}
+
+void	handle_outfile(t_cmd **head, char *val, t_cmd *prv)
 {
 	char	**sp;
+	t_cmd	*lst_cmd;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
@@ -54,7 +98,13 @@ void	handle_outfile(t_cmd **head, char *val)
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, OUT_FILE)));
 	add_to_cmd(head, new_cmd_val(sp[0], OUT_FILE));
-	add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
+	if (!prv || prv->type != COMMAND)
+		add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
+	else
+	{
+		lst_cmd = get_last_cmd(*head);
+		lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
+	}
 }
 
 void	handle_infile(t_cmd **head, char *val)
@@ -73,16 +123,16 @@ void	handle_infile(t_cmd **head, char *val)
 t_cmd	*final_data(t_cmd *head)
 {
 	t_cmd	*new;
-	int		i;
+	t_cmd	*prv;
 
 	new = NULL;
-	i = 0;
+	prv = NULL;
 	while (head)
 	{
 		if (head->type == COMMAND)
 			add_to_cmd(&new, new_cmd_val(head->value, COMMAND));
 		else if (head->next && head->type == RIGHT_RED)
-			handle_outfile(&new, head->next->value);
+			handle_outfile(&new, head->next->value, prv);
 		else if (head->next && head->type == APPEND)
 			add_to_cmd(&new, new_cmd_val(head->next->value, APPEND));
 		else if (head->next && head->type == LEFT_RED)
@@ -90,7 +140,7 @@ t_cmd	*final_data(t_cmd *head)
 		if (head->next && (head->type == RIGHT_RED || head->type == APPEND
 				|| head->type == LEFT_RED))
 			head = head->next;
-		i++;
+		prv = head;
 		head = head->next;
 	}
 	return (new);
