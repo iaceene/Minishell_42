@@ -107,9 +107,10 @@ void	handle_outfile(t_cmd **head, char *val, t_cmd *prv)
 	}
 }
 
-void	handle_infile(t_cmd **head, char *val)
+void	handle_infile(t_cmd **head, char *val, t_cmd *prv)
 {
 	char	**sp;
+	t_cmd	*lst_cmd;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
@@ -117,7 +118,14 @@ void	handle_infile(t_cmd **head, char *val)
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
 	add_to_cmd(head, new_cmd_val(sp[0], IN_FILE));
-	add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
+	if (!prv || prv->type != COMMAND)
+		add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
+	else
+	{
+		lst_cmd = get_last_cmd(*head);
+		// printf("last value : %s\n", lst_cmd->value);
+		lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
+	}
 }
 
 t_cmd	*final_data(t_cmd *head)
@@ -136,7 +144,7 @@ t_cmd	*final_data(t_cmd *head)
 		else if (head->next && head->type == APPEND)
 			add_to_cmd(&new, new_cmd_val(head->next->value, APPEND));
 		else if (head->next && head->type == LEFT_RED)
-			handle_infile(&new, head->next->value);
+			handle_infile(&new, head->next->value, prv);
 		if (head->next && (head->type == RIGHT_RED || head->type == APPEND
 				|| head->type == LEFT_RED))
 			head = head->next;
