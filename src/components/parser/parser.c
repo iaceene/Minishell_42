@@ -123,7 +123,6 @@ void	handle_infile(t_cmd **head, char *val, t_cmd *prv)
 	else
 	{
 		lst_cmd = get_last_cmd(*head);
-		// printf("last value : %s\n", lst_cmd->value);
 		lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
 	}
 }
