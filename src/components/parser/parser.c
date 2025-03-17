@@ -28,54 +28,46 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 	return (new);
 }
 
-void	handle_outfile(t_cmd **head, char *val, int f)
+char	*join_args(char **sp)
+{
+	int		i;
+	char	*tmp;
+
+	i = 1;
+	tmp = NULL;
+	while (sp[i])
+	{
+		sp[i] = ft_strjoin(sp[i], " ");
+		tmp = ft_strjoin(tmp, sp[i]);
+		i++;
+	}
+	return (tmp);
+}
+
+void	handle_outfile(t_cmd **head, char *val)
 {
 	char	**sp;
-	int		i;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
 		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), OUT_FILE)));
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, OUT_FILE)));
-	i = 0;
-	add_to_cmd(head, new_cmd_val(sp[i], OUT_FILE));
-	while (sp[++i])
-	{
-		if (f == 0)
-			add_to_cmd(head, new_cmd_val(sp[i], COMMAND));
-		else
-			add_to_cmd(head, new_cmd_val(sp[i], SIMPLE_FILE));
-	}
+	add_to_cmd(head, new_cmd_val(sp[0], OUT_FILE));
+	add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
 }
 
-void	handle_infile(t_cmd **head, char *val, int f)
+void	handle_infile(t_cmd **head, char *val)
 {
 	char	**sp;
-	int		i;
-	int		k;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
 		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), IN_FILE)));
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
-	i = 0;
-	k = 0;
-	add_to_cmd(head, new_cmd_val(sp[i], IN_FILE));
-	while (sp[++i])
-	{
-		if (f == 0)
-		{
-			if (k == 0)
-				add_to_cmd(head, new_cmd_val(sp[i], COMMAND));
-			else
-				add_to_cmd(head, new_cmd_val(sp[i], SIMPLE_FILE));
-			k++;
-		}
-		else
-			add_to_cmd(head, new_cmd_val(sp[i], SIMPLE_FILE));
-	}
+	add_to_cmd(head, new_cmd_val(sp[0], IN_FILE));
+	add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
 }
 
 t_cmd	*final_data(t_cmd *head)
@@ -90,11 +82,11 @@ t_cmd	*final_data(t_cmd *head)
 		if (head->type == COMMAND)
 			add_to_cmd(&new, new_cmd_val(head->value, COMMAND));
 		else if (head->next && head->type == RIGHT_RED)
-			handle_outfile(&new, head->next->value, i);
+			handle_outfile(&new, head->next->value);
 		else if (head->next && head->type == APPEND)
 			add_to_cmd(&new, new_cmd_val(head->next->value, APPEND));
 		else if (head->next && head->type == LEFT_RED)
-			handle_infile(&new, head->next->value, i);
+			handle_infile(&new, head->next->value);
 		if (head->next && (head->type == RIGHT_RED || head->type == APPEND
 				|| head->type == LEFT_RED))
 			head = head->next;

@@ -47,7 +47,8 @@ char	*prompt(char **env)
 	if (ft_strncmp(s, "exit", 4) == 0 && ft_strlen(s) == 4)
 		exit_the_shell(0);
 	i++;
-	add_history(s);
+	if (s[0])
+		add_history(s);
 	return (s);
 }
 

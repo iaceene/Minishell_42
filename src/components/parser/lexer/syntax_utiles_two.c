@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:09:24 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:16:27 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_no_opned_pr(t_node *data)
 
 int	valid_next(TokenType type)
 {
-	return (type == COMMAND);
+	return (type == COMMAND || type == RIGHT_RED);
 }
 
 int	check_append(t_node *data)
