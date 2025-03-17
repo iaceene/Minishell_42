@@ -69,7 +69,7 @@ char	**join_args_adv(char **s1, char **s2)
 	char	**ret;
 	char	*tmp;
 
-	tmp = ft_strjoin(join_arg_two(s1), join_arg_two(s2));
+	tmp = ft_strjoin(join_arg_two(s1), join_args(s2));
 	ret = ft_split(tmp, ' ');
 	return (ret);
 }
