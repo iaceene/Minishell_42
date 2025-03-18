@@ -62,7 +62,7 @@ char	*ft_get_cli(char **env)
 	char	**desktop;
 
 	if (!*env)
-		return (0);
+		return (ft_strdup("user42@1337 $ "));
 	user = ft_get_user(env);
 	if (!user)
 		user = ft_strdup("user42");

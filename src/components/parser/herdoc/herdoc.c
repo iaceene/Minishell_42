@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 23:13:03 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:29:10 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f)
 	int			fd2;
 
 	file_name = generate_file();
+	printf("%s\n", file_name);
 	if (!file_name)
 		return (-1);
 	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
