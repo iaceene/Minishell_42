@@ -33,6 +33,7 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/execute/handel_file_redirection.c \
 		./src/components/execution/execute/execution.c \
 		./src/components/execution/execute/find_command_path.c \
+		./src/components/execution/execute/pipex_utilse1.c \
 		./src/components/execution/execute/pipex.c \
 		./src/components/parser/parser.c \
 		./src/components/parser/expander/expander.c \

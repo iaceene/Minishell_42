@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/18 06:11:25 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/03/18 06:38:50 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,9 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);
+void handle_redirection(t_pipex_data *data);
+void	cleanup_child_fds(t_pipex_data *data);
+int	count_commands(t_exec *cmd);
 void handle_file_redirection(t_exec *cmd, int *infile, int *outfile);
 
 //*******************buildin****************************
