@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 07:14:19 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/18 20:49:57 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
+
 
 static void	run_child_process(t_env **env, char **cmd_argv)
 {
@@ -18,7 +19,6 @@ static void	run_child_process(t_env **env, char **cmd_argv)
 
 	envp = ft_env_create_2d(*env);
 	execute_cmd(cmd_argv, envp);
-	perror("execve failed for child1");
 	exit(127);
 }
 

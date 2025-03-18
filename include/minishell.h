@@ -33,7 +33,6 @@
 # include <termios.h>
 
 
-
 // final struct
 
 typedef enum {

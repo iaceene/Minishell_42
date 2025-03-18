@@ -76,7 +76,7 @@ char	*find_command_path(char *cmd, char **env)
 	if (!path)
 		return (NULL);
 	result = find_executable_in_path(path, cmd);
-	free(path);
+	// free(path); // ??
 	return (result);
 }
 
@@ -98,7 +98,7 @@ void	execute_cmd(char **cmd, char **env)
 	}
 	args[0] = full_path;
 	execve(full_path, args, env);
-	write(2, "shell: ", 7);
-	write(2, &full_path, ft_strlen(full_path));
-	error_and_exit("execute failed\n", 1);
+	// write(2, "shell: ", 7);
+	// write(2, &full_path, ft_strlen(full_path));
+	perror("exec failed\n");
 }

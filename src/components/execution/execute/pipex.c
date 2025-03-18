@@ -34,7 +34,7 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data)
 	if (pid == 0)
 		handle_child_process(cmd, envp, data);
 	else if (pid < 0)
-		error_and_exit("Fork failed", 1);
+		error_and_exit("Fork failed", 1); // ??
 	if (data->prev_pipe_read != -1)
 		close(data->prev_pipe_read);
 	if (data->current_cmd < data->cmd_count - 1)
