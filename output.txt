@@ -1,0 +1,9 @@
+Hello, Worl
+Line 1
+Line 2
+include
+Makefile
+minishell
+obj
+output.txt
+src

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_file_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/18 06:22:34 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/18 06:58:32 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_input_redirection(t_exec *cmd, int *infile)
 		write(2, "No such file or directory: ", 27);
 		write(2, cmd->value, ft_strlen(cmd->value));
 		write(2, "\n", 1);
+		exit(1);
 	}
 }
 

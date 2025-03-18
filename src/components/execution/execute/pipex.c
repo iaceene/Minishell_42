@@ -14,6 +14,7 @@
 
 void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data)
 {
+	handle_file_redirection(cmd, &data->infile, &data->outfile);
 	handle_redirection(data);
 	cleanup_child_fds(data);
 	execute_cmd(cmd->s, envp);
@@ -69,7 +70,7 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 
 	data = (t_pipex_data){-1, -1, {-1, -1}, -1, count_commands(commands), 0};
 	envp = ft_env_create_2d(*env);
-	handle_file_redirection(commands, &data.infile, &data.outfile);
+	// handle_file_redirection(commands, &data.infile, &data.outfile);
 	cmd = commands;
 	while (cmd)
 	{
