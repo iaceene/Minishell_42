@@ -55,17 +55,6 @@ t_exec	*copy_cmd_to_exec(t_cmd *cmd)
 	return (new_exec);
 }
 
-static void	free_exec_list(t_exec *exec_list)
-{
-	t_exec	*temp;
-
-	while (exec_list)
-	{
-		temp = exec_list;
-		exec_list = exec_list->next;
-	}
-}
-
 static void	handle_single_command(t_exec *exec_list, t_env **env, \
 	int *exit_status)
 {
@@ -94,12 +83,10 @@ void	execution(t_cmd **head, t_env **env, int *exit_status)
 	cmd_count = ft_lstsize_head(exec_list);
 	if (cmd_count == 0)
 	{
-		free_exec_list(exec_list);
 		return ;
 	}
 	if (cmd_count == 1)
 		handle_single_command(exec_list, env, exit_status);
 	else
 		ft_pipex(exec_list, env, exit_status);
-	free_exec_list(exec_list);
 }

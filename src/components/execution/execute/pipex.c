@@ -12,12 +12,14 @@
 
 #include "../../../../include/execution.h"
 
-void close_all_pipe(int **pipes, int num_cmd)
+
+
+void	close_all_pipe(int **pipes, int num_cmd)
 {
-	int j;
+	int	j;
 
 	if (!pipes)
-		return;
+		return ;
 	j = 0;
 	while (j < num_cmd - 1)
 	{
@@ -27,7 +29,7 @@ void close_all_pipe(int **pipes, int num_cmd)
 	}
 }
 
-void redirect_fd(int from_fd, int to_fd, const char *error_msg)
+void	redirect_fd(int from_fd, int to_fd, const char *error_msg)
 {
 	if (from_fd < 0 || to_fd < 0)
 		error_and_exit((char *)error_msg, 1);
@@ -36,61 +38,21 @@ void redirect_fd(int from_fd, int to_fd, const char *error_msg)
 	close(from_fd);
 }
 
-void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
+int	count_commands(t_exec *cmd)
 {
-	char *filename;
+	int	count;
 
-	while (cmd)
-	{
-		if (cmd->type != COMMAND)
-		{
-			filename = cmd->value;
-			if (cmd->type == IN_FILE)
-			{
-				if (*infile != -1)
-					close(*infile);
-				*infile = open(filename, O_RDONLY);
-				if (*infile < 0)
-				{
-					write(2, "No such file or directory: ", 27);
-					write(2, filename, ft_strlen(filename));
-					write(2, "\n", 1);
-				}
-			}
-			else if (cmd->type == OUT_FILE)
-			{
-				if (*outfile != -1)
-					close(*outfile);
-				*outfile = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
-				if (*outfile < 0)
-					error_and_exit("Failed to open output file", 1);
-			}
-			else if (cmd->type == APPEND)
-			{
-				if (*outfile != -1)
-					close(*outfile);
-				*outfile = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
-				if (*outfile < 0)
-					error_and_exit("Failed to open output file for append", 1);
-			}
-		}
-		cmd = cmd->next;
-	}
-}
-
-int count_commands(t_exec *cmd)
-{
-	int count = 0;
+	count = 0;
 	while (cmd)
 	{
 		if (cmd->type == COMMAND)
 			count++;
 		cmd = cmd->next;
 	}
-	return count;
+	return (count);
 }
 
-void cleanup_child_fds(int infile, int outfile, int pipe_read, int pipe_write, int prev_pipe)
+void	cleanup_child_fds(int infile, int outfile, int pipe_read, int pipe_write, int prev_pipe)
 {
 	if (infile != -1 && infile != STDIN_FILENO)
 		close(infile);
@@ -108,70 +70,60 @@ void execute_command(t_exec *cmd, char **env)
 {
 	execute_cmd(cmd->s, env);
 }
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-void handle_child_process(t_exec *cmd, char **env, int infile, int outfile,
-						  int *pipe_fd, int prev_pipe_read, int current_cmd, int cmd_count)
+void handle_redirection(t_pipex_data *data)
 {
-	if (current_cmd == 0 && infile != -1)
-		redirect_fd(infile, STDIN_FILENO, "dup2 failed (stdin)");
-	else if (current_cmd > 0)
-		redirect_fd(prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin)");
-	if (current_cmd == cmd_count - 1 && outfile != -1)
-		redirect_fd(outfile, STDOUT_FILENO, "dup2 failed (stdout)");
-	else if (current_cmd < cmd_count - 1)
-		redirect_fd(pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
-	cleanup_child_fds(infile, outfile, pipe_fd[0], pipe_fd[1], prev_pipe_read);
-	execute_command(cmd, env);
+	if (data->current_cmd == 0 && data->infile != -1)
+		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin)");
+	else if (data->current_cmd > 0)
+		redirect_fd(data->prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin)");
+
+	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
+		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
+	else if (data->current_cmd < data->cmd_count - 1)
+		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
+}
+
+void handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data)
+{
+	
+	handle_redirection(data);
+
+	cleanup_child_fds(data->infile, data->outfile, data->pipe_fd[0], data->pipe_fd[1], data->prev_pipe_read);
+	execute_command(cmd, envp);
 	exit(1);
 }
 
-void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
+void process_command(t_exec *cmd, char **envp, t_pipex_data *data)
 {
-	int infile = -1, outfile = -1;
-	int pipe_fd[2] = {-1, -1};
-	int prev_pipe_read = -1;
 	pid_t pid;
-	char **envp = ft_env_create_2d(*env);
-	int cmd_count = count_commands(commands);
-	int current_cmd = 0;
 
-	handle_file_redirection(commands, &infile, &outfile);
-	t_exec *cmd = commands;
-	while (cmd)
+	if (data->current_cmd < data->cmd_count - 1)
 	{
-		if (cmd->type == COMMAND)
-		{
-			if (current_cmd < cmd_count - 1)
-			{
-				if (pipe(pipe_fd) == -1)
-					error_and_exit("Pipe creation failed", 1);
-			}
-			pid = fork();
-			if (pid == 0)
-				handle_child_process(cmd, envp, infile, outfile,
-									pipe_fd, prev_pipe_read, current_cmd, cmd_count);
-			else if (pid < 0)
-				error_and_exit("Fork failed", 1);
-			if (prev_pipe_read != -1)
-				close(prev_pipe_read);
-			if (current_cmd < cmd_count - 1)
-			{
-				close(pipe_fd[1]);
-				prev_pipe_read = pipe_fd[0];
-			}
-			current_cmd++;
-		}
-		cmd = cmd->next;
+		if (pipe(data->pipe_fd) == -1)
+			error_and_exit("Pipe creation failed", 1);
 	}
-	if (infile != -1)
-		close(infile);
-	if (outfile != -1)
-		close(outfile);
-	if (prev_pipe_read != -1)
-		close(prev_pipe_read);
-	int status;
-	int last_status = 0;
-	int i = 0;
+
+	pid = fork();
+	if (pid == 0)
+		handle_child_process(cmd, envp, data);
+	else if (pid < 0)
+		error_and_exit("Fork failed", 1);
+
+	if (data->prev_pipe_read != -1)
+		close(data->prev_pipe_read);
+	if (data->current_cmd < data->cmd_count - 1)
+	{
+		close(data->pipe_fd[1]);
+		data->prev_pipe_read = data->pipe_fd[0];
+	}
+}
+
+void wait_for_children(int cmd_count, int *exit_status)
+{
+	int status, last_status = 0, i = 0;
+
 	while (i < cmd_count)
 	{
 		wait(&status);
@@ -180,4 +132,32 @@ void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 		i++;
 	}
 	*exit_status = last_status;
+}
+
+void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
+{
+	t_pipex_data data = { -1, -1, {-1, -1}, -1, count_commands(commands), 0 };
+	char **envp = ft_env_create_2d(*env);
+	handle_file_redirection(commands, &data.infile, &data.outfile);
+
+	t_exec *cmd = commands;
+
+	while (cmd)
+	{
+		if (cmd->type == COMMAND)
+		{
+			process_command(cmd, envp, &data);
+			data.current_cmd++;
+		}
+		cmd = cmd->next;
+	}
+
+	if (data.infile != -1)
+		close(data.infile);
+	if (data.outfile != -1)
+		close(data.outfile);
+	if (data.prev_pipe_read != -1)
+		close(data.prev_pipe_read);
+
+	wait_for_children(data.cmd_count, exit_status);
 }

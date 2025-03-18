@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 01:16:58 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 06:11:25 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_pipe
 	int	end2[2];
 	int	in;
 }	t_pipe;
+
 
 typedef struct s_exec
 {
@@ -87,6 +88,17 @@ typedef struct s_tool
 	t_gb	*grbg;
 }	t_tool;
 
+typedef struct s_pipex_data
+{
+	int infile;
+	int outfile;
+	int pipe_fd[2];
+	int prev_pipe_read;
+	int cmd_count;
+	int current_cmd;
+} t_pipex_data;
+
+
 /************************* expander *************************/
 typedef struct s_expander
 {
@@ -118,6 +130,8 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env);
+void handle_file_redirection(t_exec *cmd, int *infile, int *outfile);
+
 //*******************buildin****************************
 
 typedef struct s_export
