@@ -1,7 +1,0 @@
-ilyass.txt
-include
-Makefile
-minishell
-obj
-output.txt
-src
