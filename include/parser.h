@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/16 22:50:58 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 08:53:27 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int			check_no_opned_pr(t_node *data);
 int			find_it(char *s, char c);
 int			check_qoats(char *val);
 int			others_checker(t_node *data);
-int			check_redirction(t_node *data);
 int			valid_next(TokenType type);
 int			check_append(t_node *data);
 int			operator(char c);
