@@ -62,15 +62,27 @@ void	wait_for_children(int cmd_count, int *exit_status)
 	*exit_status = last_status;
 }
 
+void	close_fds(t_pipex_data *data)
+{
+	if (data->infile != -1)
+		close(data->infile);
+	if (data->outfile != -1)
+		close(data->outfile);
+	if (data->prev_pipe_read != -1)
+		close(data->prev_pipe_read);
+}
+
 void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 {
 	t_pipex_data	data;
 	char			**envp;
 	t_exec			*cmd;
 
+	// cmd = commands;
+	// if (ft_eecute_builtins(&(cmd->value), env, exit_status) == SUCCESS)
+	// 	return ;
 	data = (t_pipex_data){-1, -1, {-1, -1}, -1, count_commands(commands), 0};
 	envp = ft_env_create_2d(*env);
-	// handle_file_redirection(commands, &data.infile, &data.outfile);
 	cmd = commands;
 	while (cmd)
 	{
@@ -81,11 +93,6 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 		}
 		cmd = cmd->next;
 	}
-	if (data.infile != -1)
-		close(data.infile);
-	if (data.outfile != -1)
-		close(data.outfile);
-	if (data.prev_pipe_read != -1)
-		close(data.prev_pipe_read);
+	close_fds(&data);
 	wait_for_children(data.cmd_count, exit_status);
 }
