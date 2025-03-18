@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 22:46:03 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:13:03 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ t_cmd	*new_cmd_hered(char **val)
 {
 	t_cmd	*ret;
 
-	printf("this is the string %s\n", val[0]);
 	ret = ft_malloc(sizeof(t_cmd));
 	ret->cmd = val;
 	ret->type = COMMAND;

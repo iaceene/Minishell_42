@@ -54,7 +54,7 @@ void	print_final_data(t_cmd *head)
 		else if (head->type == APPEND)
 			printf("append [%s]\n", head->value);
 		else if (head->type == HERDOC)
-			printf("herdoc val [%s]\n", head->value);
+			printf("herdoc fd [%d]\n", head->fd_herdoc);
 		else if (head->value)
 			printf("%s\n", head->value);
 		head = head->next;
