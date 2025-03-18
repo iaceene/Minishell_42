@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:13:21 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:34:20 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,25 @@ int	valid_parent(t_node *data)
 	return (0);
 }
 
+int	herdoc_checker(t_node *data)
+{
+	while (data)
+	{
+		if (data->type == HERDOC && !data->next)	
+			return (1);
+		if (data->type == HERDOC && data->next && data->next->type != COMMAND)
+			return (1);
+		data = data->next;
+	}
+	return (0);
+}
+
 int	syntax_checker(t_node *data)
 {
 	if (!data)
 		return (-1);
-	if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data))
+	if (!pip_checker(data) || !readdir_checker(data) || !others_checker(data)
+		|| herdoc_checker(data))
 		return (-1);
 	return (0);
 }

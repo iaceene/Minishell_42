@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/16 23:43:12 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:39:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,15 @@ int	herdoc(t_env *env, char *exit)
 	char		*prom;
 	char		*file_name;
 	int 		fd;
+	int			fd2;
 
 	file_name = generate_file();
 	if (!file_name)
 		return (-1);
 	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
+	fd2 = open(file_name, O_RDONLY);
+	if (unlink(file_name) != 0)
+		return (-1);
 	if (fd == -1)
 		return (-1);
 	while (1)
@@ -88,8 +92,5 @@ int	herdoc(t_env *env, char *exit)
 		ft_write(fd, expand_herdoc(prom, env));
 	}
 	close(fd);
-	fd = open(file_name, O_RDONLY);
-	if (unlink(file_name) != 0)
-		return (-1);
-	return (fd);
+	return (fd2);
 }
