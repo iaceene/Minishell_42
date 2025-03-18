@@ -36,23 +36,6 @@ void redirect_fd(int from_fd, int to_fd, const char *error_msg)
 	close(from_fd);
 }
 
-char *clean_filename(char *filename)
-{
-	if (!filename)
-		return NULL;
-	while (*filename == ' ')
-		filename++;
-	int len = ft_strlen(filename);
-	while (len > 0 && filename[len - 1] == ' ')
-		filename[--len] = '\0';
-	if (filename[0] == '\'' || filename[0] == '"')
-		ft_memmove(filename, filename + 1, ft_strlen(filename));
-	len = ft_strlen(filename);
-	if (len > 0 && (filename[len - 1] == '\'' || filename[len - 1] == '"'))
-		filename[len - 1] = '\0';
-	return filename;
-}
-
 void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
 {
 	char *filename;
@@ -61,7 +44,7 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
 	{
 		if (cmd->type != COMMAND)
 		{
-			filename = clean_filename(cmd->value);
+			filename = cmd->value;
 			if (cmd->type == IN_FILE)
 			{
 				if (*infile != -1)
@@ -152,6 +135,7 @@ void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	int cmd_count = count_commands(commands);
 	int current_cmd = 0;
 
+	handle_file_redirection(commands, &infile, &outfile);
 	t_exec *cmd = commands;
 	while (cmd)
 	{
