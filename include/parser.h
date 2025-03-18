@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 08:53:27 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:32:11 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,16 @@ t_expand	*new_expand(t_state state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
 char		*expand_and_join(t_expand *head, t_env *env);
 char		*expand_this(char *str, t_env *env);
-int			herdoc(t_env *env, char *exit);
 int			is_sperator(char c);
 char		*get_before(char *s);
 char		*get_after(char *s);
 char		*extract_name(char *str);
 void		set_space_zero(char *tmp);
 void		set_zero_space(char **s);
+void		set_space_zero_qoats(char *tmp);
+t_cmd		*get_last_cmd(t_cmd *head);
+char		**join_args_adv(char **s1, char **s2);
+int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);
 void		handle_normal_text(char **input, t_expand **head, t_state state);

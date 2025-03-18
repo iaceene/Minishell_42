@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:29:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/15 01:08:45 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:40:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,23 @@ void	set_space_zero(char *tmp)
 	while (tmp[i])
 	{
 		if (tmp[i] == ' ')
+			tmp[i] = -1;
+		i++;
+	}
+}
+
+void	set_space_zero_qoats(char *tmp)
+{
+	int	i;
+	int	in_quotes;
+
+	i = 0;
+	in_quotes = 0;
+	while (tmp[i])
+	{
+		if (tmp[i] == '\'' || tmp[i] == '\"')
+			in_quotes = !in_quotes;
+		if (tmp[i] == ' ' && in_quotes)
 			tmp[i] = -1;
 		i++;
 	}
