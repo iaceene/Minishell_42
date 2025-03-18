@@ -12,70 +12,80 @@
 
 #include "../../../include/minishell.h"
 
-void	ft_free(t_gb **head)
+void ft_free(t_gb **head)
 {
-	t_gb	*tmp;
+    t_gb *tmp;
 
-	if (!head)
-		return ;
-	while ((*head))
-	{
-		tmp = (*head)->next;
-		(*head) = tmp;
-	}
-	*head = NULL;
+    if (!head)
+        return;
+    while (*head)
+    {
+        tmp = (*head)->next;
+        free((*head)->ptr);  // Free the allocated memory
+        free(*head);         // Free the node itself
+        *head = tmp;
+    }
+    *head = NULL;
 }
 
-t_gb	*ft_new_addr(void *add)
+t_gb *ft_new_addr(void *add)
 {
-	t_gb	*ret;
+    t_gb *ret;
 
-	ret = malloc(sizeof(t_gb));
-	if (!ret)
-		return (NULL);
-	ret->ptr = add;
-	ret->next = NULL;
-	return (ret);
+    ret = malloc(sizeof(t_gb));
+    if (!ret)
+        return NULL;
+    ret->ptr = add;
+    ret->next = NULL;
+    return ret;
 }
 
-t_gb	*ft_last_addr(t_gb *head)
+t_gb *ft_last_addr(t_gb *head)
 {
-	while (head && head->next)
-		head = head->next;
-	return (head);
+    while (head && head->next)
+        head = head->next;
+    return head;
 }
 
-void	ft_add_new(t_gb **head, t_gb *new)
+void ft_add_new(t_gb **head, t_gb *new)
 {
-	t_gb	*last;
+    t_gb *last;
 
-	if (!head || !new)
-		return ;
-	if (!*head)
-		*head = new;
-	else
-	{
-		last = ft_last_addr(*head);
-		last->next = new;
-	}
+    if (!head || !new)
+        return;
+    if (!*head)
+        *head = new;
+    else
+    {
+        last = ft_last_addr(*head);
+        last->next = new;
+    }
 }
 
-void	*ft_malloc(ssize_t len)
+void *ft_malloc(ssize_t len)
 {
-	static t_gb	*head;
-	void		*ptr;
+    static t_gb *head;
+    void *ptr;
+    t_gb *new_node;
 
-	if (len < 0)
-	{
-		ft_free(&head);
-		return (NULL);
-	}
-	ptr = malloc(len);
-	if (!ptr)
-	{
-		ft_free(&head);
-		exit(1);
-	}
-	ft_add_new(&head, ft_new_addr(ptr));
-	return (ptr);
+    if (len < 0)
+    {
+        ft_free(&head);
+        return NULL;
+    }
+    ptr = malloc(len);
+    if (!ptr)
+    {
+        ft_free(&head);
+        exit(1);
+    }
+    new_node = ft_new_addr(ptr);
+    if (!new_node)
+    {
+        free(ptr);  // Free the allocated memory if creating the node fails
+        ft_free(&head);
+        exit(1);
+    }
+    ft_add_new(&head, new_node);
+    return ptr;
 }
