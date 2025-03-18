@@ -12,7 +12,7 @@
 
 #include "../../../include/minishell.h"
 
-void ft_free(t_gb **head)
+void	ft_free(t_gb **head)
 {
 	t_gb *tmp;
 
@@ -28,7 +28,7 @@ void ft_free(t_gb **head)
 	*head = NULL;
 }
 
-t_gb *ft_new_addr(void *add)
+t_gb	*ft_new_addr(void *add)
 {
 	t_gb *ret;
 
@@ -40,14 +40,14 @@ t_gb *ft_new_addr(void *add)
 	return ret;
 }
 
-t_gb *ft_last_addr(t_gb *head)
+t_gb	*ft_last_addr(t_gb *head)
 {
 	while (head && head->next)
 		head = head->next;
 	return head;
 }
 
-void ft_add_new(t_gb **head, t_gb *new)
+void	ft_add_new(t_gb **head, t_gb *new)
 {
 	t_gb *last;
 
