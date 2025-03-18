@@ -69,7 +69,7 @@ void handle_file_redirection(t_exec *cmd, int *infile, int *outfile)
 				*infile = open(filename, O_RDONLY);
 				if (*infile < 0)
 				{
-					write(2, "Failed to open input file: ", 27);
+					write(2, "No such file or directory: ", 27);
 					write(2, filename, ft_strlen(filename));
 					write(2, "\n", 1);
 				}
@@ -152,7 +152,6 @@ void ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	int cmd_count = count_commands(commands);
 	int current_cmd = 0;
 
-	handle_file_redirection(commands, &infile, &outfile);
 	t_exec *cmd = commands;
 	while (cmd)
 	{

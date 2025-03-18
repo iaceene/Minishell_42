@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:11:33 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:47:16 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,3 @@ int	others_checker(t_node *data)
 	return (1);
 }
 
-int	check_redirction(t_node *data)
-{
-	t_node	*prv;
-
-	prv = NULL;
-	while (data)
-	{
-		if (data->type == RIGHT_RED || data->type == LEFT_RED)
-		{
-			if (!prv)
-				return (1);
-			if (!data->next)
-				return (1);
-			if (data->next->type != COMMAND || prv->type != COMMAND)
-				return (1);
-		}
-		prv = data;
-		data = data->next;
-	}
-	return (0);
-}

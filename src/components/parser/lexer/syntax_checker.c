@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 00:34:20 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:45:24 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	pip_checker(t_node *data)
 	return (1);
 }
 
-		// if (!prv && (data->type == L	EFT_RED || data->type == RIGHT_RED))
-		// 	return (0);
 int	readdir_checker(t_node *data)
 {
 	t_node	*prv;
