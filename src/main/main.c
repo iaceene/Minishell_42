@@ -16,6 +16,53 @@ void	clear_terminal(void)
 {
 	write(1, "\033[H\033[J", 6);
 }
+#ifndef BUFFER_SIZE
+#    define BUFFER_SIZE 5000000
+#endif
+char    *get_next_line(int fd) 
+{
+        static char     buffer[BUFFER_SIZE];
+        static char            line[100000];
+        static int      buffer_pos;
+        static int      reads_size;
+        int             i;
+
+        i = 0;
+        if (fd < 0 || BUFFER_SIZE <= 0)
+                return NULL;
+        while (1337)
+        {
+                if (buffer_pos >= reads_size)
+                {   
+                        reads_size = read(fd, buffer, BUFFER_SIZE);
+                        buffer_pos = 0;
+                        if (reads_size <= 0)
+                                break ;
+                }
+                line[i++] = buffer[buffer_pos++];
+                if (buffer[buffer_pos - 1] == '\n' || i >= (int)sizeof(line) - 1)
+                        break ;
+        }
+        line[i] = 0;
+        if (i == 0)
+                return NULL;
+        return (ft_strdup(line));
+}
+
+char	*get_cnt(int fd)
+{
+	if (fd == -1)
+		return (ft_strdup("fail to open\n"));
+	char *tmp;
+	char *buff = NULL;
+	tmp = get_next_line(fd);
+	while (tmp)
+	{
+		buff = ft_strjoin(buff, tmp);
+		tmp = get_next_line(fd);
+	}
+	return (buff);
+}
 
 static void	ft_init(t_tool *tool, char **env, t_data *data)
 {
@@ -54,7 +101,7 @@ void	print_final_data(t_cmd *head)
 		else if (head->type == APPEND)
 			printf("append [%s]\n", head->value);
 		else if (head->type == HERDOC)
-			printf("herdoc fd [%d]\n", head->fd_herdoc);
+			printf("herdoc fd [%d] content [%s]\n", head->fd_herdoc, get_cnt(head->fd_herdoc));
 		else if (head->value)
 			printf("%s\n", head->value);
 		head = head->next;

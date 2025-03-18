@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 23:29:10 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:41:58 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,9 @@ bool	will_expanded(char *s)
 
 char	*expand_heredoc(char *prom, t_env *env, bool f)
 {
-	char	*res;
-
 	if (!prom || !f)
 		return (prom);
-	(void)env;
-	printf("expand\n");
-	res = ft_strdup("expand");
-	return (res);
+	return (expander(prom, env));
 }
 
 void	ft_write(int fd, char *buffer)
@@ -82,15 +77,14 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f)
 	int			fd2;
 
 	file_name = generate_file();
-	printf("%s\n", file_name);
 	if (!file_name)
 		return (-1);
 	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
 	fd2 = open(file_name, O_RDONLY);
 	if (unlink(file_name) != 0)
-		return (-1);
+		return (close(fd), close(fd2), -1);
 	if (fd == -1)
-		return (-1);
+		return (close(fd), close(fd2), -1);
 	while (1)
 	{
 		prom = readline("> ");
