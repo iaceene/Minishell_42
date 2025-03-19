@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:09:46 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/12 00:53:20 by iezzam           ###   ########.fr       */
-/*   Updated: 2025/02/08 12:43:04 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 19:50:49 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/execution.h"
 
@@ -18,8 +18,6 @@ t_list	*ft_lstnew(void *content)
 	t_list	*new_node;
 
 	new_node = ft_malloc(sizeof(t_list));
-	if (new_node == NULL)
-		return (ft_print_err("malloc failed\n"), NULL);
 	new_node->content = content;
 	new_node->next = NULL;
 	return (new_node);

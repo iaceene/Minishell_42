@@ -74,6 +74,8 @@ void	printing(char **v)
 {
 	int i = 0;
 
+	if (!v)
+		return ;
 	while (v[i])
 	{
 		if (i == 0)
