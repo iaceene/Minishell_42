@@ -12,6 +12,7 @@
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
+#include "../../include/parser.h"
 
 void	clear_terminal(void)
 {
@@ -73,63 +74,80 @@ static void	ft_init(t_tool *tool, char **env, t_data *data)
 	data->exe_state = 0;
 }
 
-// #define RESET   "\033[0m"
-// #define RED     "\033[31m"
-// #define GREEN   "\033[32m"
-// #define YELLOW  "\033[33m"
-// #define BLUE    "\033[34m"
-// #define MAGENTA "\033[35m"
-// #define CYAN    "\033[36m"
+void	ft_sighandler(int sig)
+{
+	if (sig == SIGINT || sig == SIGQUIT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
-// void	printing(char **v)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	if (!v)
-// 		return ;
-// 	while (v[i])
-// 	{
-// 		if (i == 0)
-// 			printf(GREEN "[" RESET "%s" GREEN "] " RESET, v[i]);
-// 		else
-// 			printf(YELLOW "ARG [" RESET "%s" YELLOW "] " RESET, v[i]);
-// 		i++;
-// 	}
-// 	printf("\n");
-// }
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
 
-// void	print_final_data(t_cmd *head)
-// {
-// 	while (head)
-// 	{
-// 		if (head->type == COMMAND)
-// 		{
-// 			printf(CYAN "COMMAND" RESET " --> ");
-// 			printing(head->cmd);
-// 		}
-// 		else if (head->type == IN_FILE)
-// 			printf(MAGENTA "INFILE [" RESET "%s" MAGENTA "]\n" RESET, head->value);
-// 		else if (head->type == OUT_FILE)
-// 			printf(MAGENTA "OUTFILE [" RESET "%s" MAGENTA "]\n" RESET, head->value);
-// 		else if (head->type == APPEND)
-// 			printf(MAGENTA "APPEND [" RESET "%s" MAGENTA "]\n" RESET, head->value);
-// 		else if (head->type == HERDOC)
-// 			printf(MAGENTA "HERDOC fd [" RESET "%d" MAGENTA "] content [" RESET "%s" MAGENTA "]\n" RESET, head->fd_herdoc, get_cnt(head->fd_herdoc));
-// 		else if (head->value)
-// 			printf(BLUE "%s\n" RESET, head->value);
-// 		if (head->type == COMMAND && head->pip_infront)
-// 			printf(BLUE "%s\n" RESET, "PIPED TO");
-// 		head = head->next;
-// 	}
-// 	printf(""RESET);
+void	printing(char **v)
+{
+	int	i;
 
-// }
+	i = 0;
+	if (!v)
+		return ;
+	while (v[i])
+	{
+		if (i == 0)
+			printf(GREEN "[" RESET "%s" GREEN "] " RESET, v[i]);
+		else
+			printf(YELLOW "ARG [" RESET "%s" YELLOW "] " RESET, v[i]);
+		i++;
+	}
+	printf("\n");
+}
+
+void	print_final_data(t_cmd *head)
+{
+	t_cmd	*tmp = head;
+	while (head)
+	{
+		if (head->type == COMMAND)
+		{
+			printf(CYAN "COMMAND" RESET " --> ");
+			printing(head->cmd);
+		}
+		else if (head->type == IN_FILE)
+			printf(MAGENTA "INFILE [" RESET "%s" MAGENTA "]\n" RESET, head->value);
+		else if (head->type == OUT_FILE)
+			printf(MAGENTA "OUTFILE [" RESET "%s" MAGENTA "]\n" RESET, head->value);
+		else if (head->type == APPEND)
+			printf(MAGENTA "APPEND [" RESET "%s" MAGENTA "]\n" RESET, head->value);
+		else if (head->type == HERDOC)
+		{
+			printf(MAGENTA "HERDOC fd [" RESET "%d" MAGENTA "] content [" RESET "%s" MAGENTA "]\n" RESET, head->fd_herdoc, get_cnt(head->fd_herdoc));
+			close(head->fd_herdoc);
+		}
+		else if (head->value)
+			printf(BLUE "%s\n" RESET, head->value);
+		if (head->type == COMMAND && head->pip_infront)
+			printf(BLUE "PIPE to [ %s ]\n" RESET, get_last_cmd(tmp)->cmd[0]);
+		head = head->next;
+	}
+	printf(""RESET);
+
+}
 
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 	t_tool	tool;
+	int		state;
 
 	clear_terminal();
 	data.env = env;
@@ -140,15 +158,20 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		data.prompt = prompt(env);
-		if (!data.prompt[0])
-			ft_puterr(32);
-		else if (parser(&data))
+		if (data.prompt[0])
 		{
-			// print_final_data(data.head);
-			execution(&data.head, &tool.env, &data.exe_state);
+			state = parser(&data);
+			if (state == 1)
+				print_final_data(data.head);
+				// execution(&data.head, &tool.env, &data.exe_state);
+			else if (state == -99)
+				data.exe_state = 130;
+			else
+			{
+				ft_puterr(14);
+				data.exe_state = 2;
+			}
 		}
-		else
-			ft_puterr(14);
 	}
 	(void)ac;
 	(void)av;

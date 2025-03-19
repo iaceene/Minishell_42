@@ -70,6 +70,6 @@ char	*ft_get_cli(char **env)
 	if (!desktop)
 		return (ft_join_params(user, ft_strdup("1337")));
 	else
-		return (ft_join_params(user, desktop[0]));
+		return (ft_join_params(user, "Parser"));
 	return (NULL);
 }

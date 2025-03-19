@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h
@@ -44,6 +44,7 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/expander/expander_utiles_tree.c \
 		./src/components/parser/expander/handlers.c \
 		./src/components/parser/herdoc/herdoc_utile_one.c \
+		./src/components/parser/herdoc/heredoc_prc.c \
 		./src/components/parser/herdoc/herdoc.c \
 		./src/components/parser/lexer/final_step.c \
 		./src/components/parser/lexer/lexer_utiles.c \

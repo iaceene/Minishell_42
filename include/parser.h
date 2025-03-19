@@ -39,6 +39,15 @@ typedef struct s_expand
 	struct s_expand	*next;
 }	t_expand;
 
+typedef struct s_herdoc
+{
+	int		exit_state;
+	int		fd;
+	t_env	*head;
+	bool	flag;
+	char	*exit;
+}	t_herdoc;
+
 typedef struct s_buffer
 {
 	char			*val;
@@ -89,6 +98,7 @@ int			get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s);
 void		copy_word(char *dst, char *src, int len);
 char		*skip_spaces(char *s);
 void		reforme_data(t_cmd **head);
+int			open_herdoc(t_herdoc lst);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);

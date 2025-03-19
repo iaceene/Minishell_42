@@ -67,17 +67,17 @@ int	open_heredoc_file(char *file_name, int *fd2)
 	*fd2 = open(file_name, O_RDONLY);
 	if (unlink(file_name) != 0)
 		return (close(fd), close(*fd2), -1);
-	if (fd == -1)
+	if (fd == -1 || *fd2 == -1)
 		return (close(fd), close(*fd2), -1);
 	return (fd);
 }
 
 int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 {
-	char	*prom;
-	char	*file_name;
-	int		fd;
-	int		fd2;
+	t_herdoc	lst_herdoc;
+	char		*file_name;
+	int			fd;
+	int			fd2;
 
 	file_name = generate_random_name();
 	if (!file_name)
@@ -85,14 +85,13 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 	fd = open_heredoc_file(file_name, &fd2);
 	if (fd == -1)
 		return (-1);
-	while (1)
-	{
-		prom = readline("> ");
-		if (!prom || (prom && !ft_strncmp(prom, exit, ft_strlen(prom))
-				&& ft_strlen(prom) == ft_strlen(exit)))
-			break ;
-		ft_write(fd, expand_heredoc(prom, env, f, ex_s));
-	}
+	lst_herdoc.exit = exit;
+	lst_herdoc.head = env;
+	lst_herdoc.exit_state = ex_s;
+	lst_herdoc.flag = f;
+	lst_herdoc.fd = fd;
+	if (open_herdoc(lst_herdoc) == -99)
+		return (close(fd2), close(fd) ,-99);
 	close(fd);
 	return (fd2);
 }

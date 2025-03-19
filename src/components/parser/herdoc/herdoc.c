@@ -47,6 +47,7 @@ t_cmd	*new_cmd_hered(char **val)
 
 	ret = ft_malloc(sizeof(t_cmd));
 	ret->cmd = val;
+	ret->pip_infront = 0;
 	ret->type = COMMAND;
 	ret->next = NULL;
 	ret->value = NULL;
