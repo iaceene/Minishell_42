@@ -78,7 +78,7 @@ void	builtin_exit(char **arg, int *exit_status, t_env **env)
 		ft_print_error("exit: numeric argument required", 255);
 	if (arg[2])
 	{
-		ft_print_error("exit: too many arguments", 1);
+		ft_print_error("exit: too many arguments", -1);
 		*exit_status = 1;
 		return ;
 	}

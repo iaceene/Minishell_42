@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 09:48:51 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/03/18 20:49:57 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
 
-static void	run_child_process(t_env **env, char **cmd_argv, int *exit_status)
+static void	run_child_process(t_env **env, char **cmd_argv)
 {
 	char	**envp;
 
 	envp = ft_env_create_2d(*env);
-	execute_cmd(cmd_argv, envp, exit_status);
-	return ;
+	execute_cmd(cmd_argv, envp);
+	exit(127);
 }
 
 static int	retrieve_exit_status(int status)
@@ -49,24 +49,17 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 
 	cmd_argv = cmd;
 	if (!cmd_argv || !(*cmd_argv))
-	{
-		*exit_status = 1;
 		return (ft_print_err("cmd_argv is NULL\n"));
-	}
-	if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)	
-	{
-		*exit_status = 1;
+	if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)
 		return ;
-	}
 	pid = fork();
 	if (pid < 0)
 	{
 		ft_print_err("Fork Error\n");
-		*exit_status = 1;
-		exit(1);
+		return ;
 	}
 	if (pid == 0)
-		run_child_process(env, cmd_argv, exit_status);
+		run_child_process(env, cmd_argv);
 	waitpid(pid, exit_status, 0);
 	*exit_status = retrieve_exit_status(*exit_status);
 }

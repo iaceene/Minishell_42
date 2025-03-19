@@ -77,7 +77,7 @@ void	execution(t_cmd **head, t_env **env, int *exit_status)
 	exec_list = copy_cmd_to_exec(*head);
 	if (!exec_list)
 	{
-		perror("Error: Failed to copy command list");
+		write(1, "Failed to copy command list\n", 28);
 		return ;
 	}
 	cmd_count = ft_lstsize_head(exec_list);

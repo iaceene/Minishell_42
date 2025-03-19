@@ -14,6 +14,6 @@
 
 void	error_and_exit(const char *str, int exite)
 {
-	perror(str);
+	write(2, str, ft_strlen(str));
 	exit(exite);
 }
