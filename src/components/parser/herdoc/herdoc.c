@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 22:46:03 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:41:58 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,9 @@ bool	will_expanded(char *s)
 
 char	*expand_heredoc(char *prom, t_env *env, bool f)
 {
-	char	*res;
-
 	if (!prom || !f)
 		return (prom);
-	(void)env;
-	printf("expand\n");
-	res = ft_strdup("expand");
-	return (res);
+	return (expander(prom, env));
 }
 
 void	ft_write(int fd, char *buffer)
@@ -87,9 +82,9 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f)
 	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
 	fd2 = open(file_name, O_RDONLY);
 	if (unlink(file_name) != 0)
-		return (-1);
+		return (close(fd), close(fd2), -1);
 	if (fd == -1)
-		return (-1);
+		return (close(fd), close(fd2), -1);
 	while (1)
 	{
 		prom = readline("> ");
@@ -136,7 +131,6 @@ t_cmd	*new_cmd_hered(char **val)
 {
 	t_cmd	*ret;
 
-	printf("this is the string %s\n", val[0]);
 	ret = ft_malloc(sizeof(t_cmd));
 	ret->cmd = val;
 	ret->type = COMMAND;
@@ -161,8 +155,7 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 	exit = remove_qoats(arg[0]);
 	if (commnd)
 		commnd->cmd = join_args_adv(commnd->cmd, arg);
-	// else if (arg + 1 && *(arg + 1))
-	else if (arg && *(arg + 1))
+	else if (arg + 1 && *(arg + 1))
 		add_to_cmd(head, new_cmd_hered(arg + 1));
 	fd = get_herdoc_fd(env, exit, qoated);
 	return (fd);

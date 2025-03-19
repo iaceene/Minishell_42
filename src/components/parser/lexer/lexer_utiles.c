@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utiles.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/19 15:56:21 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/14 20:55:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,15 @@ int	operator(char c)
 {
 	return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')');
 }
-
 char	*extract_word(char *s)
 {
 	char	*tmp;
 	int		i;
 	int		len;
 	char	*start;
-	int		in_quotes;
-	char	quote_char;
+	int		in_quotes = 0;
+	char	quote_char = 0;
 
-	in_quotes = 0;
-	quote_char = 0;
 	while (*s == ' ')
 		s++;
 	start = s;

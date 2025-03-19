@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/19 15:59:13 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/14 20:45:22 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ char	*oper_tock(t_node **head, char *s)
 char	*add_command(t_node **head, char *s)
 {
 	char	*command;
-	int		in_quotes;
-	char	quote_char;
+	int		in_quotes = 0;
+	char	quote_char = 0;
 
-	in_quotes = 0;
-	quote_char = 0;
 	while (*s && ft_isspace(*s))
 		s++;
 	if (!*s)

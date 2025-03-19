@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 22:32:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:44:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include "stdbool.h"
+#    define BUFFER_SIZE 5000000
 
 typedef struct s_node
 {
@@ -60,7 +61,7 @@ int			is_inside_quotes(char *str, char *cur);
 char		*extract_word(char *s);
 void		add_to_cmd(t_cmd **head, t_cmd *new);
 t_cmd		*new_cmd(t_node *node);
-char		*expander(t_node *node, t_env *head);
+char		*expander(char *str, t_env *head);
 t_cmd		*data_maker(t_node *head, t_env *env);
 t_expand	*new_expand(t_state state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
