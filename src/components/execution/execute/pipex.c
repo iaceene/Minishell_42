@@ -101,11 +101,11 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	cmd = commands;
 	while (cmd)
 	{
-		if (cmd->type == COMMAND)
-		{
+		// if (cmd->type == COMMAND)
+		// {
 			process_command(cmd, envp, &data, exit_status);
 			data.current_cmd++;
-		}
+		// }
 		cmd = cmd->next;
 	}
 	close_fds(&data);
