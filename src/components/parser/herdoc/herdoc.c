@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 23:41:58 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/19 07:09:24 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 	exit = remove_qoats(arg[0]);
 	if (commnd)
 		commnd->cmd = join_args_adv(commnd->cmd, arg);
-	else if (arg + 1 && *(arg + 1))
+	else if (arg && *(arg + 1))
 		add_to_cmd(head, new_cmd_hered(arg + 1));
 	fd = get_herdoc_fd(env, exit, qoated);
 	return (fd);

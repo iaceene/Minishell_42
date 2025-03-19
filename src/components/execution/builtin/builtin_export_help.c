@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_help.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 06:26:07 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 07:08:41 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static char	*ft_remove_plus_from_key_part(char *old_key_part)
 	char	*new_key_part;
 
 	new_key_part = ft_substr(old_key_part, 0, ft_strlen(old_key_part) - 1);
-	free(old_key_part);
 	return (new_key_part);
 }
 

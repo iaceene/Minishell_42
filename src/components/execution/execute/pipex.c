@@ -12,16 +12,16 @@
 
 #include "../../../../include/execution.h"
 
-void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data)
+void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, int *exit_status)
 {
-	handle_file_redirection(cmd, &data->infile, &data->outfile);
+	handle_file_redirection(cmd, &data->infile, &data->outfile, data);
 	handle_redirection(data);
 	cleanup_child_fds(data);
-	execute_cmd(cmd->s, envp);
-	exit(1);
+	execute_cmd(cmd->s, envp, exit_status);
+	return ;
 }
 
-void	process_command(t_exec *cmd, char **envp, t_pipex_data *data)
+void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, int *exit_status)
 {
 	pid_t	pid;
 
@@ -32,9 +32,9 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data)
 	}
 	pid = fork();
 	if (pid == 0)
-		handle_child_process(cmd, envp, data);
+		handle_child_process(cmd, envp, data, exit_status);
 	else if (pid < 0)
-		error_and_exit("Fork failed", 1); // ??
+		error_and_exit("Fork failed", 1);
 	if (data->prev_pipe_read != -1)
 		close(data->prev_pipe_read);
 	if (data->current_cmd < data->cmd_count - 1)
@@ -57,6 +57,19 @@ void	wait_for_children(int cmd_count, int *exit_status)
 		wait(&status);
 		if (WIFEXITED(status))
 			last_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+			{
+				write(1, "\n", 1);
+				last_status = 130;
+			}
+			else if (WTERMSIG(status) == SIGQUIT)
+			{
+				write(1, "Quit: 3\n", 8);
+				last_status = 131;
+			}
+		}
 		i++;
 	}
 	*exit_status = last_status;
@@ -88,7 +101,7 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	{
 		if (cmd->type == COMMAND)
 		{
-			process_command(cmd, envp, &data);
+			process_command(cmd, envp, &data, exit_status);
 			data.current_cmd++;
 		}
 		cmd = cmd->next;

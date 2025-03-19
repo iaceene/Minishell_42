@@ -33,5 +33,4 @@ void	builtin_pwd(void)
 
 	cwd = ft_get_cwd(NULL, 0);
 	printf("%s\n", cwd);
-	free(cwd);
 }

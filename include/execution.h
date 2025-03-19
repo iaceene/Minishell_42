@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/18 06:38:50 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 09:33:06 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,20 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status);
 void	child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
 void	child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
 //error_handling
-void	ft_free_string(char **str);
+// void	ft_free_string(char **str);
 void	error_and_exit(const char *str, int exite);
 void	close_fd(t_redirect *data);
 //pipex
 void	close_all_pipe(int **pipes, int num_cmd);
-void	free_all_pipe(int **pipes, int i);
+// void	free_all_pipe(int **pipes, int i);
 void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
 //find_command_path
 char	*find_command_path(char *cmd, char **env);
-void	execute_cmd(char **cmd, char **env);
+void	execute_cmd(char **cmd, char **env, int *exit_status);
 void handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);
 int	count_commands(t_exec *cmd);
-void handle_file_redirection(t_exec *cmd, int *infile, int *outfile);
+void	handle_file_redirection(t_exec *cmd, int *infile, int *outfile, t_pipex_data *data);
 
 //*******************buildin****************************
 

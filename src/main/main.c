@@ -66,11 +66,11 @@ char	*get_cnt(int fd)
 
 static void	ft_init(t_tool *tool, char **env, t_data *data)
 {
-	tool->grbg = NULL;
+	// tool->grbg = NULL;
 	tool->env = ft_env_create(env);
 	data->final_env = tool->env;
 	tool->env->a_ven = ft_env_create_2d(tool->env);
-	tool->err = 0;
+	// tool->err = 0;
 	data->exe_state = 0;
 }
 
@@ -88,25 +88,30 @@ void	printing(char **v)
 	}
 }
 
-void	print_final_data(t_cmd *head)
+void print_final_data(t_cmd *head, int *exit)
 {
-	while (head)
-	{
-		if (head->type == COMMAND)
-			printing(head->cmd);
-		else if (head->type == IN_FILE)
-			printf("infile [%s]\n", head->value);
-		else if (head->type == OUT_FILE)
-			printf("outfile [%s]\n", head->value);
-		else if (head->type == APPEND)
-			printf("append [%s]\n", head->value);
-		else if (head->type == HERDOC)
-			printf("herdoc fd [%d] content [%s]\n", head->fd_herdoc, get_cnt(head->fd_herdoc));
-		else if (head->value)
-			printf("%s\n", head->value);
-		head = head->next;
-	}
+	(void)exit;
+    // if (exit)
+        fprintf(stderr, "exit_status---------------%d\n", *exit);
+
+    while (head)
+    {
+        if (head->type == COMMAND)
+            printing(head->cmd);
+        else if (head->type == IN_FILE)
+            printf("infile [%s]\n", head->value);
+        else if (head->type == OUT_FILE)
+            printf("outfile [%s]\n", head->value);
+        else if (head->type == APPEND)
+            printf("append [%s]\n", head->value);
+        else if (head->type == HERDOC)
+            printf("herdoc fd [%d] content [%s]\n", head->fd_herdoc, get_cnt(head->fd_herdoc));
+        else if (head->value)
+            printf("%s\n", head->value);
+        head = head->next;
+    }
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -125,8 +130,8 @@ int	main(int ac, char **av, char **env)
 			ft_puterr(32);
 		else if (parser(&data))
 		{
-			execution(&data.head, &tool.env, &tool.err);
-			print_final_data(data.head);
+			execution(&data.head, &tool.env, &data.exe_state);
+			print_final_data(data.head, &(data.exe_state));
 		}
 		else
 			ft_puterr(14);

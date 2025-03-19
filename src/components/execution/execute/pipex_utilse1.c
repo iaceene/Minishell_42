@@ -52,6 +52,8 @@ int	count_commands(t_exec *cmd)
 
 void	cleanup_child_fds(t_pipex_data *data)
 {
+	if (!data)
+		return ;
 	if (data->infile != -1 && data->infile != STDIN_FILENO)
 		close(data->infile);
 	if (data->outfile != -1 && data->outfile != STDOUT_FILENO)
