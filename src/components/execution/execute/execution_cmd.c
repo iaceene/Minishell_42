@@ -56,7 +56,7 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	}
 	if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)	
 	{
-		*exit_status = 1;
+		*exit_status = 0;
 		return ;
 	}
 	pid = fork();

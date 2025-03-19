@@ -19,11 +19,11 @@ void	clear_terminal(void)
 
 static void	ft_init(t_tool *tool, char **env, t_data *data)
 {
-	tool->grbg = NULL;
+	// tool->grbg = NULL;
 	tool->env = ft_env_create(env);
 	data->final_env = tool->env;
 	tool->env->a_ven = ft_env_create_2d(tool->env);
-	tool->err = 0;
+	// tool->err = 0;
 	data->exe_state = 0;
 }
 
@@ -79,7 +79,7 @@ int	main(int ac, char **av, char **env)
 			ft_puterr(32);
 		else if (parser(&data))
 		{
-			execution(&data.head, &tool.env, &tool.err);
+			execution(&data.head, &tool.env, &data.exe_state);
 			print_final_data(data.head, &data.exe_state);
 		}
 		else

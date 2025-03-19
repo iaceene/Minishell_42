@@ -47,25 +47,6 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, int *exit_sta
 	}
 }
 
-// void	wait_for_children(int cmd_count, int *exit_status)
-// {
-// 	int	status;
-// 	int	last_status;
-// 	int	i;
-
-// 	last_status = 0;
-// 	i = 0;
-// 	while (i < cmd_count)
-// 	{
-// 		wait(&status);
-// 		if (WIFEXITED(status))
-// 			last_status = WEXITSTATUS(status);
-// 		i++;
-// 	}
-// 	*exit_status = last_status;
-// }
-
-
 void	wait_for_children(int cmd_count, int *exit_status)
 {
 	int	status;

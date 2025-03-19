@@ -97,12 +97,13 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 		write(2, args[0], ft_strlen(args[0]));
 		write(2, "\n", 1);
 		*exit_status = 127;
-		exit(1);
+		exit(127);
 	}
 	args[0] = full_path;
 	if (execve(full_path, args, env) == -1)
 	{
 		*exit_status = 126;
 		perror("exec failed\n");
+		exit(126);
 	}
 }

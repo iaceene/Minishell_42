@@ -161,7 +161,8 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 	exit = remove_qoats(arg[0]);
 	if (commnd)
 		commnd->cmd = join_args_adv(commnd->cmd, arg);
-	else if (arg + 1 && *(arg + 1))
+	// else if (arg + 1 && *(arg + 1))
+	else if (arg && *(arg + 1))
 		add_to_cmd(head, new_cmd_hered(arg + 1));
 	fd = get_herdoc_fd(env, exit, qoated);
 	return (fd);

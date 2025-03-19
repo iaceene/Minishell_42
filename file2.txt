@@ -1,0 +1,8 @@
+echo
+file1.txt
+file2.txt
+include
+Makefile
+minishell
+obj
+src

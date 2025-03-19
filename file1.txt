@@ -1,4 +1,6 @@
-fil.txt
+echo
+file1.txt
+file2.txt
 include
 Makefile
 minishell
