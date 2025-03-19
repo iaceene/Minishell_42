@@ -12,7 +12,6 @@
 
 #include "../../../../include/minishell.h"
 
-
 static void	run_child_process(t_env **env, char **cmd_argv, int *exit_status)
 {
 	char	**envp;
@@ -20,7 +19,6 @@ static void	run_child_process(t_env **env, char **cmd_argv, int *exit_status)
 	envp = ft_env_create_2d(*env);
 	execute_cmd(cmd_argv, envp, exit_status);
 	exit(127);
-	// return ;
 }
 
 static int	retrieve_exit_status(int status)
@@ -54,7 +52,7 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 		*exit_status = 1;
 		return (ft_print_err("cmd_argv is NULL\n"));
 	}
-	if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)	
+	if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)
 	{
 		*exit_status = 0;
 		return ;
@@ -71,4 +69,3 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	waitpid(pid, exit_status, 0);
 	*exit_status = retrieve_exit_status(*exit_status);
 }
-

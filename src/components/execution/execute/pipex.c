@@ -12,7 +12,8 @@
 
 #include "../../../../include/execution.h"
 
-void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, int *exit_status)
+void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, \
+	int *exit_status)
 {
 	handle_file_redirection(cmd, &data->infile, &data->outfile, data);
 	handle_redirection(data);
@@ -21,7 +22,8 @@ void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, int *exi
 	exit(1);
 }
 
-void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, int *exit_status)
+void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, \
+	int *exit_status)
 {
 	pid_t	pid;
 
@@ -63,15 +65,9 @@ void	wait_for_children(int cmd_count, int *exit_status)
 		if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGINT)
-			{
-				write(1, "\n", 1);
-				last_status = 130;
-			}
+				(write(1, "\n", 1), last_status = 130);
 			else if (WTERMSIG(status) == SIGQUIT)
-			{
-				write(1, "Quit: 3\n", 8);
-				last_status = 131;
-			}
+				(write(1, "Quit: 3\n", 8), last_status = 131);
 		}
 		i++;
 	}
@@ -94,9 +90,12 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	char			**envp;
 	t_exec			*cmd;
 
-	// cmd = commands;
-	// if (ft_eecute_builtins(&(cmd->value), env, exit_status) == SUCCESS)
-	// 	return ;
+	cmd = commands;
+	if (ft_execute_builtins(&(cmd->value), env, exit_status) == SUCCESS)
+	{
+		*exit_status = 0;
+		return ;
+	}
 	data = (t_pipex_data){-1, -1, {-1, -1}, -1, count_commands(commands), 0};
 	envp = ft_env_create_2d(*env);
 	cmd = commands;

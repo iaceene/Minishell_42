@@ -49,7 +49,8 @@ void	handle_append_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
 	}
 }
 
-void	handle_file_redirection(t_exec *cmd, int *infile, int *outfile, t_pipex_data *data)
+void	handle_file_redirection(t_exec *cmd, int *infile, int *outfile, \
+	t_pipex_data *data)
 {
 	while (cmd)
 	{
