@@ -76,29 +76,33 @@ char	*find_command_path(char *cmd, char **env)
 	if (!path)
 		return (NULL);
 	result = find_executable_in_path(path, cmd);
-	// free(path); // ??
 	return (result);
 }
 
-void	execute_cmd(char **cmd, char **env)
+void	execute_cmd(char **cmd, char **env, int *exit_status)
 {
 	char	**args;
 	char	*full_path;
 
 	args = cmd;
 	if (!env)
+	{
 		write(2, "shell: env is NULL\n", 19);
+		*exit_status = 127;
+	}
 	full_path = find_command_path(args[0], env);
 	if (!full_path)
 	{
 		write(2, "command not found: ", 19);
 		write(2, args[0], ft_strlen(args[0]));
 		write(2, "\n", 1);
+		*exit_status = 127;
 		exit(1);
 	}
 	args[0] = full_path;
-	execve(full_path, args, env);
-	// write(2, "shell: ", 7);
-	// write(2, &full_path, ft_strlen(full_path));
-	perror("exec failed\n");
+	if (execve(full_path, args, env) == -1)
+	{
+		*exit_status = 126;
+		perror("exec failed\n");
+	}
 }

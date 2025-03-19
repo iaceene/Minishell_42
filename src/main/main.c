@@ -41,8 +41,9 @@ void	printing(char **v)
 	}
 }
 
-void	print_final_data(t_cmd *head)
+void	print_final_data(t_cmd *head, int *exit)
 {
+	fprintf(stderr, "exit_status---------------%d\n", *exit);
 	while (head)
 	{
 		if (head->type == COMMAND)
@@ -79,7 +80,7 @@ int	main(int ac, char **av, char **env)
 		else if (parser(&data))
 		{
 			execution(&data.head, &tool.env, &tool.err);
-			print_final_data(data.head);
+			print_final_data(data.head, &data.exe_state);
 		}
 		else
 			ft_puterr(14);

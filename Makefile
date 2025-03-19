@@ -17,7 +17,6 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/builtin/builtin_cd.c \
 		./src/components/execution/builtin/builtin_echo.c \
 		./src/components/execution/builtin/builtin_env.c \
-		./src/components/execution/builtin/builtin_exit.c \
 		./src/components/execution/builtin/builtin_export_help.c \
 		./src/components/execution/builtin/builtin_export_help2.c \
 		./src/components/execution/builtin/builtin_export.c \

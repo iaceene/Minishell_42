@@ -29,8 +29,7 @@ static int	update_env_paths(t_env **env, char *prev_wd, char *new_path)
 	cwd_value = ft_get_cwd(new_path, 1);
 	if (cwd_value)
 	{
-		if (ft_env_update(env, ft_strdup("PWD"), cwd_value, 0) != 0)
-			free(cwd_value);
+		ft_env_update(env, ft_strdup("PWD"), cwd_value, 0);
 	}
 	return (ex_status);
 }
