@@ -6,19 +6,22 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 14:09:48 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 16:00:17 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
+/************************* Forward Declarations *************************/
+
 # include "minishell.h"
+
 # define SUCCESS 0
 # define FAILED 1
-
-# define SPACE ' '
 # define EQUAL '='
+
+/************************* Structures *************************/
 
 typedef struct s_pipe
 {
@@ -26,7 +29,6 @@ typedef struct s_pipe
 	int	end2[2];
 	int	in;
 }	t_pipe;
-
 
 typedef struct s_exec
 {
@@ -42,14 +44,11 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_command
+typedef struct s_gb
 {
-	char	**args;
-	char	*path;
-	char	*input_path;
-	char	*output_path;
-	int		append;
-}	t_command;
+	void		*ptr;
+	struct s_gb	*next;
+}	t_gb;
 
 typedef struct s_redirect
 {
@@ -61,81 +60,20 @@ typedef struct s_redirect
 	int		heredoc;
 }	t_redirect;
 
-typedef struct s_shell
-{
-	char		**env;
-	t_env		**envp;
-	t_command	*commands;
-	t_redirect	*redirect;
-	int			num_cmds;
-	int			last_exit;
-	int			in_pipe;
-}	t_shell;
-
-typedef struct s_gb
-{
-	void		*ptr;
-	struct s_gb	*next;
-}	t_gb;
-
 typedef struct s_tool
 {
-	int		prac;
-	int		quot;
-	int		err;
-	int		anderr;
 	t_env	*env;
-	t_gb	*grbg;
 }	t_tool;
 
 typedef struct s_pipex_data
 {
-	int infile;
-	int outfile;
-	int pipe_fd[2];
-	int prev_pipe_read;
-	int cmd_count;
-	int current_cmd;
-} t_pipex_data;
-
-
-/************************* expander *************************/
-typedef struct s_expander
-{
-	t_list	*head;
-	int		current_quote;
-	int		is_isolated_quote;
-	char	*buffer;
-	char	*buff_env;
-	int		i;
-	int		contains_wildcard;
-	int		has_non_whitespace;
-}	t_expander;
-
-/*****************     Execution      ****************/
-void	execution(t_cmd **head, t_env **env, int *exit_status);
-//*******************execute****************************
-void	execution_cmd(char **cmd, t_env **env, int *exit_status);
-//creat_child
-void	child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
-void	child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
-//error_handling
-void	ft_free_string(char **str);
-void	error_and_exit(const char *str, int exite);
-void	close_fd(t_redirect *data);
-//pipex
-void	close_all_pipe(int **pipes, int num_cmd);
-void	free_all_pipe(int **pipes, int i);
-void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
-//find_command_path
-char	*find_command_path(char *cmd, char **env);
-void	execute_cmd(char **cmd, char **env, int *exit_status);
-void handle_redirection(t_pipex_data *data);
-void	cleanup_child_fds(t_pipex_data *data);
-int	count_commands(t_exec *cmd);
-void handle_file_redirection(t_exec *cmd, int *infile, int *outfile, t_pipex_data *data);
-
-//*******************buildin****************************
+	int	infile;
+	int	outfile;
+	int	pipe_fd[2];
+	int	prev_pipe_read;
+	int	cmd_count;
+	int	current_cmd;
+}	t_pipex_data;
 
 typedef struct s_export
 {
@@ -146,6 +84,28 @@ typedef struct s_export
 	int		is_append;
 	char	*existing_value;
 }	t_export;
+
+/************************* Execution Functions *************************/
+
+void	execution(t_cmd **head, t_env **env, int *exit_status);
+void	execution_cmd(char **cmd, t_env **env, int *exit_status);
+void	child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
+void	child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
+void	ft_free_string(char **str);
+void	error_and_exit(const char *str, int exite);
+void	close_fd(t_redirect *data);
+void	close_all_pipe(int **pipes, int num_cmd);
+void	free_all_pipe(int **pipes, int i);
+void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
+char	*find_command_path(char *cmd, char **env);
+void	execute_cmd(char **cmd, char **env, int *exit_status);
+void	handle_redirection(t_pipex_data *data);
+void	cleanup_child_fds(t_pipex_data *data);
+int		count_commands(t_exec *cmd);
+void	handle_file_redirection(t_exec *cmd, int *infile, int *outfile, \
+	t_pipex_data *data);
+
+/************************* Built-in Functions *************************/
 
 int		builtin_cd(char **arg, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
@@ -158,7 +118,8 @@ void	builtin_pwd(void);
 void	builtin_unset(t_env **env, char **arg, int *exit_status);
 int		ft_execute_builtins(char **arg, t_env **env, int *exit_status);
 
-/************************* env *************************/
+/************************* Environment Functions *************************/
+
 int		ft_env_add(t_env **env, char *key, char *value, int visible);
 void	ft_env_clear(t_env **env);
 char	**ft_env_create_2d(t_env *env);
@@ -170,8 +131,7 @@ char	*ft_env_search(t_env *env, char *key);
 int		ft_env_size(t_env *env);
 int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
 
-/*****************Parser****************/
-// int		parser(t_data *data);
+/************************* List Functions *************************/
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_back(t_list **lst, t_list *new);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 static int	is_valid_env_name(char *name)
 {

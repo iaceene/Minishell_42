@@ -6,11 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 06:26:26 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:10:49 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 void	print_export_error(char *part1, char *part2,
 						int has_equal, int has_append)

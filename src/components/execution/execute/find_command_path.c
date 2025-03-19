@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 static char	*get_path_variable(char **env)
 {

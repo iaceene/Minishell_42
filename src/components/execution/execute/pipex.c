@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, \
 	int *exit_status)

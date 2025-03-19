@@ -9,6 +9,7 @@
 /*   Updated: 2025/01/26 16:51:29 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../../../include/minishell.h"
 
 int	ft_lstsize_head(t_exec *lst)
@@ -56,11 +57,12 @@ t_exec	*copy_cmd_to_exec(t_cmd *cmd)
 }
 
 static void	handle_single_command(t_exec *exec_list, t_env **env, \
-	int *exit_status)
+	int *exit_status, t_pipex_data *data)
 {
 	t_exec	*cmd;
 
 	cmd = exec_list;
+	handle_file_redirection(cmd, &data->infile, &data->outfile, data);
 	while (cmd && cmd->type != COMMAND)
 		cmd = cmd->next;
 	if (cmd)
@@ -69,8 +71,9 @@ static void	handle_single_command(t_exec *exec_list, t_env **env, \
 
 void	execution(t_cmd **head, t_env **env, int *exit_status)
 {
-	int		cmd_count;
-	t_exec	*exec_list;
+	int				cmd_count;
+	t_exec			*exec_list;
+	t_pipex_data	data;
 
 	if (!head || !*head)
 		return ;
@@ -84,7 +87,7 @@ void	execution(t_cmd **head, t_env **env, int *exit_status)
 	if (cmd_count == 0)
 		return ;
 	if (cmd_count == 1)
-		handle_single_command(exec_list, env, exit_status);
+		handle_single_command(exec_list, env, exit_status, &data);
 	else
 		ft_pipex(exec_list, env, exit_status);
 }

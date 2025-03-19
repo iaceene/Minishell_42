@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 00:45:24 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:55:17 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	herdoc_checker(t_node *data)
 {
 	while (data)
 	{
-		if (data->type == HERDOC && !data->next)	
+		if (data->type == HERDOC && !data->next)
 			return (1);
 		if (data->type == HERDOC && data->next && data->next->type != COMMAND)
 			return (1);

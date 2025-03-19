@@ -10,10 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef MINI_SHELL_H
-#define MINI_SHELL_H
-
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <sys/param.h>
 # include <sys/wait.h>
@@ -32,29 +30,30 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+/************************* TokenType Enum *************************/
 
-// final struct
-
-typedef enum {
-	COMMAND,       // Command or argument
-	WORD,            /// for expanding
-	PIPE,       // |
-	APPEND,		// >>
-	HERDOC,		// <<
-	RIGHT_RED,	// >
-	LEFT_RED,	// <
-	SIN_QUOTE,  // '
-	DOB_QUOTE, // "
-	DOLLAR,     // $
-	OPEN_PAR,  // (
-	CLOSE_PAR, // )
+typedef	enum
+{
+	COMMAND,
+	WORD,
+	PIPE,
+	APPEND,
+	HERDOC,
+	RIGHT_RED,
+	LEFT_RED,
+	SIN_QUOTE,
+	DOB_QUOTE,
+	DOLLAR,
+	OPEN_PAR,
+	CLOSE_PAR,
 	IN_FILE,
 	OUT_FILE,
 	SIMPLE_FILE,
-	NIL /// this is NULL node
-} TokenType;
+	NIL
+}	TokenType;
 
-/************************* env struct *************************/
+/************************* env Struct *************************/
+
 typedef struct s_env
 {
 	char			*key;
@@ -64,28 +63,18 @@ typedef struct s_env
 	char			**a_ven;
 }	t_env;
 
-/************************* her_doc struct *************************/
+/************************* her_doc Struct *************************/
+
 typedef struct s_expand_herdoc
 {
 	char	*buffer_env;
 	char	*buffer_exp;
-	int     i;
+	int		i;
 	int		exit_status;
 	t_env	*env;
 }	t_expand_herdoc;
 
-// ********************prompt*************************
-char	*ft_get_cli(char **env);
-void	exit_the_shell(int state);
-char	*ft_join_params(char *user, char *dis);
-char	*prompt(char **env);
-//*****************************signals********************************
-// void	ft_handle_signals(int sig);
-void	ft_init_signals(void);
-void	ft_sighandler(int sig);
-// ****************************herdoc****************************
-char *expand_heredoc_input(char *input, t_env *env, int exit_code);
-void process_here_doc(char *delimiter, int *pipe_fd, t_env *env, int exit_code);
+/************************* cmd Struct *************************/
 
 typedef struct s_cmd
 {
@@ -97,6 +86,8 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+/************************* data Struct *************************/
+
 typedef struct s_data
 {
 	char	**env;
@@ -106,10 +97,30 @@ typedef struct s_data
 	char	*prompt;
 }	t_data;
 
-/*****************Parser****************/
+/************************* Prompt Functions *************************/
+
+char	*ft_get_cli(char **env);
+void	exit_the_shell(int state);
+char	*ft_join_params(char *user, char *dis);
+char	*prompt(char **env);
+
+/************************* Signal Functions *************************/
+
+void	ft_init_signals(void);
+void	ft_sighandler(int sig);
+
+/************************* Heredoc Functions *************************/
+
+char	*expand_heredoc_input(char *input, t_env *env, int exit_code);
+void	process_here_doc(char *delimiter, int *pipe_fd, t_env *env, \
+	int exit_code);
+
+/************************* Parser Function *************************/
+
 int		parser(t_data *data);
 
-// ***********************lib***************************
+/************************* Lib Functions *************************/
+
 void	*ft_malloc(ssize_t len);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
@@ -136,7 +147,7 @@ void	ft_print_err(char *s);
 void	ft_puterr(int state);
 int		exitstatus(int newstatus, int flag);
 
-#include "execution.h"
-#include "parser.h"
+# include "execution.h"
+# include "parser.h"
 
 #endif

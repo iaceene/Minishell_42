@@ -6,11 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 14:09:17 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 void	handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
 {

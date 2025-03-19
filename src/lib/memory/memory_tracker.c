@@ -14,10 +14,10 @@
 
 void	ft_free(t_gb **head)
 {
-	t_gb *tmp;
+	t_gb	*tmp;
 
 	if (!head)
-		return;
+		return ;
 	while (*head)
 	{
 		tmp = (*head)->next;
@@ -30,29 +30,29 @@ void	ft_free(t_gb **head)
 
 t_gb	*ft_new_addr(void *add)
 {
-	t_gb *ret;
+	t_gb	*ret;
 
 	ret = malloc(sizeof(t_gb));
 	if (!ret)
-		return NULL;
+		return (NULL);
 	ret->ptr = add;
 	ret->next = NULL;
-	return ret;
+	return (ret);
 }
 
 t_gb	*ft_last_addr(t_gb *head)
 {
 	while (head && head->next)
 		head = head->next;
-	return head;
+	return (head);
 }
 
 void	ft_add_new(t_gb **head, t_gb *new)
 {
-	t_gb *last;
+	t_gb	*last;
 
 	if (!head || !new)
-		return;
+		return ;
 	if (!*head)
 		*head = new;
 	else
@@ -71,7 +71,7 @@ void	*ft_malloc(ssize_t len)
 	if (len < 0)
 	{
 		ft_free(&head);
-		return NULL;
+		return (NULL);
 	}
 	ptr = malloc(len);
 	if (!ptr)
@@ -87,5 +87,5 @@ void	*ft_malloc(ssize_t len)
 		exit(1);
 	}
 	ft_add_new(&head, new_node);
-	return ptr;
+	return (ptr);
 }

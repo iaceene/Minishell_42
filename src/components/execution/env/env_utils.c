@@ -6,11 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:17:32 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 06:38:52 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:06 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 int	ft_env_update(t_env **env, char *key, char *newval, int append_mod)
 {

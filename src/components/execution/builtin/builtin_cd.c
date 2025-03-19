@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 static int	update_env_paths(t_env **env, char *prev_wd, char *new_path)
 {

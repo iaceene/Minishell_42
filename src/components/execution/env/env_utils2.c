@@ -6,11 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:18:58 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/15 06:45:07 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:11 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/execution.h"
+#include "../../../../include/minishell.h"
 
 static int	ft_env_count(t_env *env)
 {

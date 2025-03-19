@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 00:47:16 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:55:03 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,3 @@ int	others_checker(t_node *data)
 		return (0);
 	return (1);
 }
-

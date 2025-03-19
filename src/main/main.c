@@ -19,18 +19,17 @@ void	clear_terminal(void)
 
 static void	ft_init(t_tool *tool, char **env, t_data *data)
 {
-	// tool->grbg = NULL;
 	tool->env = ft_env_create(env);
 	data->final_env = tool->env;
 	tool->env->a_ven = ft_env_create_2d(tool->env);
-	// tool->err = 0;
 	data->exe_state = 0;
 }
 
 void	printing(char **v)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (v[i])
 	{
 		if (i == 0)
