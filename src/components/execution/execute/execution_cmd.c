@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 14:07:47 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/20 20:45:40 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	if (ft_execute_builtins(cmd_argv, env, exit_status) == SUCCESS)
 	{
 		*exit_status = 0;
+		write(1, "h\n", 2);
+
 		return ;
 	}
 	pid = fork();

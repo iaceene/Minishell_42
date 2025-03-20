@@ -12,23 +12,27 @@
 
 #include "../../../../include/minishell.h"
 
-int	ft_execute_builtins(char **arg, t_env **env, int *exit_status)
+int ft_execute_builtins(char **arg, t_env **env, int *exit_status)
 {
 	if (!arg || !(*arg))
 		return (*exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])) && \
-	ft_strlen(arg[0]) == ft_strlen("env"))
+	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])) &&
+		ft_strlen(arg[0]) == ft_strlen("env"))
 		return (builtin_env(*env, arg, exit_status), SUCCESS);
-	else if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
+	else if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])) &&
+		ft_strlen(arg[0]) == ft_strlen("echo"))
 		return (builtin_echo(arg), *exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
+	else if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])) &&
+		ft_strlen(arg[0]) == ft_strlen("cd"))
 		return (builtin_cd(arg, env, exit_status), SUCCESS);
-	else if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
+	else if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])) &&
+		ft_strlen(arg[0]) == ft_strlen("export"))
 		return (builtin_export(env, arg, exit_status), SUCCESS);
-	else if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
+	else if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])) &&
+		ft_strlen(arg[0]) == ft_strlen("pwd"))
 		return (builtin_pwd(), *exit_status = 0, SUCCESS);
-	else if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
+	else if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])) &&
+		ft_strlen(arg[0]) == ft_strlen("unset"))
 		return (builtin_unset(env, arg, exit_status), SUCCESS);
-	else
-		return (FAILED);
+	return (FAILED);
 }

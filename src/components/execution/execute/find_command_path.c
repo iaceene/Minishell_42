@@ -103,7 +103,7 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 	if (execve(full_path, args, env) == -1)
 	{
 		*exit_status = 126;
-		perror("exec failed\n");
+		perror("");
 		exit(126);
 	}
 }
