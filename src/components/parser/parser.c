@@ -181,7 +181,7 @@ int	parser(t_data *data)
 		return (0);
 	if (syntax_checker(tock_data) == -1)
 		return (0);
-	data->head = data_maker(tock_data, data->final_env);
+	data->head = data_maker(tock_data, data->final_env, data->exe_state);
 	if (!data->head)
 		return (0);
 	data->head = final_data(data->head, data->final_env);

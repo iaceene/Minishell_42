@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 23:39:48 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:42:40 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	add_to_cmd(t_cmd **head, t_cmd *new)
 	}
 }
 
-t_cmd	*data_maker(t_node *head, t_env *env)
+t_cmd	*data_maker(t_node *head, t_env *env, int exit)
 {
 	t_cmd	*cmd;
 
@@ -63,7 +63,7 @@ t_cmd	*data_maker(t_node *head, t_env *env)
 	{
 		if (head->type == COMMAND)
 		{
-			head->value = expander(head->value, env);
+			head->value = expander(head->value, env, exit);
 			add_to_cmd(&cmd, new_cmd(head));
 		}
 		else if (head->type == HERDOC)

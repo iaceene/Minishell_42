@@ -6,13 +6,13 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 23:40:22 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:41:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char	*handle_quotes(char *input, t_env *env)
+char	*handle_quotes(char *input, t_env *env, int exit)
 {
 	t_expand	*head;
 	t_state		state;
@@ -28,10 +28,10 @@ char	*handle_quotes(char *input, t_env *env)
 		else
 			handle_normal_text(&input, &head, state);
 	}
-	return (expand_and_join(head, env));
+	return (expand_and_join(head, env, exit));
 }
 
-char	*expand_and_join(t_expand *head, t_env *env)
+char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 {
 	char	*buffer;
 	char	*tmp;
@@ -40,7 +40,7 @@ char	*expand_and_join(t_expand *head, t_env *env)
 	while (head)
 	{
 		if (head->state != IN_SQUOTE && find_it(head->val, '$'))
-			tmp = expand_this(head->val, env);
+			tmp = expand_this(head->val, env, ex_status);
 		else
 			tmp = ft_strdup(head->val);
 		buffer = ft_strjoin(buffer, tmp);
@@ -49,7 +49,7 @@ char	*expand_and_join(t_expand *head, t_env *env)
 	return (buffer);
 }
 
-char	*expander(char *str, t_env *env)
+char	*expander(char *str, t_env *env, int exit)
 {
 	char	*expanded;
 
@@ -57,7 +57,7 @@ char	*expander(char *str, t_env *env)
 		&& !find_it(str, '\'')
 		&& !find_it(str, '"'))
 		return (str);
-	expanded = handle_quotes(str, env);
+	expanded = handle_quotes(str, env, exit);
 	return (expanded);
 }
 
