@@ -1,8 +1,0 @@
-fil1.txt
-iko
-include
-Makefile
-minishell
-obj
-oli.txt
-src

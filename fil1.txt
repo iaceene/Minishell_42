@@ -1,6 +1,0 @@
-fil1.txt
-include
-Makefile
-minishell
-obj
-src
