@@ -21,6 +21,7 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 	if (typ == COMMAND)
 	{
 		new->cmd = ft_split(val, ' ');
+		set_empty_str(new->cmd);
 		set_zero_space(new->cmd);
 	}
 	new->type = typ;
@@ -72,6 +73,7 @@ char	**join_args_adv(char **s1, char **s2)
 	tmp = ft_strjoin(join_arg_two(s1), join_args(s2));
 	ret = ft_split(tmp, ' ');
 	set_zero_space(ret);
+	set_empty_str(ret);
 	return (ret);
 }
 

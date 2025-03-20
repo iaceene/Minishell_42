@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:29:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/19 19:48:32 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:23:35 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,27 @@ void	set_zero_space(char **s)
 		{
 			if (s[i][j] == -1)
 				s[i][j] = ' ';
+			j++;
+		}
+		i++;
+	}
+}
+
+void	set_empty_str(char **s)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		j = 0;
+		while (s[i][j])
+		{
+			if (s[i][j] == -2)
+				s[i][j] = '\0';
 			j++;
 		}
 		i++;

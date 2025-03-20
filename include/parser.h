@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/19 19:44:04 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:23:49 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void		set_space_zero(char *tmp);
 void		set_zero_space(char **s);
 void		set_space_zero_qoats(char *tmp);
 t_cmd		*get_last_cmd(t_cmd *head);
+void		set_empty_str(char **s);
 char		**join_args_adv(char **s1, char **s2);
 int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);

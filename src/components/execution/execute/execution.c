@@ -44,7 +44,7 @@ t_exec *copy_cmd_to_exec(t_cmd *cmd)
 		new_node->value = ft_strdup(cmd->value);
 		new_node->s = cmd->cmd;
 		if (!new_node->value)
-			return (NULL);
+			return (perror("permission denied"), NULL);
 		new_node->next = NULL;
 		if (new_exec == NULL)
 			new_exec = new_node;
@@ -84,10 +84,7 @@ void execution(t_cmd **head, t_env **env, int *exit_status)
 		return;
 	exec_list = copy_cmd_to_exec(*head);
 	if (!exec_list)
-	{
-		perror("Error: Failed to copy command list");
-		return;
-	}
+		return ;
 	cmd_count = ft_lstsize_head(exec_list);
 	if (cmd_count == 0)
 		return;

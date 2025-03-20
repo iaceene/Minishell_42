@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 20:11:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:41:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,36 @@ void	handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
 {
 	if (*infile != -1)
 		close(*infile);
-	*infile = open(cmd->value, O_RDONLY);
-	if (*infile < 0)
+	(void)data;
+	if (access(cmd->value, R_OK) !=  0)
 	{
-		printf("ds\n");
-		cleanup_child_fds(data);
-		perror("No such file or directory: ");
+		perror(cmd->value);
+		// cleanup_child_fds(data); // zidha
 		return ;
 	}
+	*infile = open(cmd->value, O_RDONLY);
 }
 
 void	handle_output_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
 {
-	if (*outfile != -1)
-		close(*outfile);
+	(void)data;
 	*outfile = open(cmd->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*outfile < 0)
 	{
-		cleanup_child_fds(data);
+		perror(cmd->value);
+		cleanup_child_fds(data); // zifdha
 		// error_and_exit("Failed to open output file", 1);
 	}
 }
 
 void	handle_append_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
 {
-	if (*outfile != -1)
-		close(*outfile);
 	*outfile = open(cmd->value, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (*outfile < 0)
 	{
-		cleanup_child_fds(data);
+		perror("");
 		error_and_exit("Failed to open output file for append", 1);
+		cleanup_child_fds(data);
 	}
 }
 

@@ -14,8 +14,8 @@
 
 void	exit_the_shell(int state)
 {
-	if (state == 3)
-		perror("\nreadline fails ");
+	if (state == 4)
+		perror("");
 	ft_malloc(-1);
 	ft_puterr(state);
 	exit(state);
@@ -43,9 +43,12 @@ char	*prompt(char **env)
 
 	if (i == 0)
 		cli = ft_get_cli(env);
+	rl_instream = stdin;
+	if (!isatty(STDIN_FILENO))
+		exit_the_shell(3);
  	s = readline(cli);
 	if (!s)
-		exit_the_shell(3);
+		exit_the_shell(0);
 	if (ft_strncmp(s, "exit", 4) == 0 && ft_strlen(s) == 4)
 		exit_the_shell(0);
 	i++;

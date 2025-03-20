@@ -12,6 +12,15 @@
 
 #include "../../include/minishell.h"
 
+char	*empty_str(void)
+{
+	char	s[2];
+
+	s[0] = -2;
+	s[1] = '\0';
+	return (ft_strdup(s));
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*ptr;
@@ -20,12 +29,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
+		return (empty_str());
+	if (start == len)
+		return (empty_str());
 	if (len > ft_strlen(s) - start)
 		len = ft_strlen(s) - start;
 	ptr = ft_malloc(sizeof(char) * (len + 1));
-	if (!ptr)
-		return (NULL);
 	i = 0;
 	while (i < len)
 	{
