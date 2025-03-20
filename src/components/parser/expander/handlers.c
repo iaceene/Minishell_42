@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:29:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 01:23:35 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 03:11:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,23 +119,39 @@ void	set_zero_space(char **s)
 	}
 }
 
-void	set_empty_str(char **s)
+void replace_character(char *s, int re)
 {
-	int i;
-	int	j;
+    int i;
+	int j;
 
 	i = 0;
+	j = 0;
+    while (s[i])
+    {
+        if (s[i] != re)
+            s[j++] = s[i];
+        i++;
+    }
+    s[j] = '\0';
+}
+
+void	set_empty_str(char **s)
+{
+	int		i;
+	int		j;
+	bool	f;
+
 	if (!s)
 		return ;
-	while (s[i])
+	f = (*s && ft_strlen(*s) > 1);
+	i = -1;
+	while (s[++i])
 	{
-		j = 0;
-		while (s[i][j])
-		{
-			if (s[i][j] == -2)
+		j = -1;
+		while (s[i][++j])
+			if (s[i][j] == -2 && !f)
 				s[i][j] = '\0';
-			j++;
-		}
-		i++;
+		if (f)
+			replace_character(s[i], -2);
 	}
 }
