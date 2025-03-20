@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:25:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/11 23:26:57 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:25:15 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,25 @@ char	*extract_name(char *str)
 	}
 	ret[i] = '\0';
 	return (ret);
+}
+
+void	set_empty_str(char **s)
+{
+	int		i;
+	int		j;
+	bool	f;
+
+	if (!s)
+		return ;
+	f = (*s && ft_strlen(*s) > 1);
+	i = -1;
+	while (s[++i])
+	{
+		j = -1;
+		while (s[i][++j])
+			if (s[i][j] == -2 && !f)
+				s[i][j] = '\0';
+		if (f)
+			replace_character(s[i], -2);
+	}
 }

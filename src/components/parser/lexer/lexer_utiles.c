@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/14 20:55:41 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:05:23 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,42 +66,24 @@ int	operator(char c)
 {
 	return (c == '<' || c == '>' || c == '|' || c == '(' || c == ')');
 }
+
 char	*extract_word(char *s)
 {
 	char	*tmp;
-	int		i;
 	int		len;
 	char	*start;
-	int		in_quotes = 0;
-	char	quote_char = 0;
+	int		in_quotes;
+	char	quote_char;
 
-	while (*s == ' ')
-		s++;
+	in_quotes = 0;
+	quote_char = 0;
+	s = skip_spaces(s);
 	start = s;
-	len = 0;
-	while (*s && (in_quotes || !operator(*s)))
-	{
-		if ((*s == '\'' || *s == '"') && !in_quotes)
-		{
-			in_quotes = 1;
-			quote_char = *s;
-		}
-		else if (*s == quote_char && in_quotes)
-		{
-			in_quotes = 0;
-			quote_char = 0;
-		}
-		s++;
-		len++;
-	}
+	len = calculate_word_length(s, &in_quotes, &quote_char);
 	tmp = ft_malloc(len + 1);
-	i = 0;
-	while (i < len)
-	{
-		tmp[i] = start[i];
-		i++;
-	}
-	tmp[len] = '\0';
+	if (!tmp)
+		return (NULL);
+	copy_word(tmp, start, len);
 	while (len > 0 && tmp[len - 1] == ' ')
 		tmp[--len] = '\0';
 	return (tmp);

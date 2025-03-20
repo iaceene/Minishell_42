@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 01:42:40 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:16:59 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,23 @@ t_cmd	*data_maker(t_node *head, t_env *env, int exit)
 		head = head->next;
 	}
 	return (cmd);
+}
+
+char	*handle_qoa_cmd(char *s, int *in_quotes, char *quote_char)
+{
+	while (*s && (*in_quotes || !operator(*s)))
+	{
+		if ((*s == '\'' || *s == '"') && !(*in_quotes))
+		{
+			*in_quotes = 1;
+			*quote_char = *s;
+		}
+		else if (*s == *quote_char && *in_quotes)
+		{
+			*in_quotes = 0;
+			*quote_char = 0;
+		}
+		s++;
+	}
+	return (s);
 }

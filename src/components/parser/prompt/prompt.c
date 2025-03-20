@@ -44,9 +44,9 @@ char	*prompt(char **env)
 	if (i == 0)
 		cli = ft_get_cli(env);
 	rl_instream = stdin;
-	// if (!isatty(STDIN_FILENO))
-	// 	exit_the_shell(3);
- 	s = readline(cli);
+	if (!isatty(STDIN_FILENO))
+		exit_the_shell(3);
+	s = readline(cli);
 	if (!s)
 		exit_the_shell(0);
 	if (ft_strncmp(s, "exit", 4) == 0 && ft_strlen(s) == 4)

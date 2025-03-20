@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:15:38 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 03:17:02 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:27:40 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,13 @@ bool	will_expanded(char *s)
 	return (true);
 }
 
-char	*expand_heredoc(char *prom, t_env *env, bool f, int exit)
-{
-	if (!prom || !f)
-		return (prom);
-	return (expander(prom, env, exit));
-}
-
 void	ft_write(int fd, char *buffer)
 {
 	int			i;
-	static	int k;
+	static int	k;
 
 	if (!buffer || fd == -1)
-		return;
+		return ;
 	i = 0;
 	if (k != 0)
 		write(fd, "\n", 1);
@@ -44,14 +37,14 @@ void	ft_write(int fd, char *buffer)
 	k++;
 }
 
-char	*generate_file(void)
+char	*generate_random_name(void)
 {
 	char			*name;
 	int				fd;
 	unsigned char	*tmp;
 	int				i;
 
-	i  = 0;
+	i = 0;
 	fd = open("/dev/random", 0);
 	if (fd == -1)
 		return (NULL);
@@ -62,35 +55,44 @@ char	*generate_file(void)
 	while (i < 20)
 	{
 		tmp[i] = (tmp[i] % 26) + 'A';
-		i++;	
+		i++;
 	}
 	tmp[i] = '\0';
 	name = ft_strjoin("/tmp/", ft_strjoin(".", (char *)tmp));
 	return (name);
 }
 
+int	open_heredoc_file(char *file_name, int *fd2)
+{
+	int	fd;
+
+	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
+	*fd2 = open(file_name, O_RDONLY);
+	if (unlink(file_name) != 0)
+		return (close(fd), close(*fd2), -1);
+	if (fd == -1)
+		return (close(fd), close(*fd2), -1);
+	return (fd);
+}
+
 int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 {
-	char		*prom;
-	char		*file_name;
-	int 		fd;
-	int			fd2;
+	char	*prom;
+	char	*file_name;
+	int		fd;
+	int		fd2;
 
-	file_name = generate_file();
+	file_name = generate_random_name();
 	if (!file_name)
 		return (-1);
-	fd = open(file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
-	fd2 = open(file_name, O_RDONLY);
-	if (unlink(file_name) != 0)
-		return (close(fd), close(fd2), -1);
+	fd = open_heredoc_file(file_name, &fd2);
 	if (fd == -1)
-		return (close(fd), close(fd2), -1);
+		return (-1);
 	while (1)
 	{
 		prom = readline("> ");
-		if (!prom ||
-			(prom && !ft_strncmp(prom, exit, ft_strlen(prom))
-			&& ft_strlen(prom) == ft_strlen(exit)))
+		if (!prom || (prom && !ft_strncmp(prom, exit, ft_strlen(prom))
+				&& ft_strlen(prom) == ft_strlen(exit)))
 			break ;
 		ft_write(fd, expand_heredoc(prom, env, f, ex_s));
 	}

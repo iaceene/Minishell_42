@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/17 21:13:15 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:16:23 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,24 @@ int	check_append(t_node *data)
 		data = data->next;
 	}
 	return (0);
+}
+
+char	*skip_spaces(char *s)
+{
+	while (*s && ft_isspace(*s))
+		s++;
+	return (s);
+}
+
+void	copy_word(char *dst, char *src, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[len] = '\0';
 }

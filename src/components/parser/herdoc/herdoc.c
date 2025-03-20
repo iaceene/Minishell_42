@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 03:18:01 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:25:01 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit, int ex)
 	bool	qoated;
 	char	**arg;
 
-	fd  = -1;
+	fd = -1;
 	qoated = will_expanded(exit);
 	set_space_zero_qoats(exit);
 	arg = ft_split(exit, ' ');

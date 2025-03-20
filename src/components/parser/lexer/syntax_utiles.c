@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/18 00:47:16 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:06:17 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,25 @@ int	others_checker(t_node *data)
 	return (1);
 }
 
+int	calculate_word_length(char *s, int *in_quotes, char *quote_char)
+{
+	int	len;
+
+	len = 0;
+	while (*s && (*in_quotes || !operator(*s)))
+	{
+		if ((*s == '\'' || *s == '"') && !(*in_quotes))
+		{
+			*in_quotes = 1;
+			*quote_char = *s;
+		}
+		else if (*s == *quote_char && *in_quotes)
+		{
+			*in_quotes = 0;
+			*quote_char = 0;
+		}
+		s++;
+		len++;
+	}
+	return (len);
+}

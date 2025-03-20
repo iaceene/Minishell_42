@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/14 20:45:22 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:15:26 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,29 +54,19 @@ char	*oper_tock(t_node **head, char *s)
 char	*add_command(t_node **head, char *s)
 {
 	char	*command;
-	int		in_quotes = 0;
-	char	quote_char = 0;
+	int		in_quotes;
+	char	quote_char;
 
-	while (*s && ft_isspace(*s))
-		s++;
+	in_quotes = 0;
+	quote_char = 0;
+	s = skip_spaces(s);
 	if (!*s)
 		return (NULL);
 	command = extract_word(s);
+	if (!command)
+		return (NULL);
 	add_to_list(head, add_new_node(COMMAND, command));
-	while (*s && (in_quotes || !operator(*s)))
-	{
-		if ((*s == '\'' || *s == '"') && !in_quotes)
-		{
-			in_quotes = 1;
-			quote_char = *s;
-		}
-		else if (*s == quote_char && in_quotes)
-		{
-			in_quotes = 0;
-			quote_char = 0;
-		}
-		s++;
-	}
+	s = handle_qoa_cmd(s, &in_quotes, &quote_char);
 	return (s);
 }
 

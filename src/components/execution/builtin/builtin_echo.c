@@ -35,6 +35,7 @@ void	builtin_echo(char **arg)
 
 	flag_n = 1;
 	i = 1;
+	printf("hi\n");
 	while (arg[i] && check_falg(arg[i]))
 	{
 		flag_n = 0;
