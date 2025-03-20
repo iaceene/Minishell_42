@@ -15,9 +15,11 @@
 void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, \
 	int *exit_status)
 {
+	// if (handle_file_redirection(cmd, &data->infile, &data->outfile, data) == -1)
+	// 	return ;
 	// handle_file_redirection(cmd, &data->infile, &data->outfile, data);
 	handle_redirection(data);
-	// cleanup_child_fds(data);
+	cleanup_child_fds(data);
 	execute_cmd(cmd->s, envp, exit_status);
 	exit(1);
 }
