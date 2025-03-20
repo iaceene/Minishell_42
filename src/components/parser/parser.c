@@ -130,7 +130,7 @@ void	handle_infile(t_cmd **head, char *val, t_cmd *prv)
 	}
 }
 
-t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
+t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head, int ex)
 {
 	t_cmd	*new;
 
@@ -138,11 +138,11 @@ t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
 	new->next = NULL;
 	new->type = HERDOC;
 	new->value = val;
-	new->fd_herdoc = herdoc(env, get_last_cmd(*head), head, val);
+	new->fd_herdoc = herdoc(env, get_last_cmd(*head), head, val, ex);
 	return (new);
 }
 
-t_cmd	*final_data(t_cmd *head, t_env *env)
+t_cmd	*final_data(t_cmd *head, t_env *env, int ex)
 {
 	t_cmd	*new;
 	t_cmd	*prv;
@@ -160,7 +160,7 @@ t_cmd	*final_data(t_cmd *head, t_env *env)
 		else if (head->next && head->type == LEFT_RED)
 			handle_infile(&new, head->next->value, prv);
 		else if (head->type == HERDOC)
-			add_to_cmd(&new, new_herdoc(head->value, env, &new));
+			add_to_cmd(&new, new_herdoc(head->value, env, &new, ex));
 		if (head->next && (head->type == RIGHT_RED || head->type == APPEND
 				|| head->type == LEFT_RED))
 			head = head->next;
@@ -184,6 +184,6 @@ int	parser(t_data *data)
 	data->head = data_maker(tock_data, data->final_env, data->exe_state);
 	if (!data->head)
 		return (0);
-	data->head = final_data(data->head, data->final_env);
+	data->head = final_data(data->head, data->final_env, data->exe_state);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 01:44:02 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:50:26 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ bool	will_expanded(char *s)
 	return (true);
 }
 
-char	*expand_heredoc(char *prom, t_env *env, bool f)
+char	*expand_heredoc(char *prom, t_env *env, bool f, int exit)
 {
 	if (!prom || !f)
 		return (prom);
-	return (expander(prom, env, 2));
+	return (expander(prom, env, exit));
 }
 
 void	ft_write(int fd, char *buffer)
@@ -69,7 +69,7 @@ char	*generate_file(void)
 	return (name);
 }
 
-int	get_herdoc_fd(t_env *env, char *exit, bool f)
+int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 {
 	char		*prom;
 	char		*file_name;
@@ -92,7 +92,7 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f)
 			(prom && !ft_strncmp(prom, exit, ft_strlen(prom))
 			&& ft_strlen(prom) == ft_strlen(exit)))
 			break ;
-		ft_write(fd, expand_heredoc(prom, env, f));
+		ft_write(fd, expand_heredoc(prom, env, f, ex_s));
 	}
 	close(fd);
 	return (fd2);
@@ -139,7 +139,7 @@ t_cmd	*new_cmd_hered(char **val)
 	return (ret);
 }
 
-int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
+int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit, int ex)
 {
 	int		fd;
 	bool	qoated;
@@ -157,6 +157,6 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 		commnd->cmd = join_args_adv(commnd->cmd, arg);
 	else if (arg + 1 && *(arg + 1))
 		add_to_cmd(head, new_cmd_hered(arg + 1));
-	fd = get_herdoc_fd(env, exit, qoated);
+	fd = get_herdoc_fd(env, exit, qoated, ex);
 	return (fd);
 }
