@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 14:07:47 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/19 16:42:45 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 		exit(1);
 	}
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		run_child_process(env, cmd_argv, exit_status);
+	}
 	waitpid(pid, exit_status, 0);
 	*exit_status = retrieve_exit_status(*exit_status);
 }

@@ -34,11 +34,7 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, \
 	}
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
 		handle_child_process(cmd, envp, data, exit_status);
-	}
 	else if (pid < 0)
 	{
 		perror(":");

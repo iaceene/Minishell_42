@@ -34,7 +34,11 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, \
 	}
 	pid = fork();
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		handle_child_process(cmd, envp, data, exit_status);
+	}
 	else if (pid < 0)
 	{
 		perror(":");
@@ -101,11 +105,11 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	cmd = commands;
 	while (cmd)
 	{
-		// if (cmd->type == COMMAND)
-		// {
+		if (cmd->type == COMMAND)
+		{
 			process_command(cmd, envp, &data, exit_status);
 			data.current_cmd++;
-		// }
+		}
 		cmd = cmd->next;
 	}
 	close_fds(&data);
