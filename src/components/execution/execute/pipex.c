@@ -99,8 +99,8 @@ void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
 	data = (t_pipex_data){-1, -1, {-1, -1}, -1, count_commands(commands), 0};
 	envp = ft_env_create_2d(*env);
 	cmd = commands;
-	handle_file_redirection(cmd, &data.infile, &data.outfile, &data);
-
+	if (handle_file_redirection(cmd, &data.infile, &data.outfile, &data) == -1)
+		return ;
 	while (cmd)
 	{
 		if (cmd->type == COMMAND)

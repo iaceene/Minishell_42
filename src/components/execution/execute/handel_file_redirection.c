@@ -12,7 +12,7 @@
 
 #include "../../../../include/minishell.h"
 
-void	handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
+int handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
 {
 	if (*infile != -1)
 		close(*infile);
@@ -20,25 +20,27 @@ void	handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
 	if (*infile < 0)
 	{
 		cleanup_child_fds(data);
-		perror("No such file or directory: ");
-		return ;
-		// error_and_exit("Failed to open input file", 1);
+		perror(cmd->value);
+		return (0);
 	}
+	return (0);
 }
 
-void	handle_output_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
+int handle_output_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
 {
 	if (*outfile != -1)
 		close(*outfile);
 	*outfile = open(cmd->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*outfile < 0)
 	{
+		perror(cmd->value);
 		cleanup_child_fds(data);
-		error_and_exit("Failed to open output file", 1);
+		return (-1);
 	}
+	return (0);
 }
 
-void	handle_append_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
+int handle_append_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
 {
 	if (*outfile != -1)
 		close(*outfile);
@@ -46,24 +48,36 @@ void	handle_append_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
 	if (*outfile < 0)
 	{
 		cleanup_child_fds(data);
-		error_and_exit("Failed to open output file for append", 1);
+		perror(cmd->value);
+		return (-1);
 	}
+	return (0);
 }
 
-void	handle_file_redirection(t_exec *cmd, int *infile, int *outfile, \
-	t_pipex_data *data)
+int handle_file_redirection(t_exec *cmd, int *infile, int *outfile,
+							t_pipex_data *data)
 {
 	while (cmd)
 	{
 		if (cmd->type != COMMAND)
 		{
 			if (cmd->type == IN_FILE)
-				handle_input_redirection(cmd, infile, data);
+			{
+				if (handle_input_redirection(cmd, infile, data) == -1)
+					return (-1);
+			}
 			else if (cmd->type == OUT_FILE)
-				handle_output_redirection(cmd, outfile, data);
+			{
+				if (handle_output_redirection(cmd, outfile, data) == -1)
+					return (-1);
+			}
 			else if (cmd->type == APPEND)
-				handle_append_redirection(cmd, outfile, data);
+			{
+				if (handle_append_redirection(cmd, outfile, data) == -1)
+					return (-1);
+			}
 		}
 		cmd = cmd->next;
 	}
+	return (0);
 }

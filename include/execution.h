@@ -102,7 +102,7 @@ void	execute_cmd(char **cmd, char **env, int *exit_status);
 void	handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);
 int		count_commands(t_exec *cmd);
-void	handle_file_redirection(t_exec *cmd, int *infile, int *outfile, \
+int		handle_file_redirection(t_exec *cmd, int *infile, int *outfile, \
 	t_pipex_data *data);
 
 /************************* Built-in Functions *************************/
