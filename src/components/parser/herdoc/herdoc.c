@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:25:01 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:39:33 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmd	*new_cmd_hered(char **val)
 	return (ret);
 }
 
-int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit, int ex)
+int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 {
 	int		fd;
 	bool	qoated;
@@ -71,6 +71,6 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit, int ex)
 		commnd->cmd = join_args_adv(commnd->cmd, arg);
 	else if (arg && *(arg + 1))
 		add_to_cmd(head, new_cmd_hered(arg + 1));
-	fd = get_herdoc_fd(env, exit, qoated, ex);
+	fd = get_herdoc_fd(env, exit, qoated, env->data->exe_state);
 	return (fd);
 }
