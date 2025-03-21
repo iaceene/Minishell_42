@@ -116,6 +116,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, ft_sighandler);
 	ft_init(&tool, env, &data);
+	data.final_env->data = &data;
 	while (1)
 	{
 		data.prompt = prompt(env);

@@ -57,6 +57,7 @@ typedef	enum
 typedef struct s_env
 {
 	char			*key;
+	struct	s_data	*data;
 	char			*value;
 	struct s_env	*next;
 	int				visible;
@@ -65,14 +66,6 @@ typedef struct s_env
 
 /************************* her_doc Struct *************************/
 
-typedef struct s_expand_herdoc
-{
-	char	*buffer_env;
-	char	*buffer_exp;
-	int		i;
-	int		exit_status;
-	t_env	*env;
-}	t_expand_herdoc;
 
 /************************* cmd Struct *************************/
 

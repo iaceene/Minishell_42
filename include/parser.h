@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:27:18 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:44:31 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ char		**join_args_adv(char **s1, char **s2);
 bool		will_expanded(char *s);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 void		ft_write(int fd, char *buffer);
-char		*generate_file(void);
 void		replace_character(char *s, int re);
 t_cmd		*new_cmd_val(char *val, TokenType typ);
 char		*join_args(char **sp);
@@ -92,7 +91,7 @@ void		copy_word(char *dst, char *src, int len);
 char		*skip_spaces(char *s);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
-int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit, int ex);
+int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);
 void		handle_normal_text(char **input, t_expand **head, t_state state);
