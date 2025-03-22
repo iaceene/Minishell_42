@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/22 23:55:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/22 23:58:20 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ char	**join_args_adv(char **s1, char **s2)
 
 	tmp = ft_strjoin(join_arg_two(s1), join_args(s2));
 	ret = ft_split(tmp, ' ');
+	if (!ret)
+		return (NULL);
 	set_zero_space(ret);
 	set_empty_str(ret);
 	return (ret);
