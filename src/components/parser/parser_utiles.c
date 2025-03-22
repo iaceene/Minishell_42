@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 03:25:23 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/22 23:55:29 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,17 @@ char	**join_args_adv(char **s1, char **s2)
 
 t_cmd	*get_last_cmd(t_cmd *head)
 {
-	t_cmd	*prv;
+	t_cmd	*last;
 
-	prv = head;
-	while (head && head->next)
+	if (head->type == COMMAND)
+		last = head;
+	else
+		last = NULL;
+	while (head)
 	{
-		prv = head;
+		if (head->type == COMMAND)
+			last = head;
 		head = head->next;
 	}
-	return (prv);
+	return (last);
 }
