@@ -6,11 +6,11 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/23 00:36:45 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:48:46 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser.h"
+#include "../../../../include/parser.h"
 
 t_cmd	*new_cmd_val(char *val, TokenType typ)
 {

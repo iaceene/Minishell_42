@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser.h"
+#include "../../../../include/parser.h"
 
 void	handle_outfile(t_cmd **head, char *val, t_cmd *prv)
 {
