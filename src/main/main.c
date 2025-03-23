@@ -70,41 +70,62 @@ static void	ft_init(t_tool *tool, char **env, t_data *data)
 	data->exe_state = 0;
 }
 
-void	printing(char **v)
-{
-	int i = 0;
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
 
-	if (!v)
-		return ;
-	while (v[i])
-	{
-		if (i == 0)
-			printf("CMD [%s]\n", v[i]);
-		else
-			printf("ARG [%s]\n", v[i]);
-		i++;
-	}
+// Function to print command arguments
+void printing(char **v)
+{
+    int i = 0;
+
+    if (!v)
+        return ;
+
+    while (v[i])
+    {
+        if (i == 0)
+            printf(GREEN "[" RESET "%s" GREEN "] " RESET, v[i]);
+        else
+            printf(YELLOW "ARG [" RESET "%s" YELLOW "]" RESET, v[i]);
+        i++;
+    }
+    printf("\n");
 }
 
-void	print_final_data(t_cmd *head)
+// Function to print final data with formatting
+void print_final_data(t_cmd *head)
 {
-	while (head)
-	{
-		if (head->type == COMMAND)
-			printing(head->cmd);
-		else if (head->type == IN_FILE)
-			printf("infile [%s]\n", head->value);
-		else if (head->type == OUT_FILE)
-			printf("outfile [%s]\n", head->value);
-		else if (head->type == APPEND)
-			printf("append [%s]\n", head->value);
-		else if (head->type == HERDOC)
-			printf("herdoc fd [%d] content [%s]\n", head->fd_herdoc, get_cnt(head->fd_herdoc));
-		else if (head->value)
-			printf("%s\n", head->value);
-		head = head->next;
-	}
+    while (head)
+    {
+        if (head->type == COMMAND)
+		{
+            printf(CYAN "COMMAND" RESET " --> ");
+        	printing(head->cmd);
+		}
+        else if (head->type == IN_FILE)
+            printf(MAGENTA "INFILE [" RESET "%s" MAGENTA "]\n" RESET, head->value);
+        else if (head->type == OUT_FILE)
+            printf(MAGENTA "OUTFILE [" RESET "%s" MAGENTA "]\n" RESET, head->value);
+        else if (head->type == APPEND)
+            printf(MAGENTA "APPEND [" RESET "%s" MAGENTA "]\n" RESET, head->value);
+        else if (head->type == HERDOC)
+            printf(MAGENTA "HERDOC fd [" RESET "%d" MAGENTA "] content [" RESET "%s" MAGENTA "]\n" RESET, head->fd_herdoc, get_cnt(head->fd_herdoc));
+        else if (head->value)
+            printf(BLUE "%s\n" RESET, head->value);
+		if (head->type == COMMAND && head->next && head->next->type == COMMAND)
+            printf(BLUE "%s\n" RESET, "PIPED TO");
+        head = head->next;
+    }
+    printf(""RESET);
+
 }
+
+
 
 int	main(int ac, char **av, char **env)
 {
