@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/22 23:58:20 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:36:45 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ t_cmd	*get_last_cmd(t_cmd *head)
 {
 	t_cmd	*last;
 
+	if (!head)
+		return (NULL);
 	if (head->type == COMMAND)
 		last = head;
 	else

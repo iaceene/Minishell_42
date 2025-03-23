@@ -42,12 +42,16 @@ void	handle_infile(t_cmd **head, char *val, t_cmd *prv)
 		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), IN_FILE)));
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
+	else
+		return (add_to_cmd(head, new_cmd_val(sp[1], COMMAND)));
 	add_to_cmd(head, new_cmd_val(sp[0], IN_FILE));
 	if (!prv || prv->type != COMMAND)
 		add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
 	else
 	{
 		lst_cmd = get_last_cmd(*head);
+		if (!lst_cmd)
+			return ;
 		lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
 	}
 }
