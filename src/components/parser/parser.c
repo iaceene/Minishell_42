@@ -43,7 +43,11 @@ void	handle_infile(t_cmd **head, char *val, t_cmd *prv)
 	if (!sp[1])
 		return (add_to_cmd(head, new_cmd_val(val, IN_FILE)));
 	else
-		return (add_to_cmd(head, new_cmd_val(sp[1], COMMAND)));
+	{
+		add_to_cmd(head, new_cmd_val(sp[0], IN_FILE));
+		add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
+		return ;
+	}
 	add_to_cmd(head, new_cmd_val(sp[0], IN_FILE));
 	if (!prv || prv->type != COMMAND)
 		add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
