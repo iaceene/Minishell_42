@@ -29,42 +29,23 @@ void redirect_fd(int from_fd, int to_fd, const char *error_msg)
 
 void handle_redirection(t_pipex_data *data)
 {
-	// printf ("iiiiiiiiiiiiiiiiiiiii\n");
-	// fprintf(stderr, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
 	if (data->current_cmd == 0 && data->infile != -1)
-	{
-		// fprintf(stderr, "data->current_cmd == 0 && data->infile != -1\n");
 		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin ho)");
-	}
 	else if (data->current_cmd > 0)
-	{
-		// fprintf(stderr, "data->current_cmd > 0\n");
 		redirect_fd(data->prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin hi)");
-	}
 
 	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
-	{
-		// fprintf(stderr, "data->current_cmd == data->cmd_count - 1 && data->outfile != -1\n");
-		// fprintf(stderr, "((%d))\n", data->outfile);
 		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
-		// printf("oooooooooooooo\n");
-	}
 	else if (data->current_cmd < data->cmd_count - 1)
-	{
-		// fprintf(stderr, "data->current_cmd < data->cmd_count - 1\n");
 		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
-	}
 }
 
 void handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data,
 						  int *exit_status)
 {
 	t_env *env;
-	// fprintf(stderr, "current_cmd: %d\n", data->current_cmd);
-	fprintf(stderr, "hi\n");
 	if (handle_file_redirection(cmd, &data->infile, &data->outfile, data) == -1)
 		return;
-	// fprintf(stderr, "fd[%d]\n", data->outfile);
 	handle_redirection(data);
 	if (cmd->type == COMMAND)
 	{
@@ -154,17 +135,9 @@ int is_pure_builtin(char *cmd)
 		return (1);
 	return (0);
 }
-void print_final_data(t_cmd *head);
+
 void process_commands_loop(t_cmd *cmd, char **envp, t_pipex_data *data, int *exit_status)
 {
-	// static int i;
-
-	// if (i == 0 && cmd->type != COMMAND)
-	// if (cmd)
-	// {
-	// 	print_final_data(cmd);
-	// 	return;
-	// }
 	while (cmd)
 	{
 		process_command(cmd, envp, data, exit_status);
@@ -189,28 +162,28 @@ void init_pipex_data(t_pipex_data *data, t_cmd *commands)
 
 void ft(t_cmd **head)
 {
-    t_cmd *tmp;
-    t_cmd *last = NULL;
-    t_cmd *first_cmd = NULL;
+	t_cmd *tmp;
+	t_cmd *last = NULL;
+	t_cmd *first_cmd = NULL;
 
-    if (!head || !*head || (*head)->type == COMMAND)
-        return;
+	if (!head || !*head || (*head)->type == COMMAND)
+		return;
 
-    tmp = *head;
-    while (tmp && tmp->type != COMMAND)
-    {
-        last = tmp;
-        tmp = tmp->next;
-    }
-    if (!tmp)
-        return;
-    first_cmd = tmp;
-    if (last)
-    {
-        last->next = first_cmd->next;
-        first_cmd->next = *head;
-        *head = first_cmd;
-    }
+	tmp = *head;
+	while (tmp && tmp->type != COMMAND)
+	{
+		last = tmp;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		return;
+	first_cmd = tmp;
+	if (last)
+	{
+		last->next = first_cmd->next;
+		first_cmd->next = *head;
+		*head = first_cmd;
+	}
 }
 
 void ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
@@ -222,22 +195,8 @@ void ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
 	cmd = commands;
 	init_pipex_data(&data, commands);
 	envp = ft_env_create_2d(*env);
-	fprintf(stderr, "count %d\n", data.cmd_count);
 
 	ft(&cmd);
-	// if (cmd->cmd &&  cmd->cmd[0] && data.cmd_count == 1 && is_pure_builtin(cmd->cmd[0]))
-	// {
-	// 	fprintf(stderr, "inii\n");
-	// 	fprintf(stderr, "commande 1\n");
-	// 	if (handle_file_redirection(cmd, &data.infile, &data.outfile, &data) == -1)
-	// 	{
-	// 		cleanup_child_fds(&data);
-	// 		return;
-	// 	}
-	// 	ft_execute_builtins(cmd->cmd, env, exit_status, &data, 1);
-	// 	return;
-	// }
-	fprintf(stderr, "pipe\n");
 	process_commands_loop(cmd, envp, &data, exit_status);
 	wait_for_children(data.cmd_count, exit_status);
 	cleanup_child_fds(&data);
