@@ -6,17 +6,29 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/23 00:48:46 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:00:55 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
+void	set_empty_one(char *val)
+{
+	while (*val)
+	{
+		if (*val == -2)
+			*val = '\0';
+		val++;
+	}
+}
+	
 t_cmd	*new_cmd_val(char *val, TokenType typ)
 {
 	t_cmd	*new;
 
 	new = ft_malloc(sizeof(t_cmd));
+	new->cmd = NULL;
+	new->files = NULL;
 	new->next = NULL;
 	if (typ == COMMAND)
 	{
@@ -24,6 +36,7 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 		set_empty_str(new->cmd);
 		set_zero_space(new->cmd);
 	}
+	set_empty_one(val);
 	new->type = typ;
 	new->value = val;
 	return (new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_file_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 21:40:19 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:27:19 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
 {
+	(void)data;
 	if (*infile != -1)
 		close(*infile);
 	*infile = open(cmd->value, O_RDONLY);

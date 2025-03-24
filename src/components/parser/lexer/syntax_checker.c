@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 21:58:28 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/23 23:59:18 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,17 @@ int	readdir_checker(t_node *data)
 	prv = NULL;
 	while (data)
 	{
-		if ((data->type == LEFT_RED || data->type == RIGHT_RED) && !data->next)
+		if ((data->type == LEFT_RED || data->type == RIGHT_RED || data->type == APPEND)
+			&& !data->next)
 			return (0);
 		if ((data->type == LEFT_RED || data->type == RIGHT_RED)
 			&& !data->next && (data->next->type != COMMAND
 				|| prv->type != COMMAND))
+			return (0);
+		if ((data->type == LEFT_RED || data->type == RIGHT_RED)
+			&& data->next && (data->next->type == RIGHT_RED || data->next->type == LEFT_RED))
+			return (0);
+		if ((data->type == APPEND && data->next) && data->next->type != COMMAND)
 			return (0);
 		prv = data;
 		data = data->next;

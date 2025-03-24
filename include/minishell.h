@@ -69,10 +69,18 @@ typedef struct s_env
 
 /************************* cmd Struct *************************/
 
+typedef struct s_file
+{
+	TokenType		type;
+	char			*value;
+	struct s_file	*next;
+}	s_file;
+
+
 typedef struct s_cmd
 {
 	TokenType		type;
-	bool			empty;
+	s_file			*files;
 	int				fd_herdoc;
 	char			*value;
 	char			**cmd;

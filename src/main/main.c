@@ -91,7 +91,7 @@ void printing(char **v)
         if (i == 0)
             printf(GREEN "[" RESET "%s" GREEN "] " RESET, v[i]);
         else
-            printf(YELLOW "ARG [" RESET "%s" YELLOW "]" RESET, v[i]);
+            printf(YELLOW "ARG [" RESET "%s" YELLOW "] " RESET, v[i]);
         i++;
     }
     printf("\n");

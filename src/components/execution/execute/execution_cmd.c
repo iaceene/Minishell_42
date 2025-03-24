@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/20 20:45:40 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:20:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	run_child_process(t_env **env, char **cmd_argv, int *exit_status)
 {
 	char	**envp;
+	// handle_file_redirection(cmd, &data->infile, &data->outfile, data);
 
 	envp = ft_env_create_2d(*env);
 	execute_cmd(cmd_argv, envp, exit_status);
