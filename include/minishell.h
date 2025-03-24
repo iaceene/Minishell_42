@@ -80,7 +80,6 @@ typedef struct s_file
 typedef struct s_cmd
 {
 	TokenType		type;
-	s_file			*files;
 	int				fd_herdoc;
 	char			*value;
 	char			**cmd;

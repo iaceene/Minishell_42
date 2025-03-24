@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/24 00:10:44 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/24 02:19:17 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_cmd	*new_cmd(t_node *node)
 	if (!node)
 	{
 		ret->type = NIL;
-		ret->files = NULL;
 		ret->value = NULL;
 		ret->next = NULL;
 		ret->cmd = NULL;
@@ -28,7 +27,6 @@ t_cmd	*new_cmd(t_node *node)
 	}
 	if (node->type == HERDOC)
 		ret->fd_herdoc = node->hr_fd;
-	ret->files = NULL;
 	ret->type = node->type;
 	ret->value = node->value;
 	ret->cmd = NULL;

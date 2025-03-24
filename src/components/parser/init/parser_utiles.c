@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/24 01:00:55 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/24 02:19:06 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 
 	new = ft_malloc(sizeof(t_cmd));
 	new->cmd = NULL;
-	new->files = NULL;
 	new->next = NULL;
 	if (typ == COMMAND)
 	{
