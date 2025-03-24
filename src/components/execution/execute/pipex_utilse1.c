@@ -27,16 +27,16 @@ void	close_all_pipe(int **pipes, int num_cmd)
 	}
 }
 
-void	redirect_fd(int from_fd, int to_fd, const char *error_msg)
-{
-	if (from_fd < 0 || to_fd < 0)
-		error_and_exit((char *)error_msg, 1);
-	if (dup2(from_fd, to_fd) == -1)
-		error_and_exit((char *)error_msg, 1);
-	close(from_fd);
-}
+// void	redirect_fd(int from_fd, int to_fd, const char *error_msg)
+// {
+// 	if (from_fd < 0 || to_fd < 0)
+// 		error_and_exit((char *)error_msg, 1);
+// 	if (dup2(from_fd, to_fd) == -1)
+// 		error_and_exit((char *)error_msg, 1);
+// 	close(from_fd);
+// }
 
-int	count_commands(t_exec *cmd)
+int	count_commands(t_cmd *cmd)
 {
 	int	count;
 
@@ -64,14 +64,15 @@ void	cleanup_child_fds(t_pipex_data *data)
 		close(data->prev_pipe_read);
 }
 
-void	handle_redirection(t_pipex_data *data)
-{
-	if (data->current_cmd == 0 && data->infile != -1)
-		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin)");
-	else if (data->current_cmd > 0)
-		redirect_fd(data->prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin)");
-	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
-		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
-	else if (data->current_cmd < data->cmd_count - 1)
-		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
-}
+// void	handle_redirection(t_pipex_data *data)
+// {
+// 	if (data->current_cmd == 0 && data->infile != -1)
+// 		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin ho)");
+// 	else if (data->current_cmd > 0)
+// 		redirect_fd(data->prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin hi)");
+
+// 	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
+// 		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
+// 	else if (data->current_cmd < data->cmd_count - 1)
+// 		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
+// }

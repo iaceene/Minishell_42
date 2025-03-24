@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 16:00:17 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:07:09 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@
 
 typedef struct s_pipe
 {
-	int	end[2];
-	int	end2[2];
-	int	in;
+	int		end[2];
+	int		end2[2];
+	int		indice;
+	int		in;
 }	t_pipe;
 
 typedef struct s_exec
@@ -73,6 +74,7 @@ typedef struct s_pipex_data
 	int	prev_pipe_read;
 	int	cmd_count;
 	int	current_cmd;
+	int	fd_count;
 }	t_pipex_data;
 
 typedef struct s_export
@@ -96,13 +98,13 @@ void	error_and_exit(const char *str, int exite);
 void	close_fd(t_redirect *data);
 void	close_all_pipe(int **pipes, int num_cmd);
 void	free_all_pipe(int **pipes, int i);
-void	ft_pipex(t_exec *commands, t_env **env, int *exit_status);
+void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env, int *exit_status);
 void	handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);
-int		count_commands(t_exec *cmd);
-int		handle_file_redirection(t_exec *cmd, int *infile, int *outfile, \
+int		count_commands(t_cmd *cmd);
+int		handle_file_redirection(t_cmd *cmd, int *infile, int *outfile, \
 	t_pipex_data *data);
 
 /************************* Built-in Functions *************************/
@@ -116,7 +118,7 @@ void	builtin_export(t_env **env, char **arg, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
 void	builtin_unset(t_env **env, char **arg, int *exit_status);
-int		ft_execute_builtins(char **arg, t_env **env, int *exit_status);
+int		ft_execute_builtins(char **arg, t_env **env, int *exit_status, t_pipex_data *data, int f_fd);
 
 /************************* Environment Functions *************************/
 

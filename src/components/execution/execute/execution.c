@@ -12,7 +12,7 @@
 
 #include "../../../../include/minishell.h"
 
-int ft_lstsize_head(t_exec *lst)
+int ft_lstsize_head(t_cmd *lst)
 {
 	int i;
 
@@ -27,42 +27,14 @@ int ft_lstsize_head(t_exec *lst)
 	return (i);
 }
 
-t_exec *copy_cmd_to_exec(t_cmd *cmd)
-{
-	t_exec *new_exec;
-	t_exec *current_exec;
-	t_exec *new_node;
 
-	new_exec = NULL;
-	current_exec = NULL;
-	while (cmd)
-	{
-		new_node = ft_malloc(sizeof(t_exec));
-		if (!new_node)
-			return (NULL);
-		new_node->type = cmd->type;
-		new_node->value = ft_strdup(cmd->value);
-		new_node->s = cmd->cmd;
-		if (!new_node->value)
-			return (perror("permission denied"), NULL);
-		new_node->next = NULL;
-		if (new_exec == NULL)
-			new_exec = new_node;
-		else
-			current_exec->next = new_node;
-		current_exec = new_node;
-		cmd = cmd->next;
-	}
-	return (new_exec);
-}
-
-static void handle_single_command(t_exec *exec_list, t_env **env,
+static void handle_single_command(t_cmd *exec_list, t_env **env,
 								  int *exit_status, t_pipex_data *data)
 {
-	t_exec *cmd;
+	t_cmd *cmd;
 
+	(void)data;
 	cmd = exec_list;
-
 	handle_file_redirection(cmd, &data->infile, &data->outfile, data);
 
 
@@ -70,26 +42,30 @@ static void handle_single_command(t_exec *exec_list, t_env **env,
 		cmd = cmd->next;
 	if (cmd)
 	{
-		execution_cmd(cmd->s, env, exit_status);
+		execution_cmd(cmd->cmd, env, exit_status);
 	}
 }
 
 void execution(t_cmd **head, t_env **env, int *exit_status)
 {
 	int cmd_count;
-	t_exec *exec_list;
 	t_pipex_data data;
 
 	if (!head || !*head)
 		return;
-	exec_list = copy_cmd_to_exec(*head);
-	if (!exec_list)
-		return ;
-	cmd_count = ft_lstsize_head(exec_list);
+	t_cmd *tmp = *head;
+	while (tmp)
+	{
+		// printf("====================================================\n");
+		if (tmp->type != COMMAND)
+			tmp->cmd = NULL;
+		tmp = tmp->next;
+	}
+	cmd_count = ft_lstsize_head(*head);
 	if (cmd_count == 0)
 		return;
 	if (cmd_count == 1)
-		handle_single_command(exec_list, env, exit_status, &data);
+		handle_single_command(*head, env, exit_status, &data);
 	else
-		ft_pipex(exec_list, env, exit_status);
+		ft_pipex(*head, env, exit_status);
 }

@@ -102,10 +102,8 @@ t_cmd *new_herdoc(char *val, t_env *env, t_cmd **head)
 t_cmd *final_data(t_cmd *head, t_env *env)
 {
 	t_cmd *new;
-	t_cmd *prv;
 
 	new = NULL;
-	prv = NULL;
 	while (head)
 	{
 		if (head->type == COMMAND)
@@ -120,7 +118,6 @@ t_cmd *final_data(t_cmd *head, t_env *env)
 			add_to_cmd(&new, new_herdoc(head->value, env, &new));
 		if (head->next && (head->type == RIGHT_RED || head->type == APPEND || head->type == LEFT_RED))
 			head = head->next;
-		prv = head;
 		head = head->next;
 	}
 	return (new);

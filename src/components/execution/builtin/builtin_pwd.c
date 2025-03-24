@@ -32,5 +32,6 @@ void	builtin_pwd(void)
 	char	*cwd;
 
 	cwd = ft_get_cwd(NULL, 0);
-	printf("%s\n", cwd);
+	write(1, cwd, ft_strlen(cwd));
+	write(1, "\n", 1);
 }

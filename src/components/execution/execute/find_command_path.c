@@ -33,12 +33,12 @@ static char	*check_command_in_dir(char *dir, char *cmd)
 	if (!temp)
 		return (NULL);
 	full_path = ft_strjoin(temp, cmd);
-	free(temp);
+	// free(temp);
 	if (!full_path)
 		return (NULL);
 	if (access(full_path, X_OK) == 0)
 		return (full_path);
-	free(full_path);
+	// free(full_path);
 	return (NULL);
 }
 
@@ -103,7 +103,7 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 	if (execve(full_path, args, env) == -1)
 	{
 		*exit_status = 126;
-		perror("");
+		perror("exec failed\n");
 		exit(126);
 	}
 }

@@ -3,82 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   handel_file_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/24 00:27:19 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:55:07 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
-int handle_input_redirection(t_exec *cmd, int *infile, t_pipex_data *data)
+int handle_input_redirection(t_cmd *cmd, int *infile)
 {
-	(void)data;
 	if (*infile != -1)
+	{
 		close(*infile);
+		*infile = -1;
+	}
+	
 	*infile = open(cmd->value, O_RDONLY);
-	if (*infile < 0)
+	if (*infile == -1)
 	{
-		cleanup_child_fds(data);
 		perror(cmd->value);
-		return (0);
+		return (-1);
 	}
 	return (0);
 }
 
-int handle_output_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
+int handle_output_redirection(t_cmd *cmd, int *outfile)
 {
 	if (*outfile != -1)
+	{
 		close(*outfile);
+		*outfile = -1;
+	}
+	
 	*outfile = open(cmd->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (*outfile < 0)
+	if (*outfile == -1)
 	{
 		perror(cmd->value);
-		cleanup_child_fds(data);
 		return (-1);
 	}
 	return (0);
 }
 
-int handle_append_redirection(t_exec *cmd, int *outfile, t_pipex_data *data)
+int handle_append_redirection(t_cmd *cmd, int *outfile)
 {
 	if (*outfile != -1)
-		close(*outfile);
-	*outfile = open(cmd->value, O_RDWR | O_CREAT | O_APPEND, 0644);
-	if (*outfile < 0)
 	{
-		cleanup_child_fds(data);
+		close(*outfile);
+		*outfile = -1;
+	}
+	
+	*outfile = open(cmd->value, O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (*outfile == -1)
+	{
 		perror(cmd->value);
 		return (-1);
 	}
 	return (0);
 }
 
-int handle_file_redirection(t_exec *cmd, int *infile, int *outfile,
+int handle_file_redirection(t_cmd *cmd, int *infile, int *outfile, 
 							t_pipex_data *data)
 {
-	while (cmd)
+	(void)data;
+	t_cmd *current;
+
+	current = cmd;
+	current = cmd->next;
+	while (current)
 	{
-		if (cmd->type != COMMAND)
+		if (current->type == COMMAND)
+			break;
+		if (current->type == IN_FILE)
 		{
-			if (cmd->type == IN_FILE)
-			{
-				if (handle_input_redirection(cmd, infile, data) == -1)
-					return (-1);
-			}
-			else if (cmd->type == OUT_FILE)
-			{
-				if (handle_output_redirection(cmd, outfile, data) == -1)
-					return (-1);
-			}
-			else if (cmd->type == APPEND)
-			{
-				if (handle_append_redirection(cmd, outfile, data) == -1)
-					return (-1);
-			}
+			if (handle_input_redirection(current, infile) == -1)
+				return (-1);
 		}
-		cmd = cmd->next;
+		else if (current->type == OUT_FILE)
+		{
+			if (handle_output_redirection(current, outfile) == -1)
+				return (-1);
+		}
+		else if (current->type == APPEND)
+		{
+			if (handle_append_redirection(current, outfile) == -1)
+				return (-1);
+		}
+		current = current->next;
 	}
 	return (0);
 }

@@ -12,22 +12,82 @@
 
 #include "../../../../include/minishell.h"
 
-void	handle_child_process(t_exec *cmd, char **envp, t_pipex_data *data, \
-	int *exit_status)
+void redirect_fd(int from_fd, int to_fd, const char *error_msg)
 {
-	// if (handle_file_redirection(cmd, &data->infile, &data->outfile, data) == -1)
-	// 	return ;
-	// handle_file_redirection(cmd, &data->infile, &data->outfile, data);
+	if (from_fd < 0 || to_fd < 0)
+	{
+		perror("Invalid file descriptor");
+		error_and_exit((char *)error_msg, 1);
+	}
+	if (dup2(from_fd, to_fd) == -1)
+	{
+		perror("dup2 failed");
+		error_and_exit((char *)error_msg, 1);
+	}
+	close(from_fd);
+}
+
+void handle_redirection(t_pipex_data *data)
+{
+	// printf ("iiiiiiiiiiiiiiiiiiiii\n");
+	// fprintf(stderr, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+	if (data->current_cmd == 0 && data->infile != -1)
+	{
+		// fprintf(stderr, "data->current_cmd == 0 && data->infile != -1\n");
+		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin ho)");
+	}
+	else if (data->current_cmd > 0)
+	{
+		// fprintf(stderr, "data->current_cmd > 0\n");
+		redirect_fd(data->prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin hi)");
+	}
+
+	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
+	{
+		// fprintf(stderr, "data->current_cmd == data->cmd_count - 1 && data->outfile != -1\n");
+		// fprintf(stderr, "((%d))\n", data->outfile);
+		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
+		// printf("oooooooooooooo\n");
+	}
+	else if (data->current_cmd < data->cmd_count - 1)
+	{
+		// fprintf(stderr, "data->current_cmd < data->cmd_count - 1\n");
+		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
+	}
+}
+
+void handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data,
+						  int *exit_status)
+{
+	t_env *env;
+	// fprintf(stderr, "current_cmd: %d\n", data->current_cmd);
+	fprintf(stderr, "hi\n");
+	if (handle_file_redirection(cmd, &data->infile, &data->outfile, data) == -1)
+		return;
+	// fprintf(stderr, "fd[%d]\n", data->outfile);
 	handle_redirection(data);
+	if (cmd->type == COMMAND)
+	{
+		if (ft_execute_builtins(cmd->cmd, &env, exit_status, data, 0) == SUCCESS)
+		{
+			close(data->pipe_fd[0]);
+			close(data->pipe_fd[1]);
+			close(data->prev_pipe_read);
+			cleanup_child_fds(data);
+			exit(0);
+		}
+		// cleanup_child_fds(data);
+
+		execute_cmd(cmd->cmd, envp, exit_status);
+	}
 	cleanup_child_fds(data);
-	execute_cmd(cmd->s, envp, exit_status);
 	exit(1);
 }
 
-void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, \
-	int *exit_status)
+void process_command(t_cmd *cmd, char **envp, t_pipex_data *data,
+					 int *exit_status)
 {
-	pid_t	pid;
+	pid_t pid;
 
 	if (data->current_cmd < data->cmd_count - 1)
 	{
@@ -39,7 +99,7 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, \
 		handle_child_process(cmd, envp, data, exit_status);
 	else if (pid < 0)
 	{
-		perror(":");
+		perror("Fork");
 		exit(1);
 	}
 	if (data->prev_pipe_read != -1)
@@ -51,11 +111,11 @@ void	process_command(t_exec *cmd, char **envp, t_pipex_data *data, \
 	}
 }
 
-void	wait_for_children(int cmd_count, int *exit_status)
+void wait_for_children(int cmd_count, int *exit_status)
 {
-	int	status;
-	int	last_status;
-	int	i;
+	int status;
+	int last_status;
+	int i;
 
 	last_status = 0;
 	i = 0;
@@ -76,7 +136,7 @@ void	wait_for_children(int cmd_count, int *exit_status)
 	*exit_status = last_status;
 }
 
-void	close_fds(t_pipex_data *data)
+void close_fds(t_pipex_data *data)
 {
 	if (data->infile != -1)
 		close(data->infile);
@@ -86,32 +146,100 @@ void	close_fds(t_pipex_data *data)
 		close(data->prev_pipe_read);
 }
 
-void	ft_pipex(t_exec *commands, t_env **env, int *exit_status)
+int is_pure_builtin(char *cmd)
 {
-	t_pipex_data	data;
-	char			**envp;
-	t_exec			*cmd;
+	if (!cmd)
+		return (0);
+	if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)) && ft_strlen(cmd) == ft_strlen("pwd"))
+		return (1);
+	return (0);
+}
+void print_final_data(t_cmd *head);
+void process_commands_loop(t_cmd *cmd, char **envp, t_pipex_data *data, int *exit_status)
+{
+	// static int i;
 
-	cmd = commands;
-	if (ft_execute_builtins(&(cmd->value), env, exit_status) == SUCCESS)
-	{
-		*exit_status = 0;
-		return ;
-	}
-	data = (t_pipex_data){-1, -1, {-1, -1}, -1, count_commands(commands), 0};
-	envp = ft_env_create_2d(*env);
-	cmd = commands;
-	if (handle_file_redirection(cmd, &data.infile, &data.outfile, &data) == -1)
-		return ;
+	// if (i == 0 && cmd->type != COMMAND)
+	// if (cmd)
+	// {
+	// 	print_final_data(cmd);
+	// 	return;
+	// }
 	while (cmd)
 	{
+		process_command(cmd, envp, data, exit_status);
 		if (cmd->type == COMMAND)
-		{
-			process_command(cmd, envp, &data, exit_status);
-			data.current_cmd++;
-		}
+			data->current_cmd++;
 		cmd = cmd->next;
+		while (cmd && cmd->type != COMMAND)
+			cmd = cmd->next;
 	}
-	close_fds(&data);
+}
+
+void init_pipex_data(t_pipex_data *data, t_cmd *commands)
+{
+	data->infile = -1;
+	data->outfile = -1;
+	data->pipe_fd[0] = -1;
+	data->pipe_fd[1] = -1;
+	data->prev_pipe_read = -1;
+	data->cmd_count = count_commands(commands);
+	data->current_cmd = 0;
+}
+
+void ft(t_cmd **head)
+{
+    t_cmd *tmp;
+    t_cmd *last = NULL;
+    t_cmd *first_cmd = NULL;
+
+    if (!head || !*head || (*head)->type == COMMAND)
+        return;
+
+    tmp = *head;
+    while (tmp && tmp->type != COMMAND)
+    {
+        last = tmp;
+        tmp = tmp->next;
+    }
+    if (!tmp)
+        return;
+    first_cmd = tmp;
+    if (last)
+    {
+        last->next = first_cmd->next;
+        first_cmd->next = *head;
+        *head = first_cmd;
+    }
+}
+
+void ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
+{
+	t_pipex_data data;
+	t_cmd *cmd;
+	char **envp;
+
+	cmd = commands;
+	init_pipex_data(&data, commands);
+	envp = ft_env_create_2d(*env);
+	fprintf(stderr, "count %d\n", data.cmd_count);
+
+	ft(&cmd);
+	// if (cmd->cmd &&  cmd->cmd[0] && data.cmd_count == 1 && is_pure_builtin(cmd->cmd[0]))
+	// {
+	// 	fprintf(stderr, "inii\n");
+	// 	fprintf(stderr, "commande 1\n");
+	// 	if (handle_file_redirection(cmd, &data.infile, &data.outfile, &data) == -1)
+	// 	{
+	// 		cleanup_child_fds(&data);
+	// 		return;
+	// 	}
+	// 	ft_execute_builtins(cmd->cmd, env, exit_status, &data, 1);
+	// 	return;
+	// }
+	fprintf(stderr, "pipe\n");
+	process_commands_loop(cmd, envp, &data, exit_status);
 	wait_for_children(data.cmd_count, exit_status);
+	cleanup_child_fds(&data);
+	close_fds(&data);
 }
