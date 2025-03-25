@@ -35,6 +35,7 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/execute/pipex_utilse1.c \
 		./src/components/execution/execute/pipex.c \
 		./src/components/parser/init/parser.c \
+		./src/components/parser/init/data_reformer.c \
 		./src/components/parser/init/parser_utiles.c \
 		./src/components/parser/expander/expander.c \
 		./src/components/parser/expander/expander_utiles.c \

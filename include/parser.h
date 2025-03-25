@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/25 20:26:04 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:05:39 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_cmd		*get_last_cmd_pip(t_cmd *head);
 int			get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s);
 void		copy_word(char *dst, char *src, int len);
 char		*skip_spaces(char *s);
+void		reforme_data(t_cmd **head);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
