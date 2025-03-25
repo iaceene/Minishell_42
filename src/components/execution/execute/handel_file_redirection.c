@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/25 21:41:28 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:56:50 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int handle_file_redirection(t_cmd *cmd, int *infile, int *outfile,
 		{
 			if (dup2(current->fd_herdoc, STDIN_FILENO) == -1)
 				perror("dup2 rediretcion");
+			printf("dsddsds");
 			close(current->fd_herdoc);
 		}
 		current = current->next;

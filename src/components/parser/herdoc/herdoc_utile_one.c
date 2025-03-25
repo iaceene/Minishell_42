@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:15:38 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:27:40 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:04:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,16 @@ bool	will_expanded(char *s)
 void	ft_write(int fd, char *buffer)
 {
 	int			i;
-	static int	k;
 
 	if (!buffer || fd == -1)
 		return ;
 	i = 0;
-	if (k != 0)
-		write(fd, "\n", 1);
 	while (buffer[i])
 	{
 		write(fd, buffer + i, 1);
 		i++;
 	}
-	k++;
+	write(fd, "\n", 1);
 }
 
 char	*generate_random_name(void)
