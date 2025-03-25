@@ -196,7 +196,7 @@ void ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
 	init_pipex_data(&data, commands);
 	envp = ft_env_create_2d(*env);
 
-	ft(&cmd);
+	// ft(&cmd);
 	process_commands_loop(cmd, envp, &data, exit_status);
 	wait_for_children(data.cmd_count, exit_status);
 	cleanup_child_fds(&data);

@@ -146,7 +146,7 @@ int	main(int ac, char **av, char **env)
 		else if (parser(&data))
 		{
 			print_final_data(data.head);
-			// execution(&data.head, &tool.env, &data.exe_state);
+			execution(&data.head, &tool.env, &data.exe_state);
 			// print_final_data(data.head, &data.exe_state);
 		}
 		else
