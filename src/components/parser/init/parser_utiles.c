@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/24 02:19:06 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:30:11 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	set_empty_one(char *val)
 {
+	if (!val)
+		return ;
 	while (*val)
 	{
 		if (*val == -2)
@@ -28,6 +30,8 @@ t_cmd	*new_cmd_val(char *val, TokenType typ)
 
 	new = ft_malloc(sizeof(t_cmd));
 	new->cmd = NULL;
+	new->pip_infront = false;
+	new->pip_infront = 0;
 	new->next = NULL;
 	if (typ == COMMAND)
 	{
@@ -109,3 +113,25 @@ t_cmd	*get_last_cmd(t_cmd *head)
 	}
 	return (last);
 }
+
+t_cmd		*get_last_cmd_pip(t_cmd *head)
+{
+	t_cmd	*last;
+
+	if (!head)
+		return (NULL);
+	if (head->type == COMMAND)
+		last = head;
+	else
+		last = NULL;
+	while (head)
+	{
+		if (head->type == COMMAND)
+			last = head;
+		head = head->next;
+	}
+	if (last && last->pip_infront)
+		return (NULL);
+	return (last);
+}
+

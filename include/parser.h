@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/24 02:18:36 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:26:04 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_cmd		*new_cmd_val(char *val, TokenType typ);
 char		*join_args(char **sp);
 char		*join_arg_two(char **sp);
 char		**join_args_adv(char **s1, char **s2);
-t_cmd		*get_last_cmd(t_cmd *head);
+t_cmd		*get_last_cmd_pip(t_cmd *head);
 int			get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s);
 void		copy_word(char *dst, char *src, int len);
 char		*skip_spaces(char *s);

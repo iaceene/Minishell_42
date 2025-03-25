@@ -25,11 +25,11 @@ void handle_outfile(t_cmd **head, char *val)
 	else
 	{
 		add_to_cmd(head, new_cmd_val(sp[0], OUT_FILE));
-		if (!get_last_cmd(*head))
+		if (!get_last_cmd_pip(*head))
 			add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
-		else if (get_last_cmd(*head))
+		else if (get_last_cmd_pip(*head))
 		{
-			lst_cmd = get_last_cmd(*head);
+			lst_cmd = get_last_cmd_pip(*head);
 			if (!lst_cmd)
 				return;
 			lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
@@ -50,11 +50,11 @@ void handle_append(t_cmd **head, char *val)
 	else
 	{
 		add_to_cmd(head, new_cmd_val(sp[0], APPEND));
-		if (!get_last_cmd(*head))
+		if (!get_last_cmd_pip(*head))
 			add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
-		else if (get_last_cmd(*head))
+		else if (get_last_cmd_pip(*head))
 		{
-			lst_cmd = get_last_cmd(*head);
+			lst_cmd = get_last_cmd_pip(*head);
 			if (!lst_cmd)
 				return;
 			lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
@@ -75,11 +75,11 @@ void handle_infile(t_cmd **head, char *val)
 	else
 	{
 		add_to_cmd(head, new_cmd_val(sp[0], IN_FILE));
-		if (!get_last_cmd(*head))
+		if (!get_last_cmd_pip(*head))
 			add_to_cmd(head, new_cmd_val(join_args(sp), COMMAND));
-		else if (get_last_cmd(*head))
+		else if (get_last_cmd_pip(*head))
 		{
-			lst_cmd = get_last_cmd(*head);
+			lst_cmd = get_last_cmd_pip(*head);
 			if (!lst_cmd)
 				return;
 			lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
@@ -99,6 +99,30 @@ t_cmd *new_herdoc(char *val, t_env *env, t_cmd **head)
 	return (new);
 }
 
+void	print_this(t_cmd *head)
+{
+	while (head)
+	{
+		if (head->type == PIPE)
+			printf("PIPE\n");
+		if (head->type == COMMAND)
+			printf("CMD, PIP IN FORNT %d\n", head->pip_infront);
+		head = head->next;
+	}
+}
+
+void	add_pip_flag(t_cmd *head)
+{
+	t_cmd	*last_cmd;
+
+	if (!head)
+		return ;
+	last_cmd = get_last_cmd(head);
+	if (!last_cmd)
+		return ;
+	last_cmd->pip_infront = true;
+}
+
 t_cmd *final_data(t_cmd *head, t_env *env)
 {
 	t_cmd *new;
@@ -108,6 +132,8 @@ t_cmd *final_data(t_cmd *head, t_env *env)
 	{
 		if (head->type == COMMAND)
 			add_to_cmd(&new, new_cmd_val(head->value, COMMAND));
+		else if (head->type == PIPE)
+			add_pip_flag(new);
 		else if (head->next && head->type == RIGHT_RED)
 			handle_outfile(&new, head->next->value);
 		else if (head->next && head->type == APPEND)
@@ -120,6 +146,7 @@ t_cmd *final_data(t_cmd *head, t_env *env)
 			head = head->next;
 		head = head->next;
 	}
+	// print_this(new);
 	return (new);
 }
 

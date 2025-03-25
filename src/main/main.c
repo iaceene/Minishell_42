@@ -117,7 +117,7 @@ void print_final_data(t_cmd *head)
             printf(MAGENTA "HERDOC fd [" RESET "%d" MAGENTA "] content [" RESET "%s" MAGENTA "]\n" RESET, head->fd_herdoc, get_cnt(head->fd_herdoc));
         else if (head->value)
             printf(BLUE "%s\n" RESET, head->value);
-		if (head->type == COMMAND && head->next && head->next->type == COMMAND)
+		if (head->type == COMMAND && head->pip_infront)
             printf(BLUE "%s\n" RESET, "PIPED TO");
         head = head->next;
     }
@@ -145,8 +145,8 @@ int	main(int ac, char **av, char **env)
 			ft_puterr(32);
 		else if (parser(&data))
 		{
-		// 	print_final_data(data.head);
-			execution(&data.head, &tool.env, &data.exe_state);
+			print_final_data(data.head);
+			// execution(&data.head, &tool.env, &data.exe_state);
 			// print_final_data(data.head, &data.exe_state);
 		}
 		else

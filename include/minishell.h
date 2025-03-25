@@ -72,6 +72,7 @@ typedef struct s_env
 typedef struct s_cmd
 {
 	TokenType		type;
+	bool			pip_infront;
 	int				fd_herdoc;
 	char			*value;
 	char			**cmd;
