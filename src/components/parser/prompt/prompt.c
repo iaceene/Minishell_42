@@ -48,15 +48,7 @@ char	*prompt(char **env)
 		exit_the_shell(3);
 	s = readline(cli);
 	if (!s)
-	{
-		free(s);
 		exit_the_shell(0);
-	}
-	if (ft_strncmp(s, "exit", 4) == 0 && ft_strlen(s) == 4)
-	{
-		free(s);
-		exit_the_shell(0);
-	}
 	i++;
 	if (s[0])
 		add_history(s);

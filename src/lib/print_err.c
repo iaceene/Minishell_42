@@ -28,6 +28,8 @@ void	ft_puterr(int state)
 {
 	if (state == 1)
 		ft_print_err("Invalid env!\n");
+	if (state == 3)
+		ft_print_err("ambiguous redirect\n");
 	if (state == 14)
 		ft_print_err("\033[31mError\033[0m : Invalid syntax\n");
 }

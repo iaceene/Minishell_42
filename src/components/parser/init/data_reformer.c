@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 21:01:59 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/25 21:21:40 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:42:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	reforme_data(t_cmd **head)
 	first_redir = NULL;
 	while (current)
 	{
-		if (current->type == IN_FILE || current->type == OUT_FILE)
+		if (current->type == IN_FILE || current->type == OUT_FILE
+			|| current->type == APPEND)
 		{
 			if (first_redir == NULL)
 				first_redir = current;
