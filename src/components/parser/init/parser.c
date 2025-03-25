@@ -99,18 +99,6 @@ t_cmd *new_herdoc(char *val, t_env *env, t_cmd **head)
 	return (new);
 }
 
-void	print_this(t_cmd *head)
-{
-	while (head)
-	{
-		if (head->type == PIPE)
-			printf("PIPE\n");
-		if (head->type == COMMAND)
-			printf("CMD, PIP IN FORNT %d\n", head->pip_infront);
-		head = head->next;
-	}
-}
-
 void	add_pip_flag(t_cmd *head)
 {
 	t_cmd	*last_cmd;
@@ -146,7 +134,6 @@ t_cmd *final_data(t_cmd *head, t_env *env)
 			head = head->next;
 		head = head->next;
 	}
-	// print_this(new);
 	return (new);
 }
 
