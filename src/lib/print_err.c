@@ -32,4 +32,6 @@ void	ft_puterr(int state)
 		ft_print_err("ambiguous redirect\n");
 	if (state == 14)
 		ft_print_err("\033[31mError\033[0m : Invalid syntax\n");
+	if (state == 17)
+		ft_print_err("Command '' not found\n");
 }
