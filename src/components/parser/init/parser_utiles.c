@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/25 20:30:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:27:17 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	set_empty_one(char *val)
 		val++;
 	}
 }
-	
-t_cmd	*new_cmd_val(char *val, TokenType typ)
+
+t_cmd	*new_cmd_val(char *val, t_TokenType typ)
 {
 	t_cmd	*new;
 
@@ -114,7 +114,7 @@ t_cmd	*get_last_cmd(t_cmd *head)
 	return (last);
 }
 
-t_cmd		*get_last_cmd_pip(t_cmd *head)
+t_cmd	*get_last_cmd_pip(t_cmd *head)
 {
 	t_cmd	*last;
 
@@ -134,4 +134,3 @@ t_cmd		*get_last_cmd_pip(t_cmd *head)
 		return (NULL);
 	return (last);
 }
-

@@ -10,18 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-void handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data,
-						  int *exit_status)
+static void	handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data, \
+		int *exit_status)
 {
-	t_env *env;
+	t_env	*env;
+
 	if (handle_file_redirection(cmd, &data->infile, &data->outfile) == -1)
 		return ;
 	handle_redirection(data);
 	if (cmd->type == COMMAND)
 	{
-		if (ft_execute_builtins(cmd->cmd, &env, exit_status, data, 0) == SUCCESS)
+		data->f_fd = 0;
+		if (ft_execute_builtins(cmd->cmd, &env, exit_status, data) == SUCCESS)
 		{
 			close(data->pipe_fd[0]);
 			close(data->pipe_fd[1]);
@@ -29,18 +31,16 @@ void handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data,
 			cleanup_child_fds(data);
 			exit(0);
 		}
-		// cleanup_child_fds(data);
-
 		execute_cmd(cmd->cmd, envp, exit_status);
 	}
 	cleanup_child_fds(data);
 	exit(1);
 }
 
-void process_command(t_cmd *cmd, char **envp, t_pipex_data *data,
-					 int *exit_status)
+static void	process_command(t_cmd *cmd, char **envp, t_pipex_data *data, \
+		int *exit_status)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	if (data->current_cmd < data->cmd_count - 1)
 	{
@@ -65,11 +65,11 @@ void process_command(t_cmd *cmd, char **envp, t_pipex_data *data,
 	}
 }
 
-void wait_for_children(int cmd_count, int *exit_status)
+static void	wait_for_children(int cmd_count, int *exit_status)
 {
-	int status;
-	int last_status;
-	int i;
+	int	status;
+	int	last_status;
+	int	i;
 
 	last_status = 0;
 	i = 0;
@@ -90,7 +90,8 @@ void wait_for_children(int cmd_count, int *exit_status)
 	*exit_status = last_status;
 }
 
-void process_commands_loop(t_cmd *cmd, char **envp, t_pipex_data *data, int *exit_status)
+static void	process_commands_loop(t_cmd *cmd, char **envp, \
+	t_pipex_data *data, int *exit_status)
 {
 	while (cmd)
 	{
@@ -103,16 +104,15 @@ void process_commands_loop(t_cmd *cmd, char **envp, t_pipex_data *data, int *exi
 	}
 }
 
-void ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
+void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
 {
-	t_pipex_data data;
-	t_cmd *cmd;
-	char **envp;
+	t_pipex_data	data;
+	t_cmd			*cmd;
+	char			**envp;
 
 	cmd = commands;
 	init_pipex_data(&data, commands);
 	envp = ft_env_create_2d(*env);
-
 	process_commands_loop(cmd, envp, &data, exit_status);
 	wait_for_children(data.cmd_count, exit_status);
 	cleanup_child_fds(&data);

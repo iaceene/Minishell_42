@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utiles_two.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:16:23 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:27:39 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_no_opned_pr(t_node *data)
 	return (0);
 }
 
-int	valid_next(TokenType type)
+int	valid_next(t_TokenType type)
 {
 	return (type == COMMAND || type == RIGHT_RED || type == LEFT_RED);
 }

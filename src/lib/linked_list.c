@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:09:46 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 19:50:49 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 02:07:35 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/execution.h"
 

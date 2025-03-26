@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utiles.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 23:58:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 01:43:37 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:15:03 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/parser.h"
 
 char	*ft_getenv(char *name, t_env *env)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_utile_one.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:15:38 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/25 22:04:41 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:15:15 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/parser.h"
 
 bool	will_expanded(char *s)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/24 13:07:09 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/03/26 03:26:34 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 /************************* Forward Declarations *************************/
 
 # include "minishell.h"
-
 # define SUCCESS 0
 # define FAILED 1
 # define EQUAL '='
@@ -33,7 +32,7 @@ typedef struct s_pipe
 
 typedef struct s_exec
 {
-	TokenType		type;
+	t_TokenType		type;
 	char			*value;
 	char			**s;
 	struct s_exec	*next;
@@ -75,6 +74,7 @@ typedef struct s_pipex_data
 	int	cmd_count;
 	int	current_cmd;
 	int	fd_count;
+	int	f_fd;
 }	t_pipex_data;
 
 typedef struct s_export
@@ -119,7 +119,8 @@ char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
 void	builtin_unset(t_env **env, char **arg, int *exit_status);
 int		is_pure_builtin(char *cmd);
-int		ft_execute_builtins(char **arg, t_env **env, int *exit_status, t_pipex_data *data, int f_fd);
+int		ft_execute_builtins(char **arg, t_env **env, int *exit_status, \
+	t_pipex_data *data);
 
 /************************* Environment Functions *************************/
 

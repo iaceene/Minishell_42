@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/23 09:56:54 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/03/26 03:19:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
 static void	run_child_process(t_env **env, char **cmd_argv, int *exit_status)
 {
@@ -43,31 +43,26 @@ static int	retrieve_exit_status(int status)
 
 void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 {
-	char		**cmd_argv;
-	pid_t		pid;
-	t_pipex_data data;
-	int			f_fd;
+	char			**cmd_argv;
+	pid_t			pid;
+	t_pipex_data	data;
 
-	f_fd = 1;
-	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0};
+	data.f_fd = 1;
+	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0, 0};
 	cmd_argv = cmd;
 	if (!cmd_argv || !(*cmd_argv))
 	{
 		*exit_status = 1;
 		return (ft_print_err("cmd_argv is NULL\n"));
 	}
-	if (ft_execute_builtins(cmd_argv, env, exit_status, &data, f_fd) == SUCCESS)
+	if (ft_execute_builtins(cmd_argv, env, exit_status, &data) == SUCCESS)
 	{
 		*exit_status = 0;
 		return ;
 	}
 	pid = fork();
 	if (pid < 0)
-	{
-		ft_print_err("Fork Error\n");
-		*exit_status = 1;
-		exit(1);
-	}
+		(ft_print_err("Fork Error\n"), *exit_status = 1, exit(1));
 	if (pid == 0)
 		run_child_process(env, cmd_argv, exit_status);
 	waitpid(pid, exit_status, 0);

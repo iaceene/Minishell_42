@@ -12,10 +12,10 @@
 
 #include "../../../../include/parser.h"
 
-void handle_outfile(t_cmd **head, char *val)
+void	handle_outfile(t_cmd **head, char *val)
 {
-	char **sp;
-	t_cmd *lst_cmd;
+	char	**sp;
+	t_cmd	*lst_cmd;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
@@ -31,16 +31,16 @@ void handle_outfile(t_cmd **head, char *val)
 		{
 			lst_cmd = get_last_cmd_pip(*head);
 			if (!lst_cmd)
-				return;
+				return ;
 			lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
 		}
 	}
 }
 
-void handle_append(t_cmd **head, char *val)
+void	handle_append(t_cmd **head, char *val)
 {
-	char **sp;
-	t_cmd *lst_cmd;
+	char	**sp;
+	t_cmd	*lst_cmd;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
@@ -56,16 +56,16 @@ void handle_append(t_cmd **head, char *val)
 		{
 			lst_cmd = get_last_cmd_pip(*head);
 			if (!lst_cmd)
-				return;
+				return ;
 			lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
 		}
 	}
 }
 
-void handle_infile(t_cmd **head, char *val)
+void	handle_infile(t_cmd **head, char *val)
 {
-	char **sp;
-	t_cmd *lst_cmd;
+	char	**sp;
+	t_cmd	*lst_cmd;
 
 	sp = ft_split(val, ' ');
 	if (!sp)
@@ -81,15 +81,15 @@ void handle_infile(t_cmd **head, char *val)
 		{
 			lst_cmd = get_last_cmd_pip(*head);
 			if (!lst_cmd)
-				return;
+				return ;
 			lst_cmd->cmd = join_args_adv(lst_cmd->cmd, sp);
 		}
 	}
 }
 
-t_cmd *new_herdoc(char *val, t_env *env, t_cmd **head)
+t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
 {
-	t_cmd *new;
+	t_cmd	*new;
 
 	new = ft_malloc(sizeof(t_cmd));
 	new->next = NULL;
@@ -111,9 +111,9 @@ void	add_pip_flag(t_cmd *head)
 	last_cmd->pip_infront = true;
 }
 
-t_cmd *final_data(t_cmd *head, t_env *env)
+t_cmd	*final_data(t_cmd *head, t_env *env)
 {
-	t_cmd *new;
+	t_cmd	*new;
 
 	new = NULL;
 	while (head)
@@ -130,16 +130,17 @@ t_cmd *final_data(t_cmd *head, t_env *env)
 			handle_infile(&new, head->next->value);
 		else if (head->type == HERDOC)
 			add_to_cmd(&new, new_herdoc(head->value, env, &new));
-		if (head->next && (head->type == RIGHT_RED || head->type == APPEND || head->type == LEFT_RED))
+		if (head->next && (head->type == RIGHT_RED || head->type == APPEND || \
+			head->type == LEFT_RED))
 			head = head->next;
 		head = head->next;
 	}
 	return (new);
 }
 
-int parser(t_data *data)
+int	parser(t_data *data)
 {
-	t_node *tock_data;
+	t_node	*tock_data;
 
 	tock_data = lexer_init(data->prompt);
 	free(data->prompt);

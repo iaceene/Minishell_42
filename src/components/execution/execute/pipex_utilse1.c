@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-int count_commands(t_cmd *cmd)
+int	count_commands(t_cmd *cmd)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (cmd)
@@ -26,7 +26,7 @@ int count_commands(t_cmd *cmd)
 	return (count);
 }
 
-void cleanup_child_fds(t_pipex_data *data)
+void	cleanup_child_fds(t_pipex_data *data)
 {
 	if (data->infile != -1 && data->infile != STDIN_FILENO)
 		close(data->infile);
@@ -40,7 +40,7 @@ void cleanup_child_fds(t_pipex_data *data)
 		close(data->prev_pipe_read);
 }
 
-void redirect_fd(int from_fd, int to_fd, const char *error_msg)
+static void	redirect_fd(int from_fd, int to_fd, const char *error_msg)
 {
 	if (from_fd < 0 || to_fd < 0)
 	{
@@ -55,20 +55,20 @@ void redirect_fd(int from_fd, int to_fd, const char *error_msg)
 	close(from_fd);
 }
 
-void handle_redirection(t_pipex_data *data)
+void	handle_redirection(t_pipex_data *data)
 {
 	if (data->current_cmd == 0 && data->infile != -1)
 		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin ho)");
 	else if (data->current_cmd > 0)
-		redirect_fd(data->prev_pipe_read, STDIN_FILENO, "dup2 failed (stdin hi)");
-
+		redirect_fd(data->prev_pipe_read, STDIN_FILENO, \
+			"dup2 failed (stdin hi)");
 	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
 		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
 	else if (data->current_cmd < data->cmd_count - 1)
 		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
 }
 
-void init_pipex_data(t_pipex_data *data, t_cmd *commands)
+void	init_pipex_data(t_pipex_data *data, t_cmd *commands)
 {
 	data->infile = -1;
 	data->outfile = -1;

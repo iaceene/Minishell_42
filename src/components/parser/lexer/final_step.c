@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   final_step.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/25 20:21:56 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:15:33 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/parser.h"
 
 t_cmd	*new_cmd(t_node *node)
 {

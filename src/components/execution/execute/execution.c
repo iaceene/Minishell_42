@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "../../../../include/execution.h"
 
-int ft_lstsize_head(t_cmd *lst)
+int	ft_lstsize_head(t_cmd *lst)
 {
-	int i;
+	int	i;
 
 	if (!lst)
 		return (0);
@@ -27,30 +27,28 @@ int ft_lstsize_head(t_cmd *lst)
 	return (i);
 }
 
-
-static void handle_single_command(t_cmd *exec_list, t_env **env,
-								  int *exit_status, t_pipex_data *data)
+static void	handle_single_command(t_cmd *exec_list, t_env **env, \
+			int *exit_status, t_pipex_data *data)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = exec_list;
 	handle_file_redirection(cmd, &data->infile, &data->outfile);
-
-
 	while (cmd && cmd->type != COMMAND)
 		cmd = cmd->next;
 	if (cmd)
 		execution_cmd(cmd->cmd, env, exit_status);
 }
 
-void execution(t_cmd **head, t_env **env, int *exit_status)
+void	execution(t_cmd **head, t_env **env, int *exit_status)
 {
 	int				cmd_count;
 	t_pipex_data	data;
+	t_cmd			*tmp;
 
 	if (!head || !*head)
-		return;
-	t_cmd *tmp = *head;
+		return ;
+	tmp = *head;
 	while (tmp)
 	{
 		if (tmp->type != COMMAND)
@@ -59,7 +57,7 @@ void execution(t_cmd **head, t_env **env, int *exit_status)
 	}
 	cmd_count = ft_lstsize_head(*head);
 	if (cmd_count == 0)
-		return;
+		return ;
 	if (cmd_count == 1)
 		handle_single_command(*head, env, exit_status, &data);
 	else

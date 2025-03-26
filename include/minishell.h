@@ -29,10 +29,11 @@
 # include <limits.h>
 # include <sys/wait.h>
 # include <termios.h>
+# define BUFFER_SIZE 5000000
 
 /************************* TokenType Enum *************************/
 
-typedef	enum
+typedef enum e_TokenType
 {
 	COMMAND,
 	WORD,
@@ -50,28 +51,25 @@ typedef	enum
 	OUT_FILE,
 	SIMPLE_FILE,
 	NIL
-}	TokenType;
+}	t_TokenType;
 
 /************************* env Struct *************************/
 
 typedef struct s_env
 {
 	char			*key;
-	struct	s_data	*data;
+	struct s_data	*data;
 	char			*value;
 	struct s_env	*next;
 	int				visible;
 	char			**a_ven;
 }	t_env;
 
-/************************* her_doc Struct *************************/
-
-
 /************************* cmd Struct *************************/
 
 typedef struct s_cmd
 {
-	TokenType		type;
+	t_TokenType		type;
 	bool			pip_infront;
 	int				fd_herdoc;
 	char			*value;
@@ -139,8 +137,5 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_print_err(char *s);
 void	ft_puterr(int state);
 int		exitstatus(int newstatus, int flag);
-
-# include "execution.h"
-# include "parser.h"
 
 #endif

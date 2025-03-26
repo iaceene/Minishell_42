@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/25 21:05:39 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:27:06 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 
 # include "minishell.h"
 # include "stdbool.h"
-#    define BUFFER_SIZE 5000000
 
 typedef struct s_node
 {
-	TokenType		type;
+	t_TokenType		type;
 	char			*value;
 	bool			visit;
 	int				hr_fd;
@@ -51,12 +50,12 @@ int			check_no_opned_pr(t_node *data);
 int			find_it(char *s, char c);
 int			check_qoats(char *val);
 int			others_checker(t_node *data);
-int			valid_next(TokenType type);
+int			valid_next(t_TokenType type);
 int			check_append(t_node *data);
 int			operator(char c);
 int			syntax_checker(t_node *data);
 void		add_to_list(t_node **head, t_node *new);
-t_node		*add_new_node(TokenType type, char *val);
+t_node		*add_new_node(t_TokenType type, char *val);
 int			is_inside_quotes(char *str, char *cur);
 char		*extract_word(char *s);
 void		add_to_cmd(t_cmd **head, t_cmd *new);
@@ -81,7 +80,7 @@ bool		will_expanded(char *s);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 void		ft_write(int fd, char *buffer);
 void		replace_character(char *s, int re);
-t_cmd		*new_cmd_val(char *val, TokenType typ);
+t_cmd		*new_cmd_val(char *val, t_TokenType typ);
 char		*join_args(char **sp);
 char		*join_arg_two(char **sp);
 char		**join_args_adv(char **s1, char **s2);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utiles.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:05:23 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:27:24 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-t_node	*add_new_node(TokenType type, char *val)
+t_node	*add_new_node(t_TokenType type, char *val)
 {
 	t_node	*ret;
 

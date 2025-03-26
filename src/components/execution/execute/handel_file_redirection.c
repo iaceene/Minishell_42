@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   handel_file_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 00:09:39 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/03/26 02:02:35 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
-int handle_input_redirection(t_cmd *cmd, int *infile)
+static int	handle_input_redirection(t_cmd *cmd, int *infile)
 {
 	if (*infile != -1)
 	{
 		close(*infile);
 		*infile = -1;
 	}
-
 	*infile = open(cmd->value, O_RDONLY);
 	if (*infile == -1)
 	{
@@ -29,14 +28,13 @@ int handle_input_redirection(t_cmd *cmd, int *infile)
 	return (0);
 }
 
-int handle_output_redirection(t_cmd *cmd, int *outfile)
+static int	handle_output_redirection(t_cmd *cmd, int *outfile)
 {
 	if (*outfile != -1)
 	{
 		close(*outfile);
 		*outfile = -1;
 	}
-
 	*outfile = open(cmd->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*outfile == -1)
 	{
@@ -46,14 +44,13 @@ int handle_output_redirection(t_cmd *cmd, int *outfile)
 	return (0);
 }
 
-int handle_append_redirection(t_cmd *cmd, int *outfile)
+static int	handle_append_redirection(t_cmd *cmd, int *outfile)
 {
 	if (*outfile != -1)
 	{
 		close(*outfile);
 		*outfile = -1;
 	}
-
 	*outfile = open(cmd->value, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (*outfile == -1)
 	{
@@ -63,7 +60,7 @@ int handle_append_redirection(t_cmd *cmd, int *outfile)
 	return (0);
 }
 
-int if_condition(t_cmd *current, int *infile, int *outfile)
+static int	if_condition(t_cmd *current, int *infile, int *outfile)
 {
 	if (current->type == IN_FILE)
 	{
@@ -89,16 +86,16 @@ int if_condition(t_cmd *current, int *infile, int *outfile)
 	return (0);
 }
 
-int handle_file_redirection(t_cmd *cmd, int *infile, int *outfile)
+int	handle_file_redirection(t_cmd *cmd, int *infile, int *outfile)
 {
-	t_cmd *current;
+	t_cmd	*current;
 
 	current = cmd;
 	current = cmd->next;
 	while (current)
 	{
 		if (current->type == COMMAND)
-			break;
+			break ;
 		if (if_condition(current, infile, outfile) == -1)
 			return (-1);
 		current = current->next;
