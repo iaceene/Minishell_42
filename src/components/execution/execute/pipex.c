@@ -105,32 +105,6 @@ static void	process_commands_loop(t_cmd *cmd, char **envp, \
 	}
 }
 
-void ft(t_cmd **head)
-{
-    t_cmd *tmp;
-    t_cmd *last = NULL;
-    t_cmd *first_cmd = NULL;
-
-    if (!head || !*head || (*head)->type == COMMAND)
-        return;
-
-    tmp = *head;
-    while (tmp && tmp->type != COMMAND)
-    {
-        last = tmp;
-        tmp = tmp->next;
-    }
-    if (!tmp)
-        return;
-    first_cmd = tmp;
-    if (last)
-    {
-        last->next = first_cmd->next;
-        first_cmd->next = *head;
-        *head = first_cmd;
-    }
-}
-
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
 {
 	t_pipex_data	data;
@@ -140,7 +114,7 @@ void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
 	cmd = commands;
 	init_pipex_data(&data, commands);
 	envp = ft_env_create_2d(*env);
-	ft(&cmd);
+	ft_sort(&cmd);
 	process_commands_loop(cmd, envp, &data, exit_status);
 	wait_for_children(data.cmd_count, exit_status);
 	cleanup_child_fds(&data);
