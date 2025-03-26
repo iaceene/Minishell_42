@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:06:17 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:05:11 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ int	others_checker(t_node *data)
 		if (data->type == COMMAND)
 			if (check_qoats(data->value))
 				return (0);
+		if (data->type == OPEN_PAR || data->type == CLOSE_PAR)
+			return (0);
 		data = data->next;
 	}
-	if (check_no_opned_pr(tmp)
-		|| check_herdoc(data))
+	if (check_herdoc(data))
 		return (0);
 	return (1);
 }

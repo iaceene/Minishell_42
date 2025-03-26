@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 02:02:35 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:06:32 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	handle_input_redirection(t_cmd *cmd, int *infile)
 		close(*infile);
 		*infile = -1;
 	}
+	if (!cmd->value)
+		return (ft_puterr(3), -1);
 	*infile = open(cmd->value, O_RDONLY);
 	if (*infile == -1)
 	{
@@ -35,6 +37,8 @@ static int	handle_output_redirection(t_cmd *cmd, int *outfile)
 		close(*outfile);
 		*outfile = -1;
 	}
+	if (!cmd->value)
+		return (ft_puterr(3), -1);
 	*outfile = open(cmd->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*outfile == -1)
 	{
@@ -51,6 +55,8 @@ static int	handle_append_redirection(t_cmd *cmd, int *outfile)
 		close(*outfile);
 		*outfile = -1;
 	}
+	if (!cmd->value)
+		return (ft_puterr(3), -1);
 	*outfile = open(cmd->value, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (*outfile == -1)
 	{

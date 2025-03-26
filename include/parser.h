@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 03:27:06 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:00:00 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ typedef struct s_expand
 	struct s_expand	*next;
 }	t_expand;
 
+typedef struct s_herdoc
+{
+	int		exit_state;
+	int		fd;
+	t_env	*head;
+	bool	flag;
+	char	*exit;
+}	t_herdoc;
+
 typedef struct s_buffer
 {
 	char			*val;
@@ -46,7 +55,6 @@ typedef struct s_buffer
 }	t_buffer;
 
 t_node		*lexer_init(const char *str);
-int			check_no_opned_pr(t_node *data);
 int			find_it(char *s, char c);
 int			check_qoats(char *val);
 int			others_checker(t_node *data);
@@ -89,6 +97,7 @@ int			get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s);
 void		copy_word(char *dst, char *src, int len);
 char		*skip_spaces(char *s);
 void		reforme_data(t_cmd **head);
+int			open_herdoc(t_herdoc lst);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
@@ -96,5 +105,8 @@ void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);
 void		handle_normal_text(char **input, t_expand **head, t_state state);
 char		*handle_qoa_cmd(char *s, int *in_quotes, char *quote_char);
+void		handle_outfile(t_cmd **head, char *val);
+void		handle_append(t_cmd **head, char *val);
+void		handle_infile(t_cmd **head, char *val);
 
 #endif

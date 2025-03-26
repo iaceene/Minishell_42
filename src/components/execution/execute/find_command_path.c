@@ -55,7 +55,27 @@ static char	*find_executable_in_path(char *path, char *cmd)
 	}
 	return (NULL);
 }
+#include <unistd.h>
 
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
+}
+#include <sys/stat.h>
+int	is_directory(const char *path)
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
+}
 char	*find_command_path(char *cmd, char **env)
 {
 	char	*path;
@@ -65,10 +85,29 @@ char	*find_command_path(char *cmd, char **env)
 		return (NULL);
 	if (ft_strncmp(cmd, "./", 2) == 0 || cmd[0] == '/')
 	{
+		if (is_directory(cmd))
+		{
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": Is a directory\n", 2);
+			exit (1);
+		}
 		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
+		else if (access(cmd, F_OK) == 0)
+		{
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": Permission denied\n", 2);
+			exit (1);
+		}
 		else
+		{
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 			return (NULL);
+		}
 	}
 	path = get_path_variable(env);
 	if (!path)

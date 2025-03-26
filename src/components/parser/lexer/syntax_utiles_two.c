@@ -6,22 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 03:27:39 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/26 20:04:39 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
-
-int	check_no_opned_pr(t_node *data)
-{
-	while (data)
-	{
-		if (data->type == CLOSE_PAR && data->visit == false)
-			return (1);
-		data = data->next;
-	}
-	return (0);
-}
 
 int	valid_next(t_TokenType type)
 {

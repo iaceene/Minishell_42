@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 03:27:17 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/26 20:39:11 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,44 +93,4 @@ char	**join_args_adv(char **s1, char **s2)
 	set_zero_space(ret);
 	set_empty_str(ret);
 	return (ret);
-}
-
-t_cmd	*get_last_cmd(t_cmd *head)
-{
-	t_cmd	*last;
-
-	if (!head)
-		return (NULL);
-	if (head->type == COMMAND)
-		last = head;
-	else
-		last = NULL;
-	while (head)
-	{
-		if (head->type == COMMAND)
-			last = head;
-		head = head->next;
-	}
-	return (last);
-}
-
-t_cmd	*get_last_cmd_pip(t_cmd *head)
-{
-	t_cmd	*last;
-
-	if (!head)
-		return (NULL);
-	if (head->type == COMMAND)
-		last = head;
-	else
-		last = NULL;
-	while (head)
-	{
-		if (head->type == COMMAND)
-			last = head;
-		head = head->next;
-	}
-	if (last && last->pip_infront)
-		return (NULL);
-	return (last);
 }

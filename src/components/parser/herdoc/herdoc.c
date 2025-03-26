@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 03:15:25 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/26 20:17:16 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_cmd	*new_cmd_hered(char **val)
 
 	ret = ft_malloc(sizeof(t_cmd));
 	ret->cmd = val;
+	ret->pip_infront = 0;
 	ret->type = COMMAND;
 	ret->next = NULL;
 	ret->value = NULL;
