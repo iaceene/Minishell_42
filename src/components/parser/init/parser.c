@@ -153,6 +153,6 @@ int	parser(t_data *data)
 	if (!data->head)
 		return (0);
 	data->head = final_data(data->head, data->final_env);
-	reforme_data(&data->head);
+	// reforme_data(&data->head);
 	return (1);
 }
