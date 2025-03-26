@@ -18,7 +18,7 @@ static void	handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data, \
 	t_env	*env;
 
 	if (handle_file_redirection(cmd, &data->infile, &data->outfile) == -1)
-		exit(0) ;
+		exit(1);
 	handle_redirection(data);
 	if (cmd->type == COMMAND)
 	{

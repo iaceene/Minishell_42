@@ -40,32 +40,32 @@ void	cleanup_child_fds(t_pipex_data *data)
 		close(data->prev_pipe_read);
 }
 
-static void	redirect_fd(int from_fd, int to_fd, const char *error_msg)
-{
-	if (from_fd < 0 || to_fd < 0)
-	{
-		perror("Invalid file descriptor");
-		error_and_exit((char *)error_msg, 1);
-	}
-	if (dup2(from_fd, to_fd) == -1)
-	{
-		perror("dup2 failed");
-		error_and_exit((char *)error_msg, 1);
-	}
-	close(from_fd);
-}
-
 void	handle_redirection(t_pipex_data *data)
 {
-	if (data->current_cmd == 0 && data->infile != -1)
-		redirect_fd(data->infile, STDIN_FILENO, "dup2 failed (stdin ho)");
-	else if (data->current_cmd > 0)
-		redirect_fd(data->prev_pipe_read, STDIN_FILENO, \
-			"dup2 failed (stdin hi)");
-	if (data->current_cmd == data->cmd_count - 1 && data->outfile != -1)
-		redirect_fd(data->outfile, STDOUT_FILENO, "dup2 failed (stdout)");
-	else if (data->current_cmd < data->cmd_count - 1)
-		redirect_fd(data->pipe_fd[1], STDOUT_FILENO, "dup2 failed (stdout)");
+	if (data->infile != -1)
+	{
+		if (dup2(data->infile, STDIN_FILENO) == -1)
+			perror("dup2 infile");
+		close(data->infile);
+	}
+	else if (data->current_cmd > 0 && data->prev_pipe_read != -1)
+	{
+		if (dup2(data->prev_pipe_read, STDIN_FILENO) == -1)
+			perror("dup2 pipe read");
+		close(data->prev_pipe_read);
+	}
+	if (data->outfile != -1)
+	{
+		if (dup2(data->outfile, STDOUT_FILENO) == -1)
+			perror("dup2 outfile");
+		close(data->outfile);
+	}
+	else if (data->current_cmd < data->cmd_count - 1 && data->pipe_fd[1] != -1)
+	{
+		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == -1)
+			perror("dup2 pipe write");
+		close(data->pipe_fd[1]);
+	}
 }
 
 void	init_pipex_data(t_pipex_data *data, t_cmd *commands)
