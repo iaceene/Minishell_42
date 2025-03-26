@@ -33,30 +33,26 @@ static void handle_single_command(t_cmd *exec_list, t_env **env,
 {
 	t_cmd *cmd;
 
-	(void)data;
 	cmd = exec_list;
-	handle_file_redirection(cmd, &data->infile, &data->outfile, data);
+	handle_file_redirection(cmd, &data->infile, &data->outfile);
 
 
 	while (cmd && cmd->type != COMMAND)
 		cmd = cmd->next;
 	if (cmd)
-	{
 		execution_cmd(cmd->cmd, env, exit_status);
-	}
 }
 
 void execution(t_cmd **head, t_env **env, int *exit_status)
 {
-	int cmd_count;
-	t_pipex_data data;
+	int				cmd_count;
+	t_pipex_data	data;
 
 	if (!head || !*head)
 		return;
 	t_cmd *tmp = *head;
 	while (tmp)
 	{
-		// printf("====================================================\n");
 		if (tmp->type != COMMAND)
 			tmp->cmd = NULL;
 		tmp = tmp->next;

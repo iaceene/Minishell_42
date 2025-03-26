@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_file_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/25 21:56:50 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:09:39 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int handle_output_redirection(t_cmd *cmd, int *outfile)
 		*outfile = -1;
 	}
 
-	if (!cmd->value)
-		return (ft_puterr(3), -1);
 	*outfile = open(cmd->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*outfile == -1)
 	{
@@ -56,8 +54,6 @@ int handle_append_redirection(t_cmd *cmd, int *outfile)
 		*outfile = -1;
 	}
 
-	if (!cmd->value)
-		return (ft_puterr(3), -1);
 	*outfile = open(cmd->value, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (*outfile == -1)
 	{
@@ -67,10 +63,34 @@ int handle_append_redirection(t_cmd *cmd, int *outfile)
 	return (0);
 }
 
-int handle_file_redirection(t_cmd *cmd, int *infile, int *outfile,
-							t_pipex_data *data)
+int if_condition(t_cmd *current, int *infile, int *outfile)
 {
-	(void)data;
+	if (current->type == IN_FILE)
+	{
+		if (handle_input_redirection(current, infile) == -1)
+			return (-1);
+	}
+	else if (current->type == OUT_FILE)
+	{
+		if (handle_output_redirection(current, outfile) == -1)
+			return (-1);
+	}
+	else if (current->type == APPEND)
+	{
+		if (handle_append_redirection(current, outfile) == -1)
+			return (-1);
+	}
+	else if (current->type == HERDOC)
+	{
+		if (dup2(current->fd_herdoc, STDIN_FILENO) == -1)
+			perror("dup2 rediretcion");
+		close(current->fd_herdoc);
+	}
+	return (0);
+}
+
+int handle_file_redirection(t_cmd *cmd, int *infile, int *outfile)
+{
 	t_cmd *current;
 
 	current = cmd;
@@ -79,28 +99,8 @@ int handle_file_redirection(t_cmd *cmd, int *infile, int *outfile,
 	{
 		if (current->type == COMMAND)
 			break;
-		if (current->type == IN_FILE)
-		{
-			if (handle_input_redirection(current, infile) == -1)
-				return (-1);
-		}
-		else if (current->type == OUT_FILE)
-		{
-			if (handle_output_redirection(current, outfile) == -1)
-				return (-1);
-		}
-		else if (current->type == APPEND)
-		{
-			if (handle_append_redirection(current, outfile) == -1)
-				return (-1);
-		}
-		else if (current->type == HERDOC)
-		{
-			if (dup2(current->fd_herdoc, STDIN_FILENO) == -1)
-				perror("dup2 rediretcion");
-			printf("dsddsds");
-			close(current->fd_herdoc);
-		}
+		if (if_condition(current, infile, outfile) == -1)
+			return (-1);
 		current = current->next;
 	}
 	return (0);

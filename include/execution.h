@@ -96,28 +96,29 @@ void	child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
 void	ft_free_string(char **str);
 void	error_and_exit(const char *str, int exite);
 void	close_fd(t_redirect *data);
+void	init_pipex_data(t_pipex_data *data, t_cmd *commands);
 void	close_all_pipe(int **pipes, int num_cmd);
-void	free_all_pipe(int **pipes, int i);
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
 char	*find_command_path(char *cmd, char **env);
 void	execute_cmd(char **cmd, char **env, int *exit_status);
 void	handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);
 int		count_commands(t_cmd *cmd);
-int		handle_file_redirection(t_cmd *cmd, int *infile, int *outfile, \
-	t_pipex_data *data);
+int		handle_file_redirection(t_cmd *cmd, int *infile, int *outfile);
 
 /************************* Built-in Functions *************************/
 
 int		builtin_cd(char **arg, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
 void	builtin_env(t_env *env, char **arg, int *exit_status);
+void	builtin_exit(char **arg, int *exit_status, t_env **env);
 void	ft_export_help(char *cmd, t_env **env, int *exit_status);
 void	print_export_error(char *slice1, char *slice2, int equal, int append);
 void	builtin_export(t_env **env, char **arg, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
 void	builtin_unset(t_env **env, char **arg, int *exit_status);
+int		is_pure_builtin(char *cmd);
 int		ft_execute_builtins(char **arg, t_env **env, int *exit_status, t_pipex_data *data, int f_fd);
 
 /************************* Environment Functions *************************/
