@@ -29,6 +29,7 @@
 # include <limits.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <sys/stat.h>
 # define BUFFER_SIZE 5000000
 
 /************************* TokenType Enum *************************/
@@ -105,6 +106,12 @@ void	ft_sighandler(int sig);
 char	*expand_heredoc_input(char *input, t_env *env, int exit_code);
 void	process_here_doc(char *delimiter, int *pipe_fd, t_env *env, \
 	int exit_code);
+
+/************************* Exec Function *************************/
+
+char	*find_command_path(char *cmd, char **env);
+char	*find_executable_in_path(char *path, char *cmd);
+char	*get_path_variable(char **env);
 
 /************************* Parser Function *************************/
 

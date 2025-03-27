@@ -63,6 +63,17 @@ t_cmd	*final_data(t_cmd *head, t_env *env)
 	return (new);
 }
 
+int	check_herdocs(t_cmd *head)
+{
+	while (head)
+	{
+		if (head->type == HERDOC && head->fd_herdoc == -99)
+			return (1);
+		head = head->next;
+	}
+	return (0);
+}
+
 int	parser(t_data *data)
 {
 	t_node	*tock_data;
@@ -78,5 +89,7 @@ int	parser(t_data *data)
 	if (!data->head)
 		return (0);
 	data->head = final_data(data->head, data->final_env);
+	if (check_herdocs(data->head))
+		return (-99);
 	return (1);
 }

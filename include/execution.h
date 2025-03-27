@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 17:27:55 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/26 22:48:49 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,11 @@ void	init_pipex_data(t_pipex_data *data, t_cmd *commands);
 void	close_all_pipe(int **pipes, int num_cmd);
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
 void	ft_sort(t_cmd **head);
+
 char	*find_command_path(char *cmd, char **env);
+char	*find_executable_in_path(char *path, char *cmd);
+char	*get_path_variable(char **env);
+
 void	execute_cmd(char **cmd, char **env, int *exit_status);
 void	handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);

@@ -26,6 +26,16 @@ static void	ft_init(t_tool *tool, char **env, t_data *data)
 	data->exe_state = 0;
 }
 
+void	close_fds(t_cmd *head)
+{
+	while (head)
+	{
+		if (head->type == HERDOC && head->fd_herdoc != -1)
+			close(head->fd_herdoc);
+		head = head->next;
+	}
+}
+
 void	input_prc(t_data	*data, t_tool *tool)
 {
 	int	state;
@@ -35,9 +45,15 @@ void	input_prc(t_data	*data, t_tool *tool)
 	{
 		state = parser(data);
 		if (state == 1)
+		{
 			execution(&data->head, &tool->env, &data->exe_state);
+			close_fds(data->head);
+		}
 		else if (state == -99)
+		{
+			close_fds(data->head);
 			data->exe_state = 130;
+		}
 		else
 		{
 			ft_puterr(14);

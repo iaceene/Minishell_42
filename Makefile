@@ -1,17 +1,11 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h
+ALL_INCS = $(INC) $(INCP) $(INCE)
 RM = rm -f
-MKDIR = mkdir -p
-
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-RED = \033[31m
-RESET = \033[0m
-
 
 SRCS =	./src/main/main.c \
 		./src/components/execution/builtin/builtin_cd.c \
@@ -32,6 +26,7 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/execute/execution_cmd.c \
 		./src/components/execution/execute/handel_file_redirection.c \
 		./src/components/execution/execute/execution.c \
+		./src/components/execution/execute/find_command_path_utils1.c \
 		./src/components/execution/execute/find_command_path.c \
 		./src/components/execution/execute/pipex_utilse1.c \
 		./src/components/execution/execute/pipex_utilse2.c \
@@ -39,7 +34,6 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/init/parser.c \
 		./src/components/parser/init/parser_utiles_one.c \
 		./src/components/parser/init/redir_handler.c \
-		./src/components/parser/init/data_reformer.c \
 		./src/components/parser/init/parser_utiles.c \
 		./src/components/parser/expander/expander.c \
 		./src/components/parser/expander/expander_utiles.c \
@@ -81,65 +75,24 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strtrim.c \
 		./src/lib/ft_substr.c \
 		./src/lib/linked_list.c \
-		./src/lib/print_err.c \
+		./src/lib/print_err.c
 
+OBJS = $(SRCS:.c=.o)
 
+all: $(NAME)
 
-OBJS = $(patsubst ./src/%.c, ./obj/%.o, $(SRCS))
+$(NAME): $(OBJS) 
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -lreadline -lncurses
 
-OBJ_DIR = ./obj
-
-all: ${NAME}
-
-${NAME}: ${OBJS}
-	@${CC} ${FLAGS} ${OBJS} -o ${NAME} -lreadline -lncurses
-	@echo "${GREEN}${NAME} compiled successfully!${RESET}"
-
-$(OBJ_DIR)/%.o: ./src/%.c ${INC} ${INCE} ${INCP}
-	@$(MKDIR) $(dir $@)
-	@${CC} ${FLAGS} -c $< -o $@
-	@echo "${YELLOW}Compiled $< -> $@${RESET}"
+%.o: %.c $(ALL_INCS)
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@$(RM) -r $(OBJ_DIR)
-	@echo "${RED}Object files removed!${RESET}"
+	$(RM) $(OBJS)
 
 fclean: clean
-	@$(RM) ${NAME}
-	@echo "${RED}${NAME} removed!${RESET}"
+	$(RM) $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re
-
-
-print_error:
-	@echo "$(RED)"
-	@echo " ███▄ ▄███▓ ██▓ ███▄    █  ██▓  ██████  ██░ ██ ▓█████  ██▓     ██▓    "
-	@echo "▓██▒▀█▀ ██▒▓██▒ ██ ▀█   █ ▓██▒▒██    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    "
-	@echo "▓██    ▓██░▒██▒▓██  ▀█ ██▒▒██▒░ ▓██▄   ▒██▀▀██░▒███   ▒██░    ▒██░    "
-	@echo "▒██    ▒██ ░██░▓██▒  ▐▌██▒░██░  ▒   ██▒░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░    "
-	@echo "▒██▒   ░██▒░██░▒██░   ▓██░░██░▒██████▒▒░▓█▒░██▓░▒████▒░██████▒░██████▒"
-	@echo "░ ▒░   ░  ░░▓  ░ ▒░   ▒ ▒ ░▓  ▒ ▒▓▒ ▒ ░ ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░"
-	@echo "░  ░      ░ ▒ ░░ ░░   ░ ▒░ ▒ ░░ ░▒  ░ ░ ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░"
-	@echo "░      ░    ▒ ░   ░   ░ ░  ▒ ░░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   "
-	@echo "       ░    ░           ░  ░        ░   ░  ░  ░   ░  ░    ░  ░    ░  ░"
-	@echo " ⢸⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⡷⠀⠀						"
-	@echo " ⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⣀⠀⠀					    "
-	@echo " ⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇ Are you winning son?	"
-	@echo " ⢸⠀⠀⠀⠀ ⠖⠒⠒⠒⢤⠀⠀⠀⠀⠀⡇⠀						"
-	@echo " ⢸⠀⠀⣀⢤⣼⣀⡠⠤⠤⠼⠤⡄⠀⠀⡇⠀						"
-	@echo " ⢸⠀⠀⠑⡤⠤⡒⠒⠒⡊⠙⡏⠀⢀⠀⡇⠀						"
-	@echo " ⢸⠀⠀⠀⠇⠀⣀⣀⣀⣀⢀⠧⠟⠁⠀⡇						"
-	@echo " ⢸⠀⠀⠀⠸⣀⠀⠀⠈⢉⠟⠓⠀⠀⠀⠀						"
-	@echo " ⢸⠀⠀⠀⠀⠈⢱⡖⠋⠁⠀⠀⠀⠀⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠀⠀⣠⢺⠧⢄⣀⠀⠀⣀⣀⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠀⣠⠃⢸⠀⠀⠈⠉⡽⠿⠯⡆							"
-	@echo " ⢸⠀⠀⣰⠁⠀⢸⠀⠀⠀⠀⠉⠉⠉⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠣⠀⠀⢸⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇						"
-	@echo " ⢸⠀⠀⠀⠀⠀⢸⠀⢇⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀						"
-	@echo "\033[38;2;89;180;195m"
-	@echo "                       by: kaneki, iaceene                       "
-	@echo "\033[0m"                                                         
 
 .PHONY: all clean fclean re

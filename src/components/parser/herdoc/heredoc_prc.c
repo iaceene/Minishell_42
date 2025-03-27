@@ -6,13 +6,25 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 21:03:04 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/27 01:07:34 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-int	g_herdocsing;
+static int	g_herdocsing;
+
+void	ft_sighandler(int sig)
+{
+	if (sig == SIGINT || sig == SIGQUIT)
+	{
+		g_herdocsing++;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
 void	herdoc_signal(int signo)
 {
@@ -38,16 +50,17 @@ int	heredoc_child_process(t_herdoc lst)
 		free(prom);
 	}
 	free(prom);
-	return (0);
+	exit(0);
 }
 
 int	open_herdoc(t_herdoc lst)
 {
 	pid_t	pid;
+	int		last;
 	int		status;
 
 	pid = fork();
-	g_herdocsing = 0;
+	last = g_herdocsing;
 	if (pid == -1)
 	{
 		perror("fork failed");
@@ -58,7 +71,7 @@ int	open_herdoc(t_herdoc lst)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (g_herdocsing)
+		if (last - g_herdocsing != 0)
 			return (-99);
 		return (0);
 	}

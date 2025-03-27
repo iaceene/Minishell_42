@@ -12,7 +12,7 @@
 
 #include "../../../../include/minishell.h"
 
-static char	*get_path_variable(char **env)
+char	*get_path_variable(char **env)
 {
 	int		i;
 
@@ -24,7 +24,7 @@ static char	*get_path_variable(char **env)
 	return (ft_strdup(env[i] + 5));
 }
 
-static char	*check_command_in_dir(char *dir, char *cmd)
+char	*check_command_in_dir(char *dir, char *cmd)
 {
 	char	*temp;
 	char	*full_path;
@@ -40,7 +40,7 @@ static char	*check_command_in_dir(char *dir, char *cmd)
 	return (NULL);
 }
 
-static char	*find_executable_in_path(char *path, char *cmd)
+char	*find_executable_in_path(char *path, char *cmd)
 {
 	char	*dir;
 	char	*full_path;
@@ -55,66 +55,6 @@ static char	*find_executable_in_path(char *path, char *cmd)
 	}
 	return (NULL);
 }
-#include <unistd.h>
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
-}
-#include <sys/stat.h>
-int	is_directory(const char *path)
-{
-	struct stat	statbuf;
-
-	if (stat(path, &statbuf) != 0)
-		return (0);
-	return (S_ISDIR(statbuf.st_mode));
-}
-char	*find_command_path(char *cmd, char **env)
-{
-	char	*path;
-	char	*result;
-
-	if (!cmd)
-		return (NULL);
-	if (ft_strncmp(cmd, "./", 2) == 0 || cmd[0] == '/')
-	{
-		if (is_directory(cmd))
-		{
-			ft_putstr_fd("bash: ", 2);
-			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": Is a directory\n", 2);
-			exit (1);
-		}
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		else if (access(cmd, F_OK) == 0)
-		{
-			ft_putstr_fd("bash: ", 2);
-			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": Permission denied\n", 2);
-			exit (1);
-		}
-		else
-		{
-			ft_putstr_fd("bash: ", 2);
-			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			return (NULL);
-		}
-	}
-	path = get_path_variable(env);
-	if (!path)
-		return (NULL);
-	result = find_executable_in_path(path, cmd);
-	return (result);
-}
 
 void	execute_cmd(char **cmd, char **env, int *exit_status)
 {
@@ -128,14 +68,12 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 		*exit_status = 127;
 	}
 	full_path = find_command_path(args[0], env);
+	if (!cmd[0][0])
+		(ft_puterr(17), *exit_status = 127, exit(127));
 	if (!full_path)
-	{
-		write(2, "command not found: ", 19);
-		write(2, args[0], ft_strlen(args[0]));
-		write(2, "\n", 1);
-		*exit_status = 127;
-		exit(127);
-	}
+		(write(2, "command not found: ", 19), \
+		write(2, args[0], ft_strlen(args[0])), write(2, "\n", 1), \
+		*exit_status = 127, exit(127));
 	args[0] = full_path;
 	if (execve(full_path, args, env) == -1)
 	{
