@@ -70,6 +70,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strlen.c \
 		./src/lib/ft_strncpy.c \
 		./src/lib/ft_strncmp.c \
+		./src/lib/ft_strcmp.c \
 		./src/lib/ft_strstr.c \
 		./src/lib/ft_strtok.c \
 		./src/lib/ft_strtrim.c \

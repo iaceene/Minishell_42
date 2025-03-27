@@ -21,7 +21,7 @@ static t_env	*merge_sorted_env(t_env *a, t_env *b)
 		return (b);
 	if (!b)
 		return (a);
-	if (strcmp(a->key, b->key) <= 0)
+	if (ft_strcmp(a->key, b->key) <= 0)
 	{
 		result = a;
 		result->next = merge_sorted_env(a->next, b);
@@ -77,7 +77,7 @@ static void	print_sorted_env(t_env *env)
 	cur = env;
 	while (cur)
 	{
-		if (strcmp(cur->key, "_") != 0)
+		if (ft_strcmp(cur->key, "_") != 0)
 		{
 			printf("declare -x %s", cur->key);
 			if (cur->value && cur->visible)

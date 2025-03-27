@@ -21,18 +21,9 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
-# include <errno.h>
 # include <fcntl.h>
-# include <dirent.h>
-# include <string.h>
-# include <limits.h>
-# include <sys/wait.h>
-# include <termios.h>
 # include <sys/stat.h>
 # define BUFFER_SIZE 5000000
-
-/************************* TokenType Enum *************************/
 
 typedef enum e_TokenType
 {
@@ -54,8 +45,6 @@ typedef enum e_TokenType
 	NIL
 }	t_TokenType;
 
-/************************* env Struct *************************/
-
 typedef struct s_env
 {
 	char			*key;
@@ -65,8 +54,6 @@ typedef struct s_env
 	int				visible;
 	char			**a_ven;
 }	t_env;
-
-/************************* cmd Struct *************************/
 
 typedef struct s_cmd
 {
@@ -78,8 +65,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-/************************* data Struct *************************/
-
 typedef struct s_data
 {
 	char	**env;
@@ -89,36 +74,19 @@ typedef struct s_data
 	char	*prompt;
 }	t_data;
 
-/************************* Prompt Functions *************************/
-
 char	*ft_get_cli(char **env);
 void	exit_the_shell(int state);
 char	*ft_join_params(char *user, char *dis);
 char	*prompt(char **env);
-
-/************************* Signal Functions *************************/
-
 void	ft_init_signals(void);
 void	ft_sighandler(int sig);
-
-/************************* Heredoc Functions *************************/
-
 char	*expand_heredoc_input(char *input, t_env *env, int exit_code);
 void	process_here_doc(char *delimiter, int *pipe_fd, t_env *env, \
 	int exit_code);
-
-/************************* Exec Function *************************/
-
 char	*find_command_path(char *cmd, char **env);
 char	*find_executable_in_path(char *path, char *cmd);
 char	*get_path_variable(char **env);
-
-/************************* Parser Function *************************/
-
 int		parser(t_data *data);
-
-/************************* Lib Functions *************************/
-
 void	*ft_malloc(ssize_t len);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
@@ -136,6 +104,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t	ft_strlen(const char *str);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strstr(char *haystack, char *needle);
 char	*ft_itoa(int n);
 char	*ft_strtok(char *str, const char *delim);

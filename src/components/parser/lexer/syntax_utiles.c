@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:18:10 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 20:05:11 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:56:17 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ int	check_herdoc(t_node *data)
 
 int	others_checker(t_node *data)
 {
-	t_node	*tmp;
-
-	tmp = data;
 	while (data)
 	{
 		if (data->type == COMMAND)
