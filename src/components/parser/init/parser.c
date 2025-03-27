@@ -79,6 +79,8 @@ int	parser(t_data *data)
 	t_node	*tock_data;
 
 	tock_data = lexer_init(data->prompt);
+	if (only_space(data->prompt))
+		return (433);
 	free(data->prompt);
 	data->prompt = NULL;
 	if (!tock_data)

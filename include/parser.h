@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 21:00:00 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/27 01:19:01 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ char		*handle_qoa_cmd(char *s, int *in_quotes, char *quote_char);
 void		handle_outfile(t_cmd **head, char *val);
 void		handle_append(t_cmd **head, char *val);
 void		handle_infile(t_cmd **head, char *val);
+int			only_space(char *s);
 
 #endif

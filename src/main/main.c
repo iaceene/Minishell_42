@@ -54,6 +54,8 @@ void	input_prc(t_data	*data, t_tool *tool)
 			close_fds(data->head);
 			data->exe_state = 130;
 		}
+		else if (state == 433)
+			return ;
 		else
 		{
 			ft_puterr(14);

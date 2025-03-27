@@ -6,11 +6,22 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/27 01:08:42 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/27 01:22:13 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
+
+int	only_space(char *s)
+{
+	while (*s)
+	{
+		if (!ft_isspace(*s))
+			return (0);
+		s++;
+	}
+	return (1);
+}
 
 char	*remove_qoats(char *s)
 {
