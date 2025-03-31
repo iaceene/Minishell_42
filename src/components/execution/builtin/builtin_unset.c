@@ -49,6 +49,8 @@ void	builtin_unset(t_env **env, char **arg, int *exit_status)
 			ft_print_err("': invalid identifier\n");
 			invalid_flag = 1;
 		}
+		else if (ft_strcmp(arg[index], "_") == 0)
+			invalid_flag = 1;
 		else
 			ft_env_delete(env, arg[index]);
 		index++;
