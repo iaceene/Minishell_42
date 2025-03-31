@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   env_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 06:29:41 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 03:19:20 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:15:34 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
+
+static void	ft_increment_shell_level(t_env **env)
+{
+	t_env	*shlvl_node;
+	int		shlvl_value;
+	char	*new_shlvl;
+
+	shlvl_node = *env;
+	while (shlvl_node && ft_strcmp(shlvl_node->key, "SHLVL") != 0)
+		shlvl_node = shlvl_node->next;
+	if (!shlvl_node)
+	{
+		ft_env_add(env, ft_strdup("SHLVL"), ft_strdup("1"), 1);
+		return ;
+	}
+	shlvl_value = ft_atoi(shlvl_node->value);
+	shlvl_value++;
+	if (shlvl_value < 0)
+		shlvl_value = 0;
+	else if (shlvl_value > 1000)
+	{
+		ft_print_err("shell warning: shell level too high, resetting to 1\n");
+		shlvl_value = 1;
+	}
+	new_shlvl = ft_itoa(shlvl_value);
+	if (new_shlvl)
+		shlvl_node->value = new_shlvl;
+}
 
 t_env	*ft_env_create_default(void)
 {
@@ -18,9 +46,10 @@ t_env	*ft_env_create_default(void)
 
 	head = NULL;
 	ft_env_add(&head, "PWD", "/", 1);
-	ft_env_add(&head, "SHLVL", "1", 1);
+	ft_env_add(&head, "SHLVL", "0", 1);
 	ft_env_add(&head, "_", "/usr/bin/env", 1);
 	ft_env_add(&head, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 1);
+	ft_increment_shell_level(&head);
 	return (head);
 }
 
@@ -91,5 +120,6 @@ t_env	*ft_env_create(char **ev)
 	}
 	ft_env_delete(&env, "OLDPWD");
 	ft_env_add(&env, ft_strdup("OLDPWD"), ft_strdup(""), 0);
+	ft_increment_shell_level(&env);
 	return (env);
 }
