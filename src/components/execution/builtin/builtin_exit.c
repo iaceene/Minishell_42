@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 01:52:48 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 03:21:20 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/01 15:40:08 by kaneki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static int	ft_atoll_exit(char *str)
 	{
 		if (num > LLONG_MAX / 10 || \
 			(num == LLONG_MAX / 10 && (str[i] - '0' > 7)))
-			ft_print_error("exit: numeric argument required", 255);
+			ft_print_error("exit: numeric argument required", 2);
 		num = num * 10 + (str[i++] - '0');
 	}
 	if (str[i])
-		ft_print_error("exit: numeric argument required", 255);
+		ft_print_error("exit: numeric argument required", 2);
 	return ((num * sign) % 256);
 }
 
@@ -78,10 +78,10 @@ void	builtin_exit(char **arg, int *exit_status, t_env **env)
 		exit(0);
 	}
 	if (!ft_is_numeric(arg[1]))
-		ft_print_error("exit: numeric argument required", 255);
+		ft_print_error("exit: numeric argument required", 2);
 	if (arg[2])
 	{
-		ft_print_error("exit: too many arguments", -1);
+		ft_print_error("exit: too many arguments", 1);
 		*exit_status = 1;
 		return ;
 	}
