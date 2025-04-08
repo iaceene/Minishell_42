@@ -13,11 +13,6 @@
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
 
-void	clear_terminal(void)
-{
-	write(1, "\033[H\033[J", 6);
-}
-
 static void	ft_init(t_tool *tool, char **env, t_data *data)
 {
 	tool->env = ft_env_create(env);
@@ -69,7 +64,6 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
 	t_tool	tool;
 
-	clear_terminal();
 	data.env = env;
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, ft_sighandler);

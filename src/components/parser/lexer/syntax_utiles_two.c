@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utiles_two.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 20:04:39 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:25:06 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	valid_next(t_TokenType type)
 {
-	return (type == COMMAND || type == RIGHT_RED || type == LEFT_RED);
+	return (type == COMMAND || type == RIGHT_RED || type == LEFT_RED ||
+		type == HERDOC);
 }
 
 int	check_append(t_node *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_prc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/27 01:07:34 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:36:38 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	ft_sighandler(int sig)
 	if (sig == SIGINT || sig == SIGQUIT)
 	{
 		g_herdocsing++;
-		write(1, "\n", 1);
 		rl_on_new_line();
+		if (SIGINT == sig)
+			write(1, "\n", 1);
+		else
+			write(1, "\033[K", 4); 
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
