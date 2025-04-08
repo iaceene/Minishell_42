@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:41:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 20:42:00 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:29:06 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_outfile(t_cmd **head, char *val)
 	char	**sp;
 	t_cmd	*lst_cmd;
 
-	sp = ft_split(val, ' ');
+	sp = ft_split_adv(val);
 	if (!sp)
 		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), OUT_FILE)));
 	if (!sp[1])
@@ -42,7 +42,7 @@ void	handle_append(t_cmd **head, char *val)
 	char	**sp;
 	t_cmd	*lst_cmd;
 
-	sp = ft_split(val, ' ');
+	sp = ft_split_adv(val);
 	if (!sp)
 		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), APPEND)));
 	if (!sp[1])
@@ -67,7 +67,7 @@ void	handle_infile(t_cmd **head, char *val)
 	char	**sp;
 	t_cmd	*lst_cmd;
 
-	sp = ft_split(val, ' ');
+	sp = ft_split_adv(val);
 	if (!sp)
 		return (add_to_cmd(head, new_cmd_val(ft_strdup(""), IN_FILE)));
 	if (!sp[1])

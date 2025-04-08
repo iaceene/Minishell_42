@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 20:39:11 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:28:36 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*new_cmd_val(char *val, t_TokenType typ)
 	new->next = NULL;
 	if (typ == COMMAND)
 	{
-		new->cmd = ft_split(val, ' ');
+		new->cmd = ft_split_adv(val);
 		set_empty_str(new->cmd);
 		set_zero_space(new->cmd);
 	}
@@ -87,7 +87,7 @@ char	**join_args_adv(char **s1, char **s2)
 	char	*tmp;
 
 	tmp = ft_strjoin(join_arg_two(s1), join_args(s2));
-	ret = ft_split(tmp, ' ');
+	ret = ft_split_adv(tmp);
 	if (!ret)
 		return (NULL);
 	set_zero_space(ret);

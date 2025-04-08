@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/27 21:06:32 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:27:48 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ void		handle_outfile(t_cmd **head, char *val);
 void		handle_append(t_cmd **head, char *val);
 void		handle_infile(t_cmd **head, char *val);
 int			only_space(char *s);
+char		**ft_split_adv(char const *s);
 
 #endif

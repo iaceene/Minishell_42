@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/27 01:22:13 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:28:09 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 	fd = -1;
 	qoated = will_expanded(exit);
 	set_space_zero_qoats(exit);
-	arg = ft_split(exit, ' ');
+	arg = ft_split_adv(exit);
 	if (!arg)
 		return (-1);
 	set_zero_space(arg);

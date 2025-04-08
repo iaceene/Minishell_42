@@ -31,10 +31,11 @@ SRCS =	./src/main/main.c \
 		./src/components/execution/execute/pipex_utilse1.c \
 		./src/components/execution/execute/pipex_utilse2.c \
 		./src/components/execution/execute/pipex.c \
+		./src/components/parser/init/parser_utiles.c \
 		./src/components/parser/init/parser.c \
 		./src/components/parser/init/parser_utiles_one.c \
 		./src/components/parser/init/redir_handler.c \
-		./src/components/parser/init/parser_utiles.c \
+		./src/components/parser/init/split_adv.c \
 		./src/components/parser/expander/expander.c \
 		./src/components/parser/expander/expander_utiles.c \
 		./src/components/parser/expander/expander_utiles_two.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/27 20:55:33 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:48:24 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	cmd_argv = cmd;
 	if (!cmd_argv || !(*cmd_argv))
 	{
-		*exit_status = 1;
-		return (ft_print_err("cmd_argv is NULL\n"));
+		*exit_status = 0;
+		return ;
 	}
 	if (ft_execute_builtins(cmd_argv, env, exit_status, &data) == SUCCESS)
 	{
