@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/08 22:31:50 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:03:26 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	builtin_env(t_env *env, char **arg, int *exit_status);
 void	builtin_exit(char **arg, int *exit_status, t_env **env);
 void	ft_export_help(char *cmd, t_env **env, int *exit_status);
 void	print_export_error(char *slice1, char *slice2, int equal, int append);
+int		use_equal(char **cmd);
 void	builtin_export(t_env **env, char **arg, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);

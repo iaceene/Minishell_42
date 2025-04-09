@@ -88,31 +88,6 @@ static void	print_sorted_env(t_env *env)
 	}
 }
 
-int use_equal(char **cmd)
-{
-	int	i;
-	int	j;
-	int	f;
-	
-	i = 0;
-	j = 0;
-	f = 0;
-	while (cmd[i])
-	{
-		j = i;
-		while (cmd[i][j])
-		{
-			if (cmd[i][j] == '=')
-				f++;
-			j++;
-		}
-		i++;
-	}
-	if (f <= 0)
-		return (-1);
-	return (0);
-}
-
 void	builtin_export(t_env **env, char **cmd_args, int *exit_status)
 {
 	int		i;

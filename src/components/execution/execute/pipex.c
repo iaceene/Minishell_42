@@ -12,18 +12,19 @@
 
 #include "../../../../include/execution.h"
 
-static void	handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data, \
-		int *exit_status)
+static void	handle_child_process(t_cmd *cmd, t_pipex_data *data, \
+		int *exit_status, t_env **env)
 {
-	t_env	*env;
+	char	**envp;
 
+	envp = ft_env_create_2d(*env);
 	if (handle_file_redirection(cmd, &data->infile, &data->outfile) == -1)
 		exit(1);
 	handle_redirection(data);
 	if (cmd->type == COMMAND)
 	{
 		data->f_fd = 0;
-		if (ft_execute_builtins(cmd->cmd, &env, exit_status, data) == SUCCESS)
+		if (ft_execute_builtins(cmd->cmd, env, exit_status, data) == SUCCESS)
 		{
 			close(data->pipe_fd[0]);
 			close(data->pipe_fd[1]);
@@ -38,8 +39,8 @@ static void	handle_child_process(t_cmd *cmd, char **envp, t_pipex_data *data, \
 	exit(1);
 }
 
-static void	process_command(t_cmd *cmd, char **envp, t_pipex_data *data, \
-		int *exit_status)
+static void	process_command(t_cmd *cmd, t_pipex_data *data, \
+		int *exit_status, t_env **env)
 {
 	pid_t	pid;
 
@@ -50,7 +51,7 @@ static void	process_command(t_cmd *cmd, char **envp, t_pipex_data *data, \
 	}
 	pid = fork();
 	if (pid == 0)
-		handle_child_process(cmd, envp, data, exit_status);
+		handle_child_process(cmd, data, exit_status, env);
 	else if (pid < 0)
 	{
 		perror("Fork");
@@ -91,12 +92,12 @@ static void	wait_for_children(int cmd_count, int *exit_status)
 	*exit_status = last_status;
 }
 
-static void	process_commands_loop(t_cmd *cmd, char **envp, \
-	t_pipex_data *data, int *exit_status)
+static void	process_commands_loop(t_cmd *cmd, \
+	t_pipex_data *data, int *exit_status, t_env **env)
 {
 	while (cmd)
 	{
-		process_command(cmd, envp, data, exit_status);
+		process_command(cmd, data, exit_status, env);
 		if (cmd->type == COMMAND)
 			data->current_cmd++;
 		cmd = cmd->next;
@@ -109,13 +110,11 @@ void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status)
 {
 	t_pipex_data	data;
 	t_cmd			*cmd;
-	char			**envp;
 
 	cmd = commands;
 	init_pipex_data(&data, commands);
-	envp = ft_env_create_2d(*env);
 	ft_sort(&cmd);
-	process_commands_loop(cmd, envp, &data, exit_status);
+	process_commands_loop(cmd, &data, exit_status, env);
 	wait_for_children(data.cmd_count, exit_status);
 	cleanup_child_fds(&data);
 }

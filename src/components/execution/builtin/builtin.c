@@ -74,7 +74,7 @@ static int	execute_builtin_command(char **arg, t_env **env, int *exit_status)
 		ft_strlen(arg[0]) == ft_strlen("pwd"))
 		return (builtin_pwd(), *exit_status = 0, SUCCESS);
 	else if (arg[0] && !ft_strncmp("env", arg[0], ft_strlen(arg[0])) && \
-		ft_strlen(arg[0]) == ft_strlen("en"))
+		ft_strlen(arg[0]) == ft_strlen("env"))
 		return (builtin_env(*env, arg, exit_status), SUCCESS);
 	else if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])) && \
 		ft_strlen(arg[0]) == ft_strlen("unset"))

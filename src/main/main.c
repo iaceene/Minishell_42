@@ -19,9 +19,6 @@ static void	ft_init(t_tool *tool, char **env, t_data *data)
 	data->final_env = tool->env;
 	tool->env->a_ven = ft_env_create_2d(tool->env);
 	data->exe_state = 0;
-	// rl_catch_signals = 0;
-	// signal(SIGINT, ft_sighandler);
-	// signal(SIGQUIT, ft_sighandler);
 }
 
 void	close_fds(t_cmd *head)
@@ -37,8 +34,8 @@ void	close_fds(t_cmd *head)
 void	input_prc(t_data	*data, t_tool *tool)
 {
 	int	state;
-	signal(SIGINT, ft_sighandler);
-	signal(SIGQUIT, ft_sighandler);
+
+	(signal(SIGINT, ft_sighandler), signal(SIGQUIT, ft_sighandler));
 	data->prompt = prompt(data->env);
 	if (data->prompt[0])
 	{

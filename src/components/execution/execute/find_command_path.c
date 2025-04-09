@@ -56,8 +56,6 @@ char	*find_executable_in_path(char *path, char *cmd)
 	return (NULL);
 }
 
-
-
 void	execute_cmd(char **cmd, char **env, int *exit_status)
 {
 	char	**args;

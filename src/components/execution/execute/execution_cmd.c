@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/08 22:32:25 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:00:48 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 		*exit_status = 0;
 		return ;
 	}
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN));
 	pid = fork();
 	if (pid < 0)
 		(ft_print_err("Fork Error\n"), *exit_status = 1, exit(1));
