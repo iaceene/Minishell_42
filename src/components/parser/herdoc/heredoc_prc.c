@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_prc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/09 12:58:23 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:23:54 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ static int	g_herdocsing;
 
 void	ft_sighandler(int sig)
 {
+	if (sig == SIGINT)
+		g_herdocsing++;
 	if (sig == SIGINT || sig == SIGQUIT)
 	{
-		g_herdocsing++;
 		rl_on_new_line();
 		if (SIGINT == sig)
 			write(1, "\n", 1);
@@ -29,19 +30,25 @@ void	ft_sighandler(int sig)
 	}
 }
 
-void	herdoc_signal(int signo)
+void	herdoc_sig(int sig)
 {
-	(void)signo;
-	g_herdocsing = 1;
-	rl_on_new_line();
-	exit(130);
+	if (sig == SIGINT)
+		exit(130);
+	else
+	{
+		write(1, "\033[K", 4);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 int	heredoc_child_process(t_herdoc lst)
 {
 	char	*prom;
 
-	signal(SIGINT, herdoc_signal);
+	signal(SIGINT, herdoc_sig);
+	signal(SIGQUIT, herdoc_sig);
 	while (1)
 	{
 		prom = readline("> ");
@@ -56,14 +63,23 @@ int	heredoc_child_process(t_herdoc lst)
 	exit(0);
 }
 
+void	def_sig(int sig)
+{
+	if (sig)
+		return ;
+}
+
 int	open_herdoc(t_herdoc lst)
 {
 	pid_t	pid;
 	int		last;
 	int		status;
 
-	pid = fork();
+	signal(SIGINT, def_sig);
+	signal(SIGQUIT, def_sig);
 	last = g_herdocsing;
+	printf("%d\n", last);
+	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork failed");
@@ -73,9 +89,12 @@ int	open_herdoc(t_herdoc lst)
 		return (heredoc_child_process(lst));
 	else
 	{
+	printf("%d\n", last);
 		waitpid(pid, &status, 0);
 		if (last - g_herdocsing != 0)
+		{
 			return (-99);
+		}
 		return (0);
 	}
 }

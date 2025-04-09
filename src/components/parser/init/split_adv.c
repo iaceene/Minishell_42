@@ -6,11 +6,21 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:22:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/08 16:36:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:17:59 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
+
+void	set_back_space(char *val)
+{
+	while (*val)
+	{
+		if (*val == -1)
+			*val = ' ';
+		val++;
+	}
+}
 
 static int	ft_isspliter(char c)
 {
