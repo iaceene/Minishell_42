@@ -15,12 +15,25 @@
 t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
 {
 	t_cmd	*new;
+	t_cmd	*tmp;
+	bool	flag;
 
+	flag = true;
+	tmp = *head;
 	new = ft_malloc(sizeof(t_cmd));
 	new->next = NULL;
 	new->type = HERDOC;
 	new->value = val;
-	new->fd_herdoc = herdoc(env, get_last_cmd(*head), head, val);
+	while (tmp)
+	{
+		if (tmp->type == HERDOC && tmp->fd_herdoc == -99)
+			flag = false;
+		tmp = tmp->next;
+	}
+	if (flag)
+		new->fd_herdoc = herdoc(env, get_last_cmd(*head), head, val);
+	else
+		new->fd_herdoc = -99;
 	return (new);
 }
 
