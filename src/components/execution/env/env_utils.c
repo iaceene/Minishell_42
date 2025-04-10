@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:17:32 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/27 21:00:48 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/10 12:21:10 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_print_env(t_env *env)
 {
 	while (env)
 	{
+		if (env->flag)
+			env = env->next;
 		if (env->visible)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;

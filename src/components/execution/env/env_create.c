@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 06:29:41 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/10 10:03:32 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/10 12:24:34 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_env	*ft_env_create_default(void)
 	ft_env_add(&head, "PWD", getcwd(NULL, 0), 1);
 	ft_env_add(&head, "SHLVL", "0", 1);
 	ft_env_add(&head, "_", "/usr/bin/env", 1);
-	ft_env_add(&head, "PATH", "/usr/local/sbin:/usr/local/bin:/usr\
-		/sbin:/usr/bin:/sbin:/bin:.", 1);
+	ft_env_add(&head, "PATH", SECURE_PATH, 1);
+	head->flag = 1;
 	ft_increment_shell_level(&head);
 	return (head);
 }

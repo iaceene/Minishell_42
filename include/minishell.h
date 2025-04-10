@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # define BUFFER_SIZE 5000000
+# define SECURE_PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 typedef enum e_TokenType
 {
@@ -53,6 +54,7 @@ typedef struct s_env
 	struct s_env	*next;
 	int				visible;
 	char			**a_ven;
+	bool			flag;
 }	t_env;
 
 typedef struct s_cmd
