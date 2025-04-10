@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:29:48 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:27:02 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:33:06 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ char	*expand_heredoc(char *prom, t_env *env, bool f, int exit)
 {
 	if (!prom || !f)
 		return (prom);
-	return (expander(prom, env, exit));
+	return (heredoc_expander(prom, env, exit));
 }

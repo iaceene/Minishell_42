@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/09 18:18:17 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:32:22 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void		set_back_space(char *val);
 int			open_herdoc(t_herdoc lst);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
+char		*heredoc_expander(char *str, t_env	*env, int exit);
 int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);

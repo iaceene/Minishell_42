@@ -44,6 +44,7 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/herdoc/herdoc_utile_one.c \
 		./src/components/parser/herdoc/heredoc_prc.c \
 		./src/components/parser/herdoc/herdoc.c \
+		./src/components/parser/expander/heredoc_expander.c \
 		./src/components/parser/lexer/final_step.c \
 		./src/components/parser/lexer/lexer_utiles.c \
 		./src/components/parser/lexer/syntax_checker.c \
