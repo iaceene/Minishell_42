@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expander.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 20:57:53 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/11 21:28:37 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*extract_name_hr(char	*str)
 	return (ret);
 }
 
-char	*extract_left_hr(char	*str)
+char	*extract_left_hr(char *str)
 {
 	int		len;
 	int		actual_len;
@@ -48,14 +48,11 @@ char	*extract_left_hr(char	*str)
 	ret = ft_malloc(actual_len - len + 1);
 	actual_len = 0;
 	while (str[len])
-	{
-		ret[actual_len] = str[len];
-		len++;
-		actual_len++;
-	}
-	ret[len] = '\0';
+		ret[actual_len++] = str[len++];
+	ret[actual_len] = '\0';
 	return (ret);
 }
+
 
 char	*exe_expand(char *str, t_env *env, int exit, bool flag)
 {

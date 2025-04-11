@@ -43,7 +43,7 @@ char	*find_command_path(char *cmd, char **env)
 	{
 		if (is_directory(cmd))
 			(ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
-			ft_putstr_fd(": Is a directory\n", 2), exit (1));
+			ft_putstr_fd(": Is a directory\n", 2), exit (126));
 		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
 		else if (access(cmd, F_OK) == 0)
