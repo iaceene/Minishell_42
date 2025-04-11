@@ -37,7 +37,6 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/init/redir_handler.c \
 		./src/components/parser/init/split_adv.c \
 		./src/components/parser/expander/expander.c \
-		./src/components/parser/expander/expander_utiles.c \
 		./src/components/parser/expander/expander_utiles_two.c \
 		./src/components/parser/expander/expander_utiles_tree.c \
 		./src/components/parser/expander/handlers.c \

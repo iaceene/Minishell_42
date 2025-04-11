@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 01:41:41 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/11 20:48:41 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 	while (head)
 	{
 		if (head->state != IN_SQUOTE && find_it(head->val, '$'))
-			tmp = expand_this(head->val, env, ex_status);
+			tmp = heredoc_expander(head->val, env, ex_status);
 		else
 			tmp = ft_strdup(head->val);
 		buffer = ft_strjoin(buffer, tmp);
