@@ -5,6 +5,7 @@
         "cstddef": "c",
         "type_traits": "c",
         "new": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "parser.h": "c"
     }
 }

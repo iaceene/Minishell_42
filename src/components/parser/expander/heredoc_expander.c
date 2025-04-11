@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 20:08:51 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/11 20:34:34 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char	*expand_this_str(char *str, t_env *env, int exit)
 
 	i = 0;
 	flag = true;
+	hard_code_pid(str);
 	if (str[0] == '$')
 		flag = false;
 	word = NULL;
@@ -112,9 +113,12 @@ char	*expand_this_str(char *str, t_env *env, int exit)
 
 char	*heredoc_expander(char *str, t_env	*env, int exit)
 {
+	char	*exp;
+
 	if (!str || !env)
 		return (NULL);
 	if (!find_it(str, '$'))
 		return (str);
-	return (expand_this_str(str, env, exit));
+	exp = expand_this_str(str, env, exit);
+	return (set_dollars(exp));
 }
