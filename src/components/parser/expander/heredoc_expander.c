@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 19:59:17 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/11 20:08:51 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ char	*extract_left_hr(char	*str)
 	return (ret);
 }
 
-char	*exe_expand(char *str, t_env *env, int exit)
+char	*exe_expand(char *str, t_env *env, int exit, bool flag)
 {
 	char	*word;
 	char	*left;
 
-	(void)exit;
+	if (flag)
+		return (str);
 	left = extract_left_hr(str);
 	word = extract_name_hr(str);
 	while (env)
@@ -74,6 +75,8 @@ char	*exe_expand(char *str, t_env *env, int exit)
 		}
 		env = env->next;
 	}
+	if (ft_strcmp("?", word) == 0)
+		return (ft_strjoin(ft_itoa(exit), left));
 	if (!env)
 		return (ft_strjoin(NULL, left));
 	return (ft_strjoin(word, left));
@@ -82,15 +85,20 @@ char	*exe_expand(char *str, t_env *env, int exit)
 char	*expand_this_str(char *str, t_env *env, int exit)
 {
 	char	*word;
+	bool	flag;
 	int		i;
 	char	**splited;
 
 	i = 0;
+	flag = true;
+	if (str[0] == '$')
+		flag = false;
 	word = NULL;
 	splited = ft_split(str, '$');
 	while (splited[i])
 	{
-		splited[i] = exe_expand(splited[i], env, exit);
+		splited[i] = exe_expand(splited[i], env, exit, flag);
+		flag = false;
 		i++;
 	}
 	i = 0;
