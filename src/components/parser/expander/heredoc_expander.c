@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 21:28:37 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 00:06:27 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	*extract_left_hr(char *str)
 	ret[actual_len] = '\0';
 	return (ret);
 }
-
 
 char	*exe_expand(char *str, t_env *env, int exit, bool flag)
 {
