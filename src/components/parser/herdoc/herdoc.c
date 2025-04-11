@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:09 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/11 21:11:31 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	only_space(char *s)
 {
+	if ((s[0] == ':' && ft_isspace(s[1])) || (s[0] == ':' && !s[1]))
+		return (1);
 	while (*s)
 	{
 		if (!ft_isspace(*s))
