@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaneki <kaneki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 01:52:48 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/01 15:40:08 by kaneki           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:18:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ static int	ft_atoll_exit(char *str)
 	return ((num * sign) % 256);
 }
 
-void	builtin_exit(char **arg, int *exit_status, t_env **env)
+void	builtin_exit(char **arg, int *exit_status, t_env **env, int flag)
 {
 	int	exit_code;
 
+	if (flag == 3)
+		return ;
 	if (!arg[1])
 	{
 		ft_print_error("exit", -1);

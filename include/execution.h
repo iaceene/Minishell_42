@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/10 12:31:23 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:17:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_pipex_data
 	int	cmd_count;
 	int	current_cmd;
 	int	f_fd;
+	int	status;
 }	t_pipex_data;
 
 typedef struct s_export
@@ -93,7 +94,7 @@ int		handle_file_redirection(t_cmd *cmd, int *infile, int *outfile);
 int		builtin_cd(char **arg, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
 void	builtin_env(t_env *env, char **arg, int *exit_status);
-void	builtin_exit(char **arg, int *exit_status, t_env **env);
+void	builtin_exit(char **arg, int *exit_status, t_env **env, int flag);
 void	ft_export_help(char *cmd, t_env **env, int *exit_status);
 void	print_export_error(char *slice1, char *slice2, int equal, int append);
 int		use_equal(char **cmd);

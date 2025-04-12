@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/11 21:24:37 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:16:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	t_pipex_data	data;
 
 	data.f_fd = 1;
-	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0};
+	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0, -1};
 	cmd_argv = cmd;
 	if (!cmd_argv || !(*cmd_argv))
 	{

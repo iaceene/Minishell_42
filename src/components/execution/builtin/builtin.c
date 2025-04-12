@@ -59,7 +59,8 @@ static int	restore_redirections(int f_fd, int k, int stdin_backup, \
 	return (0);
 }
 
-static int	execute_builtin_command(char **arg, t_env **env, int *exit_status)
+static int	execute_builtin_command(char **arg, t_env **env, int *exit_status, \
+	int flag)
 {
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])) && \
 		ft_strlen(arg[0]) == ft_strlen("echo"))
@@ -81,7 +82,7 @@ static int	execute_builtin_command(char **arg, t_env **env, int *exit_status)
 		return (builtin_unset(env, arg, exit_status), SUCCESS);
 	else if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])) && \
 		ft_strlen(arg[0]) == ft_strlen("exit"))
-		return (builtin_exit(arg, exit_status, env), SUCCESS);
+		return (builtin_exit(arg, exit_status, env, flag), SUCCESS);
 	return (FAILED);
 }
 
@@ -100,7 +101,7 @@ int	ft_execute_builtins(char **arg, t_env **env, int *exit_status, \
 		return (FAILED);
 	k = setup_output_input_redirection(data->f_fd, data, &stdout_backup, \
 		&stdin_backup);
-	result = execute_builtin_command(arg, env, exit_status);
+	result = execute_builtin_command(arg, env, exit_status, data->status);
 	restore_redirections(data->f_fd, k, stdin_backup, stdout_backup);
 	return (result);
 }
