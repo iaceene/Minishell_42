@@ -78,7 +78,8 @@ typedef struct s_data
 char	*ft_get_cli(char **env);
 void	exit_the_shell(int state);
 char	*ft_join_params(char *user, char *dis);
-char	*prompt(char **env);
+char	*prompt(char **env, int *ex);
+int		ft_get_signum(void);
 void	ft_init_signals(void);
 void	ft_sighandler(int sig);
 char	*expand_heredoc_input(char *input, t_env *env, int exit_code);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 20:35:49 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:05:43 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_herdoc
 {
 	int		exit_state;
 	int		fd;
+	t_data	*data;
 	t_env	*head;
 	bool	flag;
 	char	*exit;
@@ -101,6 +102,7 @@ int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 char		*heredoc_expander(char *str, t_env	*env, int exit);
 int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
+void		herdoc_sig(int sig);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);
 void		handle_normal_text(char **input, t_expand **head, t_state state);

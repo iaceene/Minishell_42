@@ -35,7 +35,18 @@ void	ft_putstr(char *s)
 	}
 }
 
-char	*prompt(char **env)
+void	ft_get_sigin(int *s)
+{
+	static int	last;
+	int			tmp;
+
+	tmp = last;
+	last = ft_get_signum();
+	if (last - tmp != 0)
+		*s = 130;
+}
+
+char	*prompt(char **env, int *ex)
 {
 	char		*s;
 	static char	*cli;
@@ -46,7 +57,9 @@ char	*prompt(char **env)
 	rl_instream = stdin;
 	if (!isatty(STDIN_FILENO))
 		exit_the_shell(3);
+	ft_get_sigin(ex);
 	s = readline(cli);
+	ft_get_sigin(ex);
 	if (!s)
 		exit_the_shell(0);
 	i++;

@@ -6,13 +6,18 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 21:52:48 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:05:10 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
 static int	g_herdocsing;
+
+int	ft_get_signum(void)
+{
+	return (g_herdocsing);
+}
 
 void	ft_sighandler(int sig)
 {
@@ -25,19 +30,6 @@ void	ft_sighandler(int sig)
 			write(1, "\n", 1);
 		else
 			write(1, "\033[K", 4);
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	herdoc_sig(int sig)
-{
-	if (sig == SIGINT)
-		exit(130);
-	else
-	{
-		write(1, "\033[K", 4);
-		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
@@ -58,6 +50,7 @@ int	heredoc_child_process(t_herdoc lst)
 		ft_write(lst.fd, expand_heredoc(prom, lst.head, lst.flag,
 				lst.exit_state));
 		free(prom);
+		prom = NULL;
 	}
 	free(prom);
 	exit(0);
@@ -90,7 +83,10 @@ int	open_herdoc(t_herdoc lst)
 	{
 		waitpid(pid, &status, 0);
 		if (last - g_herdocsing != 0)
+		{
+			lst.data->exe_state = 130;
 			return (-99);
+		}
 		return (0);
 	}
 }

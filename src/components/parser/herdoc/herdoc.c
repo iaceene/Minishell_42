@@ -6,11 +6,24 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/12 16:01:31 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 20:05:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
+
+void	herdoc_sig(int sig)
+{
+	if (sig == SIGINT)
+		exit(130);
+	else
+	{
+		write(1, "\033[K", 4);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
 int	only_space(char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:15:38 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/27 00:41:25 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 17:49:39 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 	lst_herdoc.exit_state = ex_s;
 	lst_herdoc.flag = f;
 	lst_herdoc.fd = fd;
+	lst_herdoc.data = env->data;
 	if (open_herdoc(lst_herdoc) == -99)
 		return (close(fd2), close(fd), -99);
 	close(fd);

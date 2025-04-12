@@ -13,7 +13,7 @@
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
 
-static void	ft_init(t_tool *tool, char **env, t_data *data)
+void	ft_init(t_tool *tool, char **env, t_data *data)
 {
 	tool->env = ft_env_create(env);
 	data->final_env = tool->env;
@@ -36,7 +36,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 	int	state;
 
 	(signal(SIGINT, ft_sighandler), signal(SIGQUIT, ft_sighandler));
-	data->prompt = prompt(data->env);
+	data->prompt = prompt(data->env, &data->exe_state);
 	if (data->prompt[0])
 	{
 		state = parser(data);
@@ -46,13 +46,10 @@ void	input_prc(t_data	*data, t_tool *tool)
 			close_fds(data->head);
 		}
 		else if (state == -99)
-		{
 			close_fds(data->head);
-			data->exe_state = 130;
-		}
 		else if (state == 433)
 			return ;
-		else
+		else if (state == 0)
 		{
 			ft_puterr(14);
 			data->exe_state = 2;
