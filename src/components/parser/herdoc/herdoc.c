@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 21:11:31 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:01:31 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*remove_qoats(char *s)
 
 	if (!s)
 		return (NULL);
-	result = ft_malloc(strlen(s) + 1);
+	result = ft_malloc(ft_strlen(s) + 1);
 	i = 0;
 	j = 0;
 	in_single_quotes = false;

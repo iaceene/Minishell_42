@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/20 22:15:26 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:01:09 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	starts_with(const char *str, const char *prefix)
 {
-	return (ft_strncmp(str, prefix, strlen(prefix)) == 0);
+	return (ft_strncmp(str, prefix, ft_strlen(prefix)) == 0);
 }
 
 void	other_oper(t_node **head, char *s)

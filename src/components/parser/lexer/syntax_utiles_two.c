@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/09 12:56:20 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/12 16:03:26 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	valid_next(t_TokenType type)
 {
 	return (type == COMMAND || type == RIGHT_RED || type == LEFT_RED || \
-		type == HERDOC);
+		type == HERDOC || type == APPEND);
 }
 
 int	check_append(t_node *data)
