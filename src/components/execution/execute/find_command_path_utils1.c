@@ -49,11 +49,11 @@ char	*find_command_path(char *cmd, char **env)
 		else if (access(cmd, F_OK) == 0)
 		{
 			(ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
-			ft_putstr_fd(": Permission denied\n", 2), exit (1));
+			ft_putstr_fd(": Permission denied\n", 2), exit(1));
 		}
 		else
-			return (ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
-			ft_putstr_fd(": No such file or directory\n", 2), NULL);
+			(ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
+			ft_putstr_fd(": No such file or directory\n", 2), exit(127));
 	}
 	path = get_path_variable(env);
 	if (!path)

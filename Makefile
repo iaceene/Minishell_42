@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h

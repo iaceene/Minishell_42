@@ -23,7 +23,6 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-# define BUFFER_SIZE 5000000
 
 typedef enum e_TokenType
 {

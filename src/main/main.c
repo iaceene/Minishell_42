@@ -35,7 +35,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 {
 	int	state;
 
-	(signal(SIGINT, ft_sighandler), signal(SIGQUIT, ft_sighandler));
+	(signal(SIGINT, ft_sighandler), signal(SIGQUIT, SIG_IGN));
 	data->prompt = prompt(data->env, &data->exe_state);
 	if (data->prompt[0])
 	{

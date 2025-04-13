@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:09:46 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/26 02:07:35 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/13 09:20:05 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,3 @@ int	ft_lstsize(t_list *lst)
 	}
 	return (counter);
 }
-
-// void	ft_lstclear(t_list **lst)
-// {
-// 	t_list	*cur_node;
-// 	t_list	*nxt_node;
-
-// 	if (!lst)
-// 		return ;
-// 	cur_node = *lst;
-// 	while (cur_node)
-// 	{
-// 		nxt_node = cur_node->next;
-// 		cur_node = nxt_node;
-// 	}
-// 	*lst = NULL;
-// }

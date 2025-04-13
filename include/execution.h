@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/12 20:17:51 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/13 09:20:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ typedef struct s_pipe
 	int		indice;
 	int		in;
 }	t_pipe;
-
-typedef struct s_exec
-{
-	t_TokenType		type;
-	char			*value;
-	char			**s;
-	struct s_exec	*next;
-}	t_exec;
 
 typedef struct s_list
 {

@@ -27,13 +27,8 @@ static void	handle_child_process(t_cmd *cmd, t_pipex_data *data, \
 	{
 		data->f_fd = 0;
 		if (ft_execute_builtins(cmd->cmd, env, exit_status, data) == SUCCESS)
-		{
-			close(data->pipe_fd[0]);
-			close(data->pipe_fd[1]);
-			close(data->prev_pipe_read);
-			cleanup_child_fds(data);
-			exit(0);
-		}
+			(close(data->pipe_fd[0]), close(data->pipe_fd[1]), \
+			close(data->prev_pipe_read), cleanup_child_fds(data), exit(0));
 		cleanup_child_fds(data);
 		execute_cmd(cmd->cmd, envp, exit_status);
 	}
