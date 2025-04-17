@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:17:22 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 20:35:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:22:20 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ void	hard_code_pid(char *str)
 	{
 		if (str[i + 1] && str[i] == '$' && str[i + 1] == '$')
 		{
-			str[i] = '1';
-			str[i + 1] = '3';
+			str[i] = '$';
+			str[i + 1] = '$';
 		}
 		if (str[i] == '$' && is_sperator(str[i + 1]))
+			str[i] = -12;
+		if (str[i + 1] && str[i] == '$' && str[i + 1] == '.')
 			str[i] = -12;
 		i++;
 	}
