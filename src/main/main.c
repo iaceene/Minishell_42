@@ -48,10 +48,19 @@ void	return_spaces(char *tmp)
 
 void	check_and_return_sp(t_cmd *head)
 {
+	int	i;
+
 	while (head)
 	{
 		if (head->type == COMMAND)
-			return_spaces(head->cmd[0]);
+		{
+			i = 0;
+			while (head->cmd[i])
+			{
+				return_spaces(head->cmd[i]);
+				i++;
+			}
+		}
 		head = head->next;
 	}
 }
