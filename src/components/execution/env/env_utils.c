@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:17:32 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/10 12:21:10 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/13 11:58:48 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,6 @@ int	ft_env_update(t_env **env, char *key, char *newval, int append_mod)
 		node = node->next;
 	}
 	return (1);
-}
-
-int	ft_env_size(t_env *env)
-{
-	int	size;
-
-	size = 0;
-	while (env)
-	{
-		size++;
-		env = env->next;
-	}
-	return (size);
 }
 
 int	ft_strcmpt(const char *s1, const char *s2)

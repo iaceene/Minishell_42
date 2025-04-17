@@ -101,7 +101,7 @@ void	builtin_export(t_env **env, char **cmd_args, int *exit_status)
 		print_sorted_env(env_dup);
 		ft_env_clear(&env_dup);
 	}
-	if (use_equal(cmd_args) == -1)
+	if (use_invalid(cmd_args) == -1)
 	{
 		*exit_status = 0;
 		return ;

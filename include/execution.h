@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/13 09:20:51 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:41:14 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	builtin_env(t_env *env, char **arg, int *exit_status);
 void	builtin_exit(char **arg, int *exit_status, t_env **env, int flag);
 void	ft_export_help(char *cmd, t_env **env, int *exit_status);
 void	print_export_error(char *slice1, char *slice2, int equal, int append);
-int		use_equal(char **cmd);
+int		use_invalid(char **cmd);
 void	builtin_export(t_env **env, char **arg, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
@@ -105,7 +105,6 @@ void	ft_env_delete(t_env **env, char *key);
 t_env	*ft_env_duplicate(t_env *env);
 void	ft_print_env(t_env *env);
 char	*ft_env_search(t_env *env, char *key);
-int		ft_env_size(t_env *env);
 int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_back(t_list **lst, t_list *new);

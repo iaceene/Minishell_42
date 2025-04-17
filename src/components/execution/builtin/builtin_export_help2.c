@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/09 13:03:42 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:41:08 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,26 @@ void	print_export_error(char *part1, char *part2,
 	ft_print_err("': invalid identifier\n");
 }
 
-int	use_equal(char **cmd)
+int	use_invalid(char **cmd)
 {
 	int	i;
 	int	j;
 	int	f;
 
-	i = 0;
-	j = 0;
-	f = 0;
+	(1) && (i = 1, j = 0, f = 0);
 	while (cmd[i])
 	{
-		j = i;
+		j = 0;
+		if (!cmd[i][j] || cmd[i][j] == 32 || cmd[i][j] == '\n' \
+			|| cmd[i][j] == '\t')
+			return (-31);
 		while (cmd[i][j])
 		{
 			if (cmd[i][j] == '=')
+			{
 				f++;
-			j++;
+				j++;
+			}
 		}
 		i++;
 	}

@@ -12,17 +12,6 @@
 
 #include "../../../../include/minishell.h"
 
-static void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
-}
-
 static int	is_directory(const char *path)
 {
 	struct stat	statbuf;

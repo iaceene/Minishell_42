@@ -61,6 +61,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_isspace.c \
 		./src/lib/ft_memcpy.c \
 		./src/lib/ft_memmove.c \
+		./src/lib/ft_putstr_fd.c \
 		./src/lib/ft_splite.c \
 		./src/lib/ft_strcat.c \
 		./src/lib/ft_strchr.c \
