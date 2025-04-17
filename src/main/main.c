@@ -31,6 +31,31 @@ void	close_fds(t_cmd *head)
 	}
 }
 
+void	return_spaces(char *tmp)
+{
+	int	i;
+
+	i = 0;
+	if (!tmp)
+		return ;
+	while (tmp[i])
+	{
+		if (tmp[i] == -13)
+			tmp[i] = ' ';
+		i++;
+	}
+}
+
+void	check_and_return_sp(t_cmd *head)
+{
+	while (head)
+	{
+		if (head->type == COMMAND)
+			return_spaces(head->cmd[0]);
+		head = head->next;
+	}
+}
+
 void	input_prc(t_data	*data, t_tool *tool)
 {
 	int	state;
@@ -42,6 +67,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 		state = parser(data);
 		if (state == 1)
 		{
+			check_and_return_sp(data->head);
 			execution(&data->head, &tool->env, &data->exe_state);
 			close_fds(data->head);
 		}

@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/11 20:48:41 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:02:32 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ char	*handle_quotes(char *input, t_env *env, int exit)
 	return (expand_and_join(head, env, exit));
 }
 
+void	set_space_excep(char *tmp)
+{
+	int	i;
+
+	i = 0;
+	if (!tmp)
+		return ;
+	while (tmp[i])
+	{
+		if (ft_isspace(tmp[i]))
+			tmp[i] = -13;
+		i++;
+	}
+}
+
 char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 {
 	char	*buffer;
@@ -39,7 +54,12 @@ char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 	buffer = NULL;
 	while (head)
 	{
-		if (head->state != IN_SQUOTE && find_it(head->val, '$'))
+		if (head->state == IN_DQUOTE && find_it(head->val, '$'))
+		{
+			tmp = heredoc_expander(head->val, env, ex_status);
+			set_space_excep(tmp);
+		}
+		else if (head->state == NORMAL && find_it(head->val, '$'))
 			tmp = heredoc_expander(head->val, env, ex_status);
 		else
 			tmp = ft_strdup(head->val);
