@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/17 17:49:58 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:32:20 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ void	herdoc_sig(int sig)
 	{
 		ft_malloc(-1);
 		exit(130);
-	}
-	else
-	{
-		write(1, "\033[K", 4);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 	}
 }
 

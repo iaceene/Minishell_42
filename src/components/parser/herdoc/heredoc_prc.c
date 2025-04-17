@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/17 17:50:25 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:46:11 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	heredoc_child_process(t_herdoc lst)
 	char	*prom;
 
 	signal(SIGINT, herdoc_sig);
-	signal(SIGQUIT, herdoc_sig);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		prom = readline("> ");
@@ -70,7 +70,7 @@ int	open_herdoc(t_herdoc lst)
 	int		status;
 
 	signal(SIGINT, def_sig);
-	signal(SIGQUIT, def_sig);
+	signal(SIGQUIT, SIG_IGN);
 	last = g_herdocsing;
 	pid = fork();
 	if (pid == -1)
