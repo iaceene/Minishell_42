@@ -54,6 +54,9 @@ void	check_and_return_sp(t_cmd *head)
 				i++;
 			}
 		}
+		else if (head->type == OUT_FILE || head->type == IN_FILE
+		|| head->type == APPEND)
+			return_spaces(head->value);
 		head = head->next;
 	}
 }
