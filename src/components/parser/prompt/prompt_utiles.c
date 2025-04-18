@@ -17,7 +17,7 @@ char	*ft_join_params(char *user, char *dis)
 	char	*cli;
 
 	if (!user || !dis)
-		return (exit(1), NULL);
+		return (exit_the_shell(11), NULL);
 	cli = ft_strjoin(user, "\033[32m@\033[0m");
 	cli = ft_strjoin(cli, dis);
 	cli = ft_strjoin(cli, "\033[32m $ \033[0m");
