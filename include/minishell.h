@@ -79,11 +79,7 @@ void	exit_the_shell(int state);
 char	*ft_join_params(char *user, char *dis);
 char	*prompt(char **env, int *ex);
 int		ft_get_signum(void);
-void	ft_init_signals(void);
 void	ft_sighandler(int sig);
-char	*expand_heredoc_input(char *input, t_env *env, int exit_code);
-void	process_here_doc(char *delimiter, int *pipe_fd, t_env *env, \
-	int exit_code);
 char	*find_command_path(char *cmd, char **env);
 char	*find_executable_in_path(char *path, char *cmd);
 char	*get_path_variable(char **env);

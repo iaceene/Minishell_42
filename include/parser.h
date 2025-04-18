@@ -48,12 +48,6 @@ typedef struct s_herdoc
 	char	*exit;
 }	t_herdoc;
 
-typedef struct s_buffer
-{
-	char			*val;
-	struct s_buffer	*next;
-}	t_buffer;
-
 t_node		*lexer_init(const char *str);
 int			find_it(char *s, char c);
 int			check_qoats(char *val);
@@ -73,7 +67,6 @@ t_cmd		*data_maker(t_node *head, t_env *env, int exit);
 t_expand	*new_expand(t_state state, char *val);
 void		add_expand(t_expand **head, t_expand *new);
 char		*expand_and_join(t_expand *head, t_env *env, int ex_status);
-char		*expand_this(char *str, t_env *env, int exit_status);
 int			is_sperator(char c);
 char		*get_before(char *s);
 char		*get_after(char *s);

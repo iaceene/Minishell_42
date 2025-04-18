@@ -67,12 +67,8 @@ typedef struct s_export
 
 void	execution(t_cmd **head, t_env **env, int *exit_status);
 void	execution_cmd(char **cmd, t_env **env, int *exit_status);
-void	child1(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
-void	child_last(t_cmd *cmd, int **pipes, int pipe_count, t_env **env);
-void	ft_free_string(char **str);
 void	error_and_exit(const char *str, int exite);
 void	init_pipex_data(t_pipex_data *data, t_cmd *commands);
-void	close_all_pipe(int **pipes, int num_cmd);
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
 void	ft_sort(t_cmd **head);
 char	*find_command_path(char *cmd, char **env);
@@ -94,7 +90,6 @@ void	builtin_export(t_env **env, char **arg, int *exit_status);
 char	*ft_get_cwd(char *tojoin, int i);
 void	builtin_pwd(void);
 void	builtin_unset(t_env **env, char **arg, int *exit_status);
-int		is_pure_builtin(char *cmd);
 int		ft_execute_builtins(char **arg, t_env **env, int *exit_status, \
 	t_pipex_data *data);
 int		ft_env_add(t_env **env, char *key, char *value, int visible);
@@ -110,7 +105,6 @@ t_list	*ft_lstnew(void *content);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_lstsize(t_list *lst);
-void	ft_lstclear(t_list **lst);
 void	close_fds(t_cmd *head);
 
 #endif
