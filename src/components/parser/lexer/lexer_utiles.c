@@ -82,7 +82,7 @@ char	*extract_word(char *s)
 	len = calculate_word_length(s, &in_quotes, &quote_char);
 	tmp = ft_malloc(len + 1);
 	copy_word(tmp, start, len);
-	while (len > 0 && tmp[len - 1] == ' ')
+	while (len > 0 && ft_isspace(tmp[len - 1]))
 		tmp[--len] = '\0';
 	return (tmp);
 }
