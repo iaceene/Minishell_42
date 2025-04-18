@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 06:29:41 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/10 12:33:56 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:36:47 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,15 @@ static void	ft_increment_shell_level(t_env **env)
 t_env	*ft_env_create_default(void)
 {
 	t_env		*head;
+	char		*tmp;
 	const char	*secure_path;
 
 	head = NULL;
 	secure_path = "/usr/local/sbin:/usr/local/bin:"
 		"/usr/sbin:/usr/bin:/sbin:/bin";
-	ft_env_add(&head, "PWD", getcwd(NULL, 0), 1);
+	tmp = getcwd(NULL, 0);
+	ft_env_add(&head, "PWD", tmp, 1);
+	free(tmp);
 	ft_env_add(&head, "SHLVL", "0", 1);
 	ft_env_add(&head, "_", "/usr/bin/env", 1);
 	ft_env_add(&head, "PATH", (char *)secure_path, 1);

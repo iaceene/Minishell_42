@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:18:58 by iezzam            #+#    #+#             */
-/*   Updated: 2025/03/19 15:11:08 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:36:55 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ int	ft_env_add(t_env **env, char *key, char *value, int visible)
 {
 	t_env	*new;
 	t_env	*last;
+	char	*tmp;
 
+	tmp = value;
+	value = ft_strdup(value);
 	new = ft_malloc(sizeof(t_env));
-	if (new == NULL)
-		return (ft_print_err("ft_malloc failed\n"), -1);
 	new->key = key;
 	new->value = value;
 	new->next = NULL;

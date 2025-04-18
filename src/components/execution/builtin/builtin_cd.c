@@ -88,29 +88,42 @@ static int	change_to_path(t_env **env, char *target_path, int print_path)
 	return (exit_status);
 }
 
-int	builtin_cd(char **arg, t_env **env, int *exit_status)
+int	builtin_cd_help(char *target_path, char **arg)
 {
-	char	*target_path;
-	char	cwd[MAXPATHLEN];
-	int		print_path;
-
-	print_path = 0;
-	if (!ft_env_search(*env, "PWD") && getcwd(cwd, MAXPATHLEN))
-		ft_env_add(env, ft_strdup("PWD"), ft_strdup(cwd), 1);
-	if (!arg[1] || !ft_strcmp("~", arg[1]))
-		target_path = ft_env_search(*env, "HOME");
-	else if (!ft_strcmp("-", arg[1]))
-		(1) && (print_path = 1, target_path = ft_env_search(*env, "OLDPWD"));
-	else
-		target_path = arg[1];
 	if (!target_path)
 	{
 		if (!arg[1] || !ft_strcmp("~", arg[1]))
 			ft_print_err("cd: HOME not set\n");
 		else
 			ft_print_err("cd: OLDPWD not set\n");
-		return (*exit_status = 1);
+		return (1);
 	}
+	return (0);
+}
+
+int	builtin_cd(char **arg, t_env **env, int *exit_status)
+{
+	char	*target_path;
+	char	cwd[MAXPATHLEN];
+	int		print_path;
+	char	**spl;
+
+	print_path = 0;
+	if (!ft_env_search(*env, "PWD") && getcwd(cwd, MAXPATHLEN))
+		ft_env_add(env, ft_strdup("PWD"), ft_strdup(cwd), 1);
+	if (arg[1] && ft_strncmp("~/", arg[1], 2) == 0)
+	{
+		spl = ft_split(arg[1], '~');
+		target_path = ft_strjoin(ft_env_search(*env, "HOME"), spl[0]);
+	}
+	else if (!arg[1])
+		target_path = ft_env_search(*env, "HOME");
+	else if (!ft_strcmp("-", arg[1]))
+		(1) && (print_path = 1, target_path = ft_env_search(*env, "OLDPWD"));
+	else
+		target_path = arg[1];
+	if (builtin_cd_help(target_path, arg))
+		return (*exit_status = 1);
 	if (!*target_path)
 		return (*exit_status = 0);
 	return (*exit_status = change_to_path(env, target_path, print_path));
