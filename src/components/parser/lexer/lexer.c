@@ -61,10 +61,10 @@ char	*add_command(t_node **head, char *s)
 	quote_char = 0;
 	s = skip_spaces(s);
 	if (!*s)
-		return (NULL);
+		return (ft_strdup(""));
 	command = extract_word(s);
 	if (!command)
-		return (NULL);
+		return (ft_strdup(""));
 	add_to_list(head, add_new_node(COMMAND, command));
 	s = handle_qoa_cmd(s, &in_quotes, &quote_char);
 	return (s);
