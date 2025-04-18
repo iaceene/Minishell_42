@@ -16,9 +16,7 @@ int	ft_env_add(t_env **env, char *key, char *value, int visible)
 {
 	t_env	*new;
 	t_env	*last;
-	char	*tmp;
 
-	tmp = value;
 	value = ft_strdup(value);
 	new = ft_malloc(sizeof(t_env));
 	new->key = key;

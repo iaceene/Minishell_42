@@ -61,7 +61,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 
 	(signal(SIGINT, ft_sighandler), signal(SIGQUIT, SIG_IGN));
 	data->prompt = prompt(data->env, &data->exe_state);
-	if (data->prompt[0])
+	if (data->prompt && data->prompt[0])
 	{
 		state = parser(data);
 		if (state == 1)

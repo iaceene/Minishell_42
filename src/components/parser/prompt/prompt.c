@@ -49,6 +49,7 @@ void	ft_get_sigin(int *s)
 char	*prompt(char **env, int *ex)
 {
 	char		*s;
+	char		*tmp;
 	static char	*cli;
 	static int	i;
 
@@ -65,5 +66,7 @@ char	*prompt(char **env, int *ex)
 	i++;
 	if (s[0])
 		add_history(s);
-	return (s);
+	tmp = ft_strdup(s);
+	free(s);
+	return (tmp);
 }
