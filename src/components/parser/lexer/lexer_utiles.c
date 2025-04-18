@@ -81,8 +81,6 @@ char	*extract_word(char *s)
 	start = s;
 	len = calculate_word_length(s, &in_quotes, &quote_char);
 	tmp = ft_malloc(len + 1);
-	if (!tmp)
-		return (NULL);
 	copy_word(tmp, start, len);
 	while (len > 0 && tmp[len - 1] == ' ')
 		tmp[--len] = '\0';
