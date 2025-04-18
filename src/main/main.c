@@ -21,16 +21,6 @@ void	ft_init(t_tool *tool, char **env, t_data *data)
 	data->exe_state = 0;
 }
 
-void	close_fds(t_cmd *head)
-{
-	while (head)
-	{
-		if (head->type == HERDOC && head->fd_herdoc != -1)
-			close(head->fd_herdoc);
-		head = head->next;
-	}
-}
-
 void	return_spaces(char *tmp)
 {
 	int	i;

@@ -12,6 +12,21 @@
 
 #include "../../../../include/parser.h"
 
+void	set_space_excep(char *tmp)
+{
+	int	i;
+
+	i = 0;
+	if (!tmp)
+		return ;
+	while (tmp[i])
+	{
+		if (ft_isspace(tmp[i]))
+			tmp[i] = -13;
+		i++;
+	}
+}
+
 void	replace_character(char *s, int re)
 {
 	int	i;

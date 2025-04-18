@@ -105,24 +105,23 @@ t_env	*ft_env_create(char **ev)
 {
 	t_env	*env;
 	char	**splited_row;
-	int		r;
+	int		i;
 	char	*key;
 	char	*value;
 
 	if (!ev || !*ev)
 		return (ft_env_create_default());
-	r = -1;
+	i = -1;
 	env = NULL;
-	while (ev[++r])
+	while (ev[++i])
 	{
-		splited_row = ft_split(ev[r], EQUAL);
+		splited_row = ft_split(ev[i], EQUAL);
 		if (!splited_row)
 			return (NULL);
 		key = ft_strdup(splited_row[0]);
 		value = ft_get_join_value(splited_row);
 		ft_add_item(&env, key, value, 1);
 	}
-	ft_env_delete(&env, "OLDPWD");
 	ft_env_add(&env, ft_strdup("OLDPWD"), ft_strdup(""), 0);
 	ft_increment_shell_level(&env);
 	return (env);

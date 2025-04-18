@@ -31,21 +31,6 @@ char	*handle_quotes(char *input, t_env *env, int exit)
 	return (expand_and_join(head, env, exit));
 }
 
-void	set_space_excep(char *tmp)
-{
-	int	i;
-
-	i = 0;
-	if (!tmp)
-		return ;
-	while (tmp[i])
-	{
-		if (ft_isspace(tmp[i]))
-			tmp[i] = -13;
-		i++;
-	}
-}
-
 char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 {
 	char	*buffer;

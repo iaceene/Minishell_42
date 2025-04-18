@@ -12,27 +12,58 @@
 
 #include "../../../../include/execution.h"
 
-static int	update_env_paths(t_env **env, char *prev_wd, char *new_path)
+static int	update_oldpwd(t_env **env, char *prev_wd)
+{
+	t_env	*oldpwd;
+
+	if (!prev_wd)
+		return (0);
+	oldpwd = *env;
+	while (oldpwd && ft_strcmp(oldpwd->key, "OLDPWD") != 0)
+		oldpwd = oldpwd->next;
+	if (oldpwd)
+		oldpwd->value = ft_strdup(prev_wd);
+	else
+		ft_env_add(env, ft_strdup("OLDPWD"), ft_strdup(prev_wd), 1);
+	return (0);
+}
+
+static int	update_pwd(t_env **env, char *new_path)
 {
 	char	cwd[MAXPATHLEN];
 	char	*cwd_value;
+	t_env	*pwd;
 	int		ex_status;
 
 	ex_status = 0;
-	if (prev_wd)
-	{
-		ft_env_delete(env, "OLDPWD");
-		ft_env_add(env, ft_strdup("OLDPWD"), ft_strdup(prev_wd), 1);
-	}
 	if (getcwd(cwd, MAXPATHLEN) == NULL)
 	{
 		perror("cd: error retrieving current directory: getcwd failed");
 		ex_status = 1;
 	}
 	cwd_value = ft_get_cwd(new_path, 1);
-	if (cwd_value)
-		ft_env_update(env, ft_strdup("PWD"), cwd_value, 0);
+	if (!cwd_value)
+		return (ex_status);
+	pwd = *env;
+	while (pwd && ft_strcmp(pwd->key, "PWD") != 0)
+		pwd = pwd->next;
+	if (pwd)
+		pwd->value = cwd_value;
+	else
+		ft_env_add(env, ft_strdup("PWD"), cwd_value, 1);
 	return (ex_status);
+}
+
+static int	update_env_paths(t_env **env, char *prev_wd, char *new_path)
+{
+	int	oldpwd_status;
+	int	pwd_status;
+
+	oldpwd_status = update_oldpwd(env, prev_wd);
+	pwd_status = update_pwd(env, new_path);
+	if (pwd_status != 0)
+		return (pwd_status);
+	return (oldpwd_status);
 }
 
 static int	change_to_path(t_env **env, char *target_path, int print_path)

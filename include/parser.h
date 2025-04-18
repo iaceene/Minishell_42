@@ -87,6 +87,7 @@ char		**join_args_adv(char **s1, char **s2);
 bool		will_expanded(char *s);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 void		ft_write(int fd, char *buffer);
+void		set_space_excep(char *tmp);
 void		replace_character(char *s, int re);
 t_cmd		*new_cmd_val(char *val, t_TokenType typ);
 char		*join_args(char **sp);

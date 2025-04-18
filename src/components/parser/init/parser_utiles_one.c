@@ -12,6 +12,16 @@
 
 #include "../../../../include/parser.h"
 
+void	close_fds(t_cmd *head)
+{
+	while (head)
+	{
+		if (head->type == HERDOC && head->fd_herdoc != -1)
+			close(head->fd_herdoc);
+		head = head->next;
+	}
+}
+
 t_cmd	*get_last_cmd(t_cmd *head)
 {
 	t_cmd	*last;
