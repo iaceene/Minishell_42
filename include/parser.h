@@ -42,6 +42,7 @@ typedef struct s_herdoc
 {
 	int		exit_state;
 	int		fd;
+	int		fd_read;
 	t_data	*data;
 	t_env	*head;
 	bool	flag;

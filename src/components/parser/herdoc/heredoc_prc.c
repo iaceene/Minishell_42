@@ -28,8 +28,6 @@ void	ft_sighandler(int sig)
 		rl_on_new_line();
 		if (SIGINT == sig)
 			write(1, "\n", 1);
-		else
-			write(1, "\033[K", 4);
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
@@ -38,21 +36,25 @@ void	ft_sighandler(int sig)
 int	heredoc_child_process(t_herdoc lst)
 {
 	char	*prom;
+	char	*tmp;
 
 	signal(SIGINT, herdoc_sig);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		prom = readline("> ");
+		tmp = prom;
+		prom = ft_strdup(prom);
+		free(tmp);
 		if (!prom || (prom && !ft_strncmp(prom, lst.exit, ft_strlen(prom))
 				&& ft_strlen(prom) == ft_strlen(lst.exit)))
 			break ;
 		ft_write(lst.fd, expand_heredoc(prom, lst.head, lst.flag,
 				lst.exit_state));
-		free(prom);
-		prom = NULL;
 	}
-	free(prom);
+	printf("   %d   %d \n", lst.fd, lst.fd_read);
+	close(lst.fd);
+	close(lst.fd_read);
 	ft_malloc(-1);
 	exit(0);
 }

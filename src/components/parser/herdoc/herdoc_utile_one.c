@@ -85,6 +85,7 @@ int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 	fd = open_heredoc_file(file_name, &fd2);
 	if (fd == -1)
 		return (-1);
+	lst_herdoc.fd_read = fd2;
 	lst_herdoc.exit = exit;
 	lst_herdoc.head = env;
 	lst_herdoc.exit_state = ex_s;
