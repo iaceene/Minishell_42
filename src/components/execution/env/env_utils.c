@@ -57,12 +57,13 @@ char	*ft_env_search(t_env *env, char *key)
 
 void	ft_print_env(t_env *env)
 {
-	while (env)
+	t_env	*current;
+
+	current = env;
+	while (current != NULL)
 	{
-		if (env->flag)
-			env = env->next;
-		if (env->visible)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
+		if (current->key && current->value && current->visible == 1)
+			printf("%s=%s\n", current->key, current->value);
+		current = current->next;
 	}
 }

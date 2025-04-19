@@ -12,38 +12,25 @@
 
 #include "../../../../include/execution.h"
 
-static int	update_oldpwd(t_env **env, char *prev_wd)
-{
-	t_env	*oldpwd;
-
-	if (!prev_wd)
-		return (0);
-	oldpwd = *env;
-	while (oldpwd && ft_strcmp(oldpwd->key, "OLDPWD") != 0)
-		oldpwd = oldpwd->next;
-	if (oldpwd)
-		oldpwd->value = ft_strdup(prev_wd);
-	else
-		ft_env_add(env, ft_strdup("OLDPWD"), ft_strdup(prev_wd), 1);
-	return (0);
-}
-
 static int	update_pwd(t_env **env, char *new_path)
 {
-	char	cwd[MAXPATHLEN];
+	char	*cwd;
 	char	*cwd_value;
 	t_env	*pwd;
 	int		ex_status;
 
 	ex_status = 0;
-	if (getcwd(cwd, MAXPATHLEN) == NULL)
+	if (!new_path)
+		return (1);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
 		perror("cd: error retrieving current directory: getcwd failed");
 		ex_status = 1;
 	}
 	cwd_value = ft_get_cwd(new_path, 1);
 	if (!cwd_value)
-		return (ex_status);
+		return (free(cwd), ex_status);
 	pwd = *env;
 	while (pwd && ft_strcmp(pwd->key, "PWD") != 0)
 		pwd = pwd->next;
@@ -51,7 +38,7 @@ static int	update_pwd(t_env **env, char *new_path)
 		pwd->value = cwd_value;
 	else
 		ft_env_add(env, ft_strdup("PWD"), cwd_value, 1);
-	return (ex_status);
+	return (free(cwd), ex_status);
 }
 
 static int	update_env_paths(t_env **env, char *prev_wd, char *new_path)
@@ -104,24 +91,17 @@ int	builtin_cd_help(char *target_path, char **arg)
 int	builtin_cd(char **arg, t_env **env, int *exit_status)
 {
 	char	*target_path;
-	char	cwd[MAXPATHLEN];
+	char	*cwd;
 	int		print_path;
-	char	**spl;
 
+	cwd = NULL;
 	print_path = 0;
-	if (!ft_env_search(*env, "PWD") && getcwd(cwd, MAXPATHLEN))
-		ft_env_add(env, ft_strdup("PWD"), ft_strdup(cwd), 1);
-	if (arg[1] && ft_strncmp("~/", arg[1], 2) == 0)
-	{
-		spl = ft_split(arg[1], '~');
-		target_path = ft_strjoin(ft_env_search(*env, "HOME"), spl[0]);
-	}
-	else if (!arg[1])
-		target_path = ft_env_search(*env, "HOME");
-	else if (!ft_strcmp("-", arg[1]))
-		(1) && (print_path = 1, target_path = ft_env_search(*env, "OLDPWD"));
-	else
-		target_path = arg[1];
+	cwd = getcwd(NULL, 0);
+	if (!ft_env_search(*env, "PWD") && cwd)
+		(ft_env_add(env, ft_strdup("PWD"), ft_strdup(cwd), 1), free(cwd));
+	else if (cwd)
+		free(cwd);
+	target_path = get_target_path(arg, env, &print_path);
 	if (builtin_cd_help(target_path, arg))
 		return (*exit_status = 1);
 	if (!*target_path)

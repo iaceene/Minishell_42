@@ -79,6 +79,8 @@ void	handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);
 int		count_commands(t_cmd *cmd);
 int		handle_file_redirection(t_cmd *cmd, int *infile, int *outfile);
+int		update_oldpwd(t_env **env, char *prev_wd);
+char	*get_target_path(char **arg, t_env **env, int *print_path);
 int		builtin_cd(char **arg, t_env **env, int *exit_status);
 void	builtin_echo(char **args);
 void	builtin_env(t_env *env, char **arg, int *exit_status);

@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -Wall -Wextra -Werror  -g3 -fsanitize=address
 INC = ./include/minishell.h
 INCE = ./include/execution.h
 INCP = ./include/parser.h
@@ -8,6 +8,7 @@ ALL_INCS = $(INC) $(INCP) $(INCE)
 RM = rm -f
 
 SRCS =	./src/main/main.c \
+		./src/components/execution/builtin/builtin_cd_help.c \
 		./src/components/execution/builtin/builtin_cd.c \
 		./src/components/execution/builtin/builtin_echo.c \
 		./src/components/execution/builtin/builtin_env.c \

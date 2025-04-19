@@ -40,6 +40,8 @@ void	check_and_return_sp(t_cmd *head)
 {
 	int	i;
 
+	if (!head || !head->cmd)
+		return ;
 	while (head)
 	{
 		if (head->type == COMMAND)
@@ -47,7 +49,8 @@ void	check_and_return_sp(t_cmd *head)
 			i = 0;
 			while (head->cmd[i])
 			{
-				return_spaces(head->cmd[i]);
+				if (head->cmd[i])
+					return_spaces(head->cmd[i]);
 				i++;
 			}
 		}
