@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_utile_one.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:15:38 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/12 17:49:39 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/19 18:20:26 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,21 @@ int	open_heredoc_file(char *file_name, int *fd2)
 	return (fd);
 }
 
-int	get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
+char	*get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s)
 {
 	t_herdoc	lst_herdoc;
 	char		*file_name;
-	int			fd;
-	int			fd2;
 
 	file_name = generate_random_name();
 	if (!file_name)
-		return (-1);
-	fd = open_heredoc_file(file_name, &fd2);
-	if (fd == -1)
-		return (-1);
-	lst_herdoc.fd_read = fd2;
+		return (NULL);
+	lst_herdoc.file_name = file_name;
 	lst_herdoc.exit = exit;
 	lst_herdoc.head = env;
 	lst_herdoc.exit_state = ex_s;
 	lst_herdoc.flag = f;
-	lst_herdoc.fd = fd;
 	lst_herdoc.data = env->data;
 	if (open_herdoc(lst_herdoc) == -99)
-		return (close(fd2), close(fd), -99);
-	close(fd);
-	return (fd2);
+		return (NULL);
+	return (file_name);
 }

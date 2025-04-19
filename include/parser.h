@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/12 20:05:43 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/19 18:20:15 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ typedef struct s_expand
 typedef struct s_herdoc
 {
 	int		exit_state;
-	int		fd;
-	int		fd_read;
+	char	*file_name;
 	t_data	*data;
 	t_env	*head;
 	bool	flag;
@@ -88,7 +87,7 @@ char		*join_args(char **sp);
 char		*join_arg_two(char **sp);
 char		**join_args_adv(char **s1, char **s2);
 t_cmd		*get_last_cmd_pip(t_cmd *head);
-int			get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s);
+char		*get_herdoc_fd(t_env *env, char *exit, bool f, int ex_s);
 void		copy_word(char *dst, char *src, int len);
 char		*skip_spaces(char *s);
 void		set_back_space(char *val);
@@ -96,7 +95,7 @@ int			open_herdoc(t_herdoc lst);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
 char		*heredoc_expander(char *str, t_env	*env, int exit);
-int			herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
+char		*herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
 void		herdoc_sig(int sig);
 void		handle_single_quote(char **input, t_expand **head, t_state *state);
 void		handle_double_quote(char **input, t_expand **head, t_state *state);

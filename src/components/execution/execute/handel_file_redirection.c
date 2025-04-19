@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/17 22:32:41 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:36:18 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ static int	if_condition(t_cmd *current, int *infile, int *outfile)
 	}
 	else if (current->type == HERDOC)
 	{
+		current->fd_herdoc = open(current->file_name, 0);
+		unlink(current->file_name);
 		if (dup2(current->fd_herdoc, STDIN_FILENO) == -1)
 			perror("dup2 rediretcion");
 		close(current->fd_herdoc);

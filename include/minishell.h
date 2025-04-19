@@ -61,6 +61,7 @@ typedef struct s_cmd
 	bool			pip_infront;
 	int				fd_herdoc;
 	char			*value;
+	char			*file_name;
 	char			**cmd;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -110,6 +111,7 @@ char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_print_err(char *s);
 void	ft_puterr(int state);
+bool	is_same(char *s1, char *s2);
 int		exitstatus(int newstatus, int flag);
 
 #endif

@@ -80,7 +80,8 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strtrim.c \
 		./src/lib/ft_substr.c \
 		./src/lib/linked_list.c \
-		./src/lib/print_err.c
+		./src/lib/print_err.c \
+		./src/lib/ft_same.c
 
 OBJS = $(SRCS:.c=.o)
 

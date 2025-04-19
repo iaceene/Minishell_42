@@ -62,6 +62,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 {
 	int	state;
 
+	(void)tool;
 	(signal(SIGINT, ft_sighandler), signal(SIGQUIT, SIG_IGN));
 	data->prompt = prompt(data->env, &data->exe_state);
 	if (data->prompt && data->prompt[0])
@@ -71,10 +72,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 		{
 			check_and_return_sp(data->head);
 			execution(&data->head, &tool->env, &data->exe_state);
-			close_fds(data->head);
 		}
-		else if (state == -99)
-			close_fds(data->head);
 		else if (state == 433)
 			return ;
 		else if (state == 0)

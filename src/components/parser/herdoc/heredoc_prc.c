@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/17 18:46:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:46:31 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,27 @@ void	ft_sighandler(int sig)
 int	heredoc_child_process(t_herdoc lst)
 {
 	char	*prom;
+	int		fd;
 	char	*tmp;
 
 	signal(SIGINT, herdoc_sig);
 	signal(SIGQUIT, SIG_IGN);
+	fd = open(lst.file_name, O_CREAT | O_APPEND | O_RDWR, 0644);
+	if (fd < 0)
+		return (ft_malloc(-1), exit(130), 1);
 	while (1)
 	{
 		prom = readline("> ");
 		tmp = prom;
 		prom = ft_strdup(prom);
 		free(tmp);
-		if (!prom || (prom && !ft_strncmp(prom, lst.exit, ft_strlen(prom))
-				&& ft_strlen(prom) == ft_strlen(lst.exit)))
+		if (!prom || is_same(prom, lst.exit))
 			break ;
-		ft_write(lst.fd, expand_heredoc(prom, lst.head, lst.flag,
+		ft_write(fd, expand_heredoc(prom, lst.head, lst.flag,
 				lst.exit_state));
 	}
-	printf("   %d   %d \n", lst.fd, lst.fd_read);
-	close(lst.fd);
-	close(lst.fd_read);
 	ft_malloc(-1);
+	close(fd);
 	exit(0);
 }
 

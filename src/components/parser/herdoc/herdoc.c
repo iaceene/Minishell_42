@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/17 18:32:20 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:43:56 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	herdoc_sig(int sig)
 	if (sig == SIGINT)
 	{
 		ft_malloc(-1);
+		close(3);
 		exit(130);
 	}
 }
@@ -76,24 +77,23 @@ t_cmd	*new_cmd_hered(char **val)
 	return (ret);
 }
 
-int	herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
+char	*herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit)
 {
-	int		fd;
+	char	*name;
 	bool	qoated;
 	char	**arg;
 
-	fd = -1;
 	qoated = will_expanded(exit);
 	set_space_zero_qoats(exit);
 	arg = ft_split_adv(exit);
 	if (!arg)
-		return (-1);
+		return (ft_strdup(""));
 	set_zero_space(arg);
 	exit = remove_qoats(arg[0]);
 	if (commnd)
 		commnd->cmd = join_args_adv(commnd->cmd, arg);
 	else if (arg && *(arg + 1))
 		add_to_cmd(head, new_cmd_hered(arg + 1));
-	fd = get_herdoc_fd(env, exit, qoated, env->data->exe_state);
-	return (fd);
+	name = get_herdoc_fd(env, exit, qoated, env->data->exe_state);
+	return (name);
 }

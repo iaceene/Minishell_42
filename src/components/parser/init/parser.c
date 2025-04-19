@@ -31,7 +31,11 @@ t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
 		tmp = tmp->next;
 	}
 	if (flag)
-		new->fd_herdoc = herdoc(env, get_last_cmd(*head), head, val);
+	{
+		new->file_name = herdoc(env, get_last_cmd(*head), head, val);
+		if (!new->file_name)
+			new->fd_herdoc = -99;
+	}
 	else
 		new->fd_herdoc = -99;
 	return (new);
