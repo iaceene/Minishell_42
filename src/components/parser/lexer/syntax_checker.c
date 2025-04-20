@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 02:10:28 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:22:57 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	pip_checker(t_node *data)
 	prv = NULL;
 	while (data)
 	{
+		if (prv && prv->type == LEFT_RED && data->type == PIPE)
+			return (0);
 		if (data->type == PIPE && (!prv || !data->next))
 			return (0);
 		if (data->type == PIPE

@@ -14,11 +14,12 @@
 
 char	*ft_get_cwd(char *tojoin, int i)
 {
-	char		cwd[MAXPATHLEN];
+	char		*cwd;
 	static char	save_cwd[MAXPATHLEN];
 
-	if (getcwd(cwd, MAXPATHLEN) != NULL)
-		ft_strlcpy(save_cwd, cwd, MAXPATHLEN);
+	cwd = getcwd(NULL, 0);
+	if (cwd != NULL)
+		(ft_strlcpy(save_cwd, cwd, MAXPATHLEN), free(cwd));
 	else if (i == 1)
 	{
 		ft_strlcat(save_cwd, "/", MAXPATHLEN);

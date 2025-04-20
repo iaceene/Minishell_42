@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:18:58 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/18 19:36:55 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/20 13:33:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_env_delete(t_env **env, char *key)
 	if (!env || !(*env))
 		return ;
 	prev = *env;
-	if (!ft_strncmp(key, prev->key, ft_strlen(prev->key)))
+	if (!ft_strcmp(key, prev->key))
 	{
 		(*env) = prev->next;
 		return ;

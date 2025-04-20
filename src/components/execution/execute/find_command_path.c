@@ -62,6 +62,8 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 	char	*full_path;
 
 	args = cmd;
+	if (!cmd)
+		exit(0);
 	if (!env)
 	{
 		write(2, "shell: env is NULL\n", 19);

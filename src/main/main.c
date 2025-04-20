@@ -47,15 +47,18 @@ void	check_and_return_sp(t_cmd *head)
 		if (head->type == COMMAND)
 		{
 			i = 0;
-			while (head->cmd[i])
+			if (head->cmd)
 			{
-				if (head->cmd[i])
-					return_spaces(head->cmd[i]);
-				i++;
+				while (head->cmd[i])
+				{
+					if (head->cmd[i])
+						return_spaces(head->cmd[i]);
+					i++;
+				}
 			}
 		}
 		else if (head->type == OUT_FILE || head->type == IN_FILE
-		|| head->type == APPEND)
+			|| head->type == APPEND)
 			return_spaces(head->value);
 		head = head->next;
 	}
