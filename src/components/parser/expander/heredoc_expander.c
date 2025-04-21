@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/21 19:06:09 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:29:17 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ char	*extract_name_hr(char	*str, int *re_len)
 	if (!len)
 		return (NULL);
 	ret = ft_malloc(len + 1);
-	ft_strncpy(ret, str, len);
 	*re_len = len;
-	return (ret);
+	return (ft_strncpy(ret, str, len));
 }
 
 char	*extract_left_hr(char *str, int	start)
@@ -43,8 +42,7 @@ char	*extract_left_hr(char *str, int	start)
 	if (len == 0)
 		return (ft_strdup(""));
 	ret = ft_malloc(len + 1);
-	ft_strcpy(ret, str + start);
-	return (ret);
+	return (ft_strcpy(ret, str + start));
 }
 
 char	*exe_expand(char *str, t_env *env, int exit, bool flag)
