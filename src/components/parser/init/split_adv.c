@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_adv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:22:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/20 18:39:47 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:26:26 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,18 @@ static char	*ft_allocate(char *str, int *index)
 	return (splited);
 }
 
-char	**ft_split_adv(char const *s)
+void	set_space_until(char *s)
+{
+	if (!s)
+		return ;
+	size_t i = 0;
+	while (*s && i < ft_strlen("export"))
+		i++;
+	if (s[i])
+		s[i] = ' ';
+}
+
+char	**ft_split_adv(char *s)
 {
 	char	**splites;
 	int		count_spiltes;
@@ -82,6 +93,8 @@ char	**ft_split_adv(char const *s)
 
 	if (!s || !*s)
 		return (NULL);
+	if (strncmp(s, "export", ft_strlen("export")) == 0)
+		set_space_until(s);
 	i = 0;
 	index = 0;
 	count_spiltes = ft_count((char *)s);
