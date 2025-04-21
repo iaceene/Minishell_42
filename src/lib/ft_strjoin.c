@@ -12,28 +12,6 @@
 
 #include "../../include/minishell.h"
 
-// char    *ft_strjoin(char const *s1, char const *s2)
-// {
-//     int i = 0;
-//     int j = 0;
-//     if (!s1 || !s2)
-//         return (NULL);
-//     char *ret = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-//     while (s1[i])
-//     {
-//         ret[i] = s1[i];
-//         i++;
-//     }
-//     while (s2[j])
-//     {
-//         ret[i] = s2[j];
-//         j++;
-//         i++;
-//     }
-//     ret[i] = '\0';
-//     return (ret);
-// }
-
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;

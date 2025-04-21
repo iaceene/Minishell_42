@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_help.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:19:27 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/21 13:41:12 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:31:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_export_help(char *str, t_env **env, int *exit_status)
 		return (*exit_status = 1, \
 				print_export_error(expt.key_part, \
 				expt.value_part, expt.has_equal, expt.is_append));
-	if (expt.key_part && !ft_strncmp(expt.key_part, "_", 1))
+	if (expt.key_part && !ft_strcmp(expt.key_part, "_"))
 		return ;
 	expt.existing_value = ft_env_search(*env, expt.key_part);
 	if (!expt.has_equal && expt.existing_value)
