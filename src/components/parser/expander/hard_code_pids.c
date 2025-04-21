@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:17:22 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/17 18:37:56 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:09:48 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*set_dollars(char *exp)
 	int	i;
 
 	i = 0;
+	if (!exp)
+		return (NULL);
 	while (exp[i])
 	{
 		if (exp[i] == -12)
