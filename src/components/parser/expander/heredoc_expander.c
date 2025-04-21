@@ -6,50 +6,44 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/17 18:43:32 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:06:09 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/parser.h"
 
-char	*extract_name_hr(char	*str)
+char	*extract_name_hr(char	*str, int *re_len)
 {
 	int		len;
 	char	*ret;
 
-	len = 0;
-	while (str[len] && !is_sperator(str[len]))
-		len++;
-	if (!len)
-		return (NULL);
-	ret = ft_malloc(len + 1);
 	len = 0;
 	while (str[len] && !is_sperator(str[len]))
 	{
-		ret[len] = str[len];
 		len++;
+		if (ft_isdigit(str[len]) && ft_isdigit(str[0]))
+			break ;
 	}
-	ret[len] = '\0';
+	if (!len)
+		return (NULL);
+	ret = ft_malloc(len + 1);
+	ft_strncpy(ret, str, len);
+	*re_len = len;
 	return (ret);
 }
 
-char	*extract_left_hr(char *str)
+char	*extract_left_hr(char *str, int	start)
 {
 	int		len;
-	int		actual_len;
 	char	*ret;
 
-	if (!str)
+	if (!str || !(str + start))
 		return (NULL);
-	len = 0;
-	actual_len = ft_strlen(str);
-	while (str[len] && !is_sperator(str[len]))
-		len++;
-	ret = ft_malloc(actual_len - len + 1);
-	actual_len = 0;
-	while (str[len])
-		ret[actual_len++] = str[len++];
-	ret[actual_len] = '\0';
+	len = ft_strlen(str + start);
+	if (len == 0)
+		return (ft_strdup(""));
+	ret = ft_malloc(len + 1);
+	ft_strcpy(ret, str + start);
 	return (ret);
 }
 
@@ -57,11 +51,12 @@ char	*exe_expand(char *str, t_env *env, int exit, bool flag)
 {
 	char	*word;
 	char	*left;
+	int		start;
 
 	if (flag)
 		return (str);
-	left = extract_left_hr(str);
-	word = extract_name_hr(str);
+	word = extract_name_hr(str, &start);
+	left = extract_left_hr(str, start);
 	while (env)
 	{
 		if (ft_strcmp(env->key, word) == 0)
@@ -74,24 +69,31 @@ char	*exe_expand(char *str, t_env *env, int exit, bool flag)
 	if (ft_strcmp("?", word) == 0)
 		return (ft_strjoin(ft_itoa(exit), left));
 	if (!env)
-		return (ft_strjoin(NULL, left));
+		return (ft_strjoin(ft_strdup(""), left));
 	return (ft_strjoin(word, left));
 }
 
-char	*expand_this_str(char *str, t_env *env, int exit)
+int	ft_count_str(char **str)
 {
-	char	*word;
-	bool	flag;
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*apply_expand(char **splited, int exit, t_env *env, bool flag)
+{
 	int		i;
-	char	**splited;
+	char	*word;
+	int		count;
 
 	i = 0;
-	flag = true;
-	hard_code_pid(str);
-	if (str[0] == '$')
-		flag = false;
 	word = NULL;
-	splited = ft_split(str, '$');
+	count = ft_count_str(splited);
 	while (splited[i])
 	{
 		splited[i] = exe_expand(splited[i], env, exit, flag);
@@ -99,12 +101,31 @@ char	*expand_this_str(char *str, t_env *env, int exit)
 		i++;
 	}
 	i = 0;
-	while (splited[i])
+	while (i < count)
 	{
+		if (!splited[i])
+			splited[i] = ft_strdup("");
 		word = ft_strjoin(word, splited[i]);
 		i++;
 	}
 	return (word);
+}
+
+char	*expand_this_str(char *str, t_env *env, int exit)
+{
+	bool	flag;
+	int		i;
+	char	**splited;
+
+	i = 0;
+	flag = true;
+	if (!str)
+		return (ft_strdup(""));
+	hard_code_pid(str);
+	if (str[0] == '$')
+		flag = false;
+	splited = ft_split(str, '$');
+	return (apply_expand(splited, exit, env, flag));
 }
 
 char	*heredoc_expander(char *str, t_env	*env, int exit)
