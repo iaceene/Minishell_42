@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:17:32 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/13 11:58:48 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/20 17:58:04 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_env_update(t_env **env, char *key, char *newval, int append_mod)
 	node = *env;
 	while (node)
 	{
-		if (!ft_strncmp(node->key, key, ft_strlen(key)))
+		if (!ft_strcmp(node->key, key))
 		{
 			if (append_mod)
 				node->value = ft_strjoin(node->value, newval);

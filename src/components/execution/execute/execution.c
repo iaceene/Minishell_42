@@ -33,10 +33,8 @@ static void	handle_single_command(t_cmd *exec_list, t_env **env, \
 	t_cmd	*cmd;
 
 	cmd = exec_list;
-	while (cmd && cmd->type != COMMAND)
-		cmd = cmd->next;
 	if (cmd)
-		execution_cmd(cmd->cmd, env, exit_status);
+		execution_cmd(cmd, cmd->cmd, env, exit_status);
 }
 
 void	execution(t_cmd **head, t_env **env, int *exit_status)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_file_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:22:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/19 18:36:18 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:40:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,16 @@ static int	if_condition(t_cmd *current, int *infile, int *outfile)
 	return (0);
 }
 
-int	handle_file_redirection(t_cmd *cmd, int *infile, int *outfile)
+int	handle_file_redirection(t_cmd *cmd, int *infile, int *outfile, int flag)
 {
 	t_cmd	*current;
 
 	current = cmd;
-	current = cmd->next;
+	if (flag)
+		current = cmd->next;
 	while (current)
 	{
-		if (current->type == COMMAND)
+		if (flag && current->type == COMMAND)
 			break ;
 		if (if_condition(current, infile, outfile) == -1)
 			return (-1);

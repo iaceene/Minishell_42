@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/17 14:41:14 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/21 13:45:09 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ typedef struct s_export
 }	t_export;
 
 void	execution(t_cmd **head, t_env **env, int *exit_status);
-void	execution_cmd(char **cmd, t_env **env, int *exit_status);
+void	execution_cmd(t_cmd *command, char **cmd, t_env **env, \
+	int *exit_status);
 void	error_and_exit(const char *str, int exite);
 void	init_pipex_data(t_pipex_data *data, t_cmd *commands);
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
@@ -78,7 +79,8 @@ void	execute_cmd(char **cmd, char **env, int *exit_status);
 void	handle_redirection(t_pipex_data *data);
 void	cleanup_child_fds(t_pipex_data *data);
 int		count_commands(t_cmd *cmd);
-int		handle_file_redirection(t_cmd *cmd, int *infile, int *outfile);
+int		handle_file_redirection(t_cmd *cmd, int *infile, \
+	int *outfile, int flag);
 int		update_oldpwd(t_env **env, char *prev_wd);
 char	*get_target_path(char **arg, t_env **env, int *print_path);
 int		builtin_cd(char **arg, t_env **env, int *exit_status);

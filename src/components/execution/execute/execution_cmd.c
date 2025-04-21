@@ -6,20 +6,26 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/20 13:40:53 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/21 13:52:30 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/execution.h"
 
-static void	run_child_process(t_env **env, char **cmd_argv, int *exit_status)
+static void	run_child_process(t_cmd *command, t_env **env, \
+	int *exit_status, t_pipex_data *data)
 {
 	char	**envp;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	if (handle_file_redirection(command, &data->infile, &data->outfile, 0) \
+	== -1)
+	{
+		(cleanup_child_fds(data), exit(1));
+	}
 	envp = ft_env_create_2d(*env);
-	execute_cmd(cmd_argv, envp, exit_status);
+	execute_cmd(command->cmd, envp, exit_status);
 }
 
 static int	retrieve_exit_status(int status)
@@ -42,7 +48,7 @@ static int	retrieve_exit_status(int status)
 	return (1);
 }
 
-void	execution_cmd(char **cmd, t_env **env, int *exit_status)
+void	execution_cmd(t_cmd *command, char **cmd, t_env **env, int *exit_status)
 {
 	char			**cmd_argv;
 	pid_t			pid;
@@ -51,11 +57,6 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	data.f_fd = 1;
 	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0, -1};
 	cmd_argv = cmd;
-	if (!cmd_argv || !(*cmd_argv))
-	{
-		*exit_status = 0;
-		return ;
-	}
 	if (ft_execute_builtins(cmd_argv, env, exit_status, &data) == SUCCESS)
 		return ;
 	(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN));
@@ -63,7 +64,8 @@ void	execution_cmd(char **cmd, t_env **env, int *exit_status)
 	if (pid < 0)
 		(ft_print_err("Fork Error\n"), *exit_status = 1, exit(1));
 	if (pid == 0)
-		run_child_process(env, cmd_argv, exit_status);
+		run_child_process(command, env, exit_status, &data);
+	(cleanup_child_fds(&data));
 	waitpid(pid, exit_status, 0);
 	*exit_status = retrieve_exit_status(*exit_status);
 }

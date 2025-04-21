@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:18:58 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/20 13:33:28 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/20 19:49:19 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ int	ft_env_add(t_env **env, char *key, char *value, int visible)
 	last = *env;
 	if (!last)
 		return (*env = new, 0);
-	if (ft_strncmp(new->key, last->key, ft_strlen(last->key)) < 0)
+	if (ft_strcmp(new->key, last->key) < 0)
 		return (new->next = *env, *env = new, 0);
 	while (last && last->next)
 	{
-		if (ft_strncmp(new->key, last->next->key, \
-			ft_strlen(last->next->key)) < 0)
+		if (ft_strcmp(new->key, last->next->key) < 0)
 			return (new->next = last->next, last->next = new, 0);
 		last = last->next;
 	}

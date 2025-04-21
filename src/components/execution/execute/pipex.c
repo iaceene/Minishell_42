@@ -19,7 +19,7 @@ static void	handle_child_process(t_cmd *cmd, t_pipex_data *data, \
 
 	envp = ft_env_create_2d(*env);
 	data->status = 3;
-	if (handle_file_redirection(cmd, &data->infile, &data->outfile) == -1)
+	if (handle_file_redirection(cmd, &data->infile, &data->outfile, 1) == -1)
 		(cleanup_child_fds(data), exit(1));
 	handle_redirection(data);
 	if (cmd->type == COMMAND)
