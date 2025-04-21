@@ -64,6 +64,26 @@ void	check_and_return_sp(t_cmd *head)
 	}
 }
 
+// void	print_data(t_cmd *head)
+// {
+// 	while (head)
+// 	{
+// 		if (head->type == COMMAND)
+// 		{
+// 			int i = 0;
+// 			if (head->cmd)
+// 			{
+// 				printf("cmd = [%s]\n", head->cmd[0]);
+// 				while (head->cmd[++i])
+// 					printf("arg = [%s]\n", head->cmd[i]);	
+// 			}
+// 			else
+// 				printf("NULL\n");
+// 		}
+// 		head = head->next;
+// 	}
+// }
+
 void	input_prc(t_data	*data, t_tool *tool)
 {
 	int	state;
@@ -77,6 +97,7 @@ void	input_prc(t_data	*data, t_tool *tool)
 		if (state == 1)
 		{
 			check_and_return_sp(data->head);
+			// print_data(data->head);
 			execution(&data->head, &tool->env, &data->exe_state);
 		}
 		else if (state == 433)

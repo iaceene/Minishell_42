@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/21 19:29:17 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:14:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,32 @@ int	ft_count_str(char **str)
 	return (i);
 }
 
+void	ft_set_export(char *word)
+{
+	if (!word || !find_it(word, '='))
+		return ;
+	while (*word && !ft_isspace(*word))
+		word++;
+	if (*word)
+		word++;
+	else
+		return ;
+	set_space_excep(word);
+}
+
 char	*apply_expand(char **splited, int exit, t_env *env, bool flag)
 {
+	bool	ex_flag;
 	int		i;
 	char	*word;
 	int		count;
 
 	i = 0;
 	word = NULL;
+	ex_flag = false;
 	count = ft_count_str(splited);
+	if (splited[0] && ft_strncmp(splited[0], "export", ft_strlen("export")) == 0)
+		ex_flag = true;
 	while (splited[i])
 	{
 		splited[i] = exe_expand(splited[i], env, exit, flag);
@@ -106,6 +123,8 @@ char	*apply_expand(char **splited, int exit, t_env *env, bool flag)
 		word = ft_strjoin(word, splited[i]);
 		i++;
 	}
+	if (ex_flag)
+		ft_set_export(word);
 	return (word);
 }
 
