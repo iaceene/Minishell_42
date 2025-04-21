@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/21 13:52:30 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:11:15 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	run_child_process(t_cmd *command, t_env **env, \
 		(cleanup_child_fds(data), exit(1));
 	}
 	envp = ft_env_create_2d(*env);
+	(cleanup_child_fds(data));
 	execute_cmd(command->cmd, envp, exit_status);
 }
 
