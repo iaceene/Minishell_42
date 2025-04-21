@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:20:44 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:20:15 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,6 @@ void		handle_infile(t_cmd **head, char *val);
 int			only_space(char *s);
 void		hard_code_pid(char *str);
 char		*set_dollars(char *exp);
-char		**ft_split_adv(char *s);
+char		**ft_split_adv(char const *s);
 
 #endif

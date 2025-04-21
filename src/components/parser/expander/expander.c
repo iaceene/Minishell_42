@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:07:18 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:02:32 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 			set_space_excep(tmp);
 		}
 		else if (head->state == NORMAL && find_it(head->val, '$'))
-		{
 			tmp = heredoc_expander(head->val, env, ex_status);
-			set_space_excep(tmp);
-		}
 		else
 			tmp = ft_strdup(head->val);
 		buffer = ft_strjoin(buffer, tmp);
