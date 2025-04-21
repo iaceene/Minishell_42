@@ -12,16 +12,24 @@
 
 #include "../../../../include/execution.h"
 
+void	ft_check(t_cmd **head)
+{
+	perror((*head)->value);
+	*head = (*head)->next;
+}
+
 void	ft_sort(t_cmd **head)
 {
 	t_cmd	*tmp;
 	t_cmd	*last;
 	t_cmd	*first_cmd;
 
-	last = NULL;
-	first_cmd = NULL;
+	(1) && (last = NULL, first_cmd = NULL);
 	if (!head || !*head || (*head)->type == COMMAND)
 		return ;
+	if ((*head)->type == IN_FILE && access((*head)->value, F_OK)
+		&& (*head)->next)
+		return (ft_check(head));
 	tmp = *head;
 	while (tmp && tmp->type != COMMAND)
 	{
