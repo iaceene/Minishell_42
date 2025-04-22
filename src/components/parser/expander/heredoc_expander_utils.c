@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/22 18:45:55 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:00:29 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static char	*extract_name_hr(char	*str, int *re_len)
 		return (NULL);
 	ret = ft_malloc(len + 1);
 	*re_len = len;
-
 	ret[len] = '\0';
 	return (ft_strncpy(ret, str, len));
 }
@@ -56,9 +55,7 @@ char	*exe_expand(char *str, t_env *env, int exit, bool flag)
 	if (flag)
 		return (str);
 	word = extract_name_hr(str, &start);
-	printf("name = %s\n", word);
 	left = extract_left_hr(str, start);
-	printf("left = %s\n", left);
 	while (env)
 	{
 		if (ft_strcmp(env->key, word) == 0)

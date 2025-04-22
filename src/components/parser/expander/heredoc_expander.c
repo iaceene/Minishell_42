@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expander.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/22 10:08:41 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/22 19:59:11 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,15 @@ int	ft_count_str(char **str)
 	return (i);
 }
 
-void	ft_set_export(char *word)
-{
-	if (!word || !find_it(word, '='))
-		return ;
-	while (*word && !ft_isspace(*word))
-		word++;
-	if (*word)
-		word++;
-	else
-		return ;
-	set_space_excep(word);
-}
-
 char	*apply_expand(char **splited, int exit, t_env *env, bool flag)
 {
-	bool	ex_flag;
 	int		i;
 	char	*word;
 	int		count;
 
-	(1) && (i = 0, word = NULL, ex_flag = false, count = ft_count_str(splited));
-	if (splited[0] && ft_strncmp(splited[0], "export", \
-		ft_strlen("export")) == 0)
-		ex_flag = true;
+	i = 0;
+	word = NULL;
+	count = ft_count_str(splited);
 	while (splited[i])
 	{
 		splited[i] = exe_expand(splited[i], env, exit, flag);
@@ -61,8 +46,6 @@ char	*apply_expand(char **splited, int exit, t_env *env, bool flag)
 			splited[i] = ft_strdup("");
 		(1) && (word = ft_strjoin(word, splited[i]), i++);
 	}
-	if (ex_flag)
-		ft_set_export(word);
 	return (word);
 }
 
