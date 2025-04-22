@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/19 18:46:31 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:47:34 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ int	heredoc_child_process(t_herdoc lst)
 	while (1)
 	{
 		prom = readline("> ");
+		if (!prom)
+			break;
 		tmp = prom;
 		prom = ft_strdup(prom);
 		free(tmp);
-		if (!prom || is_same(prom, lst.exit))
+		if (is_same(prom, lst.exit))
 			break ;
 		ft_write(fd, expand_heredoc(prom, lst.head, lst.flag,
 				lst.exit_state));
