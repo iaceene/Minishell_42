@@ -41,11 +41,12 @@ SRCS =	./src/main/main.c \
 		./src/components/parser/expander/expander_utiles_two.c \
 		./src/components/parser/expander/expander_utiles_tree.c \
 		./src/components/parser/expander/handlers.c \
+		./src/components/parser/expander/hard_code_pids.c \
+		./src/components/parser/expander/heredoc_expander_utils.c \
+		./src/components/parser/expander/heredoc_expander.c \
 		./src/components/parser/herdoc/herdoc_utile_one.c \
 		./src/components/parser/herdoc/heredoc_prc.c \
 		./src/components/parser/herdoc/herdoc.c \
-		./src/components/parser/expander/heredoc_expander.c \
-		./src/components/parser/expander/hard_code_pids.c \
 		./src/components/parser/lexer/final_step.c \
 		./src/components/parser/lexer/lexer_utiles.c \
 		./src/components/parser/lexer/syntax_checker.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:48:43 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/19 18:20:15 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:02:48 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void		set_back_space(char *val);
 int			open_herdoc(t_herdoc lst);
 int			calculate_word_length(char *s, int *in_quotes, char *quote_char);
 char		*expand_heredoc(char *prom, t_env *env, bool f, int exit);
+char		*exe_expand(char *str, t_env *env, int exit, bool flag);
 char		*heredoc_expander(char *str, t_env	*env, int exit);
 char		*herdoc(t_env *env, t_cmd *commnd, t_cmd **head, char *exit);
 void		herdoc_sig(int sig);
