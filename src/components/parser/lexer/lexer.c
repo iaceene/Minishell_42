@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 02:25:14 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/12 16:01:09 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 15:26:13 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*add_command(t_node **head, char *s)
 	int		in_quotes;
 	char	quote_char;
 
+	if (!s)
+		return (NULL);
 	in_quotes = 0;
 	quote_char = 0;
 	s = skip_spaces(s);
@@ -76,6 +78,8 @@ t_node	*lexer_init(const char *str)
 	char	*cur;
 
 	head = NULL;
+	if (!str)
+		return (NULL);
 	cur = (char *)str;
 	while (*cur)
 	{

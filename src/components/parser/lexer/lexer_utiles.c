@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utiles.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 01:35:51 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 19:54:22 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 15:25:38 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,13 @@ char	*extract_word(char *s)
 	int		in_quotes;
 	char	quote_char;
 
+	if (!s)
+		return (NULL);
 	in_quotes = 0;
 	quote_char = 0;
 	s = skip_spaces(s);
+	if (!s)
+		return (NULL);
 	start = s;
 	len = calculate_word_length(s, &in_quotes, &quote_char);
 	tmp = ft_malloc(len + 1);

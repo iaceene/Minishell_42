@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utiles_two.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:23:16 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/12 16:03:26 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 15:24:53 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	check_append(t_node *data)
 
 char	*skip_spaces(char *s)
 {
+	if (!s)
+		return (NULL);
 	while (*s && ft_isspace(*s))
 		s++;
 	return (s);

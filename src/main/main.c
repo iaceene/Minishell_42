@@ -30,7 +30,8 @@ void	return_spaces(char *tmp)
 		return ;
 	while (tmp[i])
 	{
-		if (tmp[i] == -13)
+		if (tmp[i] == -13 || tmp[i] == -2 || tmp[i] == -1
+			|| tmp[i] == -9 || tmp[i] == -12)
 			tmp[i] = ' ';
 		i++;
 	}
