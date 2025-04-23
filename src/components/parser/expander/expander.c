@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:44:24 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/21 21:01:05 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:19:47 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ char	*expand_and_join(t_expand *head, t_env *env, int ex_status)
 	buffer = NULL;
 	while (head)
 	{
+		if (head->val && head->next && (head->next->state == IN_DQUOTE
+				|| head->next->state == IN_SQUOTE)
+			&& head->val[ft_strlen(head->val) - 1] == '$')
+			head->val = ft_substr(head->val, 0, ft_strlen(head->val) - 1);
 		if (head->state == IN_DQUOTE && find_it(head->val, '$'))
 		{
 			tmp = heredoc_expander(head->val, env, ex_status);
@@ -58,6 +62,8 @@ char	*expander(char *str, t_env *env, int exit)
 {
 	char	*expanded;
 
+	if (!str)
+		return (ft_strdup(""));
 	if (!find_it(str, '$')
 		&& !find_it(str, '\'')
 		&& !find_it(str, '"'))
