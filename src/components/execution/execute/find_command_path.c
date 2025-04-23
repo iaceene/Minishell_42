@@ -62,7 +62,7 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 	char	*full_path;
 
 	args = cmd;
-	if (!cmd)
+	if (!cmd || !*cmd)
 		exit(0);
 	if (!env)
 	{

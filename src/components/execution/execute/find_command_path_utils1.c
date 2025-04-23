@@ -28,7 +28,7 @@ char	*find_command_path(char *cmd, char **env)
 
 	if (!cmd)
 		return (NULL);
-	if (ft_strncmp(cmd, "./", 2) == 0 || cmd[0] == '/')
+	if (ft_strcmp(cmd, "./") == 0 || cmd[0] == '/' || ft_strchr(cmd, '/'))
 	{
 		if (is_directory(cmd))
 			(ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
