@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:43:49 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/20 13:22:57 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 15:27:39 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pip_checker(t_node *data)
 	prv = NULL;
 	while (data)
 	{
-		if (prv && prv->type == LEFT_RED && data->type == PIPE)
+		if (prv && prv->type == RIGHT_RED && data->type == PIPE)
 			return (0);
 		if (data->type == PIPE && (!prv || !data->next))
 			return (0);
