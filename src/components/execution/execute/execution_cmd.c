@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:02:07 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/21 14:11:15 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 11:29:55 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execution_cmd(t_cmd *command, char **cmd, t_env **env, int *exit_status)
 	t_pipex_data	data;
 
 	data.f_fd = 1;
-	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0, -1};
+	data = (t_pipex_data){-1, -1, {-1, -1}, -1, 1, 0, 0, -1, 0};
 	cmd_argv = cmd;
 	if (ft_execute_builtins(cmd_argv, env, exit_status, &data) == SUCCESS)
 		return ;

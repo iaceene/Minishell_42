@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/21 13:45:09 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 11:52:00 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ typedef struct s_tool
 
 typedef struct s_pipex_data
 {
-	int	infile;
-	int	outfile;
-	int	pipe_fd[2];
-	int	prev_pipe_read;
-	int	cmd_count;
-	int	current_cmd;
-	int	f_fd;
-	int	status;
+	int		infile;
+	int		outfile;
+	int		pipe_fd[2];
+	int		prev_pipe_read;
+	int		cmd_count;
+	int		current_cmd;
+	int		f_fd;
+	int		status;
+	t_cmd	*head;
 }	t_pipex_data;
 
 typedef struct s_export
@@ -72,6 +73,7 @@ void	error_and_exit(const char *str, int exite);
 void	init_pipex_data(t_pipex_data *data, t_cmd *commands);
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
 void	ft_sort(t_cmd **head);
+int		silence_output_if_needed(t_pipex_data *data);
 char	*find_command_path(char *cmd, char **env);
 char	*find_executable_in_path(char *path, char *cmd);
 char	*get_path_variable(char **env);
