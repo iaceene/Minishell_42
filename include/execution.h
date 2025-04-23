@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/23 11:52:00 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:36:51 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,5 @@ t_env	*ft_env_duplicate(t_env *env);
 void	ft_print_env(t_env *env);
 char	*ft_env_search(t_env *env, char *key);
 int		ft_env_update(t_env **env, char *key, char *newval, int append_mod);
-t_list	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstlast(t_list *lst);
-int		ft_lstsize(t_list *lst);
-void	close_fds(t_cmd *head);
 
 #endif

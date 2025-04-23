@@ -62,10 +62,8 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_isdigit.c \
 		./src/lib/ft_isspace.c \
 		./src/lib/ft_memcpy.c \
-		./src/lib/ft_memmove.c \
 		./src/lib/ft_putstr_fd.c \
 		./src/lib/ft_splite.c \
-		./src/lib/ft_strcat.c \
 		./src/lib/ft_strchr.c \
 		./src/lib/ft_strcpy.c \
 		./src/lib/ft_strdup.c \
@@ -78,9 +76,7 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_strcmp.c \
 		./src/lib/ft_strstr.c \
 		./src/lib/ft_strtok.c \
-		./src/lib/ft_strtrim.c \
 		./src/lib/ft_substr.c \
-		./src/lib/linked_list.c \
 		./src/lib/print_err.c \
 		./src/lib/ft_same.c
 
