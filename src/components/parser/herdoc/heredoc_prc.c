@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_prc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:43:44 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/23 11:19:26 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/25 15:47:33 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,17 @@ int	heredoc_child_process(t_herdoc lst)
 	while (1)
 	{
 		prom = readline("> ");
-		if (!prom)
-			break ;
 		tmp = prom;
 		prom = ft_strdup(prom);
 		free(tmp);
+		if (!prom || (!prom[0] && !lst.exit[0]))
+			break ;
 		if (is_same(prom, lst.exit))
 			break ;
 		ft_write(fd, expand_heredoc(prom, lst.head, lst.flag,
 				lst.exit_state));
 	}
-	ft_malloc(-1);
-	close(fd);
-	exit(0);
+	return (ft_malloc(-1), close(fd), exit(0), 0);
 }
 
 void	def_sig(int sig)

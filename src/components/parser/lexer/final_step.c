@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_step.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 02:19:08 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/03/26 03:15:33 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/25 15:50:31 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_cmd	*new_cmd(t_node *node)
 	}
 	if (node->type == HERDOC)
 		ret->fd_herdoc = node->hr_fd;
+	else
+		ret->fd_herdoc = 0;
 	ret->pip_infront = false;
 	ret->type = node->type;
 	ret->value = node->value;

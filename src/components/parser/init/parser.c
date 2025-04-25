@@ -24,6 +24,7 @@ t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
 	new->next = NULL;
 	new->type = HERDOC;
 	new->value = val;
+	new->fd_herdoc = 0;
 	while (tmp)
 	{
 		if (tmp->type == HERDOC && tmp->fd_herdoc == -99)

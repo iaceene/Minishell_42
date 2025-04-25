@@ -62,7 +62,10 @@ char	*prompt(char **env, int *ex)
 	s = readline(cli);
 	ft_get_sigin(ex);
 	if (!s)
+	{
+		printf("exit\n");
 		exit_the_shell(*ex);
+	}
 	i++;
 	if (s[0])
 		add_history(s);

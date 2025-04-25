@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 03:23:27 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/09 18:18:48 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:51:07 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_cmd	*new_cmd_val(char *val, t_TokenType typ)
 	}
 	set_back_space(val);
 	set_empty_one(val);
+	new->fd_herdoc = 0;
 	new->type = typ;
 	new->value = val;
 	return (new);

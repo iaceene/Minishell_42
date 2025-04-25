@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/22 19:59:11 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:38:17 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ char	*apply_expand(char **splited, int exit, t_env *env, bool flag)
 char	*expand_this_str(char *str, t_env *env, int exit)
 {
 	bool	flag;
-	int		i;
 	char	**splited;
 
-	i = 0;
 	flag = true;
 	if (!str)
 		return (ft_strdup(""));
