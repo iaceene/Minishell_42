@@ -65,22 +65,20 @@ void	execute_cmd(char **cmd, char **env, int *exit_status)
 	if (!cmd || !*cmd)
 		exit(0);
 	if (!env)
-	{
-		write(2, "shell: env is NULL\n", 19);
-		*exit_status = 127;
-	}
+		(write(2, "shell: env is NULL\n", 19), *exit_status = 127);
 	full_path = find_command_path(args[0], env);
 	if (!cmd[0][0])
 		(ft_puterr(17), *exit_status = 127, exit(127));
 	if (!full_path)
-		(write(2, "command not found: ", 19), \
-		write(2, args[0], ft_strlen(args[0])), write(2, "\n", 1), \
-		*exit_status = 127, exit(127));
+		(write(2, "command not found: ", 19),
+			write(2, args[0], ft_strlen(args[0])), write(2, "\n", 1), \
+			*exit_status = 127, exit(127));
 	args[0] = full_path;
 	if (execve(full_path, args, env) == -1)
 	{
-		*exit_status = 126;
-		perror("exec failed\n");
-		exit(126);
+		if (access(args[0], F_OK | X_OK) != -1)
+			exit(0);
+		*exit_status = 127;
+		(perror(full_path), exit(127));
 	}
 }

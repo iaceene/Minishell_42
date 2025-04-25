@@ -38,7 +38,7 @@ char	*find_command_path(char *cmd, char **env)
 		else if (access(cmd, F_OK) == 0)
 		{
 			(ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
-			ft_putstr_fd(": Permission denied\n", 2), exit(1));
+			ft_putstr_fd(": Permission denied\n", 2), exit(126));
 		}
 		else
 			(ft_putstr_fd("bash: ", 2), ft_putstr_fd(cmd, 2), \
@@ -46,6 +46,6 @@ char	*find_command_path(char *cmd, char **env)
 	}
 	path = get_path_variable(env);
 	if (!path)
-		return (NULL);
+		return (cmd);
 	return (result = find_executable_in_path(path, cmd));
 }

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:18:58 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/20 19:49:19 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/25 10:50:35 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_env_delete(t_env **env, char *key)
 	cur = prev->next;
 	while (cur)
 	{
-		if (!ft_strncmp(key, cur->key, ft_strlen(cur->key)))
+		if (!ft_strcmp(key, cur->key))
 		{
 			prev->next = cur->next;
 			return ;

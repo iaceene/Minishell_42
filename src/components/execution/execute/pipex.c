@@ -17,6 +17,7 @@ static void	handle_child_process(t_cmd *cmd, t_pipex_data *data, \
 {
 	char	**envp;
 
+	(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
 	envp = ft_env_create_2d(*env);
 	data->status = 3;
 	if (handle_file_redirection(cmd, &data->infile, &data->outfile, 1) == -1)
@@ -44,6 +45,7 @@ static void	process_command(t_cmd *cmd, t_pipex_data *data, \
 		if (pipe(data->pipe_fd) == -1)
 			error_and_exit("Pipe creation failed", 1);
 	}
+	(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN));
 	pid = fork();
 	if (pid == 0)
 		handle_child_process(cmd, data, exit_status, env);
