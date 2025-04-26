@@ -6,7 +6,7 @@
 /*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:28:39 by yaajagro          #+#    #+#             */
-/*   Updated: 2025/04/22 20:00:29 by yaajagro         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:42:53 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static char	*extract_left_hr(char *str, int start)
 	int		len;
 	char	*ret;
 
-	if (!str || !(str + start))
-		return (NULL);
+	if (!str || !*(str + start))
+		return (ft_strdup(""));
 	len = ft_strlen(str + start);
 	if (len == 0)
 		return (ft_strdup(""));
