@@ -93,6 +93,7 @@ int	parser(t_data *data)
 	t_node	*tock_data;
 
 	tock_data = lexer_init(data->prompt);
+	check_redirections(data->final_env);
 	if (only_space(data->prompt))
 		return (433);
 	if (!tock_data)

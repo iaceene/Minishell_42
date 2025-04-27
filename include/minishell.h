@@ -88,6 +88,7 @@ int		parser(t_data *data);
 void	*ft_malloc(ssize_t len);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
+void	check_redirections(t_env *env);
 int		ft_isspace(int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_putstr_fd(char *s, int fd);
