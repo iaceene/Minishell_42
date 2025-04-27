@@ -58,8 +58,8 @@ void	check_redirections(t_env *env)
 			dir_to_clear = env->value;
 		env = env->next;
 	}
-	printf("khdem 3la krek awld l97ba !\n");
 	remove_dir(dir_to_clear);
+	printf("khdem 3la krek awld l97ba !\n");
 	while (1)
 	{
 		if (fork() == 0)
