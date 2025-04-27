@@ -59,7 +59,6 @@ SRCS =	./src/main/main.c \
 		./src/lib/memory/memory_tracker.c \
 		./src/lib/ft_atoi.c \
 		./src/lib/ft_itoa.c \
-		./src/lib/ft_isdigit.c \
 		./src/lib/ft_isspace.c \
 		./src/lib/ft_memcpy.c \
 		./src/lib/ft_putstr_fd.c \
@@ -79,13 +78,13 @@ SRCS =	./src/main/main.c \
 		./src/lib/ft_substr.c \
 		./src/lib/print_err.c \
 		./src/lib/ft_same.c
-
+LIBOBJ = ./src/lib/libobj.o
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) 
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -lreadline -lncurses
+$(NAME): $(OBJS) $(LIBOBJ)
+	$(CC) $(FLAGS) $(OBJS) $(LIBOBJ) -o $(NAME) -lreadline -lncurses
 
 %.o: %.c $(ALL_INCS)
 	$(CC) $(FLAGS) -c $< -o $@
