@@ -60,32 +60,3 @@ bool	get_prv_cmd(t_cmd *head, int count)
 	}
 	return (0);
 }
-
-int	silence_output_if_needed(t_pipex_data *data)
-{
-	int	null_fd;
-
-	null_fd = -1;
-	if (get_prv_cmd(data->head, data->current_cmd))
-	{
-		null_fd = open("/dev/null", O_WRONLY);
-		if (null_fd == -1)
-		{
-			perror("open /dev/null");
-			return (-1);
-		}
-		if (dup2(null_fd, STDOUT_FILENO) == -1 || \
-			dup2(null_fd, STDERR_FILENO) == -1)
-		{
-			perror("dup2 (silencing output)");
-			close(null_fd);
-			return (-1);
-		}
-		close(null_fd);
-		return (-1);
-	}
-	if (dup2(data->outfile, STDOUT_FILENO) == -1)
-		perror("dup2 outfile");
-	close(data->outfile);
-	return (0);
-}

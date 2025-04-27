@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yaajagro <yaajagro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 19:36:43 by iezzam            #+#    #+#             */
-/*   Updated: 2025/04/23 17:36:51 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/04/27 19:40:08 by yaajagro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	error_and_exit(const char *str, int exite);
 void	init_pipex_data(t_pipex_data *data, t_cmd *commands);
 void	ft_pipex(t_cmd *commands, t_env **env, int *exit_status);
 void	ft_sort(t_cmd **head);
-int		silence_output_if_needed(t_pipex_data *data);
 char	*find_command_path(char *cmd, char **env);
 char	*find_executable_in_path(char *path, char *cmd);
 char	*get_path_variable(char **env);

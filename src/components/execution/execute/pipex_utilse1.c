@@ -56,8 +56,9 @@ void	handle_redirection(t_pipex_data *data)
 	}
 	if (data->outfile != -1)
 	{
-		if (silence_output_if_needed(data) == -1)
-			return ;
+		if (dup2(data->outfile, STDOUT_FILENO) == -1)
+			perror("dup2 outfile");
+		close(data->outfile);
 	}
 	else if (data->current_cmd < data->cmd_count - 1 && data->pipe_fd[1] != -1)
 	{
