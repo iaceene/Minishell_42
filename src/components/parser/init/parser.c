@@ -18,13 +18,9 @@ t_cmd	*new_herdoc(char *val, t_env *env, t_cmd **head)
 	t_cmd	*tmp;
 	bool	flag;
 
-	flag = true;
-	tmp = *head;
-	new = ft_malloc(sizeof(t_cmd));
-	new->next = NULL;
-	new->type = HERDOC;
-	new->value = val;
-	new->fd_herdoc = 0;
+	(1) && (flag = true, tmp = *head, new = ft_malloc(sizeof(t_cmd)), \
+	new->next = NULL, new->type = HERDOC, \
+	new->value = val, new->fd_herdoc = 0);
 	while (tmp)
 	{
 		if (tmp->type == HERDOC && tmp->fd_herdoc == -99)
