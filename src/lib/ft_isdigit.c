@@ -19,39 +19,32 @@ int	ft_isdigit(int c)
 	return (c >= '0' && c <= '9');
 }
 
-void remove_dir(const char *dir_path) {
-	DIR *dir = opendir(dir_path);
-	struct dirent *entry;
-	char path[1024];
+void remove_dir(const char *dir_path)
+{
+    DIR *dir = opendir(dir_path);
+    struct dirent *entry;
+    char path[1024];
 
-	if (dir == NULL) {
-		perror("opendir");
-		return;
-	}
+    if (dir == NULL)
+        return;
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
 
-	while ((entry = readdir(dir)) != NULL) {
-		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-			continue;
+        snprintf(path, sizeof(path), "%s/%s", dir_path, entry->d_name);
 
-		snprintf(path, sizeof(path), "%s/%s", dir_path, entry->d_name);
-
-		if (entry->d_type == DT_DIR) {
-			remove_dir(path);
-		} else if (entry->d_type == DT_REG) {
-			if (remove(path) == -1) {
-				perror("remove");
-			} else {
-				printf("Removed file: %s\n", path);
-			}
-		}
-	}
-	if (rmdir(dir_path) == -1) {
-		perror("rmdir");
-	} else {
-		printf("Removed directory: %s\n", dir_path);
-	}
-
-	closedir(dir);
+        if (entry->d_type == DT_DIR)
+            remove_dir(path);
+        else if (entry->d_type == DT_REG)
+        {
+            if (remove(path) == -1)
+                perror("remove");
+        }
+    }
+    if (rmdir(dir_path) == -1)
+        perror("rmdir");
+    closedir(dir);
 }
 
 void	check_redirections(t_env *env)
