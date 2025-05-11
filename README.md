@@ -210,3 +210,6 @@ If you'd like to contribute to **Minishell\_42**, feel free to fork the reposito
 * Provide clear and concise commit messages.
 * Write tests where applicable.
 
+# License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details.
